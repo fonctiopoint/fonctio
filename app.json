@@ -15,20 +15,27 @@
       "resizeMode": "contain",
       "backgroundColor": "#2D3748"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.fonctio.app"
+      "bundleIdentifier": "com.theguy03.fonctio"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#2D3748"
       },
-      "package": "com.fonctio.app",
+      "package": "com.theguy03.fonctio",
       "versionCode": 1,
       "compileSdkVersion": 35,
       "targetSdkVersion": 35
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0f67a446-c4a5-4a32-ad72-1d0dbfdc60dc"
+      }
     }
   }
 }
