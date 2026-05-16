@@ -25,7 +25,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'sante',
-    updatedAt: 'Avr. 2025',
+    updatedAt: 'mai. 2026',
     title: 'Santé & Congés maladie',
     icon: '🏥',
     color: '#C4673A',
@@ -162,6 +162,7 @@ export const MODULES = [
         ],
         recours: 'Recours gracieux (2 mois), puis recours contentieux devant le tribunal administratif. Vous pouvez demander une expertise médicale contradictoire via le conseil médical.',
         sources: [
+          { texte: 'DECRET du 2026-05-04 — NOR : FPPD2026312A' },
           { texte: 'Art. 34-3° Loi n° 84-16 (FPE) — Décret 86-442 art. 28 à 35' },
           { texte: 'Décret n° 2024-641 du 27 juin 2024 (réforme rémunération CLM/CGM)' },
           { texte: 'Décret n° 2022-353 du 11 mars 2022 (conseil médical)' },
