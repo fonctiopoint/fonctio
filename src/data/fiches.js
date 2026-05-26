@@ -1960,8 +1960,190 @@ export const MODULES = [
       },
     ],
   },
-];
+// ─────────────────────────────────────────────────────────────────────────────
+  // MODULE 14 — CONGÉS SPÉCIFIQUES (maternité, paternité, adoption, parental)
+  // À insérer dans MODULES[] juste avant le ]; de fermeture du tableau
+  // ─────────────────────────────────────────────────────────────────────────────
+  {
+    id: 'conges-specifiques',
+    updatedAt: 'mai 2026',
+    title: 'Congés spécifiques',
+    icon: '👶',
+    color: '#a5537d',
+    bgColor: '#f5d0e8',
+    count: 5,
+    versants: ['fpe', 'fpt', 'fph'],
+    description: 'Maternité, pathologique, paternité, adoption, parental',
+    fiches: [
 
+      // ── 1. Congé de maternité ───────────────────────────────────────────────
+      {
+        id: 'conge-maternite',
+        titre: 'Congé de maternité',
+        categorie: 'Congés spécifiques',
+        chips: ['Femmes', '100 % traitement', 'Titulaires & contractuelles', 'Droits préservés'],
+        resume: 'Toute agente enceinte — titulaire ou contractuelle — bénéficie d\'un congé de maternité rémunéré à 100 %, avec maintien intégral des droits statutaires. La durée varie selon le rang de l\'enfant et le type de naissance.',
+        ciblePublic: 'Toutes les agentes publiques titulaires et contractuelles des trois versants.',
+        droits: [
+          { label: '1er ou 2e enfant', valeur: '16 semaines', detail: '6 semaines prénatales + 10 semaines postnatales. Le congé prénatal peut être réduit de 3 semaines maximum sur prescription médicale, reportées en postnatal.' },
+          { label: '3e enfant ou plus', valeur: '26 semaines', detail: '8 semaines prénatales + 18 semaines postnatales.' },
+          { label: 'Jumeaux', valeur: '34 semaines', detail: '12 semaines prénatales + 22 semaines postnatales.' },
+          { label: 'Triplés ou plus', valeur: '46 semaines', detail: '24 semaines prénatales + 22 semaines postnatales.' },
+          { label: 'Rémunération', valeur: '100 % — aucun jour de carence', detail: 'Traitement indiciaire, NBI et régime indemnitaire maintenus à 100 %. Aucun jour de carence.' },
+          { label: 'Droits statutaires', valeur: 'Entièrement préservés', detail: 'Avancement d\'échelon, de grade et droits à retraite (CNRACL/SRE/RAFP) maintenus. Les congés annuels acquis non pris avant la maternité sont reportables (Loi 2024-364).' },
+        ],
+        etapes: [
+          { num: 1, titre: 'Déclaration de grossesse', texte: 'Informer le service RH dès la déclaration de grossesse. Fournir le certificat médical précisant la date présumée d\'accouchement.' },
+          { num: 2, titre: 'Report possible du prénatal', texte: 'Sur prescription médicale, il est possible de réduire le congé prénatal de 3 semaines (1er/2e enfant), reportées en postnatal.' },
+          { num: 3, titre: 'Après l\'accouchement', texte: 'Au moins 8 semaines de postnatal obligatoires, dont 6 immédiatement après l\'accouchement. Ce minimum est incontournable.' },
+        ],
+        pieges: [
+          'Accouchement prématuré : si l\'accouchement survient avant le début du congé prénatal, le postnatal est prolongé d\'autant — la durée totale ne diminue pas.',
+          'Hospitalisation du nourrisson : en cas d\'hospitalisation prolongée du nouveau-né, le congé postnatal peut être suspendu et repris à la sortie de l\'hôpital.',
+          { texte: 'Contractuelles FPT : la rémunération est versée par la CPAM selon les règles d\'ancienneté du régime général. Vérifier auprès du service RH.', versants: ['fpt'] },
+        ],
+        recours: 'Tout refus ou retard d\'accès au congé de maternité est contestable en référé devant le tribunal administratif.',
+        sources: [
+          { texte: 'Art. L.631-1 CGFP (congé de maternité)' },
+          { texte: 'Décret n°85-986 du 16/09/1985 (FPE)' },
+          { texte: 'Loi n°2024-364 du 22/04/2024 (report congés annuels)' },
+        ],
+      },
+
+      // ── 2. Congé pathologique ───────────────────────────────────────────────
+      {
+        id: 'conge-patho',
+        titre: 'Congé pathologique (prénatal & postnatal)',
+        categorie: 'Congés spécifiques',
+        chips: ['Femmes', 'Sur prescription', '100 % traitement', 'Réforme mars 2026'],
+        resume: 'En cas de complications médicales liées à la grossesse ou à l\'accouchement, l\'agente peut bénéficier d\'un congé pathologique supplémentaire qui s\'ajoute au congé de maternité légal. Depuis le 1er mars 2026, le congé prénatal est porté à 21 jours.',
+        ciblePublic: 'Fonctionnaires titulaires des 3 versants. Les contractuelles indemnisées par la CPAM relèvent du régime général (14 jours).',
+        droits: [
+          { label: 'Congé prénatal — depuis 01/03/2026', valeur: '21 jours calendaires', detail: 'Porté de 14 à 21 jours par l\'art. 174 de la LFI 2026. Fractionnable et mobilisable à tout moment entre la déclaration de grossesse et le début du congé maternité légal.' },
+          { label: 'Congé postnatal', valeur: '4 semaines maximum', detail: 'Après le congé de maternité, sur prescription médicale, en cas de complications post-accouchement.' },
+          { label: 'Rémunération', valeur: '100 % — assimilé maternité', detail: 'Traitement maintenu à 100 %. Assimilé à un congé de maternité pour tous ses effets. Aucun jour de carence.' },
+          { label: 'Contractuelles CPAM', valeur: '14 jours (régime général)', detail: 'Les contractuelles dont les IJ sont versées par la CPAM restent au régime général. La réforme 2026 ne leur est pas applicable.' },
+        ],
+        etapes: [
+          { num: 1, titre: 'Prescription médicale', texte: 'Un certificat médical attestant l\'état pathologique lié à la grossesse est obligatoire. Le médecin précise la durée dans la limite légale.' },
+          { num: 2, titre: 'Remise au service RH', texte: 'Remettre le certificat médical au service RH. Le congé est accordé de droit, sans passage en conseil médical.' },
+          { num: 3, titre: 'Fractionnement possible', texte: 'Les 21 jours prénatals n\'ont pas à être pris d\'un seul tenant. Ils sont mobilisables progressivement selon l\'évolution de l\'état de santé.' },
+        ],
+        pieges: [
+          'Depuis le 1er mars 2026 uniquement pour les titulaires — les contractuelles indemnisées par la CPAM restent à 14 jours prénatal.',
+          'Le congé pathologique s\'ajoute au congé de maternité — il ne se décompte pas de sa durée.',
+        ],
+        recours: 'Refus contestable par recours gracieux (2 mois) puis tribunal administratif.',
+        sources: [
+          { texte: 'Art. L.631-3 CGFP (congé pathologique)' },
+          { texte: 'Art. 174 Loi n°2026-103 du 19/02/2026 — LFI 2026 (extension à 21 jours)' },
+          { texte: 'service-public.fr — mise à jour février 2026' },
+        ],
+      },
+
+      // ── 3. Congé de paternité et d'accueil de l'enfant ─────────────────────
+      {
+        id: 'conge-paternite',
+        titre: 'Congé de paternité et d\'accueil de l\'enfant',
+        categorie: 'Congés spécifiques',
+        chips: ['Second parent', '25 jours', 'Titulaires & contractuels', '100 % traitement'],
+        resume: 'Tout agent public a droit à un congé de paternité et d\'accueil de l\'enfant lors de la naissance. 25 jours pour une naissance simple, dont 4 jours obligatoires immédiatement après la naissance, sans condition d\'ancienneté.',
+        ciblePublic: 'Père ou conjoint/partenaire PACS/concubin de la mère, quel que soit son sexe. Titulaires, stagiaires et contractuels, sans condition d\'ancienneté.',
+        droits: [
+          { label: 'Naissance simple', valeur: '25 jours calendaires', detail: '4 jours obligatoires immédiatement après la naissance + 21 jours à prendre dans les 6 mois. Les 4 jours s\'ajoutent aux 3 jours d\'ASA pour naissance (7 jours minimum consécutifs).' },
+          { label: 'Naissances multiples', valeur: '32 jours calendaires', detail: '4 jours obligatoires + 28 jours à prendre dans les 6 mois.' },
+          { label: 'Rémunération', valeur: '100 % — temps plein', detail: 'Traitement et régime indemnitaire maintenus à 100 %. En cas de temps partiel, l\'agent est rémunéré à temps plein pendant le congé.' },
+          { label: 'Sans condition d\'ancienneté', valeur: 'Depuis Loi 2025-1403', detail: 'La condition de 6 mois d\'ancienneté a été supprimée pour tous les agents. Source : Loi n°2025-1403 du 30/12/2025 art. 99.' },
+          { label: 'Droits statutaires', valeur: 'Préservés', detail: 'Avancement et droits à retraite maintenus. Congés annuels acquis reportables (Loi 2024-364).' },
+        ],
+        etapes: [
+          { num: 1, titre: 'Informer le service RH avant la naissance', texte: 'Les 4 jours obligatoires débutent immédiatement après la naissance — prévenir le service RH à l\'avance.' },
+          { num: 2, titre: 'Fournir l\'acte de naissance', texte: 'Transmettre l\'acte de naissance dès que disponible.' },
+          { num: 3, titre: 'Prendre les 21 jours restants', texte: 'Fractionnables en 2 périodes minimum de 5 jours, à prendre dans les 6 mois suivant la naissance. Passé ce délai, les jours sont perdus.' },
+        ],
+        pieges: [
+          'Les 4 jours obligatoires s\'ajoutent aux 3 jours d\'ASA pour naissance — ne pas les confondre. L\'agent bénéficie donc d\'au moins 7 jours.',
+          'Délai de 6 mois impératif pour les 21 jours restants. Aucune dérogation possible.',
+          'En cas de décès de la mère, le second parent peut reprendre tout ou partie du congé de maternité non pris.',
+        ],
+        recours: 'Refus ou entrave contestable en référé devant le tribunal administratif.',
+        sources: [
+          { texte: 'Art. L.631-9 CGFP (congé de paternité et d\'accueil)' },
+          { texte: 'Décret n°2021-1552 du 01/12/2021' },
+          { texte: 'Loi n°2025-1403 du 30/12/2025 art. 99 (suppression condition ancienneté)' },
+        ],
+      },
+
+      // ── 4. Congé d'adoption ─────────────────────────────────────────────────
+      {
+        id: 'conge-adoption',
+        titre: 'Congé d\'adoption',
+        categorie: 'Congés spécifiques',
+        chips: ['Parents adoptants', '100 % traitement', 'Partageable', 'Titulaires & contractuels'],
+        resume: 'Tout agent public accueillant un enfant en vue de son adoption bénéficie d\'un congé d\'adoption rémunéré à 100 %. La durée varie selon le rang de l\'enfant. Le congé peut être partagé entre les deux parents adoptants.',
+        ciblePublic: 'Tout agent public (titulaire ou contractuel) accueillant un enfant en vue d\'adoption.',
+        droits: [
+          { label: '1er ou 2e enfant au foyer', valeur: '10 semaines', detail: 'À compter de l\'arrivée de l\'enfant au foyer.' },
+          { label: '3e enfant ou plus', valeur: '18 semaines', detail: 'À compter de l\'arrivée de l\'enfant.' },
+          { label: 'Adoptions multiples', valeur: '22 semaines', detail: 'Pour l\'accueil simultané de plusieurs enfants.' },
+          { label: 'Partage entre parents', valeur: 'Congé augmenté + 18 j', detail: 'Si les deux parents partagent, le congé est augmenté de 18 jours (25 j pour une adoption multiple). Chaque parent prend au minimum 25 jours.' },
+          { label: 'Rémunération', valeur: '100 % — droits préservés', detail: 'Traitement maintenu à 100 %. Avancement et retraite préservés.' },
+        ],
+        etapes: [
+          { num: 1, titre: 'Informer le service RH', texte: 'Dès que la date d\'arrivée de l\'enfant est connue. Fournir le jugement d\'adoption ou la décision d\'agrément.' },
+          { num: 2, titre: 'Choisir le mode de prise', texte: 'Le congé peut être pris seul ou partagé entre les deux parents. Le partage doit être acté par les deux services RH respectifs.' },
+          { num: 3, titre: 'Prise simultanée ou alternative', texte: 'Les deux parents peuvent prendre leur congé d\'adoption simultanément ou en alternance.' },
+        ],
+        pieges: [
+          'Le congé débute à l\'arrivée de l\'enfant au foyer, pas à la date du jugement — anticiper la démarche auprès du service RH.',
+          'En cas d\'adoption internationale, un congé sans traitement supplémentaire peut être accordé pour les démarches administratives à l\'étranger.',
+        ],
+        recours: 'Refus contestable devant le tribunal administratif.',
+        sources: [
+          { texte: 'Art. L.631-4 CGFP (congé d\'adoption)' },
+          { texte: 'Art. L.631-5 CGFP (partage du congé d\'adoption)' },
+          { texte: 'Loi n°2024-364 du 22/04/2024' },
+        ],
+      },
+
+      // ── 5. Congé parental ───────────────────────────────────────────────────
+      {
+        id: 'conge-parental',
+        titre: 'Congé parental',
+        categorie: 'Congés spécifiques',
+        chips: ['Père & mère', 'Non rémunéré', 'De plein droit', 'Jusqu\'aux 3 ans de l\'enfant'],
+        resume: 'Tout fonctionnaire peut bénéficier d\'un congé parental non rémunéré pour élever son enfant jusqu\'à ses 3 ans. Accordé de plein droit, les droits à avancement sont partiellement conservés et les congés annuels acquis sont reportables depuis 2024.',
+        ciblePublic: 'Fonctionnaires titulaires et stagiaires, père ou mère. Les deux parents peuvent en bénéficier successivement, pas simultanément.',
+        droits: [
+          { label: 'Durée', valeur: 'Jusqu\'aux 3 ans de l\'enfant', detail: 'Ou jusqu\'au 3e anniversaire de l\'adoption. Renouvelable par périodes de 6 mois à 1 an. Accordé de plein droit sur simple demande.' },
+          { label: 'Rémunération', valeur: 'Aucune — allocations CAF', detail: 'L\'agent ne perçoit plus de traitement. Il peut percevoir les allocations CAF (PreParE, CMG) selon sa situation familiale et ses revenus.' },
+          { label: 'Avancement', valeur: 'Conservé — limite 5 ans/carrière', detail: 'Droits à avancement d\'échelon et de grade maintenus, dans la limite totale de 5 ans sur l\'ensemble de la carrière.' },
+          { label: 'Congés annuels', valeur: 'Reportables 15 mois', detail: 'Les congés annuels acquis avant le congé parental et non pris sont reportables jusqu\'à 15 mois après la reprise. Source : Loi 2024-364 + Décret 2025-564.' },
+          { label: 'Réintégration', valeur: 'De plein droit', detail: 'Réintégration dans son ancien emploi ou équivalent à l\'issue du congé. Aucune visite médicale préalable.' },
+        ],
+        etapes: [
+          { num: 1, titre: 'Demande écrite au service RH', texte: 'Au moins 2 mois avant la date de début. Le congé est accordé de plein droit — l\'administration ne peut pas le refuser.' },
+          { num: 2, titre: 'Renouvellements', texte: 'Chaque renouvellement se demande au moins 1 mois avant l\'expiration de la période en cours.' },
+          { num: 3, titre: 'Fin anticipée possible', texte: 'L\'agent peut mettre fin au congé parental à tout moment, sans justification de motif grave (depuis Loi 2016-483).' },
+          { num: 4, titre: 'Demande de réintégration', texte: 'À formuler au moins 2 mois avant la fin du congé. Réintégration de plein droit dans l\'emploi occupé ou équivalent.' },
+        ],
+        pieges: [
+          'Le congé parental n\'est pas cotisé pour la retraite CNRACL. La période peut être partiellement rachetée, mais à un coût significatif — anticiper dans les projections retraite.',
+          'Ne pas confondre congé parental (hors service, non rémunéré) et temps partiel de droit pour élever un enfant (maintien de rémunération au prorata, agent reste en activité).',
+          'L\'agente enceinte pendant le congé parental peut y mettre fin de manière anticipée pour son congé de maternité — le congé parental cesse automatiquement à cette date.',
+        ],
+        recours: 'Refus de congé parental ou de réintégration : recours gracieux immédiat, puis référé devant le tribunal administratif.',
+        sources: [
+          { texte: 'Art. L.515-1 à L.515-11 CGFP (congé parental)' },
+          { texte: 'Décret n°86-68 du 13/01/1986 (FPE)' },
+          { texte: 'Décret n°2025-564 du 21/06/2025 (report congés annuels)' },
+          { texte: 'Loi n°2024-364 du 22/04/2024 art. 36' },
+        ],
+      },
+
+    ],
+  },
+];
 // ─── Utilitaires ──────────────────────────────────────────────────────────────
 
 export const getFicheById = (ficheId) => {
