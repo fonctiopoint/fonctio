@@ -1,18 +1,43 @@
 // src/utils/storage.js
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getFicheById } from '../data/fiches';
 
 const KEYS = {
   FAVORIS: 'fonctio_favoris',
   NOUVEAUTES_DISMISSED: 'fonctio_nouveautes_dismissed',
   RECENT: 'fonctio_recent',
   SETTINGS: 'fonctio_settings',
+  PURGE: 'fonctio_purge',
 };
+
+// ── Purge des références obsolètes ─────────────────────────────────────────
+// La refonte d'août 2026 a supprimé ou fusionné 15 fiches. Les favoris et les
+// fiches récentes enregistrés sur les appareils pointent vers des identifiants
+// qui n'existent plus : sans nettoyage, l'ouverture d'un favori donne un écran
+// vide. On purge une seule fois, puis le filtrage ci-dessous suffit.
+const PURGE_VERSION = '2026-08-refonte';
+
+export async function purgeObsolete() {
+  try {
+    const done = await AsyncStorage.getItem(KEYS.PURGE);
+    if (done === PURGE_VERSION) return false;
+    await AsyncStorage.multiRemove([KEYS.FAVORIS, KEYS.RECENT]);
+    await AsyncStorage.setItem(KEYS.PURGE, PURGE_VERSION);
+    return true;
+  } catch { return false; }
+}
+
+// Filet permanent : ne jamais renvoyer un identifiant qui n'existe plus,
+// quelle que soit la raison (purge non passée, restauration de sauvegarde…).
+function garderExistantes(ids) {
+  return (Array.isArray(ids) ? ids : []).filter(id => !!getFicheById(id));
+}
 
 // ── Favoris ────────────────────────────────────────────────────────────────
 export async function getFavoris() {
   try {
     const raw = await AsyncStorage.getItem(KEYS.FAVORIS);
-    return raw ? JSON.parse(raw) : [];
+    return garderExistantes(raw ? JSON.parse(raw) : []);
   } catch { return []; }
 }
 
@@ -52,7 +77,7 @@ export async function addRecent(ficheId) {
 export async function getRecent() {
   try {
     const raw = await AsyncStorage.getItem(KEYS.RECENT);
-    return raw ? JSON.parse(raw) : [];
+    return garderExistantes(raw ? JSON.parse(raw) : []);
   } catch { return []; }
 }
 

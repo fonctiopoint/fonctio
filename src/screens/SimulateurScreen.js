@@ -44,7 +44,9 @@ const REGIMES_CONTRACTUEL = [
   { id: 'cgm',   label: 'CGM — Congé grave maladie',     ficheId: 'cgm',              maxLabel: '3 ans' },
   { id: 'at_c',  label: 'AT — Accident du travail',      ficheId: 'at-contractuels',  maxLabel: '24 mois' },
 ];
-const ANCIENNETES_FPT = [
+// Régime progressif des contractuels — s'applique à la FPT (Décret 88-145 art. 7)
+// ET à la FPH (Décret 91-155 art. 10), qui prévoient les mêmes seuils.
+const ANCIENNETES_PROGRESSIF = [
   { id: 'moins4mois', label: '< 4 mois', plein: 0, demi: 0 },
   { id: '4mois',      label: '4 mois – 2 ans', plein: 1, demi: 1 },
   { id: '2ans',       label: '2 – 3 ans', plein: 2, demi: 2 },
@@ -77,9 +79,11 @@ function calculerProjection({ statut, versant, traitement, primes, quotite, regi
           else         { traitMaintenu = tBase * 0.6;  primesMaintenues = versant === 'fpe' ? pBase * 0.60 : 0; label = versant === 'fpe' ? '60 % + 60 % primes' : '60 %'; couleur = Colors.amber; }
           break;
         case 'cld':
-          // Art. 34-4° Loi 84-16
-          if (i <= 36) { traitMaintenu = tBase;        primesMaintenues = versant === 'fpe' ? pBase * 0.33 : 0; label = '100 %'; couleur = Colors.sky; }
-          else         { traitMaintenu = tBase * 0.5;  primesMaintenues = versant === 'fpe' ? pBase * 0.60 : 0; label = '50 %'; couleur = Colors.amber; }
+          // Art. L.822-6 à L.822-11 CGFP — 3 ans à plein traitement puis 2 ans à demi.
+          // Primes : le Décret 2024-641 a ouvert le maintien partiel du régime indemnitaire
+          // en CLM et CGM UNIQUEMENT. En CLD, les primes restent suspendues dans les 3 versants.
+          if (i <= 36) { traitMaintenu = tBase;        primesMaintenues = 0; label = '100 % · primes suspendues'; couleur = Colors.sky; }
+          else         { traitMaintenu = tBase * 0.5;  primesMaintenues = 0; label = '50 % · primes suspendues'; couleur = Colors.amber; }
           break;
         case 'citis':
           // Art. L.822-18 CGFP : plein traitement + toutes primes, illimité
@@ -95,12 +99,15 @@ function calculerProjection({ statut, versant, traitement, primes, quotite, regi
     } else {
       switch (regime) {
         case 'cmo_c':
-          // Décret 2024-641 (FPE depuis 01/09/2024) + Décret 88-145 (FPT inchangé)
-          if (versant === 'fpe' || versant === 'fph') {
+          // FPE : Décret 2024-641 (depuis 01/09/2024) — aligné sur les titulaires.
+          // FPT (Décret 88-145 art. 7) ET FPH (Décret 91-155 art. 10) : régime progressif
+          // selon l'ancienneté, INCHANGÉ. Le Décret 2024-641 vise les seuls agents
+          // contractuels « de l'État » — ne pas y ranger la FPH.
+          if (versant === 'fpe') {
             if (i <= 3)  { traitMaintenu = tBase * 0.9; primesMaintenues = pBase * 0.9; label = '90 %'; couleur = Colors.terracotta; }
             else         { traitMaintenu = tBase * 0.5; primesMaintenues = pBase * 0.5; label = '50 %'; couleur = Colors.amber; }
           } else {
-            const anc = ANCIENNETES_FPT.find(a => a.id === anciennete) || { plein: 0, demi: 0 };
+            const anc = ANCIENNETES_PROGRESSIF.find(a => a.id === anciennete) || { plein: 0, demi: 0 };
             if (i <= anc.plein)                  { traitMaintenu = tBase * 0.9; primesMaintenues = pBase * 0.9; label = '90 %'; couleur = Colors.terracotta; }
             else if (i <= anc.plein + anc.demi)  { traitMaintenu = tBase * 0.5; primesMaintenues = pBase * 0.5; label = '50 %'; couleur = Colors.amber; }
             else                                 { traitMaintenu = 0; primesMaintenues = 0; label = 'IJ CPAM'; couleur = Colors.slateLight; }
@@ -342,7 +349,9 @@ export default function SimulateurScreen({ navigation }) {
 
   const currentStep = !statut ? 1 : !versant ? 2 : !traitement ? 3 : 4;
   const regimes = statut === 'titulaire' ? REGIMES_TITULAIRE : REGIMES_CONTRACTUEL;
-  const showAnciennete = statut === 'contractuel' && versant === 'fpt' && regime === 'cmo_c';
+  // FPT et FPH partagent le régime progressif : l'ancienneté conditionne le calcul
+  // dans les deux versants (Décret 88-145 art. 7 / Décret 91-155 art. 10).
+  const showAnciennete = statut === 'contractuel' && (versant === 'fpt' || versant === 'fph') && regime === 'cmo_c';
   const ficheId = regimes.find(r => r.id === regime)?.ficheId;
   const nbMoisMax = regime ? (MAX_MOIS[regime] || 12) : 12;
   const canCompute = statut && versant && regime && parseFloat(traitement) > 0 && (!showAnciennete || anciennete);
@@ -415,10 +424,10 @@ export default function SimulateurScreen({ navigation }) {
           </StepCard>
         )}
 
-        {/* Ancienneté FPT */}
+        {/* Ancienneté — FPT et FPH (régime progressif) */}
         {showAnciennete && (
-          <StepCard title="5 · Ancienneté dans la collectivité" theme={theme}>
-            {ANCIENNETES_FPT.map(a => (
+          <StepCard title={versant === 'fph' ? "5 · Ancienneté dans l'établissement" : '5 · Ancienneté dans la collectivité'} theme={theme}>
+            {ANCIENNETES_PROGRESSIF.map(a => (
               <OptionBtn key={a.id} label={a.label}
                 sub={a.plein === 0 ? 'Aucun maintien — IJ CPAM uniquement' : `${a.plein} mois à 90 % + ${a.demi} mois à 50 %`}
                 selected={anciennete === a.id} onPress={() => setAnciennete(a.id)} theme={theme} />
@@ -463,6 +472,28 @@ export default function SimulateurScreen({ navigation }) {
             <Ionicons name="information-circle-outline" size={16} color={Colors.sky} />
             <Text style={[styles.infoText, { color: theme.textSecondary }]}>
               FPT — En CMO, le maintien des primes au prorata (90 % puis 50 %) est conditionné à une délibération de la collectivité. Sans délibération, les primes peuvent être suspendues. Source : CE n°462452 du 4 juil. 2024.
+            </Text>
+          </View>
+        )}
+
+        {/* Note primes CLM/CGM hors FPE : la projection retient 0 € par prudence */}
+        {(regime === 'clm' || regime === 'cgm') && versant !== 'fpe' && (
+          <View style={[styles.infoCard, { backgroundColor: theme.bgWarm, borderColor: theme.border }]}>
+            <Ionicons name="information-circle-outline" size={16} color={Colors.sky} />
+            <Text style={[styles.infoText, { color: theme.textSecondary }]}>
+              {versant === 'fpt'
+                ? 'FPT — Le maintien partiel des primes (33 % puis 60 %) prévu par le Décret 2024-641 ne vaut que pour l’État. Il peut être transposé par délibération de la collectivité, sans pouvoir aller au-delà. Cette projection retient 0 € de primes : si une délibération existe, votre revenu réel sera supérieur.'
+                : 'FPH — Le Décret 2024-641 ne s’applique pas à la fonction publique hospitalière et aucun texte national n’organise le maintien des primes pendant ces congés. Cette projection retient donc 0 € de primes ; faites confirmer par écrit par votre DRH si votre établissement prévoit mieux.'}
+            </Text>
+          </View>
+        )}
+
+        {/* Note primes CLD : suspendues dans les 3 versants */}
+        {regime === 'cld' && (
+          <View style={[styles.infoCard, { backgroundColor: theme.bgWarm, borderColor: theme.border }]}>
+            <Ionicons name="information-circle-outline" size={16} color={Colors.sky} />
+            <Text style={[styles.infoText, { color: theme.textSecondary }]}>
+              En CLD, le régime indemnitaire est suspendu dans les trois versants. Le Décret 2024-641 a ouvert le maintien partiel des primes en CLM et CGM uniquement — il laisse le CLD en dehors du dispositif.
             </Text>
           </View>
         )}

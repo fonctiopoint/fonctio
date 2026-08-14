@@ -313,6 +313,14 @@ export default function FicheDetailScreen({ navigation, route }) {
   const simulerParams = FICHE_TO_REGIME[ficheId];
 
   const handleShare = async () => {
+    // Le texte partagé doit refléter le MÊME versant que l'écran : sans ce filtre,
+    // un agent hospitalier partagerait les règles FPT et FPE mélangées aux siennes.
+    const pourCeVersant = (arr) =>
+      (arr || []).filter(x => !x || typeof x !== 'object' || !x.versants || x.versants.includes(versant));
+    // Les pièges sont soit une chaîne, soit { texte, versants } — normaliser avant affichage,
+    // sinon l'interpolation produit "[object Object]".
+    const texteDuPiege = (p) => (typeof p === 'object' && p !== null ? p.texte : p);
+
     // Construire le texte complet de la fiche
     const lines = [];
     lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━`);
@@ -338,30 +346,46 @@ export default function FicheDetailScreen({ navigation, route }) {
       lines.push(``);
     }
 
-    if (fiche.droits?.length) {
+    // Rappeler le versant : le contenu ci-dessous en dépend.
+    lines.push(`🏛️  Versant : FP ${VERSANT_LABELS[versant] || versant}`);
+    lines.push(``);
+
+    const versantNoteShare = fiche.versantNotes?.[versant];
+    if (versantNoteShare) {
+      lines.push(`POUR VOTRE VERSANT`);
+      lines.push(`──────────────────`);
+      lines.push(versantNoteShare);
+      lines.push(``);
+    }
+
+    const droitsShare = pourCeVersant(fiche.droits);
+    if (droitsShare.length) {
       lines.push(`DROITS & DURÉES`);
       lines.push(`───────────────`);
-      fiche.droits.forEach(d => {
+      droitsShare.forEach(d => {
         lines.push(`• ${d.label} : ${d.valeur}`);
         if (d.detail) lines.push(`  ${d.detail}`);
       });
       lines.push(``);
     }
 
-    if (fiche.etapes?.length) {
+    const etapesShare = pourCeVersant(fiche.etapes);
+    if (etapesShare.length) {
       lines.push(`LES ÉTAPES`);
       lines.push(`──────────`);
-      fiche.etapes.forEach(e => {
-        lines.push(`${e.num}. ${e.titre}`);
+      etapesShare.forEach((e, i) => {
+        // Renuméroter : les étapes déclinées par versant laissent des trous dans e.num.
+        lines.push(`${i + 1}. ${e.titre}`);
         lines.push(`   ${e.texte}`);
       });
       lines.push(``);
     }
 
-    if (fiche.pieges?.length) {
+    const piegesShare = pourCeVersant(fiche.pieges);
+    if (piegesShare.length) {
       lines.push(`⚠️  POINTS D'ATTENTION`);
       lines.push(`─────────────────────`);
-      fiche.pieges.forEach(p => lines.push(`→ ${p}`));
+      piegesShare.forEach(p => lines.push(`→ ${texteDuPiege(p)}`));
       lines.push(``);
     }
 

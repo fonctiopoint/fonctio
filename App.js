@@ -8,6 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import AppNavigator from './src/navigation/AppNavigator';
 import { SettingsProvider, useSettings } from './src/utils/SettingsContext';
+import { purgeObsolete } from './src/utils/storage';
 import AnimatedSplash from './src/screens/SplashScreen';
 
 // Maintenir le splash natif affiché jusqu'à ce qu'on soit prêts
@@ -31,6 +32,12 @@ function AppContent() {
 
   const isDark = settings.darkMode === 'dark' ||
     (settings.darkMode === 'auto' && systemScheme === 'dark');
+
+  // Purge unique des favoris et fiches récentes pointant vers des fiches
+  // supprimées par la refonte d'août 2026 (voir storage.js).
+  useEffect(() => {
+    purgeObsolete();
+  }, []);
 
   // Dès que les settings sont chargés, on est prêts
   useEffect(() => {

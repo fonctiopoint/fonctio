@@ -127,8 +127,21 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
   };
 
   const filteredModules = MODULES.filter(m => !m.versants || m.versants.includes(versant));
-  const assModule = MODULES.find(m => m.id === 'assistant-social');
-  const regularModules = filteredModules.filter(m => m.id !== 'assistant-social');
+  const regularModules = filteredModules;
+
+  // Depuis la refonte d'août 2026, l'assistant de service social n'est plus un
+  // module à lui seul : c'est une fiche du module « Vos interlocuteurs ». On
+  // conserve sa mise en avant — c'est le point d'entrée humain de l'app, et
+  // souvent la personne qui la recommande.
+  const assFiche = getFicheById('role-ass');
+  const assCard = assFiche && {
+    icon: '🤝',
+    color: Colors.olive,
+    bgColor: Colors.oliveLight,
+    title: 'L\'assistant de service social',
+    description: 'Confidentiel, gratuit, indépendant de votre hiérarchie. Il vous accompagne sur toute difficulté, personnelle comme professionnelle.',
+    fiches: [assFiche],
+  };
   const searchResults = searchQuery.length >= 2 ? searchFiches(searchQuery) : [];
   const isSearching = searchQuery.length >= 2;
 
@@ -300,8 +313,8 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
             )}
 
             {/* ── ASSISTANT SOCIAL — carte mise en valeur ────────── */}
-            {assModule && filteredModules.find(m => m.id === 'assistant-social') && (
-              <ModuleCard module={assModule} onPress={() => openModule('assistant-social')} highlight theme={theme} />
+            {assCard && (
+              <ModuleCard module={assCard} onPress={() => openFiche('role-ass')} highlight theme={theme} />
             )}
 
             {/* ── ALERTE RÉFORME ────────────────────────────────── */}
