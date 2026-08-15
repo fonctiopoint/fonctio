@@ -1341,7 +1341,8 @@ export const MODULES = [
         resume: 'Le médecin de prévention joue un rôle de conseil et de prévention — il n\'est pas le médecin de l\'administration. Il agit dans l\'intérêt de la santé des agents.',
         ciblePublic: 'Tous les agents publics (titulaires et contractuels).',
         droits: [
-          { label: 'Visites obligatoires', valeur: 'Périodiques', detail: 'Visite médicale au moins tous les 5 ans. Plus fréquentes pour les postes à risque.' },
+          { label: 'Visite d\'information et de prévention', valeur: 'Au moins tous les 5 ans', detail: 'C\'est la périodicité minimale dans les trois versants. En territoriale, elle était encore de 2 ans jusqu\'au décret du 8 décembre 2025 qui l\'a portée à 5 ans — une information encore fausse sur beaucoup de sites.' },
+          { label: 'Surveillance médicale renforcée', valeur: 'Tous les 4 ans + visite intermédiaire', detail: 'Certains agents relèvent d\'un suivi rapproché : personnes en situation de handicap, femmes enceintes, agents réintégrés après un CLM ou un CLD, et agents exposés à un risque particulier. Pour eux, la visite est faite par un médecin du travail au moins tous les 4 ans, avec une visite intermédiaire par un professionnel de santé dans les 2 ans qui suivent.' },
           { label: 'Visite à la demande', valeur: 'Sur demande agent', detail: 'L\'agent peut demander une visite à tout moment auprès du SPST.' },
           { label: 'Fiche d\'aptitude', valeur: 'Document clé', detail: 'Atteste de l\'aptitude à occuper le poste. Ne contient pas le diagnostic.' },
         ],
@@ -1359,6 +1360,7 @@ export const MODULES = [
           { texte: 'Décret n° 82-453 du 28 mai 1982 modifié (hygiène, sécurité et médecine de prévention — FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000509290' },
           { texte: 'Décret n° 85-603 du 10 juin 1985 (hygiène, sécurité et médecine préventive — FPT)' },
           { texte: 'Art. R. 4626-1 et suivants Code du travail (service de santé au travail — établissements de santé, FPH)' },
+          { texte: '🆕 Décret n° 2025-1193 du 8 décembre 2025 (périodicité de la visite en FPT : 5 ans, 4 ans en surveillance renforcée)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000053010650' },
         ],
       },
       {
@@ -1369,19 +1371,24 @@ export const MODULES = [
         resume: 'Depuis 2022, l\'ancien comité médical et l\'ancienne commission de réforme ont fusionné en un seul conseil médical, qui intervient dans toutes les décisions médicales importantes.',
         ciblePublic: 'Tous les fonctionnaires titulaires pour les décisions nécessitant un avis médical réglementaire.',
         droits: [
-          { label: 'Formation restreinte', valeur: 'Ex-comité médical', detail: 'Intervient pour : CLM, CLD, reclassement, inaptitude, TPT.' },
-          { label: 'Formation plénière', valeur: 'Ex-commission de réforme', detail: 'Intervient pour : AT/MP, retraite pour invalidité, ATI.' },
+          { label: 'Formation restreinte', valeur: '3 médecins', detail: 'Composée de 3 médecins désignés par le préfet pour 3 ans à partir d\'une liste de médecins agréés. C\'est l\'ancien comité médical.' },
+          { label: 'Ce qu\'elle examine d\'office', valeur: 'CLM et CLD', detail: 'Sa saisine est obligatoire pour l\'octroi d\'un premier congé de longue maladie ou de longue durée, et pour leur renouvellement une fois épuisée la période rémunérée à plein traitement.' },
+          { label: 'Ce qu\'elle examine sur contestation', valeur: 'TPT, reprise, autres congés', detail: 'Pour le reste — temps partiel thérapeutique, réintégration après un congé, octroi ou renouvellement d\'un congé pour raison de santé — le conseil médical n\'est PAS saisi systématiquement. Il l\'est en cas de contestation de l\'avis rendu par le médecin agréé. C\'est une confusion fréquente : ne comptez pas sur une saisine automatique, demandez-la.' },
+          { label: 'Formation plénière', valeur: 'Ex-commission de réforme', detail: 'Intervient pour : imputabilité au service d\'un accident ou d\'une maladie, retraite pour invalidité, ATI.' },
           { label: 'Droits de l\'agent', valeur: 'Garantis', detail: 'Être entendu, se faire accompagner d\'un médecin de son choix, contester l\'avis.' },
         ],
         etapes: [
           { num: 1, titre: 'Saisine', texte: 'L\'administration saisit le conseil médical. L\'agent peut aussi le saisir directement dans certains cas.' },
           { num: 2, titre: 'Examen du dossier', texte: 'Le conseil médical examine le dossier médical transmis dans le respect du secret médical.' },
           { num: 3, titre: 'Audition possible', texte: 'L\'agent a le droit d\'être entendu. Il peut être accompagné d\'un médecin de son choix.' },
-          { num: 4, titre: 'Avis rendu', texte: 'Délai réglementaire : 2 mois. L\'administration suit l\'avis ou motive sa divergence.' },
+          { num: 4, titre: 'Avis rendu', texte: 'Le conseil médical rend un avis, que l\'administration suit en principe — elle doit motiver toute divergence. L\'avis n\'est pas une décision : c\'est l\'administration qui décide ensuite.' },
+          { num: 5, titre: 'Contestation devant le conseil médical supérieur', texte: 'L\'avis de la formation restreinte peut être contesté devant le conseil médical supérieur. Si celui-ci ne se prononce pas dans les 4 mois suivant la réception du dossier, l\'avis initial est réputé confirmé — ce silence vaut donc rejet de votre contestation.' },
         ],
         pieges: [
           'L\'avis du conseil médical n\'est pas une décision — c\'est l\'administration qui décide.',
-          'Ne pas confondre formation restreinte (3 médecins) et formation plénière (représentants admin + agents + médecins).',
+          'Ne pas confondre formation restreinte (3 médecins) et formation plénière (représentants de l\'administration, des personnels et médecins).',
+          'La saisine n\'est automatique que pour le CLM et le CLD. Pour un temps partiel thérapeutique ou une réintégration, c\'est l\'avis du médecin agréé qui prime — le conseil médical n\'intervient que si vous contestez cet avis. Demandez-le expressément par écrit.',
+          'Le silence de 4 mois du conseil médical supérieur confirme l\'avis contesté. Ne comptez pas sur l\'absence de réponse pour gagner : relancez et documentez.',
         ],
         recours: 'Demande de contre-expertise médicale contradictoire. Recours gracieux puis contentieux.',
         sources: [
@@ -1456,7 +1463,7 @@ export const MODULES = [
           'Le DUERP doit être mis à jour au moins chaque année et lors de toute modification significative des conditions de travail — l\'assistant de prévention est acteur de cette mise à jour mais ce n\'est pas lui seul qui en est responsable.',
           'L\'assistant de prévention n\'est pas responsable pénalement des accidents du travail — la responsabilité incombe à l\'employeur et au chef de service.',
         ],
-        recours: 'En cas d\'entrave à l\'exercice de ses missions ou de sanction liée à ses fonctions de prévention, l\'assistant de prévention peut saisir le CSA et sa formation spécialisée, ainsi que l\'inspection du travail compétente pour la fonction publique.',
+        recours: 'En cas d\'entrave à ses missions ou de sanction liée à ses fonctions de prévention, l\'assistant de prévention saisit le comité social et sa formation spécialisée, puis l\'inspecteur santé et sécurité au travail (ISST) — c\'est lui, et non l\'inspection du travail, qui contrôle l\'application des règles d\'hygiène et de sécurité dans la fonction publique d\'État et territoriale. Les établissements hospitaliers relèvent en revanche bien de l\'inspection du travail.',
         sources: [
           { texte: 'Décret n° 82-453 du 28 mai 1982 modifié (hygiène et sécurité FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000509290' },
           { texte: 'Décret n° 85-603 du 10 juin 1985 (FPT — hygiène et sécurité)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000340067' },
@@ -1488,11 +1495,12 @@ export const MODULES = [
           'L\'assistant social ne peut pas prendre de décisions à la place de l\'agent. Il accompagne, oriente et soutient — il ne se substitue pas à la personne dans ses choix.',
           'Contacter l\'assistant social n\'a aucune conséquence sur la carrière ou l\'évaluation professionnelle. La hiérarchie n\'est pas informée.',
         ],
-        recours: 'En cas de manquement au secret professionnel ou de comportement contraire à la déontologie, l\'agent peut porter plainte auprès du Conseil Départemental de l\'Ordre des Assistants de Service Social (CDOASS) compétent.',
+        recours: 'Contrairement aux médecins ou aux avocats, les assistants de service social ne disposent PAS d\'un ordre professionnel : il n\'existe donc aucun « conseil de l\'ordre » à saisir. En cas de manquement au secret professionnel, deux voies existent : le signalement à la hiérarchie du service social dont dépend le professionnel (structure ministérielle ou régionale, distincte de votre service), et la plainte pénale sur le fondement de l\'article 226-13 du Code pénal, le secret professionnel de l\'assistant de service social étant pénalement sanctionné. Le Défenseur des droits peut également être saisi.',
         sources: [
-          { texte: 'Art. L. 411-1 Code de l\'action sociale et des familles (secret professionnel ASS)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000006074069' },
-          { texte: 'Circulaire du 16 mars 2017 relative au service social du personnel (FPE)', url: 'https://www.fonction-publique.gouv.fr' },
-          { texte: 'Code de déontologie des assistants de service social', url: 'https://www.ordreassistantssociaux.fr' },
+          { texte: 'Art. L. 411-1 et suivants Code de l\'action sociale et des familles (profession réglementée)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000006074069' },
+          { texte: 'Art. L. 411-3 CASF et art. 226-13 Code pénal (secret professionnel sanctionné pénalement)' },
+          { texte: 'Circulaire du 16 mars 2017 relative au service social du personnel (FPE)' },
+          { texte: 'Code de déontologie de l\'ANAS — texte professionnel de référence, sans valeur réglementaire' },
         ],
       },
       {
@@ -1595,7 +1603,8 @@ export const MODULES = [
         ],
         recours: 'Signalement au Défenseur des droits. Plainte pénale. Recours devant le tribunal administratif.',
         sources: [
-          { texte: 'Art. L. 133-1 à L. 133-4 CGFP (harcèlement)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000044416551' },
+          { texte: 'Art. L. 133-1 à L. 133-3 CGFP (protection contre le harcèlement)', url: 'https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000044416551/LEGISCTA000044420953/' },
+          { texte: 'Art. L. 133-3 CGFP (protection des victimes ET des témoins contre les représailles)' },
           { texte: 'Art. 222-33-2 Code pénal (harcèlement moral)', url: 'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000043908313' },
         ],
       },
