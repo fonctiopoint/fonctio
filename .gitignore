@@ -1,12 +1,29 @@
+# Dépendances
+node_modules/
+
+# Artefacts de build — ne jamais versionner, ils pèsent des dizaines de Mo
+*.aab
+*.apk
+dist/
+web-build/
+.expo/
+.expo-shared/
+
+# Signature Android — CRITIQUE : ces fichiers ne doivent jamais partir sur GitHub
+*.jks
+*.keystore
+*.pem
 @theguy03__fonctio.jks
 upload_cert.pem
-*.jks
-*.pem
 FONCTIO_CREDENTIALS*
-node_modules/
-@theguy03__fonctio.jks
-upload_cert.pem
-*.jks
-*.pem
-FONCTIO_CREDENTIALS*
-node_modules/
+credentials.json
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Système
+.DS_Store
+Thumbs.db
+*.log
