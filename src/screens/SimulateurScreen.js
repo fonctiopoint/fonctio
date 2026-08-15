@@ -11,14 +11,18 @@ import { Colors, Typography, Spacing, Radius, Shadow, useTheme } from '../theme'
 // ── Durées maximales réglementaires par régime ─────────────────────────────
 // Sources référencées dans les commentaires de chaque cas
 const MAX_MOIS = {
-  cmo: 12,      // Art. L.822-3 CGFP : 3 mois plein + 9 mois demi = 12 mois
-  clm: 36,      // Art. 34-3° Loi 84-16 : 3 ans = 36 mois
-  cld: 60,      // Art. 34-4° Loi 84-16 : 5 ans = 60 mois
+  cmo: 12,      // Art. L.822-1 à L.822-5 CGFP : 3 mois à 90 % + 9 mois à 50 %
+  clm: 36,      // Art. L.822-6 et suivants CGFP : 3 ans
+  cld: 60,      // Art. L.822-6 à L.822-11 CGFP : 5 ans par groupe d'affections
+                // (8 ans si l'affection est imputable au service — non modélisé,
+                //  cela supposerait une question de plus dans le parcours)
   citis: 36,    // Art. L.822-18 CGFP : illimité — on affiche 36 mois par défaut
-  tpt: 12,      // Art. L.823-5 CGFP : 1 an max par autorisation (renouvelable après 1 an d'activité, sans limite de nombre ni d'affection depuis Décret 2021-997)
-  cmo_c: 12,    // Décret 86-83 / 88-145 selon versant
-  cgm: 36,      // Décret 86-83 art. 13 : 3 ans = 36 mois
-  at_c: 24,     // Durée couverte variable — on affiche 24 mois
+  tpt: 12,      // Art. L.823-5 CGFP : 1 an max par autorisation, renouvelable
+                // après 1 an d'activité, sans limite de nombre ni d'affection
+  cmo_c: 12,    // Décret 86-83 art. 12 (FPE) · 88-145 art. 7 (FPT) · 91-155 art. 10 (FPH)
+  cgm: 36,      // Décret 86-83 art. 13 (FPE) · 88-145 art. 8 (FPT) · 91-155 art. 11 (FPH)
+  at_c: 12,     // Maintien employeur de 1 à 3 mois selon l'ancienneté, puis IJ
+                // seules : on projette 12 mois pour rendre la bascule visible
 };
 
 const MOIS_LABELS = ['Jan.','Fév.','Mar.','Avr.','Mai','Jun.','Jul.','Aoû.','Sep.','Oct.','Nov.','Déc.'];
@@ -52,6 +56,49 @@ const ANCIENNETES_PROGRESSIF = [
   { id: '2ans',       label: '2 – 3 ans', plein: 2, demi: 2 },
   { id: '3ans',       label: '≥ 3 ans', plein: 3, demi: 3 },
 ];
+
+// Accident du travail des contractuels : l'employeur complète les IJ jusqu'au
+// plein traitement pendant une durée qui dépend de l'ancienneté — ce n'est PAS
+// un plein traitement illimité. Décret 86-83 art. 14 (FPE) et 88-145 (FPT) :
+// 1 mois dès l'entrée, 2 mois après 2 ans, 3 mois après 3 ans.
+// Décret 91-155 art. 12 (FPH) : 1 mois dès l'entrée, 2 mois après 1 an, 3 après 3 ans.
+const ANCIENNETES_AT = {
+  fpe: [
+    { id: 'moins2ans', label: 'Moins de 2 ans', plein: 1 },
+    { id: '2a3ans',    label: '2 à 3 ans',      plein: 2 },
+    { id: 'plus3ans',  label: '3 ans et plus',  plein: 3 },
+  ],
+  fph: [
+    { id: 'moins1an',  label: "Moins d'un an",  plein: 1 },
+    { id: '1a3ans',    label: '1 à 3 ans',      plein: 2 },
+    { id: 'plus3ans',  label: '3 ans et plus',  plein: 3 },
+  ],
+};
+ANCIENNETES_AT.fpt = ANCIENNETES_AT.fpe;
+
+// ── Estimation du net ───────────────────────────────────────────────────────
+// Ordre de grandeur, pas un calcul de paie. Trois prélèvements structurants :
+//  · retenue pour pension civile / CNRACL : 11,10 % du seul traitement indiciaire
+//  · CSG (9,20 %) + CRDS (0,50 %) : 9,70 % sur 98,25 % du brut total
+//  · RAFP : 5 % des primes, dans la limite de 20 % du traitement indiciaire
+// Volontairement exclus : mutuelle, prélèvement à la source, cotisations
+// spécifiques à certains corps. Le ratio obtenu tombe autour de 78-85 % du
+// brut, ce qui correspond aux ordres de grandeur observés dans la FP.
+const TAUX_PENSION = 0.1110;
+const TAUX_CSG_CRDS = 0.0970;
+const ASSIETTE_CSG = 0.9825;
+const TAUX_RAFP = 0.05;
+const PLAFOND_RAFP = 0.20;
+
+function estimerNet(traitementBrut, primesBrut) {
+  const t = Math.max(0, traitementBrut || 0);
+  const p = Math.max(0, primesBrut || 0);
+  if (t + p === 0) return 0;
+  const pension = t * TAUX_PENSION;
+  const csgCrds = (t + p) * ASSIETTE_CSG * TAUX_CSG_CRDS;
+  const rafp = Math.min(p, t * PLAFOND_RAFP) * TAUX_RAFP;
+  return Math.max(0, Math.round(t + p - pension - csgCrds - rafp));
+}
 
 // ── Moteur de calcul ────────────────────────────────────────────────────────
 // Retourne un tableau de { mois (1-N), total, traitMaintenu, primesMaintenues, label, couleur, pct }
@@ -134,10 +181,15 @@ function calculerProjection({ statut, versant, traitement, primes, quotite, regi
           else if (versant === 'fpe') { traitMaintenu = tBase * 0.6; primesMaintenues = pBase * 0.6; label = '60 % + 60 % primes'; couleur = Colors.amber; }
           else         { traitMaintenu = tBase * 0.5;  primesMaintenues = 0; label = '50 %'; couleur = Colors.amber; }
           break;
-        case 'at_c':
-          // Régime général SS + maintien employeur selon ancienneté
-          traitMaintenu = tBase; primesMaintenues = pBase; label = 'Plein traitement'; couleur = Colors.olive;
+        case 'at_c': {
+          // L'employeur complète les IJ jusqu'au plein traitement pendant 1 à
+          // 3 mois selon l'ancienneté, puis l'agent ne perçoit plus que les IJ
+          // de la sécurité sociale — qui ne sont pas modélisées ici.
+          const ancAt = (ANCIENNETES_AT[versant] || ANCIENNETES_AT.fpe).find(a => a.id === anciennete) || { plein: 1 };
+          if (i <= ancAt.plein) { traitMaintenu = tBase; primesMaintenues = pBase; label = 'Plein traitement'; couleur = Colors.olive; }
+          else                  { traitMaintenu = 0; primesMaintenues = 0; label = 'IJ sécurité sociale'; couleur = Colors.slateLight; }
           break;
+        }
         default:
           traitMaintenu = tBase; primesMaintenues = pBase; label = '100 %';
       }
@@ -146,7 +198,8 @@ function calculerProjection({ statut, versant, traitement, primes, quotite, regi
     const total = Math.round(traitMaintenu + primesMaintenues);
     const totalBase = Math.round(tBase + pBase);
     const pct = totalBase > 0 ? Math.round((total / totalBase) * 100) : 0;
-    result.push({ mois: i, total, traitMaintenu: Math.round(traitMaintenu), primesMaintenues: Math.round(primesMaintenues), label, couleur, pct });
+    const net = estimerNet(traitMaintenu, primesMaintenues);
+    result.push({ mois: i, total, net, traitMaintenu: Math.round(traitMaintenu), primesMaintenues: Math.round(primesMaintenues), label, couleur, pct });
   }
   return result;
 }
@@ -367,9 +420,13 @@ export default function SimulateurScreen({ navigation }) {
   // FPT et FPH partagent le régime progressif : l'ancienneté conditionne le calcul
   // dans les deux versants (Décret 88-145 art. 7 / Décret 91-155 art. 10).
   const showAnciennete = statut === 'contractuel' && (versant === 'fpt' || versant === 'fph') && regime === 'cmo_c';
+  // L'accident du travail des contractuels dépend aussi de l'ancienneté, dans
+  // les trois versants — mais avec des paliers différents de ceux du CMO.
+  const showAncienneteAt = statut === 'contractuel' && regime === 'at_c';
+  const ancienneteRequise = showAnciennete || showAncienneteAt;
   const ficheId = regimes.find(r => r.id === regime)?.ficheId;
   const nbMoisMax = regime ? (MAX_MOIS[regime] || 12) : 12;
-  const canCompute = statut && versant && regime && parseFloat(traitement) > 0 && (!showAnciennete || anciennete);
+  const canCompute = statut && versant && regime && parseFloat(traitement) > 0 && (!ancienneteRequise || anciennete);
 
   const projection = useMemo(() => {
     if (!canCompute) return null;
@@ -379,8 +436,10 @@ export default function SimulateurScreen({ navigation }) {
   const tq = (parseFloat(traitement) || 0) * ((parseFloat(quotite) || 100) / 100);
   const pq = (parseFloat(primes) || 0) * ((parseFloat(quotite) || 100) / 100);
   const baseTotal = Math.round(tq + pq);
+  const baseNet = estimerNet(tq, pq);
   const dateFin = getDateFin(dateDebut, nbMoisMax);
   const perteTotal = projection ? projection.reduce((acc, m) => acc + (baseTotal - m.total), 0) : 0;
+  const perteNette = projection ? projection.reduce((acc, m) => acc + (baseNet - m.net), 0) : 0;
 
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: Colors.sky }]} edges={['top']}>
@@ -424,7 +483,10 @@ export default function SimulateurScreen({ navigation }) {
             <InputRow label="Primes et indemnités" value={primes} onChange={setPrimes} placeholder="Ex : 450" suffix="€ / mois" theme={theme} />
             <InputRow label="Quotité de travail" value={quotite} onChange={setQuotite} placeholder="100" suffix="%" theme={theme} />
             <Text style={[styles.inputHint, { color: theme.textMuted }]}>
-              💡 Traitement brut = ligne "Traitement" sur la fiche de paie. Ne pas inclure SFT ni IR.
+              💡 Traitement brut = ligne « Traitement » de votre fiche de paie. Ne pas inclure le supplément familial ni l'indemnité de résidence, qui restent versés en entier.
+            </Text>
+            <Text style={[styles.inputHint, { color: theme.textMuted }]}>
+              💡 Quotité = votre temps de travail habituel, avant l'arrêt. Pour un temps partiel thérapeutique, indiquez bien votre quotité habituelle : le TPT maintient l'intégralité du traitement, quelle que soit la quotité travaillée pendant la reprise.
             </Text>
           </StepCard>
         )}
@@ -450,9 +512,20 @@ export default function SimulateurScreen({ navigation }) {
           </StepCard>
         )}
 
+        {/* Ancienneté — accident du travail des contractuels */}
+        {showAncienneteAt && (
+          <StepCard title="5 · Ancienneté chez cet employeur" theme={theme}>
+            {(ANCIENNETES_AT[versant] || ANCIENNETES_AT.fpe).map(a => (
+              <OptionBtn key={a.id} label={a.label}
+                sub={`${a.plein} mois à plein traitement, puis IJ seules`}
+                selected={anciennete === a.id} onPress={() => setAnciennete(a.id)} theme={theme} />
+            ))}
+          </StepCard>
+        )}
+
         {/* Date de début */}
         {canCompute && (
-          <StepCard title={showAnciennete ? "6 · Date de début de l'arrêt (optionnel)" : "5 · Date de début de l'arrêt (optionnel)"} theme={theme}>
+          <StepCard title={ancienneteRequise ? "6 · Date de début de l'arrêt (optionnel)" : "5 · Date de début de l'arrêt (optionnel)"} theme={theme}>
             <DateSelector value={dateDebut} onChange={setDateDebut} theme={theme} />
             {dateDebut && dateFin && (
               <View style={[styles.dateRange, { backgroundColor: theme.bgWarm }]}>
@@ -524,7 +597,8 @@ export default function SimulateurScreen({ navigation }) {
                 <View style={styles.resumeItem}>
                   <Text style={styles.resumeLabel}>Rémunération de base</Text>
                   <Text style={styles.resumeVal}>{baseTotal.toLocaleString('fr-FR')} €</Text>
-                  <Text style={styles.resumeSub}>par mois</Text>
+                  <Text style={styles.resumeSub}>brut / mois</Text>
+                  <Text style={styles.resumeNet}>≈ {baseNet.toLocaleString('fr-FR')} € net</Text>
                 </View>
                 <View style={styles.resumeSep} />
                 <View style={styles.resumeItem}>
@@ -533,6 +607,7 @@ export default function SimulateurScreen({ navigation }) {
                     {projection[projection.length - 1].total.toLocaleString('fr-FR')} €
                   </Text>
                   <Text style={styles.resumeSub}>dernier mois</Text>
+                  <Text style={styles.resumeNet}>≈ {projection[projection.length - 1].net.toLocaleString('fr-FR')} € net</Text>
                 </View>
                 <View style={styles.resumeSep} />
                 <View style={styles.resumeItem}>
@@ -540,10 +615,29 @@ export default function SimulateurScreen({ navigation }) {
                   <Text style={[styles.resumeVal, { color: Colors.danger }]}>
                     -{perteTotal.toLocaleString('fr-FR')} €
                   </Text>
-                  <Text style={styles.resumeSub}>sur {nbMoisMax} mois</Text>
+                  <Text style={styles.resumeSub}>brut sur {nbMoisMax} mois</Text>
+                  <Text style={styles.resumeNet}>≈ -{perteNette.toLocaleString('fr-FR')} € net</Text>
                 </View>
               </View>
             </View>
+
+            {/* Ce que recouvre — et ne recouvre pas — l'estimation nette */}
+            <View style={[styles.infoCard, { backgroundColor: theme.bgWarm, borderColor: theme.border }]}>
+              <Ionicons name="calculator-outline" size={16} color={Colors.sky} />
+              <Text style={[styles.infoText, { color: theme.textSecondary }]}>
+                Le net affiché est un ordre de grandeur. Il déduit la retenue pour pension (11,10 % du traitement indiciaire), la CSG et la CRDS (9,70 % sur 98,25 % du brut) et la RAFP (5 % des primes, plafonnée). Il n’intègre ni votre mutuelle, ni l’impôt prélevé à la source, ni les cotisations propres à certains corps : votre net réel sera un peu inférieur.
+              </Text>
+            </View>
+
+            {/* Mois non rémunérés par l'employeur : les IJ ne sont pas modélisées */}
+            {projection.some(m => m.total === 0) && (
+              <View style={[styles.infoCard, { backgroundColor: theme.bgWarm, borderColor: theme.border }]}>
+                <Ionicons name="alert-circle-outline" size={16} color={Colors.amber} />
+                <Text style={[styles.infoText, { color: theme.textSecondary }]}>
+                  Les mois affichés à 0 € ne signifient pas un revenu nul : votre employeur ne vous verse plus rien, mais la sécurité sociale prend le relais avec des indemnités journalières. Leur montant dépend de votre salaire et n’est pas calculé ici.
+                </Text>
+              </View>
+            )}
 
             {/* Info durée maximale */}
             <View style={[styles.dureeBanner, { backgroundColor: Colors.skyLight, borderColor: Colors.sky + '55' }]}>
@@ -672,6 +766,7 @@ const styles = StyleSheet.create({
   resumeLabel: { fontSize: 9, color: 'rgba(255,255,255,0.55)', textAlign: 'center' },
   resumeVal: { fontSize: 16, fontWeight: '700', color: 'white', textAlign: 'center' },
   resumeSub: { fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' },
+  resumeNet: { fontSize: 10, fontWeight: '600', color: 'rgba(255,255,255,0.72)', textAlign: 'center', marginTop: 3 },
   resumeSep: { width: 0.5, height: 44, backgroundColor: 'rgba(255,255,255,0.15)' },
   dureeBanner: { borderRadius: Radius.md, padding: Spacing.md, flexDirection: 'row', gap: 8, alignItems: 'center', borderWidth: 1 },
   dureeText: { fontSize: Typography.sm, flex: 1, lineHeight: 18 },
