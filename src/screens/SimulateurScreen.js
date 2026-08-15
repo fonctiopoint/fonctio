@@ -458,9 +458,10 @@ const InputRow = ({ label, value, onChange, placeholder, suffix, theme }) => (
 );
 
 // ── Graphique en barres ─────────────────────────────────────────────────────
-const BarChart = ({ data, maxVal, dateDebut, theme }) => {
-  const max = maxVal || Math.max(...data.map(d => d.total), 1);
-  // Afficher max 12 barres visible, scroll si plus
+const BarChart = ({ data, maxVal, dateDebut, theme, mode, selection, onSelect }) => {
+  const valeur = (d) => (mode === 'net' ? d.net : d.total);
+  const max = maxVal || Math.max(...data.map(valeur), 1);
+  // Afficher max 24 barres, scroll au-delà
   const visible = data.slice(0, 24);
 
   const getMoisLabel = (idx) => {
@@ -475,20 +476,34 @@ const BarChart = ({ data, maxVal, dateDebut, theme }) => {
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
       <View style={[styles.chartContainer, { width: Math.max(visible.length * 38, 300) }]}>
         <View style={styles.chartBars}>
-          {visible.map((d, i) => (
-            <View key={i} style={styles.chartBarWrap}>
-              <Text style={[styles.chartBarVal, { color: theme.textMuted }]}>
-                {d.total > 0 ? `${Math.round(d.total / 100) * 100}` : '—'}
-              </Text>
-              <View style={styles.chartBarOuter}>
-                <View style={[styles.chartBarInner, {
-                  height: `${Math.max((d.total / max) * 100, d.total > 0 ? 4 : 0)}%`,
-                  backgroundColor: d.couleur,
-                }]} />
-              </View>
-              <Text style={[styles.chartBarMonth, { color: theme.textMuted }]}>{getMoisLabel(i)}</Text>
-            </View>
-          ))}
+          {visible.map((d, i) => {
+            const v = valeur(d);
+            const actif = selection === i;
+            return (
+              <TouchableOpacity
+                key={i}
+                style={styles.chartBarWrap}
+                onPress={() => onSelect(i)}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel={`Mois ${d.mois}, ${v} euros ${mode === 'net' ? 'net' : 'brut'}`}
+              >
+                <Text style={[styles.chartBarVal, { color: actif ? theme.textPrimary : theme.textMuted }, actif && { fontWeight: '800' }]}>
+                  {v > 0 ? `${Math.round(v / 100) * 100}` : '—'}
+                </Text>
+                <View style={[styles.chartBarOuter, actif && { backgroundColor: theme.border, borderRadius: 4 }]}>
+                  <View style={[styles.chartBarInner, {
+                    height: `${Math.max((v / max) * 100, v > 0 ? 4 : 0)}%`,
+                    backgroundColor: d.couleur,
+                    opacity: actif || selection === null ? 1 : 0.45,
+                  }]} />
+                </View>
+                <Text style={[styles.chartBarMonth, { color: actif ? theme.textPrimary : theme.textMuted }, actif && { fontWeight: '700' }]}>
+                  {getMoisLabel(i)}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </View>
     </ScrollView>
@@ -515,6 +530,10 @@ export default function SimulateurScreen({ navigation }) {
   const [quotite,    setQuotite]    = useState('100');
   const [anciennete, setAnciennete] = useState(null);
   const [dateDebut,  setDateDebut]  = useState(null);
+  // Mois dont on affiche le détail — null = le dernier, c'est-à-dire le plus
+  // défavorable, qui est ce qu'on veut voir en premier.
+  const [moisSelectionne, setMoisSelectionne] = useState(null);
+  const [modeMontant, setModeMontant] = useState('brut');
 
   const currentStep = !statut ? 1 : !versant ? 2 : !traitement ? 3 : 4;
   const regimes = statut === 'titulaire' ? REGIMES_TITULAIRE : REGIMES_CONTRACTUEL;
@@ -572,7 +591,7 @@ export default function SimulateurScreen({ navigation }) {
           <StepCard title="2 · Versant de la fonction publique" theme={theme}>
             {VERSANTS.map(v => (
               <OptionBtn key={v.id} label={v.label} selected={versant === v.id}
-                onPress={() => { setVersant(v.id); setRegime(null); setAnciennete(null); }} theme={theme} />
+                onPress={() => { setVersant(v.id); setRegime(null); setAnciennete(null); setMoisSelectionne(null); }} theme={theme} />
             ))}
           </StepCard>
         )}
@@ -597,7 +616,7 @@ export default function SimulateurScreen({ navigation }) {
           <StepCard title="4 · Régime statutaire de l'arrêt" theme={theme}>
             {regimes.map(r => (
               <OptionBtn key={r.id} label={r.label} right={r.maxLabel} selected={regime === r.id}
-                onPress={() => { setRegime(r.id); setAnciennete(null); }} theme={theme} />
+                onPress={() => { setRegime(r.id); setAnciennete(null); setMoisSelectionne(null); }} theme={theme} />
             ))}
           </StepCard>
         )}
@@ -722,9 +741,14 @@ export default function SimulateurScreen({ navigation }) {
               </View>
             </View>
 
-            {/* Détail chiffré du mois le plus défavorable */}
+            {/* Détail chiffré du mois sélectionné dans le graphique */}
             {(() => {
-              const m = projection[projection.length - 1];
+              const idx = Math.min(moisSelectionne ?? projection.length - 1, projection.length - 1);
+              const m = projection[idx];
+              const estPire = m.total === Math.min(...projection.map(x => x.total));
+              const libelleMois = dateDebut
+                ? `${MOIS_LABELS[(dateDebut.mois - 1 + idx) % 12]} ${dateDebut.annee + Math.floor((dateDebut.mois - 1 + idx) / 12)}`
+                : `mois ${m.mois}`;
               const L = ({ label, val, negatif, fort }) => (
                 <View style={styles.detailRow}>
                   <Text style={[styles.detailLabel, { color: fort ? theme.textPrimary : theme.textSecondary }, fort && { fontWeight: '700' }]}>{label}</Text>
@@ -735,8 +759,18 @@ export default function SimulateurScreen({ navigation }) {
               );
               return (
                 <View style={[styles.chartCard, { backgroundColor: theme.bgCard, borderColor: theme.border }]}>
-                  <Text style={[styles.chartTitle, { color: theme.textPrimary }]}>
-                    Détail du mois {m.mois} — le plus défavorable
+                  <View style={styles.detailHead}>
+                    <Text style={[styles.chartTitle, { color: theme.textPrimary, marginBottom: 0 }]}>
+                      Détail — {libelleMois}
+                    </Text>
+                    {estPire && (
+                      <View style={[styles.detailBadge, { backgroundColor: Colors.amber + '22' }]}>
+                        <Text style={[styles.detailBadgeTxt, { color: Colors.amber }]}>mois le plus bas</Text>
+                      </View>
+                    )}
+                  </View>
+                  <Text style={[styles.chartSub, { color: theme.textMuted }]}>
+                    {m.label} · {m.pct} % de votre rémunération habituelle
                   </Text>
                   <View style={styles.detailBlock}>
                     {m.traitMaintenu > 0 && <L label="Traitement maintenu" val={m.traitMaintenu} />}
@@ -751,9 +785,9 @@ export default function SimulateurScreen({ navigation }) {
                     <View style={[styles.detailSep, { backgroundColor: theme.border }]} />
                     <L label="Net estimé" val={m.net} fort />
                   </View>
-                  {projection[0].carence > 0 && (
+                  {m.carence > 0 && (
                     <Text style={[styles.detailNote, { color: theme.textMuted }]}>
-                      Un jour de carence de {projection[0].carence.toLocaleString('fr-FR')} € a été retenu sur le premier mois. Il ne s'applique pas si vous êtes en affection de longue durée déjà décomptée depuis moins de trois ans, ni si vous reprenez moins de 48 heures entre deux arrêts de même cause.
+                      Un jour de carence de {m.carence.toLocaleString('fr-FR')} € a été retenu sur ce mois. Il ne s'applique pas si vous êtes en affection de longue durée déjà décomptée depuis moins de trois ans, ni si vous reprenez moins de 48 heures entre deux arrêts de même cause.
                     </Text>
                   )}
                   {m.ij > 0 && (
@@ -801,9 +835,37 @@ export default function SimulateurScreen({ navigation }) {
                 {dateDebut ? ` — à partir de ${MOIS_LABELS[dateDebut.mois - 1]} ${dateDebut.annee}` : ''}
               </Text>
               <Text style={[styles.chartSub, { color: theme.textMuted }]}>
-                Montant brut estimé (traitement + primes maintenues). Défiler horizontalement si besoin.
+                Touchez un mois pour en voir le détail. Défiler horizontalement si besoin.
               </Text>
-              <BarChart data={projection} maxVal={baseTotal * 1.1} dateDebut={dateDebut} theme={theme} />
+              <View style={styles.toggleRow}>
+                {[{ id: 'brut', l: 'Brut' }, { id: 'net', l: 'Net estimé' }].map(o => (
+                  <TouchableOpacity
+                    key={o.id}
+                    onPress={() => setModeMontant(o.id)}
+                    activeOpacity={0.8}
+                    style={[
+                      styles.toggleBtn,
+                      { borderColor: theme.border },
+                      modeMontant === o.id && { backgroundColor: Colors.sky, borderColor: Colors.sky },
+                    ]}
+                  >
+                    <Text style={[
+                      styles.toggleTxt,
+                      { color: theme.textSecondary },
+                      modeMontant === o.id && { color: 'white', fontWeight: '700' },
+                    ]}>{o.l}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <BarChart
+                data={projection}
+                maxVal={(modeMontant === 'net' ? baseNet : baseTotal) * 1.1}
+                dateDebut={dateDebut}
+                theme={theme}
+                mode={modeMontant}
+                selection={moisSelectionne}
+                onSelect={setMoisSelectionne}
+              />
               <View style={styles.legendRow}>
                 {[
                   { c: Colors.terracotta, l: '90 %' },
@@ -917,6 +979,12 @@ const styles = StyleSheet.create({
   detailVal: { fontSize: 13.5, fontVariant: ['tabular-nums'] },
   detailSep: { height: 1, marginVertical: 6, opacity: 0.7 },
   detailNote: { fontSize: 11.5, lineHeight: 16, marginTop: 10, fontStyle: 'italic' },
+  detailHead: { flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 4 },
+  detailBadge: { paddingHorizontal: 7, paddingVertical: 2, borderRadius: 4 },
+  detailBadgeTxt: { fontSize: 10, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.4 },
+  toggleRow: { flexDirection: 'row', gap: 8, marginBottom: 12 },
+  toggleBtn: { flex: 1, paddingVertical: 7, borderRadius: Radius.sm, borderWidth: 1.5, alignItems: 'center' },
+  toggleTxt: { fontSize: 13 },
   resumeSep: { width: 0.5, height: 44, backgroundColor: 'rgba(255,255,255,0.15)' },
   dureeBanner: { borderRadius: Radius.md, padding: Spacing.md, flexDirection: 'row', gap: 8, alignItems: 'center', borderWidth: 1 },
   dureeText: { fontSize: Typography.sm, flex: 1, lineHeight: 18 },
