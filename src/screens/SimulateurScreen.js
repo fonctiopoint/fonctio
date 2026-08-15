@@ -98,14 +98,77 @@ const ASSIETTE_CSG = 0.9825;
 const TAUX_RAFP = 0.05;
 const PLAFOND_RAFP = 0.20;
 
-function estimerNet(traitementBrut, primesBrut) {
+function detailNet(traitementBrut, primesBrut) {
   const t = Math.max(0, traitementBrut || 0);
   const p = Math.max(0, primesBrut || 0);
-  if (t + p === 0) return 0;
+  if (t + p === 0) return { pension: 0, csgCrds: 0, rafp: 0, net: 0 };
   const pension = t * TAUX_PENSION;
   const csgCrds = (t + p) * ASSIETTE_CSG * TAUX_CSG_CRDS;
   const rafp = Math.min(p, t * PLAFOND_RAFP) * TAUX_RAFP;
-  return Math.max(0, Math.round(t + p - pension - csgCrds - rafp));
+  return {
+    pension: Math.round(pension),
+    csgCrds: Math.round(csgCrds),
+    rafp: Math.round(rafp),
+    net: Math.max(0, Math.round(t + p - pension - csgCrds - rafp)),
+  };
+}
+function estimerNet(t, p) { return detailNet(t, p).net; }
+
+// ── Jour de carence ─────────────────────────────────────────────────────────
+// Un jour non rémunéré au début de chaque congé de maladie ordinaire, pour les
+// titulaires comme pour les contractuels (art. 115 de la loi de finances 2018).
+// Il ne s'applique PAS au CLM, au CLD, au CGM, au CITIS et aux accidents du
+// travail, ni aux congés liés à la maternité.
+// Deux exceptions à connaître, non modélisées car elles dépendent de
+// l'historique de l'agent : en affection de longue durée, la carence n'est
+// retenue qu'une fois par période de trois ans ; et elle ne s'applique pas au
+// second arrêt lorsque la reprise entre deux congés de même cause n'a pas
+// dépassé 48 heures.
+const REGIMES_AVEC_CARENCE = ['cmo', 'cmo_c'];
+
+// ── Indemnités journalières de la sécurité sociale ──────────────────────────
+// Réservées aux agents CONTRACTUELS : les titulaires relèvent d'un régime
+// spécial et ne perçoivent pas d'IJ — quand leurs droits statutaires sont
+// épuisés, ils basculent en disponibilité d'office, sans traitement.
+//  · Maladie : 50 % du salaire journalier de base. Le salaire de base est la
+//    somme des trois derniers bruts divisée par 91,25, et il est plafonné à
+//    1,4 SMIC depuis le 1er avril 2025 (c'était 1,8 SMIC avant).
+//  · Accident du travail : 60 % du salaire journalier pendant 28 jours, puis
+//    80 % à partir du 29e.
+const SMIC_MENSUEL = 1867.02;      // au 1er juin 2026
+const PLAFOND_IJ_MALADIE = 1.4;    // en nombre de SMIC mensuels
+const TAUX_IJ_MALADIE = 0.50;
+const TAUX_IJ_AT_DEBUT = 0.60;
+const TAUX_IJ_AT_APRES = 0.80;
+const JOURS_MOIS = 30;
+
+function estimerIJ({ regime, brutMensuelHabituel, moisDArret }) {
+  const brut = Math.max(0, brutMensuelHabituel || 0);
+  if (brut === 0) return 0;
+  if (regime === 'at_c') {
+    const sjb = brut / 30.42;
+    const taux = moisDArret === 1 ? TAUX_IJ_AT_DEBUT : TAUX_IJ_AT_APRES;
+    return Math.round(sjb * taux * JOURS_MOIS);
+  }
+  const basePlafonnee = Math.min(brut, SMIC_MENSUEL * PLAFOND_IJ_MALADIE);
+  const sjb = (basePlafonnee * 3) / 91.25;
+  return Math.round(sjb * TAUX_IJ_MALADIE * JOURS_MOIS);
+}
+
+// Nombre de mois pendant lesquels l'employeur verse encore quelque chose —
+// sert à savoir depuis combien de temps l'agent est aux seules IJ, le taux de
+// l'IJ accident du travail passant de 60 à 80 % après 28 jours.
+function moisMaintenus(regime, versant, anciennete) {
+  if (regime === 'at_c') {
+    const a = (ANCIENNETES_AT[versant] || ANCIENNETES_AT.fpe).find(x => x.id === anciennete);
+    return a ? a.plein : 1;
+  }
+  if (regime === 'cmo_c') {
+    if (versant === 'fpe') return 12;
+    const a = ANCIENNETES_PROGRESSIF.find(x => x.id === anciennete);
+    return a ? a.plein + a.demi : 0;
+  }
+  return 0;
 }
 
 // ── Moteur de calcul ────────────────────────────────────────────────────────
@@ -203,11 +266,41 @@ function calculerProjection({ statut, versant, traitement, primes, quotite, regi
       }
     }
 
-    const total = Math.round(traitMaintenu + primesMaintenues);
+    // Jour de carence : un jour retiré sur le premier mois du congé, et
+    // seulement pour les régimes concernés.
+    let carence = 0;
+    if (i === 1 && REGIMES_AVEC_CARENCE.includes(regime)) {
+      carence = Math.round((traitMaintenu + primesMaintenues) / JOURS_MOIS);
+      const retire = Math.min(carence, traitMaintenu + primesMaintenues);
+      if (traitMaintenu >= retire) traitMaintenu -= retire;
+      else { primesMaintenues -= (retire - traitMaintenu); traitMaintenu = 0; }
+      carence = retire;
+    }
+
+    // Indemnités journalières : uniquement les contractuels, et uniquement
+    // quand l'employeur ne verse plus rien.
+    let ij = 0;
+    if (statut === 'contractuel' && traitMaintenu + primesMaintenues === 0) {
+      const moisDepuisFinMaintien = i - moisMaintenus(regime, versant, anciennete);
+      ij = estimerIJ({ regime, brutMensuelHabituel: tBase + pBase, moisDArret: moisDepuisFinMaintien });
+      label = regime === 'at_c' ? 'IJ accident du travail' : 'IJ maladie';
+    }
+
+    const brutEmployeur = Math.round(traitMaintenu + primesMaintenues);
+    const total = brutEmployeur + ij;
     const totalBase = Math.round(tBase + pBase);
     const pct = totalBase > 0 ? Math.round((total / totalBase) * 100) : 0;
-    const net = estimerNet(traitMaintenu, primesMaintenues);
-    result.push({ mois: i, total, net, traitMaintenu: Math.round(traitMaintenu), primesMaintenues: Math.round(primesMaintenues), label, couleur, pct });
+    // Les IJ ne supportent ni retenue pour pension ni RAFP : on n'applique le
+    // calcul de net qu'à ce que verse l'employeur, et on ajoute les IJ telles
+    // quelles (elles sont soumises à CSG/CRDS à taux réduit, non modélisé).
+    const d = detailNet(traitMaintenu, primesMaintenues);
+    const net = d.net + ij;
+    result.push({
+      mois: i, total, net, ij, carence,
+      traitMaintenu: Math.round(traitMaintenu),
+      primesMaintenues: Math.round(primesMaintenues),
+      retenues: d, label, couleur, pct,
+    });
   }
   return result;
 }
@@ -629,6 +722,49 @@ export default function SimulateurScreen({ navigation }) {
               </View>
             </View>
 
+            {/* Détail chiffré du mois le plus défavorable */}
+            {(() => {
+              const m = projection[projection.length - 1];
+              const L = ({ label, val, negatif, fort }) => (
+                <View style={styles.detailRow}>
+                  <Text style={[styles.detailLabel, { color: fort ? theme.textPrimary : theme.textSecondary }, fort && { fontWeight: '700' }]}>{label}</Text>
+                  <Text style={[styles.detailVal, { color: negatif ? Colors.danger : (fort ? theme.textPrimary : theme.textSecondary) }, fort && { fontWeight: '700' }]}>
+                    {negatif ? '-' : ''}{Math.abs(val).toLocaleString('fr-FR')} €
+                  </Text>
+                </View>
+              );
+              return (
+                <View style={[styles.chartCard, { backgroundColor: theme.bgCard, borderColor: theme.border }]}>
+                  <Text style={[styles.chartTitle, { color: theme.textPrimary }]}>
+                    Détail du mois {m.mois} — le plus défavorable
+                  </Text>
+                  <View style={styles.detailBlock}>
+                    {m.traitMaintenu > 0 && <L label="Traitement maintenu" val={m.traitMaintenu} />}
+                    {m.primesMaintenues > 0 && <L label="Primes maintenues" val={m.primesMaintenues} />}
+                    {m.ij > 0 && <L label={regime === 'at_c' ? 'IJ accident du travail' : 'IJ maladie (sécurité sociale)'} val={m.ij} />}
+                    {m.total === 0 && <L label="Aucun versement" val={0} />}
+                    <View style={[styles.detailSep, { backgroundColor: theme.border }]} />
+                    <L label="Total brut" val={m.total} fort />
+                    {m.retenues.pension > 0 && <L label="Retenue pension (11,10 %)" val={m.retenues.pension} negatif />}
+                    {m.retenues.csgCrds > 0 && <L label="CSG + CRDS (9,70 %)" val={m.retenues.csgCrds} negatif />}
+                    {m.retenues.rafp > 0 && <L label="RAFP (5 % des primes)" val={m.retenues.rafp} negatif />}
+                    <View style={[styles.detailSep, { backgroundColor: theme.border }]} />
+                    <L label="Net estimé" val={m.net} fort />
+                  </View>
+                  {projection[0].carence > 0 && (
+                    <Text style={[styles.detailNote, { color: theme.textMuted }]}>
+                      Un jour de carence de {projection[0].carence.toLocaleString('fr-FR')} € a été retenu sur le premier mois. Il ne s'applique pas si vous êtes en affection de longue durée déjà décomptée depuis moins de trois ans, ni si vous reprenez moins de 48 heures entre deux arrêts de même cause.
+                    </Text>
+                  )}
+                  {m.ij > 0 && (
+                    <Text style={[styles.detailNote, { color: theme.textMuted }]}>
+                      Les indemnités journalières sont estimées à partir de votre brut habituel{regime === 'at_c' ? ', à 60 % le premier mois puis 80 %' : ', à 50 % d’un salaire de base plafonné à 1,4 SMIC'}. Le montant réel dépend de vos trois derniers bulletins de paie.
+                    </Text>
+                  )}
+                </View>
+              );
+            })()}
+
             {/* Ce que recouvre — et ne recouvre pas — l'estimation nette */}
             <View style={[styles.infoCard, { backgroundColor: theme.bgWarm, borderColor: theme.border }]}>
               <Ionicons name="calculator-outline" size={16} color={Colors.sky} />
@@ -775,6 +911,12 @@ const styles = StyleSheet.create({
   resumeVal: { fontSize: 16, fontWeight: '700', color: 'white', textAlign: 'center' },
   resumeSub: { fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' },
   resumeNet: { fontSize: 10, fontWeight: '600', color: 'rgba(255,255,255,0.72)', textAlign: 'center', marginTop: 3 },
+  detailBlock: { marginTop: 10 },
+  detailRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', paddingVertical: 5 },
+  detailLabel: { fontSize: 13, flex: 1, paddingRight: 10 },
+  detailVal: { fontSize: 13.5, fontVariant: ['tabular-nums'] },
+  detailSep: { height: 1, marginVertical: 6, opacity: 0.7 },
+  detailNote: { fontSize: 11.5, lineHeight: 16, marginTop: 10, fontStyle: 'italic' },
   resumeSep: { width: 0.5, height: 44, backgroundColor: 'rgba(255,255,255,0.15)' },
   dureeBanner: { borderRadius: Radius.md, padding: Spacing.md, flexDirection: 'row', gap: 8, alignItems: 'center', borderWidth: 1 },
   dureeText: { fontSize: Typography.sm, flex: 1, lineHeight: 18 },
