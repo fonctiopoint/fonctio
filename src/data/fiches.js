@@ -756,7 +756,7 @@ export const MODULES = [
         recours: 'Contestation du licenciement devant le tribunal administratif (2 mois).',
         sources: [
           { texte: 'Décret n° 86-83 du 17 janvier 1986 (FPE contractuels — reclassement)' },
-          { texte: 'Décret n° 88-145 art. 13 et 17-2 (FPT contractuels)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000699407' },
+          { texte: 'Décret n° 88-145 art. 13 et 17-2 (FPT contractuels)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000871608' },
           { texte: 'Décret n° 91-155 du 6 février 1991 (FPH contractuels — inaptitude et fin de contrat)' },
           { texte: 'Service-public.fr — reclassement contractuel', url: 'https://www.service-public.gouv.fr/particuliers/vosdroits/F34670' },
         ],
@@ -769,18 +769,19 @@ export const MODULES = [
         resume: 'Le CDI dans la fonction publique confère des droits renforcés : protection contre le licenciement, portabilité en cas de restructuration, droits à la formation.',
         ciblePublic: 'Agents contractuels en CDI de droit public.',
         droits: [
-          { label: 'Accès au CDI', valeur: 'Après 6 ans', detail: '6 ans de services continus sur même emploi → transformation possible en CDI.' },
+          { label: 'Accès au CDI', valeur: 'Après 6 ans, de droit', detail: '6 années de services publics effectifs accomplies au cours des 8 années précédentes, sans changement de catégorie hiérarchique. À cette échéance, l\'employeur DOIT vous proposer la transformation de votre contrat en CDI : ce n\'est pas une faveur à solliciter. Source : loi Sauvadet n° 2012-347 du 12 mars 2012, art. 21.' },
           { label: 'Portabilité', valeur: 'En cas de restructuration', detail: 'Si le service est supprimé, le CDI peut être transféré à un autre employeur public.' },
           { label: 'Protection licenciement', valeur: 'Renforcée', detail: 'Motifs précis, procédure contradictoire, avis de la CCP souvent requis.' },
         ],
         etapes: [
-          { num: 1, titre: 'Vérifier l\'ancienneté requise', texte: 'Pour bénéficier d\'un CDI, l\'agent doit justifier de 6 années de services continus sur un même emploi permanent auprès du même employeur public. Les CDD successifs comptent s\'ils ont été renouvelés sans interruption supérieure à quelques mois.' },
-          { num: 2, titre: 'Demander la transformation en CDI', texte: 'La transformation en CDI n\'est pas automatique. L\'agent doit en faire la demande auprès de son administration. En cas de refus non motivé, un recours est possible devant la commission consultative paritaire (CCP).' },
+          { num: 1, titre: 'Vérifier l\'ancienneté requise', texte: 'Il faut justifier de 6 années de services publics effectifs accomplies au cours des 8 années précédentes, auprès du même employeur, sans avoir changé de catégorie hiérarchique. Les contrats de projet sont exclus du décompte.' },
+          { num: 2, titre: 'L\'employeur doit vous le proposer', texte: 'À l\'échéance des 6 ans, la transformation du contrat en CDI est due : c\'est à l\'employeur de vous la proposer, vous n\'avez pas à la solliciter comme une faveur. Si rien ne vient, écrivez au service RH en visant l\'article 21 de la loi du 12 mars 2012 — un refus est contestable.' },
           { num: 3, titre: 'Signature du contrat', texte: 'Le CDI est formalisé par un écrit signé des deux parties. Il précise les fonctions, la rémunération et les conditions de travail.' },
         ],
-        recours: 'Refus de transformation en CDI contestable devant le tribunal administratif.',
+        recours: 'Absence de proposition de CDI à l\'échéance des 6 ans, ou refus : recours gracieux auprès de l\'employeur, puis tribunal administratif. La commission consultative paritaire peut être saisie en appui.',
         sources: [
-          { texte: 'Art. L. 332-23 CGFP (CDI)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000044416551' },
+          { texte: 'Art. L. 332-23 CGFP (accès au CDI)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000044416551' },
+          { texte: 'Loi n° 2012-347 du 12 mars 2012 dite loi Sauvadet, art. 21 (CDIsation de plein droit)' },
         ],
       },
     ],
@@ -872,7 +873,8 @@ export const MODULES = [
           { label: 'Conditions', valeur: 'Taux ≥ 10 %', detail: 'L\'ATI est accordée si le taux d\'incapacité permanente partielle (IPP) est d\'au moins 10 %.' },
           { label: 'Montant', valeur: 'Proportionnel au taux IPP', detail: 'Calculé en pourcentage du traitement indiciaire brut.' },
           { label: 'Cumul', valeur: 'Avec le traitement', detail: 'L\'ATI est cumulable avec le traitement en activité. Elle se transforme en rente d\'invalidité à la retraite.' },
-          { label: 'Délai de demande', valeur: '1 an après consolidation', detail: 'Passé ce délai, les droits peuvent être perdus.' },
+          { label: 'Délai de demande', valeur: '1 an', detail: 'Le délai d\'un an court à compter du jour où vous REPRENEZ vos fonctions après la consolidation — pas à compter de la consolidation elle-même. Passé ce délai, les droits sont perdus.' },
+          { label: 'Durée initiale', valeur: '5 ans', detail: 'L\'ATI est d\'abord accordée pour 5 ans. À l\'issue de cette période, le conseil médical réexamine votre taux d\'invalidité : l\'allocation est alors soit attribuée sans limitation de durée, soit supprimée si l\'invalidité a disparu.' },
         ],
         etapes: [
           { num: 1, titre: 'Consolidation des blessures', texte: 'Le médecin constate la consolidation : l\'état de santé est stabilisé.' },
@@ -883,7 +885,8 @@ export const MODULES = [
         pieges: [
           'Ne pas confondre ATI (en activité) et rente d\'invalidité (à la retraite) — ce sont deux dispositifs distincts qui se suivent.',
           'L\'ATI est imposable.',
-          'Le délai d\'un an est impératif — ne pas attendre.',
+          'Le délai d\'un an court à compter de la REPRISE des fonctions après consolidation, pas de la consolidation elle-même. La nuance vous donne un peu d\'air, mais le délai reste impératif.',
+          'L\'ATI n\'est pas acquise définitivement : votre taux est réexaminé au bout de 5 ans. À l\'issue de ce réexamen, elle est soit attribuée sans limitation de durée, soit supprimée. Préparez cette échéance.',
         ],
         recours: 'Contestation du taux d\'IPP devant le conseil médical. Recours contentieux.',
         sources: [
@@ -901,8 +904,11 @@ export const MODULES = [
         ciblePublic: 'Agents contractuels de droit public des trois versants.',
         droits: [
           { label: 'Régime applicable', valeur: 'Régime général SS', detail: 'Les contractuels sont affiliés à la CPAM pour les AT/MP.' },
-          { label: 'Maintien du traitement', valeur: 'Selon ancienneté', detail: 'L\'administration complète les IJ de la SS pour atteindre le plein traitement pendant une durée dépendant de l\'ancienneté.' },
-          { label: 'CITIS', valeur: '❌ Non applicable', detail: 'Les contractuels ne bénéficient pas du CITIS.' },
+          { label: 'Maintien du plein traitement', valeur: '1 mois dès l\'embauche', detail: 'L\'employeur porte les indemnités journalières au niveau du plein traitement pendant 1 mois dès l\'entrée en fonctions, puis 2 mois après 2 ans de services et 3 mois après 3 ans. Source : Décret 86-83 art. 14.', versants: ['fpe'] },
+          { label: 'Maintien du plein traitement', valeur: '1 mois dès l\'embauche', detail: 'L\'employeur porte les indemnités journalières au niveau du plein traitement pendant 1 mois dès l\'entrée en fonctions, puis 2 mois après SEULEMENT 1 an de services et 3 mois après 3 ans. Le seuil est plus favorable qu\'à l\'État, qui exige 2 ans. Source : Décret 88-145 art. 9.', versants: ['fpt'] },
+          { label: 'Maintien du plein traitement', valeur: '1 mois dès l\'embauche', detail: 'L\'employeur porte les indemnités journalières au niveau du plein traitement pendant 1 mois dès l\'entrée en fonctions, puis 2 mois après 1 an de services et 3 mois après 3 ans. Source : Décret 91-155 art. 12.', versants: ['fph'] },
+          { label: 'Ensuite', valeur: 'IJ seules', detail: 'Passé cette période, vous ne percevez plus que les indemnités journalières de la sécurité sociale — versées par l\'administration si vous êtes à temps complet ou en contrat de plus d\'un an, par la CPAM sinon.' },
+          { label: 'CITIS', valeur: '❌ Non applicable', detail: 'Les contractuels ne bénéficient pas du CITIS, réservé aux titulaires. C\'est la principale différence de traitement entre les deux statuts en matière d\'accident de service.' },
         ],
         etapes: [
           { num: 1, titre: 'Déclaration à l\'administration', texte: 'Dans les 24 heures.' },
@@ -911,12 +917,14 @@ export const MODULES = [
           { num: 4, titre: 'Prise en charge', texte: 'Si reconnu : frais médicaux à 100 % et IJ AT majorées. L\'administration complète selon l\'ancienneté.' },
         ],
         pieges: [
-          'Pas de CITIS pour les contractuels — la durée de maintien est limitée selon l\'ancienneté.',
-          'En CDD, le congé AT ne peut pas dépasser la durée du contrat.',
+          'Pas de CITIS pour les contractuels : le plein traitement n\'est maintenu que 1 à 3 mois selon l\'ancienneté, là où un titulaire le conserve sans limite de durée.',
+          { texte: 'Le seuil territorial est à 1 an de services pour passer à 2 mois — pas 2 ans comme à l\'État. Si on vous applique le barème de l\'État, faites valoir le Décret 88-145 art. 9.', versants: ['fpt'] },
+          'En CDD, le congé pour accident du travail ne peut pas dépasser la durée du contrat.',
+          'Déclarez l\'accident à votre employeur dans les 24 heures ET à la CPAM : les deux démarches sont indépendantes, et oublier la seconde peut retarder toute la prise en charge.',
         ],
         recours: 'Contestation CPAM devant le tribunal judiciaire (pôle social). Recours administratif contre l\'administration.',
         sources: [
-          { texte: 'Décret n° 86-83 du 17 janvier 1986 (FPE contractuels)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000339494' },
+          { texte: 'Décret n° 86-83 du 17 janvier 1986 (FPE contractuels)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000699956' },
           { texte: 'Décret n° 88-145 du 15 février 1988 (FPT contractuels)' },
           { texte: 'Décret n° 91-155 du 6 février 1991 art. 12 (FPH contractuels — AT/MP)' },
           { texte: 'Livre IV du Code de la sécurité sociale (régime général AT/MP)' },
@@ -1012,11 +1020,11 @@ export const MODULES = [
         titre: 'Majoration pour tierce personne',
         categorie: 'Inaptitude & Reclassement',
         chips: ['Titulaires', 'Invalidité grave', 'Complément pension'],
-        resume: 'Certains agents invalides ne peuvent plus accomplir seuls les gestes ordinaires de la vie. Quand l\'assistance permanente d\'une autre personne devient nécessaire, une majoration de 40 % s\'ajoute à la pension.',
+        resume: 'Certains agents invalides ne peuvent plus accomplir seuls les gestes ordinaires de la vie. Quand l\'assistance permanente d\'une autre personne devient nécessaire, une majoration forfaitaire s\'ajoute à la pension — elle est cumulable avec la rente viagère d\'invalidité.',
         ciblePublic: 'Fonctionnaires titulaires en retraite pour invalidité ou reconnus invalides avec un taux d\'invalidité très élevé.',
         droits: [
           { label: 'Éligibilité', valeur: 'Invalidité absolue et définitive', detail: 'L\'agent doit être dans l\'impossibilité absolue et définitive d\'exercer une quelconque activité professionnelle ET avoir besoin de l\'assistance d\'une tierce personne pour les actes ordinaires de la vie.' },
-          { label: 'Montant', valeur: '40 % de la pension', detail: 'La majoration est égale à 40 % de la pension principale, avec un plancher minimal fixé par décret.' },
+          { label: 'Montant', valeur: 'Forfait, pas un pourcentage', detail: 'Contrairement au régime général des salariés du privé, la majoration des fonctionnaires n\'est PAS un pourcentage de la pension. C\'est un montant forfaitaire, fixé par référence à la valeur de l\'indice 227 au 1er janvier 2004 et revalorisé chaque année comme les pensions d\'invalidité de la sécurité sociale. Il est donc identique quel que soit le niveau de votre pension. Source : Art. L. 30 bis du Code des pensions civiles.' },
           { label: 'Cumul', valeur: 'Avec la pension', detail: 'La majoration s\'ajoute à la pension d\'invalidité ou de retraite pour invalidité.' },
           { label: 'Renouvellement', valeur: 'Réexamen périodique', detail: 'L\'état de santé est réexaminé périodiquement par le conseil médical pour vérifier le maintien des conditions d\'éligibilité.' },
         ],
@@ -1030,12 +1038,12 @@ export const MODULES = [
         pieges: [
           'La majoration pour tierce personne est distincte de l\'Allocation Personnalisée d\'Autonomie (APA) — les deux peuvent se cumuler sous conditions.',
           'Ne pas confondre avec l\'Allocation Tierce Personne de la Sécurité sociale, qui relève d\'un régime différent pour les contractuels.',
-          'Le montant de 40 % s\'applique à la pension brute, pas au net perçu. Vérifier le calcul sur l\'avis de paiement.',
+          '⚠️ Beaucoup de sources annoncent « 40 % de la pension » : c\'est la règle du régime général des salariés du privé, elle ne s\'applique pas aux fonctionnaires. La majoration est ici forfaitaire — un agent à petite pension touche donc le même montant qu\'un agent à pension élevée.',
           'En cas de décès du bénéficiaire, la majoration ne se transmet pas aux ayants droit — contrairement à la pension de réversion.',
         ],
         recours: 'Refus de la majoration ou montant contesté : recours gracieux auprès du SRE ou de la CNRACL, puis tribunal administratif.',
         sources: [
-          { texte: 'Art. L. 30 et L. 30 bis Code des pensions civiles (majoration tierce personne FPE)' },
+          { texte: 'Art. L. 30 bis Code des pensions civiles (majoration pour tierce personne — montant forfaitaire)', url: 'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000028498346' },
           { texte: 'Art. 34 Décret n° 2003-1306 du 26 décembre 2003 (CNRACL)' },
         ],
       },
@@ -1814,8 +1822,11 @@ export const MODULES = [
         resume: 'La CNRACL gère la retraite des fonctionnaires territoriaux et hospitaliers. La réforme du 14 avril 2023 a modifié les règles de départ (âge légal porté à 64 ans, 43 annuités pour le taux plein).',
         ciblePublic: 'Fonctionnaires titulaires de la FPT et de la FPH.',
         droits: [
-          { label: 'Âge légal de départ', valeur: '64 ans', detail: 'Depuis la réforme du 14 avril 2023. Départ anticipé possible pour carrière longue, handicap ou invalidité.' },
-          { label: 'Durée de cotisation', valeur: '43 ans (172 trimestres)', detail: 'Pour une pension à taux plein. Progressif selon l\'année de naissance.' },
+          { label: '⚠️ Calendrier suspendu', valeur: 'LFSS 2026', detail: 'La loi de financement de la sécurité sociale pour 2026, promulguée fin décembre 2025, a GELÉ la montée en charge de la réforme de 2023. Les repères ci-dessous ne sont donc plus ceux annoncés en 2023 : vérifiez votre génération avant toute projection.' },
+          { label: 'Âge légal — générations 1964 à 1968', valeur: '62 ans et 9 mois', detail: 'L\'âge légal est gelé à 62 ans et 9 mois à compter du 1er septembre 2026 et jusqu\'en janvier 2028. Ces générations partent un trimestre plus tôt que ne le prévoyait le calendrier de 2023.' },
+          { label: 'Âge légal — à partir de 1969', valeur: '64 ans', detail: 'La cible de 64 ans s\'applique aux personnes nées à compter du 1er janvier 1969 — et non 1968 comme le prévoyait la réforme de 2023.' },
+          { label: 'Durée de cotisation', valeur: '43 ans (172 trimestres)', detail: 'Les 43 ans s\'appliquent aux personnes nées à compter du 1er janvier 1966, et non 1965 comme initialement prévu. Pour les générations antérieures, la durée reste inférieure et progressive.' },
+          { label: 'Départ anticipé', valeur: 'Carrière longue, handicap, invalidité', detail: 'Ces dispositifs restent ouverts indépendamment de l\'âge légal.' },
           { label: 'Taux de pension', valeur: '75 % du dernier traitement', detail: '75 % du traitement indiciaire brut des 6 derniers mois. Primes exclues.' },
           { label: 'Minimum garanti', valeur: 'Protection plancher', detail: 'Si la pension calculée est inférieure au minimum garanti, ce dernier s\'applique.' },
         ],
@@ -1832,7 +1843,8 @@ export const MODULES = [
         recours: 'Contestation du montant devant la CNRACL. Recours gracieux puis tribunal administratif.',
         sources: [
           { texte: 'Décret n° 2003-1306 du 26 décembre 2003 (CNRACL)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000237342' },
-          { texte: 'Loi n° 2023-270 du 14 avril 2023 (réforme retraites)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000047528765' },
+          { texte: 'Loi n° 2023-270 du 14 avril 2023 (réforme des retraites)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000047528765' },
+          { texte: '🆕 Loi n° 2025-1403 du 30 décembre 2025 — LFSS 2026 (suspension du calendrier de la réforme 2023)' },
         ],
       },
       {
@@ -1843,9 +1855,10 @@ export const MODULES = [
         resume: 'Le Service des Retraites de l\'État gère la pension des fonctionnaires civils de l\'État. Les règles sont proches de la CNRACL mais relèvent d\'un régime distinct.',
         ciblePublic: 'Fonctionnaires titulaires de la FPE.',
         droits: [
-          { label: 'Âge légal de départ', valeur: '64 ans', detail: 'Identique à la CNRACL depuis 2023.' },
-          { label: 'Taux de pension', valeur: '75 % du dernier traitement', detail: 'Calculé sur le traitement indiciaire brut des 6 derniers mois.' },
-          { label: 'Catégorie active', valeur: 'Départ anticipé possible', detail: 'Certains emplois permettent un départ à 57 ans.' },
+          { label: '⚠️ Calendrier suspendu', valeur: 'LFSS 2026', detail: 'La loi de financement de la sécurité sociale pour 2026 a gelé la montée en charge de la réforme de 2023. L\'âge légal est bloqué à 62 ans et 9 mois pour les générations 1964 à 1968 ; les 64 ans ne s\'appliquent qu\'à partir de la génération 1969.' },
+          { label: 'Taux de pension', valeur: '75 % du dernier traitement', detail: 'Calculé sur le traitement indiciaire brut détenu depuis au moins 6 mois. Les primes n\'entrent pas dans ce calcul — elles relèvent du RAFP.' },
+          { label: 'Catégorie active', valeur: '59 ans, pas 57', detail: 'La réforme de 2023 a relevé l\'âge de départ anticipé des catégories actives de 57 à 59 ans, progressivement. Avec le gel de la LFSS 2026, la borne des 59 ans s\'applique aux agents nés en 1974 et après, contre 1973 dans le calendrier initial.' },
+          { label: 'Durée de services actifs', valeur: '17 ans, inchangée', detail: 'La condition de durée de services en catégorie active n\'a pas été modifiée par la réforme, pas plus que l\'âge d\'annulation de la décote.' },
         ],
         etapes: [
           { num: 1, titre: "Consulter son relevé de carrière", texte: "Disponible sur info-retraite.fr. Vérifier la cohérence et signaler toute anomalie à la DRH sans attendre." },
@@ -1860,7 +1873,8 @@ export const MODULES = [
         recours: 'Contestation : recours gracieux auprès du SRE, puis tribunal administratif.',
         sources: [
           { texte: 'Code des pensions civiles et militaires de retraite', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000006063009' },
-          { texte: 'Loi n° 2023-270 du 14 avril 2023 (réforme retraites)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000047528765' },
+          { texte: 'Loi n° 2023-270 du 14 avril 2023 (réforme des retraites)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000047528765' },
+          { texte: '🆕 Loi n° 2025-1403 du 30 décembre 2025 — LFSS 2026 (suspension du calendrier de la réforme 2023)' },
         ],
       },
       {
@@ -1871,9 +1885,11 @@ export const MODULES = [
         resume: 'Un fonctionnaire définitivement inapte peut être admis à la retraite pour invalidité, sans condition d\'âge ni de durée de service.',
         ciblePublic: 'Fonctionnaires titulaires dans l\'impossibilité permanente de continuer leurs fonctions.',
         droits: [
-          { label: 'Âge', valeur: 'Aucune condition', detail: 'La retraite pour invalidité peut être accordée à tout âge.' },
-          { label: 'Taux de pension', valeur: '50 % minimum', detail: 'Si l\'invalidité résulte de l\'exercice des fonctions.' },
-          { label: 'Majoration pour tierce personne', valeur: '+ 40 % de la pension', detail: 'Si l\'état de santé nécessite l\'assistance constante d\'une tierce personne. Voir fiche dédiée.' },
+          { label: 'Âge', valeur: 'Aucune condition', detail: 'La retraite pour invalidité peut être accordée à tout âge, sans condition de durée de services.' },
+          { label: 'Pension minimale', valeur: '50 % si invalidité ≥ 60 %', detail: 'Lorsque le taux global d\'invalidité atteint au moins 60 %, la pension ne peut pas être inférieure à 50 % du traitement de référence, et sans décote. Attention : ce plancher tient au TAUX d\'invalidité, pas au fait que l\'invalidité soit imputable au service.' },
+          { label: 'Si imputable au service', valeur: 'Rente viagère en plus', detail: 'L\'imputabilité au service n\'améliore pas le plancher : elle ouvre une rente viagère d\'invalidité (RVI) qui S\'AJOUTE à la pension. Son montant s\'obtient en multipliant le taux d\'invalidité par le traitement détenu depuis au moins 6 mois. Elle est versée à vie et revalorisée.' },
+          { label: 'Circonstances exceptionnelles', valeur: 'Jusqu\'à 80 %', detail: 'Pour une invalidité d\'au moins 60 % résultant de circonstances exceptionnelles, le total pension + rente viagère est porté à 80 % du traitement de référence.' },
+          { label: 'Majoration pour tierce personne', valeur: 'Forfait, cumulable', detail: 'Si votre état nécessite l\'assistance constante d\'une autre personne, une majoration forfaitaire s\'ajoute — cumulable avec la pension et la rente viagère. Voir la fiche dédiée.' },
         ],
         etapes: [
           { num: 1, titre: "Saisine du conseil médical", texte: "Le conseil médical (formation plénière) est saisi pour constater l'inaptitude définitive. Le médecin agréé peut être sollicité au préalable." },
@@ -1887,7 +1903,8 @@ export const MODULES = [
         ],
         recours: 'Contestation : recours gracieux, puis tribunal administratif.',
         sources: [
-          { texte: 'Art. L. 29 Code des pensions civiles (retraite invalidité FPE)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000006063009' },
+          { texte: 'Art. L. 27 à L. 37 Code des pensions civiles (invalidité — FPE)', url: 'https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000006070302/LEGISCTA000006134999/' },
+          { texte: 'Décret n° 2003-1306 du 26 décembre 2003 (invalidité — FPT et FPH, régime CNRACL)' },
         ],
       },
       {

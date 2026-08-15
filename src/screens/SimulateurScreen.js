@@ -57,24 +57,32 @@ const ANCIENNETES_PROGRESSIF = [
   { id: '3ans',       label: '≥ 3 ans', plein: 3, demi: 3 },
 ];
 
-// Accident du travail des contractuels : l'employeur complète les IJ jusqu'au
+// Accident du travail des contractuels : l'employeur porte les IJ au niveau du
 // plein traitement pendant une durée qui dépend de l'ancienneté — ce n'est PAS
-// un plein traitement illimité. Décret 86-83 art. 14 (FPE) et 88-145 (FPT) :
-// 1 mois dès l'entrée, 2 mois après 2 ans, 3 mois après 3 ans.
-// Décret 91-155 art. 12 (FPH) : 1 mois dès l'entrée, 2 mois après 1 an, 3 après 3 ans.
+// un plein traitement illimité. Les seuils diffèrent selon le versant :
+//  · FPE — Décret 86-83 art. 14 : 1 mois dès l'entrée, 2 mois après DEUX ans,
+//    3 mois après trois ans.
+//  · FPT — Décret 88-145 art. 9 : 1 mois dès l'entrée, 2 mois après UN an,
+//    3 mois après trois ans.
+//  · FPH — Décret 91-155 art. 12 : mêmes seuils que la FPT.
+// La territoriale s'aligne donc sur l'hospitalière, pas sur l'État : un
+// contractuel territorial avec 18 mois d'ancienneté a droit à 2 mois, là où
+// son homologue de l'État n'en a qu'un.
+const AT_PALIERS_ETAT = [
+  { id: 'moins2ans', label: 'Moins de 2 ans', plein: 1 },
+  { id: '2a3ans',    label: '2 à 3 ans',      plein: 2 },
+  { id: 'plus3ans',  label: '3 ans et plus',  plein: 3 },
+];
+const AT_PALIERS_1AN = [
+  { id: 'moins1an',  label: "Moins d'un an",  plein: 1 },
+  { id: '1a3ans',    label: '1 à 3 ans',      plein: 2 },
+  { id: 'plus3ans',  label: '3 ans et plus',  plein: 3 },
+];
 const ANCIENNETES_AT = {
-  fpe: [
-    { id: 'moins2ans', label: 'Moins de 2 ans', plein: 1 },
-    { id: '2a3ans',    label: '2 à 3 ans',      plein: 2 },
-    { id: 'plus3ans',  label: '3 ans et plus',  plein: 3 },
-  ],
-  fph: [
-    { id: 'moins1an',  label: "Moins d'un an",  plein: 1 },
-    { id: '1a3ans',    label: '1 à 3 ans',      plein: 2 },
-    { id: 'plus3ans',  label: '3 ans et plus',  plein: 3 },
-  ],
+  fpe: AT_PALIERS_ETAT,
+  fpt: AT_PALIERS_1AN,
+  fph: AT_PALIERS_1AN,
 };
-ANCIENNETES_AT.fpt = ANCIENNETES_AT.fpe;
 
 // ── Estimation du net ───────────────────────────────────────────────────────
 // Ordre de grandeur, pas un calcul de paie. Trois prélèvements structurants :
