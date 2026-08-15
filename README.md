@@ -1,11 +1,11 @@
 # Fonctio — Guide de mise en production
 
 ## L'app en chiffres
-- **6 modules** couvrant tout le droit de la santé dans la FP
-- **30+ fiches** pédagogiques sourcées sur Légifrance
-- **1 simulateur** complet (CMO, CLM, CLD, CITIS, TPT, contractuels)
-- **Réforme 2024 intégrée** (Décret n°2024-641 du 27 juin 2024)
-- Modèle **freemium** : app gratuite + module Retraite Pro (1,99€/mois)
+- **10 modules**, **43 fiches** sourcées sur Légifrance et le portail de la fonction publique
+- **Chaque réponse déclinée par versant** — État, Territoriale, Hospitalière
+- **1 simulateur** de rémunération : CMO, CLM, CLD, CITIS, TPT, contractuels — avec jour de carence, indemnités journalières et estimation du net
+- **À jour au 15 août 2026**, décret n° 2026-705 du 29 juillet inclus
+- Modèle **freemium** : app gratuite + module Retraite Pro (1,99 €/mois)
 
 ---
 
@@ -74,36 +74,58 @@ Fonctio — Droits des fonctionnaires
 
 ### Description courte (80 caractères max)
 ```
-Vos droits dans la fonction publique, clairement expliqués
+Vos droits quand la santé s'en mêle — dans votre versant
 ```
+*(55 caractères)*
 
 ### Description longue
 ```
-Fonctio est l'application de référence pour comprendre ses droits en tant qu'agent public.
+Arrêt maladie, longue maladie, accident de service, inaptitude, congé maternité : Fonctio vous dit ce à quoi vous avez droit, et le dit pour VOTRE versant.
 
-✅ 30+ fiches pédagogiques vérifiées et sourcées sur Légifrance
-✅ Simulateur de congés maladie (CMO, CLM, CLD, CITIS, TPT)
-✅ Droits des contractuels (FPE, FPT, FPH) — réforme 2024 intégrée
-✅ Accidents de service et maladies professionnelles
-✅ Inaptitude, reclassement professionnel
-✅ Médecine statutaire et secret médical
+Les règles ne sont pas les mêmes à l'État, dans une collectivité et à l'hôpital. Un contractuel hospitalier n'a pas les droits d'un contractuel de l'État. Un agent territorial en longue maladie ne touche pas le même pourcentage qu'un agent d'État. Fonctio est construite autour de ces différences, au lieu de les gommer.
+
+CE QUE VOUS Y TROUVEZ
+
+✅ 43 fiches sourcées sur Légifrance et le portail de la fonction publique
+✅ Chaque réponse déclinée pour l'État, la Territoriale et l'Hospitalière
+✅ Un simulateur de rémunération mois par mois — jour de carence, indemnités journalières, estimation du net
+✅ Congés maladie : CMO, CLM, CLD, temps partiel thérapeutique
+✅ Accidents de service, maladies professionnelles, CITIS
+✅ Inaptitude, reclassement, RQTH
+✅ Droits des contractuels, dans les trois versants
+✅ Congés familiaux : maternité, paternité, naissance, adoption, parental
+✅ Protection fonctionnelle, harcèlement, signalement
 
 POUR QUI ?
-— Fonctionnaires titulaires des 3 versants (État, Territorial, Hospitalier)
-— Agents contractuels (CDD, CDI)
-— Gestionnaires RH, représentants du personnel
+— Agents publics des trois versants, titulaires comme contractuels
+— Gestionnaires RH et représentants du personnel
+— Assistants de service social du personnel
 
 POURQUOI FONCTIO ?
-Comprendre ses droits ne devrait pas nécessiter de lire des décrets de 40 pages. 
-Fonctio traduit le droit en langage clair, avec les sources pour vérifier.
+Comprendre ses droits ne devrait pas obliger à lire un décret de quarante pages, ni à deviner si l'article trouvé en ligne s'applique vraiment à son versant. Fonctio traduit le droit en langage clair, indique la source, et signale les pièges — ceux qui coûtent un délai forclos ou plusieurs centaines d'euros.
 
-Sources : Code général de la fonction publique (CGFP), Légifrance, portail de la Fonction publique.
-Cette application est informative et ne remplace pas un conseil juridique.
+À JOUR
+Contenu vérifié au 15 août 2026, décret n° 2026-705 du 29 juillet inclus.
+
+Sources : Code général de la fonction publique, Légifrance, portail de la fonction publique.
+Application informative : elle ne remplace pas un conseil juridique.
 ```
 
 ### Mots-clés
 ```
-fonction publique, fonctionnaire, droits, congé maladie, CLM, CITIS, contractuel, reclassement
+fonction publique, fonctionnaire, agent public, contractuel, congé maladie, CLM, CLD, CITIS, arrêt de travail, inaptitude, reclassement, FPH, FPT, hospitalier, territorial
+```
+
+### Notes de version (texte du release)
+```
+Mise à jour majeure du contenu juridique.
+
+• Contenu vérifié fiche par fiche sur les trois versants
+• Décret du 29 juillet 2026 intégré : temps partiel thérapeutique et arrêts de travail
+• Nouveau : congé supplémentaire de naissance
+• Nouveau : se former pendant un congé de santé
+• Simulateur enrichi : jour de carence, indemnités journalières, estimation du net et détail mois par mois
+• Navigation resserrée en 10 rubriques
 ```
 
 ---
@@ -112,21 +134,44 @@ fonction publique, fonctionnaire, droits, congé maladie, CLM, CITIS, contractue
 
 ```
 fonctio/
-├── App.js                          # Point d'entrée
-├── app.json                        # Config Expo
+├── App.js                          # Point d'entrée + purge des favoris obsolètes
+├── app.json                        # Config Expo (permissions bloquées incluses)
+├── eas.json                        # Profils de build — versionCode géré en remote
 ├── src/
 │   ├── theme/index.js              # Couleurs, typo, espacement
-│   ├── navigation/AppNavigator.js  # Navigation tabs + stacks
-│   ├── data/fiches.js              # Tout le contenu juridique (30+ fiches)
+│   ├── navigation/AppNavigator.js  # Navigation + VersantContext
+│   ├── data/fiches.js              # Tout le contenu juridique (43 fiches, 10 modules)
+│   ├── utils/
+│   │   ├── storage.js              # Favoris, récents, réglages, purge
+│   │   └── SettingsContext.js      # Taille de police, thème
 │   └── screens/
-│       ├── HomeScreen.js           # Accueil avec accès rapide
-│       ├── FichesScreen.js         # Bibliothèque des modules
+│       ├── SplashScreen.js         # Splash animé
+│       ├── WelcomeScreen.js        # Choix du versant au premier lancement
+│       ├── HomeScreen.js           # Accueil, recherche, modules
 │       ├── ModuleScreen.js         # Liste des fiches d'un module
-│       ├── FicheDetailScreen.js    # Fiche pédagogique complète
-│       ├── SimulateurScreen.js     # Calculateur de droits interactif
+│       ├── FicheDetailScreen.js    # Fiche complète, filtrée par versant
+│       ├── SimulateurScreen.js     # Projection de rémunération brut/net
 │       ├── SearchScreen.js         # Recherche dans toutes les fiches
-│       └── ProfilScreen.js         # Profil, Pro, informations
+│       ├── ProfilScreen.js         # Profil, Pro, informations
+│       └── SettingsScreen.js       # Réglages
 ```
+
+### Le versant, principe central
+
+Le versant actif vient de `VersantContext`. Dans `fiches.js`, chaque entrée de
+`droits`, `etapes` et `pieges` accepte un tag `versants: ['fpt','fph']` ; sans
+tag, elle s'affiche partout. S'y ajoutent `versantNotes` pour l'encart « Pour
+vous » et trois formes de tableaux (`tableaux`, `tableauFpe`/`Fpt`/`Fph`, ou
+`tableau` avec un champ `versants`).
+
+Deux règles à ne jamais oublier :
+- `resume` et `ciblePublic` ne sont PAS filtrables — les rédiger en neutre.
+- Un `piege` est soit une chaîne, soit `{texte, versants}` : toute itération
+  doit normaliser, sinon on affiche `[object Object]`.
+
+⚠️ Le décret 2024-641 ne vise QUE la fonction publique de l'État. Ne jamais
+l'étendre à la territoriale ou à l'hospitalière, qui relèvent respectivement
+des décrets 87-602 / 88-145 et 88-386 / 91-155.
 
 ---
 
@@ -137,9 +182,41 @@ Toute la base de données des fiches est dans **`src/data/fiches.js`**.
 Pour modifier ou ajouter une fiche :
 1. Ouvrir `src/data/fiches.js`
 2. Trouver le module concerné dans `MODULES`
-3. Modifier le contenu de la fiche (titre, résumé, droits, étapes, pièges, sources)
-4. Tester avec `npm start`
-5. Recompiler avec `eas build` et publier une mise à jour
+3. Modifier le contenu (titre, résumé, droits, étapes, pièges, sources)
+4. **Vérifier les trois versants** — voir ci-dessous
+5. Tester avec `npm start`
+6. Recompiler avec `eas build` et publier une mise à jour
+
+### Contrôle avant publication
+
+Il n'y a pas de tests automatisés. Le réflexe qui rattrape l'essentiel est un
+script Node ponctuel qui parcourt les 43 fiches pour les 3 versants et vérifie :
+sections vides, tableau manquant, numérotation d'étapes trouée, `count` de
+module faux, `categorie` incohérente, piège non normalisé.
+
+```bash
+npx expo export --platform android --output-dir /tmp/check --clear
+```
+
+Ce bundle est le contrôle le plus proche d'un vrai build. Vérifier aussi
+l'absence de fichiers `*Name clash*` : le dossier est synchronisé OneDrive et
+des doublons apparaissent pendant les sessions d'édition intensive, en laissant
+l'original privé des dernières modifications.
+
+### Vérifier la signature avant d'envoyer un .aab
+
+L'app a été suspendue trois mois en 2026 pour un `.aab` signé avec une keystore
+qui ne correspondait pas à celle enregistrée par Google. Avant tout envoi :
+
+```bash
+keytool -printcert -jarfile chemin/vers/build.aab
+```
+
+Le SHA-1 obtenu doit être identique à celui du **certificat de clé
+d'importation** affiché dans la Play Console (Intégrité de l'application).
+EAS signe avec la keystore stockée sur ses serveurs — `eas.json` ne fixe aucun
+`credentialsSource`, donc les `.jks` présents localement ne sont PAS ceux
+utilisés par le build.
 
 ---
 
