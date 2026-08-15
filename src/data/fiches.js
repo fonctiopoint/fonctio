@@ -41,11 +41,14 @@ export const MODULES = [
         titre: 'Congé maladie ordinaire (CMO)',
         categorie: 'Santé & Congés maladie',
         chips: ['Titulaires', 'Contractuels', '90 % puis 50 %', 'Cure & congé d\'office'],
-        resume: 'Le CMO est le congé de base pour toute maladie. Il ouvre droit à un maintien du traitement à 90 % pendant 3 mois, puis à 50 % pendant 9 mois, dans une période de 12 mois consécutifs. La cure thermale prescrite et le congé d\'office décidé par l\'employeur relèvent du même régime — ils sont traités ici.',
-        ciblePublic: 'Fonctionnaires titulaires des trois versants (FPE, FPT, FPH) et agents contractuels (règles spécifiques selon versant — réforme 2024 pour la FPE).',
+        resume: 'Le CMO est le congé de base pour toute maladie. Sur 12 mois consécutifs, il ouvre droit à 90 % du traitement pendant 3 mois, puis 50 % pendant 9 mois. La cure thermale et le congé d\'office relèvent du même régime et sont traités ici.',
+        ciblePublic: 'Fonctionnaires titulaires des trois versants. Les agents contractuels ont un régime distinct, détaillé dans la fiche « CMO des contractuels ».',
         droits: [
-          { label: '90 % traitement + 90 % primes', valeur: '3 premiers mois', detail: '90 % du traitement indiciaire + 90 % des primes (RIFSEEP, NBI…) + IR + SFT intégral. Source : Décret 2010-997 art. 1er + Loi 2025-127.', versants: ['fpe', 'fph'] },
-          { label: '50 % traitement + 50 % primes', valeur: 'Mois 4 à 12', detail: '50 % du traitement indiciaire + 50 % des primes. SFT et IR maintenus intégralement.', versants: ['fpe', 'fph'] },
+          { label: '90 % traitement + 90 % primes', valeur: '3 premiers mois', detail: '90 % du traitement indiciaire + 90 % des primes (RIFSEEP, NBI…), l\'indemnité de résidence et le supplément familial restant versés en entier. Source : Décret 2010-997 art. 1er + Loi 2025-127.', versants: ['fpe'] },
+          { label: '50 % traitement + 50 % primes', valeur: 'Mois 4 à 12', detail: '50 % du traitement indiciaire et 50 % des primes. Indemnité de résidence et supplément familial maintenus intégralement.', versants: ['fpe'] },
+          { label: '90 % du traitement', valeur: '3 premiers mois', detail: '90 % du traitement indiciaire, indemnité de résidence et supplément familial maintenus en entier. Source : Loi 2025-127 + Décret 2025-197, applicables aux trois versants.', versants: ['fph'] },
+          { label: '50 % du traitement', valeur: 'Mois 4 à 12', detail: '50 % du traitement indiciaire. Indemnité de résidence et supplément familial maintenus intégralement.', versants: ['fph'] },
+          { label: 'Primes en FPH', valeur: 'Selon chaque prime', detail: 'Il n\'existe pas, en FPH, de règle nationale alignant les primes sur le traitement comme le fait le Décret 2010-997 pour l\'État. Chaque prime suit son propre texte : la prime de service, par exemple, est réduite proportionnellement aux jours d\'absence. Demandez à la DRH le détail prime par prime plutôt qu\'un pourcentage global.', versants: ['fph'] },
           { label: '90 % traitement', valeur: '3 premiers mois', detail: '90 % du traitement indiciaire + IR + SFT. Primes : selon délibération de la collectivité (soumis à vote de l\'assemblée délibérante). Source : CE n°462452 du 4 juil. 2024.', versants: ['fpt'] },
           { label: '50 % traitement', valeur: 'Mois 4 à 12', detail: '50 % du traitement indiciaire. Primes : selon délibération. SFT maintenu intégralement.', versants: ['fpt'] },
           { label: 'Période de référence', valeur: '12 mois glissants', detail: 'Les droits sont calculés sur les 12 derniers mois consécutifs.' },
@@ -53,18 +56,47 @@ export const MODULES = [
           { label: 'Cure thermale', valeur: 'Traitée comme un CMO', detail: 'Une cure prescrite par votre médecin et acceptée par la CPAM ouvre les mêmes droits qu\'un CMO ordinaire, et s\'impute sur le même compteur de 12 mois. Sans prescription ni accord CPAM, aucun congé maladie ne peut être accordé pour une cure de confort.' },
           { label: 'Congé d\'office', valeur: 'À l\'initiative de l\'employeur', detail: 'L\'administration peut vous placer d\'office en CMO — ou en CLM — lorsqu\'elle constate une inaptitude, sans demande de votre part. Les droits à rémunération sont identiques à ceux d\'un congé que vous auriez demandé.' },
         ],
-        tableau: {
-          colonnes: [
-            { label: 'Période', flex: 1.2 },
-            { label: 'Taux traitement', flex: 1 },
-            { label: 'Primes', flex: 0.9 },
-            { label: 'SFT', flex: 0.7 },
-          ],
-          lignes: [
-            ['Mois 1 à 3', '90 %', '90 %', 'Maintenu'],
-            ['Mois 4 à 12', '50 %', '50 %', 'Maintenu'],
-            ['Au-delà', 'Aucun droit', '—', '—'],
-          ],
+        tableau: null,
+        tableaux: {
+          fpe: {
+            colonnes: [
+              { label: 'Période', flex: 1.2 },
+              { label: 'Traitement', flex: 1 },
+              { label: 'Primes', flex: 0.9 },
+              { label: 'SFT', flex: 0.7 },
+            ],
+            lignes: [
+              ['Mois 1 à 3', '90 %', '90 %', 'Maintenu'],
+              ['Mois 4 à 12', '50 %', '50 %', 'Maintenu'],
+              ['Au-delà', 'Aucun droit', '—', '—'],
+            ],
+          },
+          fpt: {
+            colonnes: [
+              { label: 'Période', flex: 1.2 },
+              { label: 'Traitement', flex: 1 },
+              { label: 'Primes', flex: 1 },
+              { label: 'SFT', flex: 0.7 },
+            ],
+            lignes: [
+              ['Mois 1 à 3', '90 %', 'Délibération', 'Maintenu'],
+              ['Mois 4 à 12', '50 %', 'Délibération', 'Maintenu'],
+              ['Au-delà', 'Aucun droit', '—', '—'],
+            ],
+          },
+          fph: {
+            colonnes: [
+              { label: 'Période', flex: 1.2 },
+              { label: 'Traitement', flex: 1 },
+              { label: 'Primes', flex: 1 },
+              { label: 'SFT', flex: 0.7 },
+            ],
+            lignes: [
+              ['Mois 1 à 3', '90 %', 'Selon la prime', 'Maintenu'],
+              ['Mois 4 à 12', '50 %', 'Selon la prime', 'Maintenu'],
+              ['Au-delà', 'Aucun droit', '—', '—'],
+            ],
+          },
         },
         etapes: [
           { num: 1, titre: 'Consulter un médecin', texte: 'Le médecin traitant établit un avis d\'arrêt de travail. Depuis le 1er septembre 2026, le prescripteur doit utiliser le formulaire Cerfa sécurisé : un arrêt établi sur papier libre ou sur un ancien formulaire peut être refusé. Le congé n\'est accordé qu\'à réception de ce document.' },
@@ -73,12 +105,13 @@ export const MODULES = [
           { num: 4, titre: 'Prolongation par le même médecin', texte: 'La prolongation doit en principe émaner du prescripteur initial (ou du médecin traitant). Une prolongation établie par un autre praticien sans motif valable peut faire perdre le maintien de rémunération — sauf impossibilité justifiée de consulter le premier médecin.' },
           { num: 5, titre: 'Contrôle possible à domicile', texte: 'L\'administration peut faire contrôler l\'arrêt. Depuis le 1er septembre 2026, ce contrôle peut être réalisé par toute personne dûment habilitée, et pas seulement par un médecin agréé. L\'agent doit être présent à son domicile de 9 h à 11 h et de 14 h à 16 h, sauf soins ou examens médicaux.' },
           { num: 6, titre: 'Reprise ou orientation vers le CLM', texte: 'Au-delà de 6 mois consécutifs, le dossier peut être orienté vers le CLM. Une visite de reprise auprès du médecin de prévention est obligatoire après un arrêt de plus de 30 jours.' },
-          { num: 7, titre: 'Cas particulier — la cure thermale', texte: 'Votre médecin prescrit la cure, la CPAM donne son accord pour la prise en charge des frais, puis un arrêt de travail est établi pour la période et transmis sous 48 heures comme n\'importe quel CMO. La durée s\'impute sur vos droits : si votre CMO est déjà entamé, les règles du demi-traitement s\'appliquent pendant la cure.' },
-          { num: 8, titre: 'Cas particulier — le congé d\'office', texte: 'Quand c\'est l\'administration qui décide : signalement du supérieur ou du médecin de prévention, examen par un médecin agréé, avis obligatoire du conseil médical avant tout placement d\'office en CLM, puis notification écrite avec les voies de recours. Le principe du contradictoire doit être respecté — vous devez pouvoir présenter vos observations avant la décision.' },
+          { num: 7, titre: 'Si vous partez en cure thermale', texte: 'Votre médecin prescrit la cure et la CPAM donne son accord pour la prise en charge des frais. Un arrêt de travail est alors établi pour la période, à transmettre sous 48 heures comme n\'importe quel CMO. La durée s\'impute sur vos droits : si votre CMO est déjà entamé, le demi-traitement s\'applique pendant la cure.' },
+          { num: 8, titre: 'Si c\'est l\'administration qui vous met en congé', texte: 'C\'est le congé d\'office. Il part d\'un signalement du supérieur ou du médecin de prévention, suivi d\'un examen par un médecin agréé. Le conseil médical doit obligatoirement être saisi avant un placement d\'office en CLM. La décision vous est notifiée par écrit avec les voies de recours. Vous devez pouvoir présenter vos observations avant qu\'elle soit prise.' },
         ],
         pieges: [
           'Le délai de 48 heures est impératif. Un retard injustifié peut entraîner une retenue sur traitement.',
-          { texte: 'Les primes et indemnités (RIFSEEP, NBI…) suivent le traitement : 90 % les 3 premiers mois, puis 50 % en demi-traitement. Source : Décret 2010-997 art. 1er + Loi 2025-127.', versants: ['fpe', 'fph'] },
+          { texte: 'Les primes et indemnités (RIFSEEP, NBI…) suivent le traitement : 90 % les 3 premiers mois, puis 50 % en demi-traitement. Source : Décret 2010-997 art. 1er + Loi 2025-127.', versants: ['fpe'] },
+          { texte: 'Ne vous fiez pas au « 90 % puis 50 % » pour vos primes : cette règle vient d\'un décret propre à l\'État. En FPH, chaque prime obéit à son propre texte et la prime de service se réduit à proportion des jours d\'absence. Demandez le détail à la DRH avant de faire vos comptes.', versants: ['fph'] },
           { texte: 'Le maintien des primes au prorata (90 % puis 50 %) est soumis à délibération de la collectivité. Sans délibération, les primes peuvent être suspendues. Vérifier auprès du service RH.', versants: ['fpt'] },
           'Heures de présence obligatoire : de 9 h à 11 h et de 14 h à 16 h, tous les jours, week-ends et jours fériés compris. Vous pouvez sortir en dehors de ces créneaux si le médecin a autorisé les sorties — mais c\'est bien pendant ces heures-là que le contrôle a lieu. Ne pas confondre avec la règle du secteur privé.',
           '🆕 Depuis le 1er septembre 2026 : une absence injustifiée lors d\'un contrôle, ou le refus de s\'y soumettre, suspend le versement de la rémunération jusqu\'à la fin de l\'arrêt. La période reste toutefois décomptée de vos droits à congé — vous perdez la paie sans récupérer les jours.',
@@ -101,7 +134,7 @@ export const MODULES = [
         versantNotes: {
           fpe: '✅ En FPE, les primes (RIFSEEP, NBI…) sont maintenues à 90 % les 3 premiers mois puis à 50 % en demi-traitement. Source : Décret 2010-997 art. 1er + Loi 2025-127. Le jour de carence s\'applique au 1er jour de chaque arrêt.',
           fpt: '⚠️ En FPT, le maintien des primes au prorata (90 % puis 50 %) est conditionné à une délibération de la collectivité. Sans délibération, les primes peuvent être entièrement suspendues. Vérifier impérativement auprès du service RH ou de la DRH de la collectivité. Source : CE n°462452 du 4 juil. 2024 + principe de parité.',
-          fph: '✅ En FPH, les primes suivent le traitement (90 % puis 50 %), comme en FPE. Source : Décret 2010-997 applicable par parité + Décret 2025-197.',
+          fph: '⚠️ En FPH, le traitement suit la même règle que partout : 90 % pendant 3 mois puis 50 % (Loi 2025-127 et Décret 2025-197, applicables aux trois versants). Les primes, en revanche, ne suivent PAS automatiquement : il n\'existe pas d\'équivalent hospitalier au Décret 2010-997 de l\'État. Chaque prime a son propre régime — la prime de service, notamment, est réduite en fonction des jours d\'absence. Demandez le détail à votre DRH.',
         },
       },
       {
@@ -116,7 +149,9 @@ export const MODULES = [
           { label: '1re année — primes', valeur: '33 %', detail: 'Depuis le Décret n°2024-641 du 27 juin 2024.', versants: ['fpe'] },
           { label: '1re année — primes', valeur: 'Selon délibération', detail: 'Le Décret 2024-641 ne s\'applique pas directement. La collectivité peut prévoir le maintien par délibération.', versants: ['fpt'] },
           { label: '1re année — primes', valeur: 'Selon règles locales', detail: 'Se renseigner auprès de la DRH de l\'établissement.', versants: ['fph'] },
-          { label: '2e et 3e années — traitement', valeur: '60 %', detail: '60 % du traitement indiciaire.' },
+          { label: '2e et 3e années — traitement', valeur: '60 %', detail: '60 % du traitement indiciaire depuis le Décret n°2024-641 du 27 juin 2024, qui a relevé l\'ancien demi-traitement.', versants: ['fpe'] },
+          { label: '2e et 3e années — traitement', valeur: '50 %', detail: 'Demi-traitement. Le relèvement à 60 % opéré par le Décret 2024-641 ne concerne QUE la fonction publique de l\'État : il ne s\'applique pas aux agents territoriaux.', versants: ['fpt'] },
+          { label: '2e et 3e années — traitement', valeur: '50 %', detail: 'Demi-traitement. Le relèvement à 60 % opéré par le Décret 2024-641 ne concerne QUE la fonction publique de l\'État : il ne s\'applique pas aux agents hospitaliers.', versants: ['fph'] },
           { label: '2e et 3e années — primes', valeur: '60 %', detail: 'Depuis le Décret n°2024-641 du 27 juin 2024.', versants: ['fpe'] },
           { label: '2e et 3e années — primes', valeur: 'Selon délibération', detail: 'Maintien possible par délibération de la collectivité, dans la limite du taux FPE.', versants: ['fpt'] },
           { label: '2e et 3e années — primes', valeur: 'Selon règles locales', detail: 'Se renseigner auprès de la DRH de l\'établissement.', versants: ['fph'] },
@@ -146,7 +181,7 @@ export const MODULES = [
             ],
             lignes: [
               ['Année 1', '100 %', 'Délibération', 'Maintenu'],
-              ['Années 2 & 3', '60 %', 'Délibération', 'Maintenu'],
+              ['Années 2 & 3', '50 %', 'Délibération', 'Maintenu'],
             ],
           },
           fph: {
@@ -158,7 +193,7 @@ export const MODULES = [
             ],
             lignes: [
               ['Année 1', '100 %', 'Selon DRH', 'Maintenu'],
-              ['Années 2 & 3', '60 %', 'Selon DRH', 'Maintenu'],
+              ['Années 2 & 3', '50 %', 'Selon DRH', 'Maintenu'],
             ],
           },
         },
@@ -172,7 +207,8 @@ export const MODULES = [
         pieges: [
           'L\'administration ne peut pas connaître votre diagnostic — seul l\'avis d\'aptitude ou d\'inaptitude lui est transmis.',
           'Le refus de CLM doit être motivé et notifié par écrit. Il est contestable devant le tribunal administratif.',
-          'Lors du passage à 60 % (2e et 3e années), le traitement peut être versé en trop. La somme indûment perçue devra être remboursée. Se rapprocher impérativement du service RH.',
+          'Lors du changement de taux en 2e année, le traitement peut continuer d\'être versé au taux plein le temps que la paie se cale. La somme perçue en trop est un indu qui devra être remboursé — prévenir le service RH dès le passage.',
+          { texte: '⚠️ Le passage à 60 % en 2e et 3e années est propre à la fonction publique de l\'État. Si un article généraliste vous annonce 60 %, vérifiez qu\'il ne parle pas uniquement de la FPE — vous êtes à 50 %.', versants: ['fpt', 'fph'] },
           { texte: 'Les primes sont maintenues à 33 % puis 60 % sur décision de la collectivité — vérifier la délibération auprès du service RH.', versants: ['fpt'] },
           { texte: 'Les primes sont maintenues à 33 % puis 60 % depuis le Décret 2024-641.', versants: ['fpe'] },
           'Rechute : de nouveaux droits s\'ouvrent si l\'agent a accompli 1 an de service actif entre les deux congés.',
@@ -190,8 +226,8 @@ export const MODULES = [
         ],
         versantNotes: {
           fpe: '✅ En FPE : 100 % du traitement + 33 % des primes en 1re année, puis 60 % + 60 % des primes en 2e et 3e années. Source : Décret n°2024-641 du 27 juin 2024.',
-          fpt: '⚠️ En FPT : 100 % du traitement en 1re année, puis 60 % en 2e et 3e années (Décret 87-602). Le maintien des primes dépend d\'une délibération de la collectivité — il n\'est pas automatique. Le Décret 2024-641 sert de plafond : une délibération ne peut pas accorder plus que l\'État. Vérifier l\'existence de la délibération auprès du service RH.',
-          fph: '⚠️ En FPH : 100 % du traitement en 1re année, puis 60 % en 2e et 3e années, sur le fondement du Décret 88-386 du 19 avril 1988. Sur les primes, il n\'existe PAS d\'équivalent hospitalier au Décret 2024-641 : aucun texte national n\'organise leur maintien pendant le CLM. En pratique le régime indemnitaire est donc suspendu, sauf décision plus favorable de l\'établissement — à faire confirmer par écrit par la DRH.',
+          fpt: '⚠️ En FPT : 100 % du traitement la 1re année, puis DEMI-TRAITEMENT (50 %) les 2e et 3e années — Décret 87-602. Le relèvement à 60 % opéré par le Décret 2024-641 vise la seule fonction publique de l\'État et ne vous est pas applicable. Les primes ne sont maintenues que si la collectivité l\'a prévu par délibération, sans pouvoir dépasser les taux de l\'État. Vérifier la délibération auprès du service RH.',
+          fph: '⚠️ En FPH : 100 % du traitement la 1re année, puis DEMI-TRAITEMENT (50 %) les 2e et 3e années — Décret 88-386 du 19 avril 1988. Le relèvement à 60 % opéré par le Décret 2024-641 vise la seule fonction publique de l\'État. Sur les primes, il n\'existe aucun équivalent hospitalier à ce décret : leur sort dépend de chaque prime et des règles de l\'établissement (la prime de service, par exemple, est réduite en fonction des jours d\'absence). À faire confirmer par écrit par la DRH.',
         },
       },
       {
@@ -258,8 +294,8 @@ export const MODULES = [
         titre: 'Temps partiel thérapeutique (TPT)',
         categorie: 'Santé & Congés maladie',
         chips: ['Titulaires', 'Plein traitement', 'Renouvelable sans limite d\'affection'],
-        resume: 'Le TPT permet une reprise progressive du travail à temps partiel tout en percevant la totalité de son traitement. Depuis le décret du 28 juillet 2021, il n\'y a plus de limite par affection. Depuis le 1er août 2026, la procédure est encadrée : décision sous 30 jours, autorisation possible jusqu\'à un an sans renouvellement périodique, et refus encadrés.',
-        ciblePublic: 'Fonctionnaires titulaires en position d\'activité. Depuis 2021, le TPT peut être accordé sans condition préalable d\'arrêt maladie (FPE). Contractuels : soumis aux règles CPAM.',
+        resume: 'Le TPT permet de reprendre progressivement à temps partiel tout en percevant l\'intégralité de son traitement. Depuis 2021, il n\'y a plus de limite liée à la pathologie. Depuis le 1er août 2026, la procédure est encadrée au bénéfice de l\'agent.',
+        ciblePublic: 'Fonctionnaires titulaires en position d\'activité. Les agents contractuels peuvent également en bénéficier, mais l\'accord relève alors de la CPAM et non de l\'administration.',
         droits: [
           { label: 'Rémunération', valeur: 'Plein traitement maintenu', detail: 'Le traitement indiciaire est versé intégralement (SFT et NBI compris), quelle que soit la quotité de reprise. Source : Art. L. 823-1 CGFP.' },
           { label: 'Durée par autorisation', valeur: '1 an maximum', detail: 'Depuis le 1er août 2026, l\'autorisation peut être accordée pour une durée allant jusqu\'à un an SANS renouvellement périodique obligatoire. Le découpage en périodes de 1 à 3 mois n\'est plus imposé. Source : Art. L. 823-5 CGFP + Décret 2026-705 du 29 juillet 2026.' },
@@ -344,10 +380,10 @@ export const MODULES = [
       },
       {
         id: 'dispo-office-sante',
-        titre: 'Disponibilité d\'office pour raison de santé',
+        titre: 'Disponibilité d\'office — quand les droits à congé sont épuisés',
         categorie: 'Santé & Congés maladie',
-        chips: ['Titulaires', 'Droits suspendus', 'Procédure stricte'],
-        resume: 'La disponibilité d\'office pour raison de santé intervient lorsqu\'un fonctionnaire a épuisé tous ses droits à congé maladie et ne peut pas reprendre ses fonctions. Elle suspend le traitement mais préserve les droits à la retraite sous conditions.',
+        chips: ['Titulaires', 'Subie', 'Traitement suspendu', 'Procédure stricte'],
+        resume: 'Quand un fonctionnaire a épuisé tous ses droits à congé maladie sans pouvoir reprendre, l\'administration le place d\'office en disponibilité. Le traitement s\'arrête, mais l\'agent reste fonctionnaire et conserve son droit à réintégration.',
         ciblePublic: 'Fonctionnaires titulaires ayant épuisé leurs droits à CLM, CLD ou CITIS et se trouvant dans l\'impossibilité de reprendre le service.',
         droits: [
           { label: 'Traitement', valeur: 'Suspendu', detail: 'Contrairement au congé d\'office, la disponibilité d\'office n\'ouvre plus droit au traitement. L\'agent ne perçoit plus de rémunération de son employeur.' },
@@ -397,7 +433,7 @@ export const MODULES = [
           { num: 1, titre: 'Identifier son besoin', texte: 'Bilan de compétences pour faire le point sur une réorientation possible, ou action de formation ciblée si le projet est déjà défini. En parler au médecin de prévention et à l\'assistant de service social du personnel, qui connaissent les dispositifs disponibles.' },
           { num: 2, titre: 'Adresser la demande à l\'administration', texte: 'Demande écrite au service RH précisant la nature de l\'action envisagée, sa durée et ses modalités. Indiquer en quoi elle s\'inscrit dans un projet professionnel — notamment un maintien dans l\'emploi ou un reclassement.' },
           { num: 3, titre: 'Avis du médecin agréé', texte: 'L\'administration saisit un médecin agréé, qui se prononce sur la compatibilité de l\'action avec votre état de santé. Un avis défavorable doit être motivé et peut être contesté par une demande de contre-expertise.' },
-          { num: 4, titre: 'Articuler avec le CPF', texte: 'La formation peut être financée en mobilisant le compte personnel de formation. Voir la fiche CPF pour les modalités et l\'accord employeur nécessaire.' },
+          { num: 4, titre: 'Financer la formation', texte: 'La formation peut être financée en mobilisant votre compte personnel de formation (CPF), qui vous ouvre 25 heures par an dans la limite de 150 heures. Son utilisation suppose l\'accord écrit de votre employeur : demandez-le en même temps que l\'autorisation de vous former pendant le congé, cela évite deux allers-retours.' },
         ],
         pieges: [
           'Ce droit est récent : de nombreux services RH ne l\'appliquent pas encore spontanément. Formuler la demande par écrit en visant le Décret 2026-705 du 29 juillet 2026.',
@@ -419,9 +455,9 @@ export const MODULES = [
         id: 'temps-partiel',
         titre: 'Temps partiel — droits et procédures',
         categorie: 'Santé & Congés maladie',
-        chips: ['Titulaires', 'De droit ou sur autorisation', 'Impact retraite'],
-        resume: 'Le temps partiel peut être accordé de droit (famille, handicap) ou sur autorisation. Il réduit le traitement proportionnellement.',
-        ciblePublic: 'Fonctionnaires titulaires et agents contractuels.',
+        chips: ['Titulaires', 'De droit ou sur autorisation', '80 % et 90 % sur-rémunérés'],
+        resume: 'Le temps partiel est accordé de droit dans certains cas (naissance, jeune enfant, proche aidant, handicap), sur autorisation dans les autres. La rémunération suit la quotité, sauf à 80 % et 90 % où elle est volontairement plus favorable.',
+        ciblePublic: 'Fonctionnaires titulaires et agents contractuels. À ne pas confondre avec le temps partiel thérapeutique, qui répond à une logique médicale et maintient le plein traitement.',
         droits: [
           { label: 'Temps partiel de droit', valeur: 'Incontournable', detail: 'Motifs : naissance, enfant < 3 ans, proche aidant, handicap. L\'administration ne peut pas le refuser.' },
           { label: 'Sur autorisation', valeur: 'Sous conditions', detail: 'L\'administration peut le refuser pour nécessité de service. Quotités : 50 %, 60 %, 70 %, 80 %, 90 %.' },
@@ -452,11 +488,11 @@ export const MODULES = [
       },
       {
         id: 'disponibilite',
-        titre: 'Disponibilité & droits à maladie',
+        titre: 'Tomber malade en disponibilité',
         categorie: 'Santé & Congés maladie',
-        chips: ['Titulaires', 'Droits suspendus', 'Affiliation CPAM obligatoire'],
-        resume: 'La disponibilité suspend les droits à congé maladie statutaire. Un fonctionnaire en disponibilité qui tombe malade doit se retourner vers la Sécurité sociale — sans affiliation préalable, aucune couverture n\'est garantie.',
-        ciblePublic: 'Fonctionnaires titulaires en position de disponibilité.',
+        chips: ['Titulaires', 'Disponibilité choisie', 'Affiliation CPAM obligatoire'],
+        resume: 'Se mettre en disponibilité suspend tous les droits à congé maladie statutaire. Celui qui tombe malade pendant cette période dépend de la Sécurité sociale — et sans affiliation faite à l\'avance, il n\'est couvert par personne.',
+        ciblePublic: 'Fonctionnaires titulaires qui envisagent une disponibilité ou s\'y trouvent déjà. À ne pas confondre avec la disponibilité d\'office pour raison de santé, qui est subie et fait l\'objet d\'une fiche distincte.',
         droits: [
           { label: 'Congés maladie statutaires', valeur: 'Suspendus', detail: 'En disponibilité, l\'agent ne bénéficie plus des congés CMO, CLM, CLD ni du CITIS. Ces droits sont liés à la position d\'activité.' },
           { label: 'Couverture maladie', valeur: 'Régime général uniquement', detail: 'L\'agent doit s\'affilier volontairement à la CPAM avant la prise d\'effet de la disponibilité. Sans affiliation, aucune prise en charge des soins.' },
@@ -489,7 +525,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'contractuels',
-    updatedAt: 'Avr. 2025',
+    updatedAt: 'août 2026',
     title: 'Droits des contractuels',
     icon: '👷',
     color: '#D4972A',
@@ -754,7 +790,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'atmp',
-    updatedAt: 'Avr. 2025',
+    updatedAt: 'août 2026',
     title: 'Accidents de travail & MP',
     icon: '🦺',
     color: '#C0392B',
@@ -785,7 +821,7 @@ export const MODULES = [
         pieges: [
           'L\'accident de service doit avoir un lien direct avec l\'exercice des fonctions. Un malaise sur le lieu de travail ne suffit pas automatiquement.',
           'Le refus d\'imputabilité doit être motivé et notifié. Il est systématiquement contestable.',
-          'Accident de trajet : couvert uniquement pour le trajet direct domicile-travail.',
+          'L\'accident de trajet est couvert entre le domicile et le travail, ainsi qu\'entre le travail et le lieu habituel de repas. Un détour justifié par les nécessités de la vie courante — déposer un enfant, un covoiturage régulier — ne fait pas perdre la protection ; un détour personnel, oui.',
           'Ne jamais signer de protocole transactionnel sans conseil juridique — risque de renoncer à des droits importants.',
         ],
         recours: 'Recours gracieux (2 mois), puis tribunal administratif.',
@@ -851,8 +887,9 @@ export const MODULES = [
         ],
         recours: 'Contestation du taux d\'IPP devant le conseil médical. Recours contentieux.',
         sources: [
-          { texte: 'Art. L. 826-1 et suivants CGFP (ATI)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000044416551' },
-          { texte: 'Décret n° 60-1089 du 6 octobre 1960 (ATI)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000304764' },
+          { texte: 'Décret n° 60-1089 du 6 octobre 1960 (ATI — FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000304764' },
+          { texte: 'Décret n° 2005-442 du 2 mai 2005 (ATI — FPT et FPH, régime CNRACL)' },
+          { texte: 'Barème indicatif d\'invalidité des pensions civiles et militaires (évaluation du taux d\'IPP)' },
         ],
       },
       {
@@ -891,7 +928,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'inaptitude',
-    updatedAt: 'Avr. 2025',
+    updatedAt: 'août 2026',
     title: 'Inaptitude & Reclassement',
     icon: '♿',
     color: '#5C6B45',
@@ -939,27 +976,32 @@ export const MODULES = [
         id: 'reclassement',
         titre: 'Reclassement professionnel',
         categorie: 'Inaptitude & Reclassement',
-        chips: ['Titulaires', 'Obligation admin', 'Autre corps'],
-        resume: 'Quand un fonctionnaire ne peut plus exercer ses fonctions pour raisons de santé, l\'administration est légalement obligée de lui proposer un reclassement dans un autre emploi adapté.',
+        chips: ['Titulaires', 'Obligation admin', 'PPR : 1 an payé'],
+        resume: 'Quand un fonctionnaire ne peut plus exercer ses fonctions pour raisons de santé, l\'administration doit lui proposer un autre emploi adapté. Une période de préparation au reclassement d\'un an, à traitement maintenu, permet de se former au nouveau métier.',
         ciblePublic: 'Fonctionnaires titulaires inaptes définitivement à leur emploi.',
         droits: [
-          { label: 'Obligation de l\'admin', valeur: 'Recherche active', detail: 'L\'administration doit rechercher activement un poste adapté.' },
+          { label: 'Adaptation du poste d\'abord', valeur: 'Avant tout reclassement', detail: 'La loi impose d\'abord d\'adapter le poste de travail lorsque c\'est possible. Le reclassement n\'intervient que si l\'adaptation ne suffit pas. Source : Art. L. 826-1 CGFP.' },
+          { label: 'Période de préparation au reclassement', valeur: '1 an, traitement maintenu', detail: 'La PPR vous permet de vous préparer à un nouveau métier — formations, stages, immersions — pendant un an maximum, avec maintien intégral du traitement. Cette période compte comme du service effectif : elle ne vous coûte ni ancienneté ni droits à retraite.' },
+          { label: 'Droit à la PPR dès l\'engagement de la procédure', valeur: 'Sans attendre le constat', detail: 'Vous n\'avez pas besoin d\'attendre que l\'inaptitude soit définitivement reconnue : le droit à la période de préparation est ouvert dès lors que la procédure de reconnaissance est engagée.' },
+          { label: 'Obligation de l\'administration', valeur: 'Recherche active', detail: 'L\'administration doit rechercher activement un poste adapté et formuler des propositions concrètes.' },
           { label: 'Détachement', valeur: 'Possible', detail: 'L\'agent peut être détaché dans un autre corps ou cadre d\'emplois.' },
-          { label: 'Maintien du traitement', valeur: 'Pendant la procédure', detail: 'Le traitement est maintenu pendant la période de reclassement.' },
+          { label: 'Indice conservé', valeur: 'À titre personnel', detail: 'Reclassé sur un grade dont l\'indice brut est inférieur au vôtre, vous conservez votre indice à titre personnel jusqu\'à ce que votre nouveau corps vous en offre un au moins équivalent. Autrement dit : le reclassement ne doit pas faire baisser votre traitement.' },
         ],
         etapes: [
-          { num: 1, titre: 'Demande de reclassement', texte: 'L\'agent formule une demande auprès de son administration, après avis du conseil médical.' },
-          { num: 2, titre: 'Recherche de poste', texte: 'L\'administration recherche, dans un délai raisonnable, un emploi correspondant aux capacités de l\'agent.' },
-          { num: 3, titre: 'Proposition de poste', texte: 'L\'administration soumet des propositions concrètes.' },
-          { num: 4, titre: 'Décision finale', texte: 'Reclassement accepté → mise en place. Reclassement impossible → mise à la retraite pour invalidité.' },
+          { num: 1, titre: 'Demande de reclassement', texte: 'L\'agent formule une demande auprès de son administration, après avis du conseil médical. Demander dans le même courrier le bénéfice de la période de préparation au reclassement.' },
+          { num: 2, titre: 'Période de préparation au reclassement', texte: 'Pendant un an au maximum, l\'agent se prépare à de nouvelles fonctions — formations, stages, périodes d\'observation — tout en conservant son traitement. Un projet est établi avec l\'administration. Cette année compte comme du service effectif.' },
+          { num: 3, titre: 'Recherche de poste', texte: 'L\'administration recherche, dans un délai raisonnable, un emploi correspondant aux capacités de l\'agent.' },
+          { num: 4, titre: 'Proposition de poste', texte: 'L\'administration soumet des propositions concrètes, compatibles avec les préconisations médicales.' },
+          { num: 5, titre: 'Décision finale', texte: 'Reclassement accepté → mise en place, avec conservation de l\'indice à titre personnel si le nouveau grade est moins élevé. Reclassement impossible → mise à la retraite pour invalidité.' },
         ],
         pieges: [
+          'Demandez la période de préparation au reclassement par écrit. Elle est peu proposée spontanément, alors qu\'elle vous offre un an à plein traitement pour vous former à un autre métier — c\'est le droit le plus utile et le moins connu de cette procédure.',
           'Le refus d\'un reclassement peut entraîner la perte d\'indemnités. Ne pas refuser sans conseil préalable.',
-          'Un reclassement dans un corps inférieur est possible avec maintien du traitement antérieur (indemnité compensatrice).',
+          'Un reclassement sur un grade inférieur ne doit pas faire baisser votre traitement : vous gardez votre indice brut à titre personnel. Vérifiez-le sur votre première fiche de paie après le reclassement.',
         ],
         recours: 'Saisine du tribunal administratif si l\'administration ne propose aucun poste ou si les propositions ne respectent pas les préconisations médicales.',
         sources: [
-          { texte: 'Art. L. 826-2 et suivants CGFP (obligation de reclassement)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000044416551' },
+          { texte: 'Art. L. 826-1 à L. 826-6 CGFP (adaptation du poste, reclassement, période de préparation)', url: 'https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000044416551/LEGISCTA000044424087/' },
           { texte: 'Décret n° 84-1051 du 30 novembre 1984 (reclassement FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000693893' },
           { texte: 'Décret n° 85-1054 du 30 septembre 1985 (reclassement FPT)' },
           { texte: 'Décret n° 89-376 du 8 juin 1989 (reclassement FPH)' },
@@ -970,7 +1012,7 @@ export const MODULES = [
         titre: 'Majoration pour tierce personne',
         categorie: 'Inaptitude & Reclassement',
         chips: ['Titulaires', 'Invalidité grave', 'Complément pension'],
-        resume: 'La majoration pour tierce personne est une allocation supplémentaire accordée au fonctionnaire invalide ou retraité pour invalidité dont l\'état de santé nécessite l\'assistance constante d\'une tierce personne pour accomplir les actes ordinaires de la vie.',
+        resume: 'Certains agents invalides ne peuvent plus accomplir seuls les gestes ordinaires de la vie. Quand l\'assistance permanente d\'une autre personne devient nécessaire, une majoration de 40 % s\'ajoute à la pension.',
         ciblePublic: 'Fonctionnaires titulaires en retraite pour invalidité ou reconnus invalides avec un taux d\'invalidité très élevé.',
         droits: [
           { label: 'Éligibilité', valeur: 'Invalidité absolue et définitive', detail: 'L\'agent doit être dans l\'impossibilité absolue et définitive d\'exercer une quelconque activité professionnelle ET avoir besoin de l\'assistance d\'une tierce personne pour les actes ordinaires de la vie.' },
@@ -1039,8 +1081,7 @@ export const MODULES = [
     ],
   },
 // ─────────────────────────────────────────────────────────────────────────────
-  // MODULE 14 — CONGÉS SPÉCIFIQUES (maternité, paternité, adoption, parental)
-  // À insérer dans MODULES[] juste avant le ]; de fermeture du tableau
+  // MODULE — CONGÉS FAMILIAUX
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'conges-specifiques',
@@ -1275,7 +1316,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'medecine',
-    updatedAt: 'Avr. 2025',
+    updatedAt: 'août 2026',
     title: 'Vos interlocuteurs',
     icon: '🩺',
     color: '#3A7CA5',
@@ -1486,7 +1527,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'vieau-travail',
-    updatedAt: 'Avr. 2025',
+    updatedAt: 'août 2026',
     title: 'Se protéger',
     icon: '⚖️',
     color: '#2D3748',
@@ -1588,7 +1629,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'psc',
-    updatedAt: 'Avr. 2025',
+    updatedAt: 'août 2026',
     title: 'Protection sociale complémentaire (PSC)',
     icon: '🛡️',
     color: '#3A7CA5',
@@ -1676,7 +1717,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'carriere',
-    updatedAt: 'Avr. 2025',
+    updatedAt: 'août 2026',
     title: 'Carrière & formation',
     icon: '📈',
     color: '#3A7CA5',
@@ -1756,7 +1797,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'retraite',
-    updatedAt: 'Avr. 2025',
+    updatedAt: 'août 2026',
     title: 'Retraite',
     icon: '🎯',
     color: '#D4972A',

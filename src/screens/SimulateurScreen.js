@@ -69,14 +69,29 @@ function calculerProjection({ statut, versant, traitement, primes, quotite, regi
     if (statut === 'titulaire') {
       switch (regime) {
         case 'cmo':
-          // Décret 2010-997 + Loi 2025-127 + Décret 2025-197
-          if (i <= 3)  { traitMaintenu = tBase * 0.9; primesMaintenues = (versant === 'fpt' ? 0 : pBase * 0.9); label = '90 % + 90 % primes'; couleur = Colors.terracotta; }
-          else         { traitMaintenu = tBase * 0.5; primesMaintenues = (versant === 'fpt' ? 0 : pBase * 0.5); label = '50 % + 50 % primes'; couleur = Colors.amber; }
+          // Traitement : 90 % puis 50 % dans les 3 versants (Loi 2025-127 + Décret 2025-197).
+          // Primes : seul l'État les aligne automatiquement sur le traitement
+          // (Décret 2010-997). En FPT elles dépendent d'une délibération, en FPH
+          // chaque prime suit son propre texte — on retient 0 € par prudence et
+          // un encart l'explique sous le graphique.
+          if (i <= 3)  { traitMaintenu = tBase * 0.9; primesMaintenues = (versant === 'fpe' ? pBase * 0.9 : 0); label = versant === 'fpe' ? '90 % + 90 % primes' : '90 % du traitement'; couleur = Colors.terracotta; }
+          else         { traitMaintenu = tBase * 0.5; primesMaintenues = (versant === 'fpe' ? pBase * 0.5 : 0); label = versant === 'fpe' ? '50 % + 50 % primes' : '50 % du traitement'; couleur = Colors.amber; }
           break;
         case 'clm':
-          // Décret 2024-641 (FPE) — an 1: 100%+33%, ans 2-3: 60%+60%
-          if (i <= 12) { traitMaintenu = tBase;        primesMaintenues = versant === 'fpe' ? pBase * 0.33 : 0; label = versant === 'fpe' ? '100 % + 33 % primes' : '100 %'; couleur = Colors.sky; }
-          else         { traitMaintenu = tBase * 0.6;  primesMaintenues = versant === 'fpe' ? pBase * 0.60 : 0; label = versant === 'fpe' ? '60 % + 60 % primes' : '60 %'; couleur = Colors.amber; }
+          // FPE : Décret 2024-641 — an 1 : 100 % + 33 % de primes, ans 2-3 : 60 % + 60 %.
+          // FPT (Décret 87-602) et FPH (Décret 88-386) : régime inchangé, soit
+          // plein traitement 1 an puis DEMI-traitement (50 %) — le relèvement à
+          // 60 % ne vise que l'État.
+          if (i <= 12) {
+            traitMaintenu = tBase;
+            primesMaintenues = versant === 'fpe' ? pBase * 0.33 : 0;
+            label = versant === 'fpe' ? '100 % + 33 % primes' : '100 %';
+            couleur = Colors.sky;
+          } else if (versant === 'fpe') {
+            traitMaintenu = tBase * 0.6; primesMaintenues = pBase * 0.60; label = '60 % + 60 % primes'; couleur = Colors.amber;
+          } else {
+            traitMaintenu = tBase * 0.5; primesMaintenues = 0; label = '50 % (demi-traitement)'; couleur = Colors.amber;
+          }
           break;
         case 'cld':
           // Art. L.822-6 à L.822-11 CGFP — 3 ans à plein traitement puis 2 ans à demi.
@@ -466,12 +481,14 @@ export default function SimulateurScreen({ navigation }) {
           </StepCard>
         )}
 
-        {/* Note FPT primes CMO */}
-        {regime === 'cmo' && versant === 'fpt' && (
+        {/* Note primes CMO hors FPE : la projection retient 0 € par prudence */}
+        {regime === 'cmo' && versant !== 'fpe' && (
           <View style={[styles.infoCard, { backgroundColor: theme.bgWarm, borderColor: theme.border }]}>
             <Ionicons name="information-circle-outline" size={16} color={Colors.sky} />
             <Text style={[styles.infoText, { color: theme.textSecondary }]}>
-              FPT — En CMO, le maintien des primes au prorata (90 % puis 50 %) est conditionné à une délibération de la collectivité. Sans délibération, les primes peuvent être suspendues. Source : CE n°462452 du 4 juil. 2024.
+              {versant === 'fpt'
+                ? 'FPT — Le maintien des primes au prorata du traitement (90 % puis 50 %) suppose une délibération de la collectivité ; sans elle, elles peuvent être suspendues. Cette projection retient 0 € de primes : si la délibération existe, votre revenu réel sera supérieur. Source : CE n°462452 du 4 juillet 2024.'
+                : 'FPH — Il n’existe pas de règle nationale alignant les primes sur le traitement comme à l’État. Chaque prime suit son propre texte, et la prime de service est réduite à proportion des jours d’absence. Cette projection retient 0 € de primes : demandez le détail à votre DRH.'}
             </Text>
           </View>
         )}
