@@ -216,7 +216,31 @@ Le SHA-1 obtenu doit être identique à celui du **certificat de clé
 d'importation** affiché dans la Play Console (Intégrité de l'application).
 EAS signe avec la keystore stockée sur ses serveurs — `eas.json` ne fixe aucun
 `credentialsSource`, donc les `.jks` présents localement ne sont PAS ceux
-utilisés par le build.
+utilisés par le build. Le nom des credentials s'affiche au lancement du build
+(`Using Keystore from configuration: …`) : c'est un contrôle gratuit.
+
+### Vérifier les permissions du .aab
+
+```bash
+unzip -p build.aab base/manifest/AndroidManifest.xml > manifest.pb
+```
+
+Attention au piège : le manifeste d'un `.aab` est en **protobuf**, pas en XML
+binaire, donc les décodeurs AXML classiques échouent dessus. Et surtout, une
+recherche naïve de la chaîne `android.permission.X` produit des faux positifs —
+une permission peut apparaître comme **garde** d'un composant
+(`<receiver android:permission="…">`, ce qui RESTREINT l'accès) et non comme
+demande (`<uses-permission android:name="…">`).
+
+C'est le cas de `android.permission.DUMP`, déclarée par
+`androidx.profileinstaller.ProfileInstallReceiver` pour que seul le système
+puisse le déclencher. Sa présence est normale et ne constitue pas une demande
+de permission.
+
+Seules deux permissions doivent être **demandées** : `INTERNET` et
+`ACCESS_NETWORK_STATE`, nécessaires à `expo-updates`. Toute autre — en
+particulier `SYSTEM_ALERT_WINDOW` — doit être ajoutée à
+`android.blockedPermissions` dans `app.json`.
 
 ---
 
