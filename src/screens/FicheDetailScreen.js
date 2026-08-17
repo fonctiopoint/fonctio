@@ -2,12 +2,13 @@
 import React, { useContext, useState, useEffect } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
-  StyleSheet, StatusBar, Share
+  StyleSheet, StatusBar, Share, Linking
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Typography, Spacing, Radius, Shadow, useTheme } from '../theme';
 import { getFicheById, MODULES } from '../data/fiches';
+import { getMajsForFiche } from '../data/veille';
 import { VersantContext } from '../navigation/AppNavigator';
 import { addFavori, removeFavori, isFavori, addRecent } from '../utils/storage';
 
@@ -269,15 +270,122 @@ const vnStyles = StyleSheet.create({
   text: { fontSize: Typography.sm, lineHeight: 19 },
 });
 
+// ─── Veille juridique — surcouche src/data/veille.js ──────────────────────────
+// Une entrée non intégrée signale un texte paru que la fiche ci-dessous ne
+// reflète pas encore. L'annoncer vaut mieux que de laisser lire un texte périmé.
+
+const formatDateFr = (iso) => {
+  if (!iso) return '';
+  const [a, m, j] = iso.split('-');
+  return j && m && a ? `${j}/${m}/${a}` : iso;
+};
+
+const MajItem = ({ maj, theme }) => {
+  const { fs } = useTheme();
+  const url = maj.source?.url;
+  return (
+    <View style={majStyles.item}>
+      <Text style={[majStyles.itemTitre, { color: theme.textPrimary, fontSize: fs(12) }]}>
+        {maj.titre}
+      </Text>
+      <Text style={[majStyles.itemResume, { color: theme.textSecondary, fontSize: fs(12), lineHeight: fs(12) * 1.55 }]}>
+        {maj.resume}
+      </Text>
+      <View style={majStyles.itemMeta}>
+        {maj.vigueur && (
+          <Text style={[majStyles.itemMetaText, { color: theme.textMuted }]}>
+            En vigueur le {formatDateFr(maj.vigueur)}
+          </Text>
+        )}
+        {maj.rectificatif && (
+          <Text style={[majStyles.itemMetaText, { color: Colors.amber }]}>
+            Rectificatif du {formatDateFr(maj.rectificatif)}
+          </Text>
+        )}
+      </View>
+      <TouchableOpacity
+        disabled={!url}
+        onPress={() => url && Linking.openURL(url)}
+        activeOpacity={0.7}
+      >
+        <Text style={[majStyles.itemSource, { color: url ? Colors.sky : theme.textMuted, fontSize: fs(11) }]}>
+          {maj.source?.texte}{url ? '  ↗' : ''}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const MajBloc = ({ majs, theme }) => {
+  const { fs } = useTheme();
+  const [ouvert, setOuvert] = useState(false);
+  if (!majs?.length) return null;
+
+  const enAttente = majs.filter(m => !m.integre);
+  const alerte = enAttente.length > 0;
+  const teinte = alerte
+    ? { bg: Colors.amberLight, bord: Colors.amber, texte: Colors.terracottaDark }
+    : { bg: Colors.skyLight, bord: Colors.sky, texte: Colors.sky };
+
+  const titreBloc = alerte
+    ? `${enAttente.length} évolution${enAttente.length > 1 ? 's' : ''} à connaître`
+    : `À jour au ${formatDateFr(majs[0].vigueur || majs[0].date)}`;
+
+  return (
+    <View style={[majStyles.card, { backgroundColor: teinte.bg, borderLeftColor: teinte.bord }]}>
+      <TouchableOpacity onPress={() => setOuvert(o => !o)} activeOpacity={0.7}>
+        <View style={majStyles.header}>
+          <Text style={majStyles.icon}>⚖️</Text>
+          <Text style={[majStyles.label, { color: teinte.texte }]}>{titreBloc}</Text>
+          <Ionicons
+            name={ouvert ? 'chevron-up' : 'chevron-down'}
+            size={14}
+            color={teinte.texte}
+            style={majStyles.chevron}
+          />
+        </View>
+      </TouchableOpacity>
+
+      {alerte && !ouvert && (
+        <Text style={[majStyles.teaser, { color: theme.textSecondary, fontSize: fs(12), lineHeight: fs(12) * 1.5 }]}>
+          {enAttente[0].titre} — le texte ci-dessous ne l'intègre pas encore.
+        </Text>
+      )}
+
+      {ouvert && majs.map(maj => <MajItem key={maj.id} maj={maj} theme={theme} />)}
+    </View>
+  );
+};
+
+const majStyles = StyleSheet.create({
+  card: {
+    borderRadius: Radius.lg, padding: Spacing.lg,
+    borderLeftWidth: 4, marginBottom: 2,
+  },
+  header: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  icon: { fontSize: 15 },
+  label: { fontSize: 11, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.05, flexShrink: 1 },
+  chevron: { marginLeft: 'auto' },
+  teaser: { marginTop: 6 },
+  item: { marginTop: Spacing.md, gap: 4 },
+  itemTitre: { fontWeight: '600' },
+  itemResume: {},
+  itemMeta: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.md, marginTop: 2 },
+  itemMetaText: { fontSize: 11, fontWeight: '500' },
+  itemSource: { marginTop: 2, fontWeight: '500', lineHeight: 16 },
+});
+
 export default function FicheDetailScreen({ navigation, route }) {
   const { ficheId, ficheIndex, ficheTotal, moduleTitle } = route.params || {};
   const fiche = getFicheById(ficheId);
   const { versant } = useContext(VersantContext);
 
-  if (!fiche) return null;
+  // Pas de sortie anticipée ici : useState/useEffect/useTheme sont appelés plus
+  // bas. Un « return null » avant eux change le nombre de hooks entre deux
+  // rendus et fait planter React. Le garde-fou est placé après le dernier hook.
 
   // Fil d'Ariane : Accueil > Module > Fiche
-  const breadcrumb = moduleTitle || fiche.categorie;
+  const breadcrumb = moduleTitle || fiche?.categorie;
   // Indicateur de position dans le module
   const hasPosition = ficheIndex !== undefined && ficheTotal !== undefined;
   const positionLabel = hasPosition ? `Fiche ${ficheIndex + 1} / ${ficheTotal}` : null;
@@ -296,8 +404,6 @@ export default function FicheDetailScreen({ navigation, route }) {
     if (favori) { await removeFavori(ficheId); setFavori(false); }
     else { await addFavori(ficheId); setFavori(true); }
   };
-
-  if (!fiche) return null;
 
   // Mapping fiche → régime simulateur pour le bouton "Simuler"
   const FICHE_TO_REGIME = {
@@ -414,11 +520,16 @@ export default function FicheDetailScreen({ navigation, route }) {
     });
   };
 
-  const moduleColor = fiche.moduleColor || Colors.terracotta;
-  const moduleBg = fiche.moduleBg || Colors.terracottaLight;
   const theme = useTheme();
   const { fs } = theme;
+
+  // Dernier hook passé — la sortie anticipée est sûre à partir d'ici.
+  if (!fiche) return null;
+
+  const moduleColor = fiche.moduleColor || Colors.terracotta;
+  const moduleBg = fiche.moduleBg || Colors.terracottaLight;
   const versantNote = fiche.versantNotes?.[versant];
+  const majs = getMajsForFiche(ficheId, versant);
   // Taille de police dynamique pour le corps des fiches
   const sz = (base) => ({ fontSize: fs(base) });
 
@@ -482,6 +593,9 @@ export default function FicheDetailScreen({ navigation, route }) {
           <Text style={[styles.resumeLabel, { color: moduleColor }]}>EN RÉSUMÉ</Text>
           <Text style={[styles.resumeText, { color: Colors.terracottaDark, fontSize: fs(14), lineHeight: fs(14) * 1.6 }]}>{fiche.resume}</Text>
         </View>
+
+        {/* Veille juridique — textes parus depuis la dernière réécriture */}
+        <MajBloc majs={majs} theme={theme} />
 
         {/* Note spécifique au versant de l'agent */}
         {versantNote && <VersantNote note={versantNote} versant={versant} theme={theme} />}
