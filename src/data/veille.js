@@ -38,6 +38,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const VEILLE = [
+  /* @veille:start — zone gérée par l'admin Fonctio — ne pas éditer à la main */
   {
     id: 'decret-2026-705',
     date: '2026-07-29',
@@ -56,6 +57,7 @@ export const VEILLE = [
     },
     integre: true,
   },
+  /* @veille:end */
 ];
 
 // ─── Utilitaires ──────────────────────────────────────────────────────────────
