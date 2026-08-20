@@ -40,22 +40,21 @@
 export const VEILLE = [
   /* @veille:start — zone gérée par l'admin Fonctio — ne pas éditer à la main */
   {
-    id: 'decret-2026-705',
-    date: '2026-07-29',
-    publie: '2026-07-31',
-    rectificatif: '2026-08-08',
-    vigueur: '2026-09-01',
-    fiches: ['cmo', 'tpt'],
-    versants: ['fpe', 'fpt', 'fph'],
-    portee: 'modif',
-    titre: 'Arrêts de travail et temps partiel thérapeutique : nouvelles règles',
-    resume:
-      "L'arrêt initial est plafonné à 1 mois et la prolongation à 2 mois. Le contrôle à domicile peut être effectué par toute personne habilitée, et non plus seulement par un médecin agréé. Pour le TPT, le contrôle systématique par médecin agréé au-delà de trois mois est supprimé.",
+    id: "decret-2026-705",
+    date: "2026-08-08",
+    publie: "2026-08-08",
+    rectificatif: null,
+    vigueur: null,
+    fiches: ["cmo", "clm", "cld", "tpt"],
+    versants: ["fpe", "fpt", "fph"],
+    portee: "modif",
+    titre: "Correction d'une référence d'article dans le décret congés maladie du 29 juillet 2026",
+    resume: "Un rectificatif publié au Journal officiel corrige une erreur de numérotation dans le décret n° 2026-705 relatif aux congés pour raisons de santé : au deuxième alinéa du 7° de son article 3, la référence « Art. 21-6 » doit se lire « Art. 26-1 ». Aucune règle de fond sur les droits à congé ou à rémunération n'est modifiée : seule la référence à citer change.",
     source: {
-      texte: 'Décret n° 2026-705 du 29 juillet 2026 relatif aux congés pour raisons de santé des agents publics civils et militaires',
-      url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000054570030',
+      texte: "Rectificatif au décret n° 2026-705 du 29 juillet 2026 relatif aux congés pour raisons de santé des agents publics civils et militaires, JORF n° 177 du 31 juillet 2026, texte n° 70",
+      url: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000054643099",
     },
-    integre: true,
+    integre: false,
   },
   /* @veille:end */
 ];
