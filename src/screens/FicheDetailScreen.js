@@ -82,13 +82,17 @@ const TableauSynthetique = ({ fiche, versant, color }) => {
       <View style={styles.tableContainer}>
         <View style={[styles.tableRow, styles.tableHeader]}>
           {tableau.colonnes.map((col, i) => (
-            <Text key={i} style={[styles.tableHeaderCell, { flex: col.flex || 1 }]}>{col.label}</Text>
+            <Text key={i} style={[styles.tableHeaderCell, { flex: col.flex || 1 }]}
+                  adjustsFontSizeToFit minimumFontScale={0.75} numberOfLines={2}>
+              {col.label}
+            </Text>
           ))}
         </View>
         {tableau.lignes.map((ligne, i) => (
           <View key={i} style={[styles.tableRow, i % 2 === 0 ? styles.tableRowEven : styles.tableRowOdd]}>
             {ligne.map((cell, j) => (
-              <Text key={j} style={[styles.tableCell, { flex: tableau.colonnes[j]?.flex || 1 }, j === 0 && styles.tableCellFirst]}>
+              <Text key={j} style={[styles.tableCell, { flex: tableau.colonnes[j]?.flex || 1 }, j === 0 && styles.tableCellFirst]}
+                    adjustsFontSizeToFit minimumFontScale={0.75} numberOfLines={3}>
                 {cell}
               </Text>
             ))}
@@ -797,8 +801,8 @@ const styles = StyleSheet.create({
   tableHeader: { backgroundColor: Colors.slate },
   tableRowEven: { backgroundColor: Colors.white },
   tableRowOdd: { backgroundColor: Colors.warm },
-  tableHeaderCell: { fontSize: 10, color: 'white', fontWeight: '600', padding: 7, textTransform: 'uppercase', letterSpacing: 0.04 },
-  tableCell: { fontSize: 11, color: Colors.slateMid, padding: 7, lineHeight: 15 },
+  tableHeaderCell: { fontSize: 10, color: 'white', fontWeight: '600', paddingVertical: 7, paddingHorizontal: 5, textTransform: 'uppercase', letterSpacing: 0.04 },
+  tableCell: { fontSize: 11, color: Colors.slateMid, paddingVertical: 7, paddingHorizontal: 5, lineHeight: 15 },
   tableCellFirst: { color: Colors.slate, fontWeight: '500' },
 
   stepList: { gap: 12 },

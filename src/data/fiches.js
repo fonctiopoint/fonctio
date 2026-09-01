@@ -1960,16 +1960,43 @@ export const getModuleById = (moduleId) => {
   return MODULES.find(m => m.id === moduleId) || null;
 };
 
+// Compare sans tenir compte des accents : sur un clavier de téléphone, on tape
+// « disponibilite » et non « disponibilité ». Sans cette normalisation, la
+// recherche ne renvoyait rien pour les fiches au titre accentué.
+//
+// normalize('NFD') sépare la lettre de son diacritique, qu'on retire ensuite.
+// Hermes ne fournit normalize() que si le support Intl est compilé : le repli
+// couvre le français, car une recherche muette serait pire qu'une recherche
+// approchée.
+const ACCENTS = {
+  '\u00e0': 'a', '\u00e2': 'a', '\u00e4': 'a', '\u00e1': 'a', '\u00e3': 'a', '\u00e5': 'a',
+  '\u00e7': 'c',
+  '\u00e9': 'e', '\u00e8': 'e', '\u00ea': 'e', '\u00eb': 'e',
+  '\u00ee': 'i', '\u00ef': 'i', '\u00ec': 'i', '\u00ed': 'i',
+  '\u00f4': 'o', '\u00f6': 'o', '\u00f2': 'o', '\u00f3': 'o', '\u00f5': 'o',
+  '\u00f9': 'u', '\u00fb': 'u', '\u00fc': 'u', '\u00fa': 'u',
+  '\u00ff': 'y', '\u00fd': 'y', '\u00f1': 'n', '\u0153': 'oe', '\u00e6': 'ae',
+};
+
+const nu = (s) => {
+  const bas = (s || '').toLowerCase();
+  if (typeof bas.normalize === 'function') {
+    return bas.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+  return bas.replace(/[^\u0000-\u007f]/g, (c) => (c in ACCENTS ? ACCENTS[c] : c));
+};
+
 export const searchFiches = (query) => {
   if (!query || query.length < 2) return [];
-  const q = query.toLowerCase();
+  const q = nu(query);
   const results = [];
   for (const module of MODULES) {
     for (const fiche of (module.fiches || [])) {
       if (
-        fiche.titre.toLowerCase().includes(q) ||
-        fiche.resume.toLowerCase().includes(q) ||
-        fiche.chips.some(c => c.toLowerCase().includes(q))
+        nu(fiche.titre).includes(q) ||
+        nu(fiche.resume).includes(q) ||
+        (fiche.categorie && nu(fiche.categorie).includes(q)) ||
+        fiche.chips.some(c => nu(c).includes(q))
       ) {
         results.push({ ...fiche, moduleColor: module.color, moduleTitle: module.title });
       }
