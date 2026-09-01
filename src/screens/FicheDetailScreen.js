@@ -240,17 +240,20 @@ const VERSANT_LABELS = { fpe: 'État (FPE)', fpt: 'Territoriale (FPT)', fph: 'Ho
 const VERSANT_COLORS = { fpe: Colors.terracotta, fpt: Colors.sky, fph: Colors.olive };
 const VERSANT_ICONS = { fpe: '🏛️', fpt: '🏙️', fph: '🏥' };
 
+// Les notes par versant sont toutes présentées de la même façon, avec la
+// couleur du versant concerné. Auparavant, celles commençant par « ⚠️ »
+// étaient teintées en ambre et les autres en olive : cela revenait à désigner
+// un versant comme « bon » et un autre comme « à problème », alors que
+// certaines notes ainsi marquées n'annonçaient rien de défavorable. Les emoji
+// ayant été retirés des données, ce test ne pouvait plus rien distinguer.
 const VersantNote = ({ note, versant, theme }) => {
   if (!note) return null;
   const color = VERSANT_COLORS[versant] || Colors.sky;
-  const isWarning = note.startsWith('⚠️');
-  const bgColor = isWarning ? Colors.amberLight : Colors.oliveLight;
-  const borderColor = isWarning ? Colors.amber : color;
   return (
-    <View style={[vnStyles.card, { backgroundColor: bgColor, borderLeftColor: borderColor }]}>
+    <View style={[vnStyles.card, { backgroundColor: Colors.oliveLight, borderLeftColor: color }]}>
       <View style={vnStyles.header}>
         <Text style={vnStyles.icon}>{VERSANT_ICONS[versant]}</Text>
-        <Text style={[vnStyles.label, { color: isWarning ? Colors.terracottaDark : color }]}>
+        <Text style={[vnStyles.label, { color }]}>
           Pour vous — FP {VERSANT_LABELS[versant]}
         </Text>
       </View>

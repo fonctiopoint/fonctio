@@ -11,13 +11,13 @@ export const NOUVEAUTES = {
   date: 'Août 2026',
   titre: 'Nouveautés — Août 2026',
   lignes: [
-    '🆕 Congé supplémentaire de naissance (1 ou 2 mois)',
-    '🆕 Se former pendant un congé de santé',
-    '⚖️ Décret du 29/07/2026 : TPT et arrêts de travail',
-    '✏️ CLD : liste des affections corrigée (dont cancer)',
-    '✏️ Contractuels FPH : régime rétabli (Décret 91-155)',
-    '✏️ PSC : FPT 2026, FPH reportée à 2027',
-    '🧭 App recentrée : 43 fiches, 10 modules',
+    'Congé supplémentaire de naissance (1 ou 2 mois)',
+    'Se former pendant un congé de santé',
+    'Décret du 29/07/2026 : TPT et arrêts de travail',
+    'CLD : liste des affections corrigée (dont cancer)',
+    'Contractuels FPH : régime rétabli (Décret 91-155)',
+    'PSC : FPT 2026, FPH reportée à 2027',
+    'App recentrée : 43 fiches, 10 modules',
   ],
 };
 
@@ -111,30 +111,30 @@ export const MODULES = [
         pieges: [
           'Le délai de 48 heures est impératif. Un retard injustifié peut entraîner une retenue sur traitement.',
           { texte: 'Les primes et indemnités (RIFSEEP, NBI…) suivent le traitement : 90 % les 3 premiers mois, puis 50 % en demi-traitement. Source : Décret 2010-997 art. 1er + Loi 2025-127.', versants: ['fpe'] },
-          { texte: 'Ne vous fiez pas au « 90 % puis 50 % » pour vos primes : cette règle vient d\'un décret propre à l\'État. En FPH, chaque prime obéit à son propre texte et la prime de service se réduit à proportion des jours d\'absence. Demandez le détail à la DRH avant de faire vos comptes.', versants: ['fph'] },
+          { texte: 'La règle « 90 % puis 50 % » vaut pour le traitement, pas pour les primes : elle vient d\'un décret propre à l\'État. En FPH, chaque prime obéit à son propre texte et la prime de service se réduit à proportion des jours d\'absence. Demandez le détail à la DRH avant de faire vos comptes.', versants: ['fph'] },
           { texte: 'Le maintien des primes au prorata (90 % puis 50 %) est soumis à délibération de la collectivité. Sans délibération, les primes peuvent être suspendues. Vérifier auprès du service RH.', versants: ['fpt'] },
           'Heures de présence obligatoire : de 9 h à 11 h et de 14 h à 16 h, tous les jours, week-ends et jours fériés compris. Vous pouvez sortir en dehors de ces créneaux si le médecin a autorisé les sorties — mais c\'est bien pendant ces heures-là que le contrôle a lieu. Ne pas confondre avec la règle du secteur privé.',
-          '🆕 Depuis le 1er septembre 2026 : une absence injustifiée lors d\'un contrôle, ou le refus de s\'y soumettre, suspend le versement de la rémunération jusqu\'à la fin de l\'arrêt. La période reste toutefois décomptée de vos droits à congé — vous perdez la paie sans récupérer les jours.',
-          '🆕 Faites établir vos prolongations par le médecin qui a prescrit l\'arrêt initial. Passer par un autre praticien sans motif valable peut vous faire perdre le maintien de rémunération.',
-          'Lors du passage à 50 % (demi-traitement), le traitement peut être versé à tort à taux plein en raison du calendrier des payes. La somme versée en trop constitue un indu qui devra être remboursé. Se rapprocher impérativement du service RH dès le passage à mi-traitement.',
+          'Depuis le 1er septembre 2026 : une absence injustifiée lors d\'un contrôle, ou le refus de s\'y soumettre, suspend le versement de la rémunération jusqu\'à la fin de l\'arrêt. La période reste toutefois décomptée de vos droits à congé — vous perdez la paie sans récupérer les jours.',
+          'Faites établir vos prolongations par le médecin qui a prescrit l\'arrêt initial. Passer par un autre praticien sans motif valable peut vous faire perdre le maintien de rémunération.',
+          'Lors du passage à 50 % (demi-traitement), le traitement peut être versé à tort à taux plein en raison du calendrier des payes. La somme versée en trop constitue un indu qui devra être remboursé. Prévenir le service RH dès le passage à mi-traitement.',
           'Le CMO à 90 % n\'est pas un plein traitement intégral — vérifier sa fiche de paie pour s\'assurer du bon calcul.',
           'Le congé d\'office ne peut pas servir de sanction disciplinaire déguisée. Ne pas le confondre non plus avec la mise en disponibilité d\'office : le congé d\'office maintient les droits à rémunération, la disponibilité les suspend.',
         ],
-        recours: 'En cas de refus injustifié, recours gracieux auprès de l\'administration (2 mois), puis tribunal administratif.',
+        recours: 'En cas de refus, recours gracieux auprès de l\'administration (2 mois), puis tribunal administratif.',
         sources: [
           { texte: 'Art. L. 822-1 à L. 822-5 CGFP (congé de maladie ordinaire)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000044416551' },
           { texte: 'Décret n° 86-442 du 14 mars 1986 (FPE)' },
           { texte: 'Décret n° 87-602 du 30 juillet 1987 (FPT)' },
           { texte: 'Décret n° 88-386 du 19 avril 1988 (FPH)' },
           { texte: 'Loi n° 2025-127 du 14 février 2025 + Décret n° 2025-197 du 27 février 2025 (rémunération à 90 %)' },
-          { texte: '🆕 Décret n° 2026-705 du 29 juillet 2026 (arrêts de travail — en vigueur au 1er septembre 2026)' },
+          { texte: 'Décret n° 2026-705 du 29 juillet 2026 (arrêts de travail — en vigueur au 1er septembre 2026)' },
           { texte: 'Décret n° 86-442 art. 42 et suivants (congé d\'office)' },
           { texte: 'Code de la sécurité sociale — prise en charge du thermalisme', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000006073189' },
         ],
         versantNotes: {
-          fpe: '✅ En FPE, les primes (RIFSEEP, NBI…) sont maintenues à 90 % les 3 premiers mois puis à 50 % en demi-traitement. Source : Décret 2010-997 art. 1er + Loi 2025-127. Le jour de carence s\'applique au 1er jour de chaque arrêt.',
-          fpt: '⚠️ En FPT, le maintien des primes au prorata (90 % puis 50 %) est conditionné à une délibération de la collectivité. Sans délibération, les primes peuvent être entièrement suspendues. Vérifier impérativement auprès du service RH ou de la DRH de la collectivité. Source : CE n°462452 du 4 juil. 2024 + principe de parité.',
-          fph: '⚠️ En FPH, le traitement suit la même règle que partout : 90 % pendant 3 mois puis 50 % (Loi 2025-127 et Décret 2025-197, applicables aux trois versants). Les primes, en revanche, ne suivent PAS automatiquement : il n\'existe pas d\'équivalent hospitalier au Décret 2010-997 de l\'État. Chaque prime a son propre régime — la prime de service, notamment, est réduite en fonction des jours d\'absence. Demandez le détail à votre DRH.',
+          fpe: 'En FPE, les primes (RIFSEEP, NBI…) sont maintenues à 90 % les 3 premiers mois puis à 50 % en demi-traitement. Source : Décret 2010-997 art. 1er + Loi 2025-127. Le jour de carence s\'applique au 1er jour de chaque arrêt.',
+          fpt: 'En FPT, le maintien des primes au prorata (90 % puis 50 %) est conditionné à une délibération de la collectivité. Sans délibération, les primes peuvent être entièrement suspendues. À vérifier auprès du service RH ou de la DRH de la collectivité. Source : CE n°462452 du 4 juil. 2024 + principe de parité.',
+          fph: 'En FPH, le traitement suit la même règle que partout : 90 % pendant 3 mois puis 50 % (Loi 2025-127 et Décret 2025-197, applicables aux trois versants). Les primes, en revanche, ne suivent pas automatiquement : il n\'existe pas d\'équivalent hospitalier au Décret 2010-997 de l\'État. Chaque prime a son propre régime — la prime de service, notamment, est réduite en fonction des jours d\'absence. Demandez le détail à votre DRH.',
         },
       },
       {
@@ -150,8 +150,8 @@ export const MODULES = [
           { label: '1re année — primes', valeur: 'Selon délibération', detail: 'Le Décret 2024-641 ne s\'applique pas directement. La collectivité peut prévoir le maintien par délibération.', versants: ['fpt'] },
           { label: '1re année — primes', valeur: 'Selon règles locales', detail: 'Se renseigner auprès de la DRH de l\'établissement.', versants: ['fph'] },
           { label: '2e et 3e années — traitement', valeur: '60 %', detail: '60 % du traitement indiciaire depuis le Décret n°2024-641 du 27 juin 2024, qui a relevé l\'ancien demi-traitement.', versants: ['fpe'] },
-          { label: '2e et 3e années — traitement', valeur: '50 %', detail: 'Demi-traitement. Le relèvement à 60 % opéré par le Décret 2024-641 ne concerne QUE la fonction publique de l\'État : il ne s\'applique pas aux agents territoriaux.', versants: ['fpt'] },
-          { label: '2e et 3e années — traitement', valeur: '50 %', detail: 'Demi-traitement. Le relèvement à 60 % opéré par le Décret 2024-641 ne concerne QUE la fonction publique de l\'État : il ne s\'applique pas aux agents hospitaliers.', versants: ['fph'] },
+          { label: '2e et 3e années — traitement', valeur: '50 %', detail: 'Demi-traitement. Le relèvement à 60 % opéré par le Décret 2024-641 ne concerne que la fonction publique de l\'État : il ne s\'applique pas aux agents territoriaux.', versants: ['fpt'] },
+          { label: '2e et 3e années — traitement', valeur: '50 %', detail: 'Demi-traitement. Le relèvement à 60 % opéré par le Décret 2024-641 ne concerne que la fonction publique de l\'État : il ne s\'applique pas aux agents hospitaliers.', versants: ['fph'] },
           { label: '2e et 3e années — primes', valeur: '60 %', detail: 'Depuis le Décret n°2024-641 du 27 juin 2024.', versants: ['fpe'] },
           { label: '2e et 3e années — primes', valeur: 'Selon délibération', detail: 'Maintien possible par délibération de la collectivité, dans la limite du taux FPE.', versants: ['fpt'] },
           { label: '2e et 3e années — primes', valeur: 'Selon règles locales', detail: 'Se renseigner auprès de la DRH de l\'établissement.', versants: ['fph'] },
@@ -208,7 +208,7 @@ export const MODULES = [
           'L\'administration ne peut pas connaître votre diagnostic — seul l\'avis d\'aptitude ou d\'inaptitude lui est transmis.',
           'Le refus de CLM doit être motivé et notifié par écrit. Il est contestable devant le tribunal administratif.',
           'Lors du changement de taux en 2e année, le traitement peut continuer d\'être versé au taux plein le temps que la paie se cale. La somme perçue en trop est un indu qui devra être remboursé — prévenir le service RH dès le passage.',
-          { texte: '⚠️ Le passage à 60 % en 2e et 3e années est propre à la fonction publique de l\'État. Si un article généraliste vous annonce 60 %, vérifiez qu\'il ne parle pas uniquement de la FPE — vous êtes à 50 %.', versants: ['fpt', 'fph'] },
+          { texte: 'Le passage à 60 % en 2e et 3e années est propre à la fonction publique de l\'État. Si un article généraliste vous annonce 60 %, vérifiez qu\'il ne parle pas uniquement de la FPE — vous êtes à 50 %.', versants: ['fpt', 'fph'] },
           { texte: 'Les primes sont maintenues à 33 % puis 60 % sur décision de la collectivité — vérifier la délibération auprès du service RH.', versants: ['fpt'] },
           { texte: 'Les primes sont maintenues à 33 % puis 60 % depuis le Décret 2024-641.', versants: ['fpe'] },
           'Rechute : de nouveaux droits s\'ouvrent si l\'agent a accompli 1 an de service actif entre les deux congés.',
@@ -225,9 +225,9 @@ export const MODULES = [
           { texte: 'Décret n° 2022-353 du 11 mars 2022 (conseil médical)' },
         ],
         versantNotes: {
-          fpe: '✅ En FPE : 100 % du traitement + 33 % des primes en 1re année, puis 60 % + 60 % des primes en 2e et 3e années. Source : Décret n°2024-641 du 27 juin 2024.',
-          fpt: '⚠️ En FPT : 100 % du traitement la 1re année, puis DEMI-TRAITEMENT (50 %) les 2e et 3e années — Décret 87-602. Le relèvement à 60 % opéré par le Décret 2024-641 vise la seule fonction publique de l\'État et ne vous est pas applicable. Les primes ne sont maintenues que si la collectivité l\'a prévu par délibération, sans pouvoir dépasser les taux de l\'État. Vérifier la délibération auprès du service RH.',
-          fph: '⚠️ En FPH : 100 % du traitement la 1re année, puis DEMI-TRAITEMENT (50 %) les 2e et 3e années — Décret 88-386 du 19 avril 1988. Le relèvement à 60 % opéré par le Décret 2024-641 vise la seule fonction publique de l\'État. Sur les primes, il n\'existe aucun équivalent hospitalier à ce décret : leur sort dépend de chaque prime et des règles de l\'établissement (la prime de service, par exemple, est réduite en fonction des jours d\'absence). À faire confirmer par écrit par la DRH.',
+          fpe: 'En FPE : 100 % du traitement + 33 % des primes en 1re année, puis 60 % + 60 % des primes en 2e et 3e années. Source : Décret n°2024-641 du 27 juin 2024.',
+          fpt: 'En FPT : 100 % du traitement la 1re année, puis demi-traitement (50 %) les 2e et 3e années — Décret 87-602. Le relèvement à 60 % opéré par le Décret 2024-641 vise la seule fonction publique de l\'État et ne vous est pas applicable. Les primes ne sont maintenues que si la collectivité l\'a prévu par délibération, sans pouvoir dépasser les taux de l\'État. Vérifier la délibération auprès du service RH.',
+          fph: 'En FPH : 100 % du traitement la 1re année, puis demi-traitement (50 %) les 2e et 3e années — Décret 88-386 du 19 avril 1988. Le relèvement à 60 % opéré par le Décret 2024-641 vise la seule fonction publique de l\'État. Sur les primes, il n\'existe aucun équivalent hospitalier à ce décret : leur sort dépend de chaque prime et des règles de l\'établissement (la prime de service, par exemple, est réduite en fonction des jours d\'absence). À faire confirmer par écrit par la DRH.',
         },
       },
       {
@@ -240,10 +240,10 @@ export const MODULES = [
         droits: [
           { label: 'Plein traitement', valeur: '3 ans', detail: '100 % du traitement indiciaire.' },
           { label: 'Demi-traitement', valeur: '2 ans à 50 %', detail: '50 % du traitement indiciaire. SFT et indemnité de résidence maintenus intégralement.' },
-          { label: 'Primes et indemnités', valeur: '❌ Suspendues', detail: 'Contrairement au CLM et au CGM, le régime indemnitaire n\'est PAS maintenu pendant le CLD. Le Décret n°2024-641 du 27 juin 2024 a ouvert le maintien partiel des primes en CLM et CGM uniquement — il laisse expressément le CLD hors de ce dispositif. Source : Décret 2010-997 modifié.', versants: ['fpe'] },
-          { label: 'Primes et indemnités', valeur: '❌ Suspendues', detail: 'Le régime indemnitaire est suspendu pendant le CLD. Une délibération ne peut pas aller au-delà de ce que prévoit l\'État (principe de parité), et l\'État ne maintient rien en CLD.', versants: ['fpt'] },
-          { label: 'Primes et indemnités', valeur: '❌ Suspendues', detail: 'Le régime indemnitaire est suspendu pendant le CLD, comme dans les deux autres versants.', versants: ['fph'] },
-          { label: 'Durée par groupe', valeur: '5 ans', detail: 'Les 5 ans s\'apprécient PAR GROUPE d\'affections, pas sur l\'ensemble de la carrière. Un agent ayant épuisé 5 ans au titre d\'un groupe peut ouvrir de nouveaux droits au titre d\'un autre groupe.' },
+          { label: 'Primes et indemnités', valeur: 'Suspendues', detail: 'Contrairement au CLM et au CGM, le régime indemnitaire n\'est pas maintenu pendant le CLD. Le Décret n°2024-641 du 27 juin 2024 a ouvert le maintien partiel des primes en CLM et CGM uniquement — il laisse expressément le CLD hors de ce dispositif. Source : Décret 2010-997 modifié.', versants: ['fpe'] },
+          { label: 'Primes et indemnités', valeur: 'Suspendues', detail: 'Le régime indemnitaire est suspendu pendant le CLD. Une délibération ne peut pas aller au-delà de ce que prévoit l\'État (principe de parité), et l\'État ne maintient rien en CLD.', versants: ['fpt'] },
+          { label: 'Primes et indemnités', valeur: 'Suspendues', detail: 'Le régime indemnitaire est suspendu pendant le CLD, comme dans les deux autres versants.', versants: ['fph'] },
+          { label: 'Durée par groupe', valeur: '5 ans', detail: 'Les 5 ans s\'apprécient par groupe d\'affections, pas sur l\'ensemble de la carrière. Un agent ayant épuisé 5 ans au titre d\'un groupe peut ouvrir de nouveaux droits au titre d\'un autre groupe.' },
           { label: 'Si imputable au service', valeur: '8 ans', detail: 'Lorsque l\'affection est contractée dans l\'exercice des fonctions : 5 ans à plein traitement + 3 ans à demi-traitement, soit 8 ans au total.' },
         ],
         tableau: {
@@ -267,10 +267,10 @@ export const MODULES = [
           { num: 4, titre: 'Suivi médical régulier', texte: 'Le conseil médical est saisi à chaque renouvellement.' },
         ],
         pieges: [
-          '⚠️ Les affections cancéreuses ouvrent droit au CLD. C\'est le motif le plus fréquent — ne pas y renoncer en pensant que seules les maladies rares sont concernées.',
-          'Les 5 ans se comptent PAR GROUPE d\'affections, pas sur la carrière entière. Épuiser ses droits au titre d\'un cancer n\'empêche pas d\'ouvrir un CLD au titre d\'une autre catégorie plus tard.',
+          'Les affections cancéreuses ouvrent droit au CLD. C\'est le motif de CLD le plus fréquent : le dispositif n\'est pas réservé aux maladies rares.',
+          'Les 5 ans se comptent par groupe d\'affections, pas sur la carrière entière. Épuiser ses droits au titre d\'un cancer n\'empêche pas d\'ouvrir un CLD au titre d\'une autre catégorie plus tard.',
           'Le CLD n\'est pas renouvelable pour la même affection une fois les 5 ans épuisés — c\'est la disponibilité d\'office, le reclassement ou la retraite pour invalidité qui prennent le relais.',
-          'Contrairement au CLM, les primes ne sont PAS maintenues en CLD, même partiellement. Le passage du CLM au CLD peut donc faire baisser le revenu global alors même que le traitement reste à 100 %. À anticiper avec le service RH avant d\'accepter le basculement.',
+          'Contrairement au CLM, les primes ne sont pas maintenues en CLD, même partiellement. Le passage du CLM au CLD peut donc faire baisser le revenu global alors même que le traitement reste à 100 %. À anticiper avec le service RH avant d\'accepter le basculement.',
           'Un agent ne peut pas être en CLM et en CLD simultanément. Le CLD remplace le CLM.',
           'La non-inscription de votre maladie dans un des 5 groupes n\'empêche pas un CLM — seulement le CLD.',
           'Lors du passage au demi-traitement (4e année), un versement en trop peut intervenir. Se rapprocher du service RH dès le changement de taux pour éviter un indu.',
@@ -284,9 +284,9 @@ export const MODULES = [
           { texte: 'Décret n° 2010-997 du 26 août 2010 modifié (régime indemnitaire — CLD exclu du maintien)' },
         ],
         versantNotes: {
-          fpe: '✅ FPE : 3 ans à plein traitement puis 2 ans à demi-traitement, par groupe d\'affections. Les primes sont suspendues pendant toute la durée du CLD — le Décret 2024-641 n\'a ouvert leur maintien partiel qu\'en CLM et CGM.',
-          fpt: '⚠️ FPT : mêmes durées et mêmes taux qu\'en FPE. Les primes sont suspendues : une délibération ne peut pas prévoir mieux que l\'État, qui ne maintient rien en CLD.',
-          fph: '⚠️ FPH : mêmes durées et mêmes taux, sur le fondement du Décret 88-386 du 19 avril 1988. Les primes sont suspendues pendant le CLD.',
+          fpe: 'FPE : 3 ans à plein traitement puis 2 ans à demi-traitement, par groupe d\'affections. Les primes sont suspendues pendant toute la durée du CLD — le Décret 2024-641 n\'a ouvert leur maintien partiel qu\'en CLM et CGM.',
+          fpt: 'FPT : mêmes durées et mêmes taux qu\'en FPE. Les primes sont suspendues : une délibération ne peut pas prévoir mieux que l\'État, qui ne maintient rien en CLD.',
+          fph: 'FPH : mêmes durées et mêmes taux, sur le fondement du Décret 88-386 du 19 avril 1988. Les primes sont suspendues pendant le CLD.',
         },
       },
       {
@@ -298,11 +298,11 @@ export const MODULES = [
         ciblePublic: 'Fonctionnaires titulaires en position d\'activité. Les agents contractuels peuvent également en bénéficier, mais l\'accord relève alors de la CPAM et non de l\'administration.',
         droits: [
           { label: 'Rémunération', valeur: 'Plein traitement maintenu', detail: 'Le traitement indiciaire est versé intégralement (SFT et NBI compris), quelle que soit la quotité de reprise. Source : Art. L. 823-1 CGFP.' },
-          { label: 'Durée par autorisation', valeur: '1 an maximum', detail: 'Depuis le 1er août 2026, l\'autorisation peut être accordée pour une durée allant jusqu\'à un an SANS renouvellement périodique obligatoire. Le découpage en périodes de 1 à 3 mois n\'est plus imposé. Source : Art. L. 823-5 CGFP + Décret 2026-705 du 29 juillet 2026.' },
+          { label: 'Durée par autorisation', valeur: '1 an maximum', detail: 'Depuis le 1er août 2026, l\'autorisation peut être accordée pour une durée allant jusqu\'à un an, sans renouvellement périodique obligatoire. Le découpage en périodes de 1 à 3 mois n\'est plus imposé. Source : Art. L. 823-5 CGFP + Décret 2026-705 du 29 juillet 2026.' },
           { label: 'Délai de décision', valeur: '30 jours', detail: 'L\'administration doit statuer dans les 30 jours suivant la demande. Après un congé de longue maladie ou de longue durée, elle doit répondre dès le jour de la reprise. Source : Décret 2026-705.' },
-          { label: 'Contrôle médical à 3 mois', valeur: '❌ Supprimé', detail: 'Le contrôle médical systématique au-delà de 3 mois de TPT est supprimé depuis le 1er août 2026. Un contrôle reste possible à tout moment, mais il n\'est plus automatique.' },
+          { label: 'Contrôle médical à 3 mois', valeur: 'Supprimé', detail: 'Le contrôle médical systématique au-delà de 3 mois de TPT est supprimé depuis le 1er août 2026. Un contrôle reste possible à tout moment, mais il n\'est plus automatique.' },
           { label: 'Renouvellement', valeur: 'Après 1 an d\'activité', detail: 'À l\'issue des 12 mois de TPT, une nouvelle autorisation peut être accordée après un délai minimal d\'1 an en position d\'activité ou de détachement. Source : Art. L. 823-6 CGFP + Décret 86-442 art. 23-14 (modifié par Décret 2024-641).' },
-          { label: 'Limite par affection', valeur: '❌ Supprimée', detail: 'Depuis le Décret n°2021-997 du 28 juillet 2021, il n\'y a plus aucune distinction selon l\'origine ou la nature de la pathologie. La nouvelle autorisation peut être accordée pour la même affection ou une affection différente. Source : FAQ officielle portail FP + Art. L. 823-6 CGFP.' },
+          { label: 'Limite par affection', valeur: 'Supprimée', detail: 'Depuis le Décret n°2021-997 du 28 juillet 2021, il n\'y a plus aucune distinction selon l\'origine ou la nature de la pathologie. La nouvelle autorisation peut être accordée pour la même affection ou une affection différente. Source : FAQ officielle portail FP + Art. L. 823-6 CGFP.' },
           { label: 'Quotité', valeur: '50 %, 60 %, 70 %, 80 % ou 90 %', detail: 'Fixée par le médecin traitant dans le certificat médical. Ne peut être inférieure à 50 %.' },
         ],
         tableau: null,
@@ -353,10 +353,10 @@ export const MODULES = [
           { num: 5, titre: 'Renouvellement après 1 an d\'activité', texte: 'À l\'issue des 12 mois de TPT, si l\'état de santé le justifie, une nouvelle demande peut être déposée après au moins 1 an en position d\'activité ou de détachement — pour la même pathologie ou une autre.' },
         ],
         pieges: [
-          '⚠️ Attention à la confusion fréquente : la limite "1 an renouvelable une fois" qui existait avant 2021 est SUPPRIMÉE. Le TPT n\'est plus limité à 2 ans par affection. La seule contrainte est : 1 an de TPT maximum, puis 1 an d\'activité avant une nouvelle autorisation.',
-          '🆕 Depuis le 1er août 2026, deux garanties nouvelles à faire valoir : un refus pour motif médical suppose la consultation préalable d\'un médecin agréé, et un refus pour nécessités de service doit être précédé d\'un entretien. Un refus qui ne respecte pas ces étapes est irrégulier.',
-          '🆕 Ne vous laissez pas imposer un découpage en périodes de 1 à 3 mois : depuis le 1er août 2026, l\'autorisation peut couvrir jusqu\'à un an d\'un seul tenant, sans renouvellement périodique obligatoire.',
-          'Le refus de TPT est une décision administrative défavorable qui doit être motivée par l\'administration. Un refus non motivé est illégal.',
+          'Confusion fréquente : la limite « 1 an renouvelable une fois », qui existait avant 2021, a été supprimée. Le TPT n\'est plus limité à 2 ans par affection. La seule contrainte est : 1 an de TPT maximum, puis 1 an d\'activité avant une nouvelle autorisation.',
+          'Depuis le 1er août 2026, deux garanties nouvelles à faire valoir : un refus pour motif médical suppose la consultation préalable d\'un médecin agréé, et un refus pour nécessités de service doit être précédé d\'un entretien. Un refus qui ne respecte pas ces étapes est irrégulier.',
+          'Ne vous laissez pas imposer un découpage en périodes de 1 à 3 mois : depuis le 1er août 2026, l\'autorisation peut couvrir jusqu\'à un an d\'un seul tenant, sans renouvellement périodique obligatoire.',
+          'Le refus de TPT est une décision administrative défavorable qui doit être motivée par l\'administration. Un refus non motivé peut être contesté à ce seul titre.',
           'Le refus de se soumettre à un contrôle médical peut entraîner l\'interruption du TPT — les contrôles restent possibles à tout moment, même s\'ils ne sont plus systématiques.',
           'Le TPT cesse automatiquement si l\'agent est en arrêt maladie plus de 30 jours consécutifs pendant le TPT — l\'arrêt n\'interrompt pas les droits mais suspend l\'autorisation.',
           'En cas d\'aggravation pendant le TPT, l\'agent peut être replacé en CLM ou CLD. Un arrêt survenant pendant le TPT ne remet pas à zéro le délai d\'1 an d\'activité nécessaire au renouvellement.',
@@ -369,13 +369,13 @@ export const MODULES = [
           { texte: 'Décret n°2021-997 du 28 juillet 2021 (réforme TPT — suppression limite par affection)' },
           { texte: 'Décret n°2021-1462 du 8 novembre 2021 (TPT FPT)' },
           { texte: 'Décret n°2024-641 du 27 juin 2024, art. 5 (mise à jour art. 23-14 Décret 86-442)' },
-          { texte: '🆕 Décret n°2026-705 du 29 juillet 2026 (procédure TPT — en vigueur au 1er août 2026)' },
+          { texte: 'Décret n°2026-705 du 29 juillet 2026 (procédure TPT — en vigueur au 1er août 2026)' },
           { texte: 'Décret n°88-386 du 19 avril 1988 (congés pour raison de santé — FPH)' },
         ],
         versantNotes: {
-          fpe: '✅ FPE : depuis le 11 novembre 2021, le TPT peut être accordé sans condition préalable d\'arrêt de travail. Depuis le 1er août 2026, l\'administration doit statuer sous 30 jours et ne peut refuser pour motif médical sans avis d\'un médecin agréé. Sources : Décret 2021-997 + Décret 2026-705.',
-          fpt: '⚠️ FPT : le TPT pour les fonctionnaires CNRACL est accordé après un congé pour raison de santé préalable. Pour les fonctionnaires IRCANTEC (temps non complet), plus de condition préalable d\'arrêt depuis 2021. Les nouvelles garanties de procédure du Décret 2026-705 (délai de 30 jours, encadrement des refus) s\'appliquent aussi à vous depuis le 1er août 2026.',
-          fph: '✅ FPH : le TPT peut être accordé sans condition préalable d\'arrêt, sur le fondement du Décret 88-386. Comme dans les deux autres versants, le Décret 2026-705 impose depuis le 1er août 2026 une décision sous 30 jours (le jour de la reprise après un CLM ou un CLD) et supprime le contrôle médical systématique à 3 mois.',
+          fpe: 'FPE : depuis le 11 novembre 2021, le TPT peut être accordé sans condition préalable d\'arrêt de travail. Depuis le 1er août 2026, l\'administration doit statuer sous 30 jours et ne peut refuser pour motif médical sans avis d\'un médecin agréé. Sources : Décret 2021-997 + Décret 2026-705.',
+          fpt: 'FPT : le TPT pour les fonctionnaires CNRACL est accordé après un congé pour raison de santé préalable. Pour les fonctionnaires IRCANTEC (temps non complet), plus de condition préalable d\'arrêt depuis 2021. Les nouvelles garanties de procédure du Décret 2026-705 (délai de 30 jours, encadrement des refus) s\'appliquent aussi à vous depuis le 1er août 2026.',
+          fph: 'FPH : le TPT peut être accordé sans condition préalable d\'arrêt, sur le fondement du Décret 88-386. Comme dans les deux autres versants, le Décret 2026-705 impose depuis le 1er août 2026 une décision sous 30 jours (le jour de la reprise après un CLM ou un CLD) et supprime le contrôle médical systématique à 3 mois.',
         },
       },
       {
@@ -420,7 +420,7 @@ export const MODULES = [
         id: 'formation-pendant-conge',
         titre: 'Se former pendant un congé de santé',
         categorie: 'Santé & Congés maladie',
-        chips: ['🆕 Nouveau 2026', 'Tous agents', 'Avis médical requis', 'Maintien dans l\'emploi'],
+        chips: ['Nouveau 2026', 'Tous agents', 'Avis médical requis', 'Maintien dans l\'emploi'],
         resume: 'Depuis le 1er septembre 2026, un agent en congé pour raison de santé peut demander à suivre une formation ou à réaliser un bilan de compétences, sous réserve de l\'avis favorable d\'un médecin agréé. Un levier concret pour préparer un reclassement ou une reconversion sans attendre la reprise.',
         ciblePublic: 'Agents publics des trois versants, titulaires et contractuels, placés en congé pour raison de santé (CMO, CLM, CLD, CITIS).',
         droits: [
@@ -442,13 +442,13 @@ export const MODULES = [
         ],
         recours: 'Refus non motivé de l\'administration : recours gracieux (2 mois) puis tribunal administratif. Avis médical défavorable : demande de contre-expertise, puis saisine du conseil médical.',
         sources: [
-          { texte: '🆕 Décret n° 2026-705 du 29 juillet 2026 (congés pour raison de santé — en vigueur au 1er septembre 2026)' },
+          { texte: 'Décret n° 2026-705 du 29 juillet 2026 (congés pour raison de santé — en vigueur au 1er septembre 2026)' },
           { texte: 'Art. L. 422-1 et suivants CGFP (formation professionnelle et CPF)' },
         ],
         versantNotes: {
-          fpe: '✅ FPE : dispositif applicable depuis le 1er septembre 2026, titulaires comme contractuels.',
-          fpt: '✅ FPT : dispositif applicable depuis le 1er septembre 2026. Le CNFPT et le centre de gestion peuvent proposer des actions adaptées.',
-          fph: '✅ FPH : dispositif applicable depuis le 1er septembre 2026. L\'ANFH est l\'organisme de référence pour le financement des formations des agents hospitaliers.',
+          fpe: 'FPE : dispositif applicable depuis le 1er septembre 2026, titulaires comme contractuels.',
+          fpt: 'FPT : dispositif applicable depuis le 1er septembre 2026. Le CNFPT et le centre de gestion peuvent proposer des actions adaptées.',
+          fph: 'FPH : dispositif applicable depuis le 1er septembre 2026. L\'ANFH est l\'organisme de référence pour le financement des formations des agents hospitaliers.',
         },
       },
       {
@@ -464,7 +464,7 @@ export const MODULES = [
           { label: 'Rémunération 50 / 60 / 70 %', valeur: 'Strictement au prorata', detail: 'À 50 % de quotité, vous percevez 50 % du traitement. À 60 %, 60 %. À 70 %, 70 %. Aucune sur-rémunération sur ces trois quotités.' },
           { label: 'Rémunération 80 %', valeur: '6/7 ≈ 85,71 %', detail: 'Sur-rémunération légale : travailler à 80 % rapporte 6/7 du traitement plein, soit environ 85,71 % — et non 80 %.' },
           { label: 'Rémunération 90 %', valeur: '32/35 ≈ 91,43 %', detail: 'Même logique : travailler à 90 % rapporte 32/35 du traitement plein, soit environ 91,43 %.' },
-          { label: 'Ce qui est sur-rémunéré', valeur: 'Traitement + IR + primes', detail: 'Les fractions 6/7 et 32/35 s\'appliquent au traitement, à l\'indemnité de résidence ET aux primes et indemnités.' },
+          { label: 'Ce qui est sur-rémunéré', valeur: 'Traitement + IR + primes', detail: 'Les fractions 6/7 et 32/35 s\'appliquent au traitement, à l\'indemnité de résidence et aux primes et indemnités.' },
         ],
         etapes: [
           { num: 1, titre: 'Identifier le type de temps partiel', texte: 'Déterminer si le temps partiel peut être accordé de droit (naissance, enfant < 3 ans, proche aidant, handicap) ou s\'il nécessite une autorisation de l\'administration.' },
@@ -473,9 +473,9 @@ export const MODULES = [
           { num: 4, titre: 'Demander la surcotisation retraite', texte: 'Demander expressément au service RH la surcotisation retraite (pour cotiser comme si on était à temps plein). Elle n\'est jamais automatique et a un coût mensuel — à évaluer.' },
         ],
         pieges: [
-          'Le refus d\'un temps partiel de droit est illégal et contestable en référé.',
+          'Le temps partiel de droit ne peut pas être refusé. Un refus est contestable, y compris par la voie du référé.',
           'Ne pas oublier de demander la surcotisation retraite — elle ne se fait pas automatiquement.',
-          'Attention à une confusion fréquente : la sur-rémunération ne concerne QUE les quotités 80 % et 90 %. À 50 %, 60 % ou 70 %, la rémunération est strictement proportionnelle — il n\'existe aucun bonus.',
+          'Confusion fréquente : la sur-rémunération ne concerne que les quotités 80 % et 90 %. À 50 %, 60 % ou 70 %, la rémunération est strictement proportionnelle.',
           'Le passage de 80 % à 70 % fait perdre la sur-rémunération : l\'écart de revenu (environ 15,7 points) est bien plus important que l\'écart de temps travaillé (10 points). À calculer avant d\'arbitrer.',
         ],
         recours: 'Refus de temps partiel de droit : référé devant le tribunal administratif.',
@@ -500,15 +500,15 @@ export const MODULES = [
           { label: 'Réintégration anticipée', valeur: 'Possible', detail: 'En cas de maladie grave pendant la disponibilité, l\'agent peut demander une réintégration anticipée pour retrouver ses droits statutaires.' },
         ],
         etapes: [
-          { num: 1, titre: 'S\'affilier à la CPAM avant la disponibilité', texte: 'Démarche impérative à effectuer AVANT la prise d\'effet de la disponibilité. Contacter la CPAM du lieu de résidence avec les justificatifs de fin d\'activité.' },
+          { num: 1, titre: 'S\'affilier à la CPAM avant la disponibilité', texte: 'Démarche à effectuer avant la prise d\'effet de la disponibilité : elle ne se régularise pas après coup. Contacter la CPAM du lieu de résidence avec les justificatifs de fin d\'activité.' },
           { num: 2, titre: 'Vérifier la couverture', texte: 'S\'assurer que la couverture santé (mutuelle) reste active ou s\'adapter. La mutuelle liée à l\'employeur peut ne plus couvrir pendant la disponibilité.' },
           { num: 3, titre: 'En cas de maladie', texte: 'Si maladie pendant la disponibilité : soins pris en charge par la CPAM. Pour une maladie grave nécessitant un arrêt long, contacter l\'administration pour une réintégration anticipée.' },
           { num: 4, titre: 'Réintégration', texte: 'Demande de réintégration à adresser à l\'administration au moins 3 mois avant la fin de la disponibilité ou sans délai en cas d\'urgence médicale.' },
         ],
         pieges: [
-          'Tomber malade sans affiliation CPAM préalable = aucune prise en charge des soins et aucune indemnisation. C\'est le piège le plus fréquent en disponibilité.',
+          'Sans affiliation CPAM préalable, une maladie survenue pendant la disponibilité n\'ouvre droit à aucune prise en charge des soins ni à aucune indemnisation. C\'est la difficulté la plus fréquente sur cette position.',
           'La mutuelle employeur s\'arrête souvent à la fin du contrat ou de l\'activité — vérifier les clauses de portabilité.',
-          'Une réintégration anticipée n\'est pas automatique : l\'administration peut l\'accepter ou la différer selon les nécessités de service. En cas de refus abusif, recours possible.',
+          'Une réintégration anticipée n\'est pas automatique : l\'administration peut l\'accepter ou la différer selon les nécessités de service. Un refus peut être contesté.',
         ],
         recours: 'Demande de réintégration anticipée pour raisons médicales : recours gracieux si refus, puis tribunal administratif en urgence (référé).',
         sources: [
@@ -551,7 +551,7 @@ export const MODULES = [
           {
             label: 'Règle générale',
             valeur: 'Progressif selon ancienneté',
-            detail: 'Le maintien dépend de votre ancienneté dans l\'établissement. La réforme 2024 (Décret 2024-641) ne concerne QUE la fonction publique de l\'État : elle ne s\'applique pas à la FPH. Source : Décret 91-155 art. 10.',
+            detail: 'Le maintien dépend de votre ancienneté dans l\'établissement. La réforme 2024 (Décret 2024-641) ne concerne que la fonction publique de l\'État : elle ne s\'applique pas à la FPH. Source : Décret 91-155 art. 10.',
             versants: ['fph'],
           },
           {
@@ -615,7 +615,7 @@ export const MODULES = [
           ],
         },
         // FPH : régime progressif identique à la FPT (Décret 91-155 art. 10).
-        // Le Décret 2024-641 ne s'applique qu'à l'État — ne PAS aligner la FPH sur la FPE ici.
+        // Le Décret 2024-641 ne s'applique qu'à l'État : ne pas aligner la FPH sur la FPE ici.
         tableauFph: {
           titre: 'Ce que vous touchez selon votre ancienneté',
           colonnes: [
@@ -670,8 +670,8 @@ export const MODULES = [
           { texte: 'Ancienneté dans la même collectivité uniquement. Si vous avez changé de commune ou de département, le compteur repart à zéro.', versants: ['fpt'] },
           { texte: 'Ancienneté dans le même établissement uniquement. Un changement d\'hôpital remet le compteur à zéro, même sans interruption de carrière.', versants: ['fph'] },
           { texte: 'Sans ancienneté suffisante (< 4 mois), vous ne touchez que les IJ CPAM — soit environ la moitié de votre salaire.', versants: ['fpt', 'fph'] },
-          { texte: 'La réforme 2024 ne s\'applique PAS à la FPT. Les contractuels FPT gardent le régime progressif (Décret 88-145 art. 7 inchangé).', versants: ['fpt'] },
-          { texte: '⚠️ La réforme 2024 ne s\'applique PAS à la FPH. Le Décret 2024-641 vise expressément les agents contractuels « de l\'État ». Un contractuel hospitalier relève du Décret 91-155 art. 10 et garde le régime progressif — ne vous fiez pas aux articles généralistes qui annoncent « 3 mois puis 9 mois » pour tous les contractuels.', versants: ['fph'] },
+          { texte: 'La réforme 2024 ne s\'applique pas à la FPT. Les contractuels FPT gardent le régime progressif (Décret 88-145 art. 7 inchangé).', versants: ['fpt'] },
+          { texte: 'La réforme 2024 ne s\'applique pas à la FPH. Le Décret 2024-641 vise expressément les agents contractuels « de l\'État ». Un contractuel hospitalier relève du Décret 91-155 art. 10 et garde le régime progressif. Les présentations généralistes qui annoncent « 3 mois puis 9 mois » pour tous les contractuels ne visent que les agents de l\'État.', versants: ['fph'] },
           { texte: 'Avant 4 mois d\'ancienneté, aucun maintien de traitement — uniquement les IJ CPAM.', versants: ['fpe'] },
           'Au passage au demi-traitement, vérifier immédiatement sa fiche de paie — un trop-perçu devra être remboursé.',
         ],
@@ -685,9 +685,9 @@ export const MODULES = [
           { texte: 'Art. L. 323-1 et suivants Code de la sécurité sociale (IJ CPAM)' },
         ],
         versantNotes: {
-          fpe: '✅ FPE : depuis le 1er septembre 2024, 3 mois à 90 % puis 9 mois à 50 % dès 4 mois d\'ancienneté. Source : Décret 2024-641.',
-          fpt: '⚠️ FPT : régime progressif selon votre ancienneté dans la collectivité. Exemple avec 3 ans d\'ancienneté et 2 000 € brut : mois 1-3 → 1 800 € (90 %), mois 4-6 → 1 000 € (50 %), mois 7+ → IJ CPAM seules. Source : Décret 88-145 art. 7.',
-          fph: '⚠️ FPH : régime progressif selon votre ancienneté dans l\'établissement — le même qu\'en FPT, PAS celui de l\'État. Exemple avec 1 an d\'ancienneté et 2 000 € brut : mois 1 → 1 800 € (90 %), mois 2 → 1 000 € (50 %), mois 3+ → IJ CPAM seules. Source : Décret 91-155 art. 10.',
+          fpe: 'FPE : depuis le 1er septembre 2024, 3 mois à 90 % puis 9 mois à 50 % dès 4 mois d\'ancienneté. Source : Décret 2024-641.',
+          fpt: 'FPT : régime progressif selon votre ancienneté dans la collectivité. Exemple avec 3 ans d\'ancienneté et 2 000 € brut : mois 1-3 → 1 800 € (90 %), mois 4-6 → 1 000 € (50 %), mois 7+ → IJ CPAM seules. Source : Décret 88-145 art. 7.',
+          fph: 'FPH : régime progressif selon votre ancienneté dans l\'établissement — le même qu\'en FPT, et non celui de l\'État. Exemple avec 1 an d\'ancienneté et 2 000 € brut : mois 1 → 1 800 € (90 %), mois 2 → 1 000 € (50 %), mois 3+ → IJ CPAM seules. Source : Décret 91-155 art. 10.',
         },
       },
       {
@@ -714,7 +714,7 @@ export const MODULES = [
         pieges: [
           'À l\'expiration du CGM sans possibilité de reprise : licenciement pour inaptitude ou reclassement.',
           { texte: 'Le Décret 2024-641 ne s\'applique pas aux contractuels FPT — primes non revalorisées. Droits basés sur le Décret 88-145 art. 8.', versants: ['fpt'] },
-          { texte: '⚠️ Le Décret 2024-641 ne s\'applique pas aux contractuels de la FPH : il vise les agents contractuels « de l\'État ». Les années 2 et 3 sont donc à 50 %, pas à 60 %. Source : Décret 91-155 art. 11.', versants: ['fph'] },
+          { texte: 'Le Décret 2024-641 ne s\'applique pas aux contractuels de la FPH : il vise les agents contractuels « de l\'État ». Les années 2 et 3 sont donc à 50 %, pas à 60 %. Source : Décret 91-155 art. 11.', versants: ['fph'] },
           { texte: 'Un versement en trop peut intervenir lors du passage à 60 %. Se rapprocher du service RH.', versants: ['fpe'] },
           { texte: 'Un versement en trop peut intervenir lors du passage au demi-traitement. Se rapprocher du service RH.', versants: ['fpt', 'fph'] },
           'Après un CGM épuisé, un nouveau CGM suppose d\'avoir repris ses fonctions pendant au moins 1 an.',
@@ -727,9 +727,9 @@ export const MODULES = [
           { texte: 'Décret n° 2024-641 du 27 juin 2024 (FPE uniquement)' },
         ],
         versantNotes: {
-          fpe: '✅ FPE : 100 % du traitement + 33 % des primes en 1re année, puis 60 % + 60 % des primes en 2e et 3e années. Source : Décret 2024-641.',
-          fpt: '⚠️ FPT : 100 % du traitement en 1re année, puis 50 % en 2e et 3e années. Les primes ne sont pas revalorisées — le décret 2024 ne s\'applique pas aux contractuels FPT. Source : Décret 88-145 art. 8.',
-          fph: '⚠️ FPH : traitement intégral pendant 12 mois, puis demi-traitement (50 %) pendant les 24 mois suivants. Le taux de 60 % que l\'on lit souvent est celui de l\'État : il ne s\'applique pas à la FPH. Source : Décret 91-155 art. 11.',
+          fpe: 'FPE : 100 % du traitement + 33 % des primes en 1re année, puis 60 % + 60 % des primes en 2e et 3e années. Source : Décret 2024-641.',
+          fpt: 'FPT : 100 % du traitement en 1re année, puis 50 % en 2e et 3e années. Les primes ne sont pas revalorisées — le décret 2024 ne s\'applique pas aux contractuels FPT. Source : Décret 88-145 art. 8.',
+          fph: 'FPH : traitement intégral pendant 12 mois, puis demi-traitement (50 %) pendant les 24 mois suivants. Le taux de 60 % que l\'on lit souvent est celui de l\'État : il ne s\'applique pas à la FPH. Source : Décret 91-155 art. 11.',
         },
       },
       {
@@ -769,7 +769,7 @@ export const MODULES = [
         resume: 'Le CDI dans la fonction publique confère des droits renforcés : protection contre le licenciement, portabilité en cas de restructuration, droits à la formation.',
         ciblePublic: 'Agents contractuels en CDI de droit public.',
         droits: [
-          { label: 'Accès au CDI', valeur: 'Après 6 ans, de droit', detail: '6 années de services publics effectifs accomplies au cours des 8 années précédentes, sans changement de catégorie hiérarchique. À cette échéance, l\'employeur DOIT vous proposer la transformation de votre contrat en CDI : ce n\'est pas une faveur à solliciter. Source : loi Sauvadet n° 2012-347 du 12 mars 2012, art. 21.' },
+          { label: 'Accès au CDI', valeur: 'Après 6 ans, de droit', detail: '6 années de services publics effectifs accomplies au cours des 8 années précédentes, sans changement de catégorie hiérarchique. À cette échéance, l\'employeur doit vous proposer la transformation de votre contrat en CDI : elle est due, et non à solliciter. Source : loi Sauvadet n° 2012-347 du 12 mars 2012, art. 21.' },
           { label: 'Portabilité', valeur: 'En cas de restructuration', detail: 'Si le service est supprimé, le CDI peut être transféré à un autre employeur public.' },
           { label: 'Protection licenciement', valeur: 'Renforcée', detail: 'Motifs précis, procédure contradictoire, avis de la CCP souvent requis.' },
         ],
@@ -821,9 +821,9 @@ export const MODULES = [
         ],
         pieges: [
           'L\'accident de service doit avoir un lien direct avec l\'exercice des fonctions. Un malaise sur le lieu de travail ne suffit pas automatiquement.',
-          'Le refus d\'imputabilité doit être motivé et notifié. Il est systématiquement contestable.',
+          'Le refus d\'imputabilité doit être motivé et notifié. Il est contestable.',
           'L\'accident de trajet est couvert entre le domicile et le travail, ainsi qu\'entre le travail et le lieu habituel de repas. Un détour justifié par les nécessités de la vie courante — déposer un enfant, un covoiturage régulier — ne fait pas perdre la protection ; un détour personnel, oui.',
-          'Ne jamais signer de protocole transactionnel sans conseil juridique — risque de renoncer à des droits importants.',
+          'Un protocole transactionnel peut emporter renonciation à des droits. Faites-le relire par un conseil juridique avant de le signer.',
         ],
         recours: 'Recours gracieux (2 mois), puis tribunal administratif.',
         sources: [
@@ -873,7 +873,7 @@ export const MODULES = [
           { label: 'Conditions', valeur: 'Taux ≥ 10 %', detail: 'L\'ATI est accordée si le taux d\'incapacité permanente partielle (IPP) est d\'au moins 10 %.' },
           { label: 'Montant', valeur: 'Proportionnel au taux IPP', detail: 'Calculé en pourcentage du traitement indiciaire brut.' },
           { label: 'Cumul', valeur: 'Avec le traitement', detail: 'L\'ATI est cumulable avec le traitement en activité. Elle se transforme en rente d\'invalidité à la retraite.' },
-          { label: 'Délai de demande', valeur: '1 an', detail: 'Le délai d\'un an court à compter du jour où vous REPRENEZ vos fonctions après la consolidation — pas à compter de la consolidation elle-même. Passé ce délai, les droits sont perdus.' },
+          { label: 'Délai de demande', valeur: '1 an', detail: 'Le délai d\'un an court à compter du jour où vous reprenez vos fonctions après la consolidation — pas à compter de la consolidation elle-même. Passé ce délai, les droits sont perdus.' },
           { label: 'Durée initiale', valeur: '5 ans', detail: 'L\'ATI est d\'abord accordée pour 5 ans. À l\'issue de cette période, le conseil médical réexamine votre taux d\'invalidité : l\'allocation est alors soit attribuée sans limitation de durée, soit supprimée si l\'invalidité a disparu.' },
         ],
         etapes: [
@@ -885,7 +885,7 @@ export const MODULES = [
         pieges: [
           'Ne pas confondre ATI (en activité) et rente d\'invalidité (à la retraite) — ce sont deux dispositifs distincts qui se suivent.',
           'L\'ATI est imposable.',
-          'Le délai d\'un an court à compter de la REPRISE des fonctions après consolidation, pas de la consolidation elle-même. La nuance vous donne un peu d\'air, mais le délai reste impératif.',
+          'Le délai d\'un an court à compter de la reprise des fonctions après consolidation, et non de la consolidation elle-même. Le point de départ est donc plus tardif, mais le délai reste strict.',
           'L\'ATI n\'est pas acquise définitivement : votre taux est réexaminé au bout de 5 ans. À l\'issue de ce réexamen, elle est soit attribuée sans limitation de durée, soit supprimée. Préparez cette échéance.',
         ],
         recours: 'Contestation du taux d\'IPP devant le conseil médical. Recours contentieux.',
@@ -905,10 +905,10 @@ export const MODULES = [
         droits: [
           { label: 'Régime applicable', valeur: 'Régime général SS', detail: 'Les contractuels sont affiliés à la CPAM pour les AT/MP.' },
           { label: 'Maintien du plein traitement', valeur: '1 mois dès l\'embauche', detail: 'L\'employeur porte les indemnités journalières au niveau du plein traitement pendant 1 mois dès l\'entrée en fonctions, puis 2 mois après 2 ans de services et 3 mois après 3 ans. Source : Décret 86-83 art. 14.', versants: ['fpe'] },
-          { label: 'Maintien du plein traitement', valeur: '1 mois dès l\'embauche', detail: 'L\'employeur porte les indemnités journalières au niveau du plein traitement pendant 1 mois dès l\'entrée en fonctions, puis 2 mois après SEULEMENT 1 an de services et 3 mois après 3 ans. Le seuil est plus favorable qu\'à l\'État, qui exige 2 ans. Source : Décret 88-145 art. 9.', versants: ['fpt'] },
+          { label: 'Maintien du plein traitement', valeur: '1 mois dès l\'embauche', detail: 'L\'employeur porte les indemnités journalières au niveau du plein traitement pendant 1 mois dès l\'entrée en fonctions, puis 2 mois après 1 an de services et 3 mois après 3 ans. Le seuil d\'un an est plus court qu\'à l\'État, qui en exige 2 ans. Source : Décret 88-145 art. 9.', versants: ['fpt'] },
           { label: 'Maintien du plein traitement', valeur: '1 mois dès l\'embauche', detail: 'L\'employeur porte les indemnités journalières au niveau du plein traitement pendant 1 mois dès l\'entrée en fonctions, puis 2 mois après 1 an de services et 3 mois après 3 ans. Source : Décret 91-155 art. 12.', versants: ['fph'] },
           { label: 'Ensuite', valeur: 'IJ seules', detail: 'Passé cette période, vous ne percevez plus que les indemnités journalières de la sécurité sociale — versées par l\'administration si vous êtes à temps complet ou en contrat de plus d\'un an, par la CPAM sinon.' },
-          { label: 'CITIS', valeur: '❌ Non applicable', detail: 'Les contractuels ne bénéficient pas du CITIS, réservé aux titulaires. C\'est la principale différence de traitement entre les deux statuts en matière d\'accident de service.' },
+          { label: 'CITIS', valeur: 'Non applicable', detail: 'Les contractuels ne bénéficient pas du CITIS, réservé aux titulaires. C\'est la principale différence de traitement entre les deux statuts en matière d\'accident de service.' },
         ],
         etapes: [
           { num: 1, titre: 'Déclaration à l\'administration', texte: 'Dans les 24 heures.' },
@@ -920,7 +920,7 @@ export const MODULES = [
           'Pas de CITIS pour les contractuels : le plein traitement n\'est maintenu que 1 à 3 mois selon l\'ancienneté, là où un titulaire le conserve sans limite de durée.',
           { texte: 'Le seuil territorial est à 1 an de services pour passer à 2 mois — pas 2 ans comme à l\'État. Si on vous applique le barème de l\'État, faites valoir le Décret 88-145 art. 9.', versants: ['fpt'] },
           'En CDD, le congé pour accident du travail ne peut pas dépasser la durée du contrat.',
-          'Déclarez l\'accident à votre employeur dans les 24 heures ET à la CPAM : les deux démarches sont indépendantes, et oublier la seconde peut retarder toute la prise en charge.',
+          'Déclarez l\'accident à votre employeur dans les 24 heures et à la CPAM : les deux démarches sont indépendantes, et oublier la seconde peut retarder toute la prise en charge.',
         ],
         recours: 'Contestation CPAM devant le tribunal judiciaire (pôle social). Recours administratif contre l\'administration.',
         sources: [
@@ -1023,8 +1023,8 @@ export const MODULES = [
         resume: 'Certains agents invalides ne peuvent plus accomplir seuls les gestes ordinaires de la vie. Quand l\'assistance permanente d\'une autre personne devient nécessaire, une majoration forfaitaire s\'ajoute à la pension — elle est cumulable avec la rente viagère d\'invalidité.',
         ciblePublic: 'Fonctionnaires titulaires en retraite pour invalidité ou reconnus invalides avec un taux d\'invalidité très élevé.',
         droits: [
-          { label: 'Éligibilité', valeur: 'Invalidité absolue et définitive', detail: 'L\'agent doit être dans l\'impossibilité absolue et définitive d\'exercer une quelconque activité professionnelle ET avoir besoin de l\'assistance d\'une tierce personne pour les actes ordinaires de la vie.' },
-          { label: 'Montant', valeur: 'Forfait, pas un pourcentage', detail: 'Contrairement au régime général des salariés du privé, la majoration des fonctionnaires n\'est PAS un pourcentage de la pension. C\'est un montant forfaitaire, fixé par référence à la valeur de l\'indice 227 au 1er janvier 2004 et revalorisé chaque année comme les pensions d\'invalidité de la sécurité sociale. Il est donc identique quel que soit le niveau de votre pension. Source : Art. L. 30 bis du Code des pensions civiles.' },
+          { label: 'Éligibilité', valeur: 'Invalidité absolue et définitive', detail: 'L\'agent doit être dans l\'impossibilité absolue et définitive d\'exercer une quelconque activité professionnelle et avoir besoin de l\'assistance d\'une tierce personne pour les actes ordinaires de la vie.' },
+          { label: 'Montant', valeur: 'Forfait, pas un pourcentage', detail: 'Contrairement au régime général des salariés du privé, la majoration des fonctionnaires n\'est pas un pourcentage de la pension. C\'est un montant forfaitaire, fixé par référence à la valeur de l\'indice 227 au 1er janvier 2004 et revalorisé chaque année comme les pensions d\'invalidité de la sécurité sociale. Il est donc identique quel que soit le niveau de votre pension. Source : Art. L. 30 bis du Code des pensions civiles.' },
           { label: 'Cumul', valeur: 'Avec la pension', detail: 'La majoration s\'ajoute à la pension d\'invalidité ou de retraite pour invalidité.' },
           { label: 'Renouvellement', valeur: 'Réexamen périodique', detail: 'L\'état de santé est réexaminé périodiquement par le conseil médical pour vérifier le maintien des conditions d\'éligibilité.' },
         ],
@@ -1038,7 +1038,7 @@ export const MODULES = [
         pieges: [
           'La majoration pour tierce personne est distincte de l\'Allocation Personnalisée d\'Autonomie (APA) — les deux peuvent se cumuler sous conditions.',
           'Ne pas confondre avec l\'Allocation Tierce Personne de la Sécurité sociale, qui relève d\'un régime différent pour les contractuels.',
-          '⚠️ Beaucoup de sources annoncent « 40 % de la pension » : c\'est la règle du régime général des salariés du privé, elle ne s\'applique pas aux fonctionnaires. La majoration est ici forfaitaire — un agent à petite pension touche donc le même montant qu\'un agent à pension élevée.',
+          'Beaucoup de sources annoncent « 40 % de la pension » : c\'est la règle du régime général des salariés du privé, elle ne s\'applique pas aux fonctionnaires. La majoration est ici forfaitaire — un agent à petite pension touche donc le même montant qu\'un agent à pension élevée.',
           'En cas de décès du bénéficiaire, la majoration ne se transmet pas aux ayants droit — contrairement à la pension de réversion.',
         ],
         recours: 'Refus de la majoration ou montant contesté : recours gracieux auprès du SRE ou de la CNRACL, puis tribunal administratif.',
@@ -1065,7 +1065,7 @@ export const MODULES = [
           { num: 1, titre: 'Constitution du dossier MDPH', texte: 'Formulaire de demande MDPH unique — Cerfa n° 15692*01 (l\'ancien 13788*01 n\'est plus en vigueur) — accompagné du certificat médical Cerfa n° 15695*01 de moins d\'un an, et de tout document attestant du handicap. Pour une RQTH, joindre un justificatif d\'activité professionnelle ou de recherche d\'emploi. Dépôt auprès de la MDPH du département de résidence.' },
           { num: 2, titre: 'Instruction', texte: 'Délai légal : 4 mois. Sans réponse → refus implicite (mais recours possible). La MDPH peut demander des évaluations complémentaires.' },
           { num: 3, titre: 'Notification de la décision', texte: 'En cas d\'accord, la RQTH précise sa durée et les éventuelles orientations (ESAT, marché ordinaire, voie de recrutement FP…).' },
-          { num: 4, titre: 'Déclaration à l\'employeur (facultative)', texte: 'La RQTH n\'est PAS automatiquement communiquée à l\'employeur. L\'agent choisit librement s\'il veut en informer son administration pour bénéficier des aménagements de poste et du FIPHFP.' },
+          { num: 4, titre: 'Déclaration à l\'employeur (facultative)', texte: 'La RQTH n\'est pas automatiquement communiquée à l\'employeur. L\'agent choisit librement s\'il veut en informer son administration pour bénéficier des aménagements de poste et du FIPHFP.' },
           { num: 5, titre: 'Demande d\'aménagement', texte: 'Après déclaration à l\'employeur : saisir le médecin de prévention pour préconisations. L\'administration est tenue de les mettre en œuvre sauf contrainte dûment justifiée.' },
           { num: 6, titre: 'Renouvellement', texte: 'À anticiper 6 mois avant l\'expiration pour éviter une interruption des droits. Procédure identique à la demande initiale.' },
         ],
@@ -1075,7 +1075,7 @@ export const MODULES = [
           'Sans RQTH, le médecin de prévention peut quand même préconiser des aménagements de poste — la RQTH n\'est pas un préalable obligatoire.',
           'Le FIPHFP finance du matériel mais la demande doit être faite par l\'employeur, pas directement par l\'agent.',
           'Un renouvellement tardif entraîne une interruption temporaire des droits — ne pas attendre la dernière minute.',
-          'Le recours contre un refus passe OBLIGATOIREMENT par un RAPO auprès de la MDPH avant toute saisine du juge. Aller directement au tribunal expose à une irrecevabilité. Attention aux informations anciennes qui mentionnent le « tribunal du contentieux de l\'incapacité » : cette juridiction n\'existe plus depuis 2019.',
+          'Le recours contre un refus passe obligatoirement par un RAPO auprès de la MDPH avant toute saisine du juge : une saisine directe du tribunal est irrecevable. Les sources anciennes mentionnent parfois le « tribunal du contentieux de l\'incapacité » : cette juridiction n\'existe plus depuis 2019.',
         ],
         recours: 'Refus de RQTH : RAPO (recours administratif préalable obligatoire) auprès de la MDPH dans les 2 mois — cette étape est impérative. En cas de rejet du RAPO, saisine du pôle social du tribunal judiciaire dans les 2 mois. Le tribunal du contentieux de l\'incapacité a été supprimé le 1er janvier 2019. Refus d\'aménagement de poste : recours devant le tribunal administratif après mise en demeure.',
         sources: [
@@ -1144,7 +1144,7 @@ export const MODULES = [
         categorie: 'Congés familiaux',
         chips: ['Femmes', 'Sur prescription', '100 % traitement', 'Réforme mars 2026'],
         resume: 'En cas de complications médicales liées à la grossesse ou à l\'accouchement, l\'agente peut bénéficier d\'un congé pathologique supplémentaire qui s\'ajoute au congé de maternité légal. Depuis le 1er mars 2026, le congé prénatal est porté à 21 jours.',
-        ciblePublic: 'Toutes les agentes publiques des 3 versants — fonctionnaires titulaires ET agentes contractuelles, en CDD comme en CDI.',
+        ciblePublic: 'Toutes les agentes publiques des 3 versants — fonctionnaires titulaires et agentes contractuelles, en CDD comme en CDI.',
         droits: [
           { label: 'Congé prénatal — depuis 01/03/2026', valeur: '21 jours calendaires', detail: 'Porté de 14 à 21 jours par l\'art. 174 de la LFI 2026. Fractionnable et mobilisable à tout moment entre la déclaration de grossesse et le début du congé maternité légal.' },
           { label: 'Congé postnatal', valeur: '4 semaines maximum', detail: 'Après le congé de maternité, sur prescription médicale, en cas de complications post-accouchement.' },
@@ -1209,7 +1209,7 @@ export const MODULES = [
         id: 'conge-naissance',
         titre: 'Congé supplémentaire de naissance',
         categorie: 'Congés familiaux',
-        chips: ['🆕 Nouveau 2026', 'Les deux parents', '1 ou 2 mois', 'Partiellement rémunéré'],
+        chips: ['Nouveau 2026', 'Les deux parents', '1 ou 2 mois', 'Partiellement rémunéré'],
         resume: 'Créé par la loi de financement de la sécurité sociale pour 2026, ce congé nouveau s\'ajoute au congé de maternité, de paternité ou d\'adoption. D\'une durée d\'un ou deux mois au choix de l\'agent, il est ouvert aux deux parents et partiellement rémunéré.',
         ciblePublic: 'Fonctionnaires, agents contractuels de droit public et agents de droit privé, dans les trois versants. Père comme mère. Pour les enfants nés ou adoptés à compter du 1er janvier 2026.',
         droits: [
@@ -1238,9 +1238,9 @@ export const MODULES = [
           { texte: 'Décrets n°2026-425 à 2026-428 du 30 mai 2026 (déclinaisons par versant et par statut)' },
         ],
         versantNotes: {
-          fpe: '✅ FPE : dispositif applicable. Pour les contractuels de l\'État, les modalités figurent dans le Décret 86-83 modifié par les décrets du 30 mai 2026.',
-          fpt: '✅ FPT : dispositif applicable aux agents territoriaux, titulaires comme contractuels. Se rapprocher du service RH de la collectivité pour le formulaire de demande.',
-          fph: '✅ FPH : dispositif applicable aux agents hospitaliers, titulaires comme contractuels. C\'est l\'un des rares droits récents où les trois versants sont traités à l\'identique — contrairement aux congés de maladie.',
+          fpe: 'FPE : dispositif applicable. Pour les contractuels de l\'État, les modalités figurent dans le Décret 86-83 modifié par les décrets du 30 mai 2026.',
+          fpt: 'FPT : dispositif applicable aux agents territoriaux, titulaires comme contractuels. Se rapprocher du service RH de la collectivité pour le formulaire de demande.',
+          fph: 'FPH : dispositif applicable aux agents hospitaliers, titulaires comme contractuels. C\'est l\'un des rares droits récents où les trois versants sont traités à l\'identique — contrairement aux congés de maladie.',
         },
       },
 
@@ -1283,7 +1283,7 @@ export const MODULES = [
         categorie: 'Congés familiaux',
         chips: ['Père & mère', 'Non rémunéré', 'De plein droit', 'Jusqu\'aux 3 ans de l\'enfant'],
         resume: 'Tout fonctionnaire peut bénéficier d\'un congé parental non rémunéré pour élever son enfant jusqu\'à ses 3 ans. Accordé de plein droit, les droits à avancement sont partiellement conservés et les congés annuels acquis sont reportables depuis 2024.',
-        ciblePublic: 'Fonctionnaires titulaires et stagiaires, père ou mère. Les deux parents peuvent en bénéficier successivement OU simultanément — la règle interdisant le cumul a été supprimée.',
+        ciblePublic: 'Fonctionnaires titulaires et stagiaires, père ou mère. Les deux parents peuvent en bénéficier successivement ou simultanément — la règle interdisant le cumul a été supprimée.',
         droits: [
           { label: 'Durée', valeur: 'Jusqu\'aux 3 ans de l\'enfant', detail: 'Ou jusqu\'au 3e anniversaire de l\'arrivée de l\'enfant adopté. Renouvelable par périodes de 2 à 6 mois. Accordé de plein droit sur simple demande.' },
           { label: 'Les deux parents', valeur: 'Cumul possible', detail: 'Le congé parental peut être accordé à l\'un ou l\'autre des parents, ou aux deux simultanément. L\'ancienne interdiction du cumul pour un même enfant a été supprimée.' },
@@ -1300,7 +1300,7 @@ export const MODULES = [
           { num: 4, titre: 'Demande de réintégration', texte: 'À formuler au moins 2 mois avant la fin du congé. Réintégration de plein droit dans l\'emploi occupé ou équivalent.' },
         ],
         pieges: [
-          'Idée reçue à corriger : pour un enfant né ou adopté à compter du 1er janvier 2004, le congé parental EST pris en compte pour la retraite, à 100 % et dans la limite de 3 ans par enfant — en constitution du droit, en liquidation et en durée d\'assurance. Il n\'y a rien à racheter pour ces périodes.',
+          'Contrairement à une idée répandue, pour un enfant né ou adopté à compter du 1er janvier 2004, le congé parental est pris en compte pour la retraite, à 100 % et dans la limite de 3 ans par enfant — en constitution du droit, en liquidation et en durée d\'assurance. Il n\'y a rien à racheter pour ces périodes.',
           'Le cumul avec la majoration de durée d\'assurance de 2 trimestres par enfant n\'est pas automatique : si un congé parental de 6 mois ou plus est déjà décompté, la majoration peut ne pas s\'ajouter. Demander une projection à la CNRACL ou au SRE avant d\'arbitrer.',
           'Ne pas confondre congé parental (hors service, non rémunéré) et temps partiel de droit pour élever un enfant (maintien de rémunération au prorata, agent reste en activité).',
           'L\'agente enceinte pendant le congé parental peut y mettre fin de manière anticipée pour son congé de maternité — le congé parental cesse automatiquement à cette date.',
@@ -1360,7 +1360,7 @@ export const MODULES = [
           { texte: 'Décret n° 82-453 du 28 mai 1982 modifié (hygiène, sécurité et médecine de prévention — FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000509290' },
           { texte: 'Décret n° 85-603 du 10 juin 1985 (hygiène, sécurité et médecine préventive — FPT)' },
           { texte: 'Art. R. 4626-1 et suivants Code du travail (service de santé au travail — établissements de santé, FPH)' },
-          { texte: '🆕 Décret n° 2025-1193 du 8 décembre 2025 (périodicité de la visite en FPT : 5 ans, 4 ans en surveillance renforcée)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000053010650' },
+          { texte: 'Décret n° 2025-1193 du 8 décembre 2025 (périodicité de la visite en FPT : 5 ans, 4 ans en surveillance renforcée)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000053010650' },
         ],
       },
       {
@@ -1373,7 +1373,7 @@ export const MODULES = [
         droits: [
           { label: 'Formation restreinte', valeur: '3 médecins', detail: 'Composée de 3 médecins désignés par le préfet pour 3 ans à partir d\'une liste de médecins agréés. C\'est l\'ancien comité médical.' },
           { label: 'Ce qu\'elle examine d\'office', valeur: 'CLM et CLD', detail: 'Sa saisine est obligatoire pour l\'octroi d\'un premier congé de longue maladie ou de longue durée, et pour leur renouvellement une fois épuisée la période rémunérée à plein traitement.' },
-          { label: 'Ce qu\'elle examine sur contestation', valeur: 'TPT, reprise, autres congés', detail: 'Pour le reste — temps partiel thérapeutique, réintégration après un congé, octroi ou renouvellement d\'un congé pour raison de santé — le conseil médical n\'est PAS saisi systématiquement. Il l\'est en cas de contestation de l\'avis rendu par le médecin agréé. C\'est une confusion fréquente : ne comptez pas sur une saisine automatique, demandez-la.' },
+          { label: 'Ce qu\'elle examine sur contestation', valeur: 'TPT, reprise, autres congés', detail: 'Pour le reste — temps partiel thérapeutique, réintégration après un congé, octroi ou renouvellement d\'un congé pour raison de santé — le conseil médical n\'est pas saisi d\'office. Il l\'est en cas de contestation de l\'avis rendu par le médecin agréé. C\'est une confusion fréquente : la saisine n\'étant pas automatique, il faut la demander.' },
           { label: 'Formation plénière', valeur: 'Ex-commission de réforme', detail: 'Intervient pour : imputabilité au service d\'un accident ou d\'une maladie, retraite pour invalidité, ATI.' },
           { label: 'Droits de l\'agent', valeur: 'Garantis', detail: 'Être entendu, se faire accompagner d\'un médecin de son choix, contester l\'avis.' },
         ],
@@ -1410,7 +1410,7 @@ export const MODULES = [
           { label: 'Missions', valeur: 'Évaluation d\'aptitude', detail: 'Il se prononce sur l\'aptitude au poste, la réalité d\'une maladie invoquée, l\'opportunité d\'un congé maladie, les conditions d\'un reclassement.' },
           { label: 'Secret médical', valeur: 'Maintenu', detail: 'Le médecin agréé est tenu au secret médical. Il transmet uniquement ses conclusions (apte/inapte, durée) à l\'administration, jamais le diagnostic.' },
           { label: 'Auprès de qui', valeur: 'Tous agents concernés', detail: 'Le médecin agréé intervient pour tous les agents : titulaires comme contractuels, pour toute procédure nécessitant un avis médical officiel.' },
-          { label: 'Secret du diagnostic', valeur: 'Absolu', detail: 'L\'administration n\'a JAMAIS accès à votre diagnostic. Seuls lui parviennent l\'avis d\'aptitude ou d\'inaptitude, la durée du congé et les éventuelles restrictions fonctionnelles. Le rapport médical complet va au conseil médical, pas au service RH.' },
+          { label: 'Secret du diagnostic', valeur: 'Absolu', detail: 'L\'administration n\'a pas accès à votre diagnostic. Seuls lui parviennent l\'avis d\'aptitude ou d\'inaptitude, la durée du congé et les éventuelles restrictions fonctionnelles. Le rapport médical complet va au conseil médical, pas au service RH.' },
           { label: 'Accès à votre dossier', valeur: 'Droit garanti', detail: 'Vous pouvez consulter le dossier médical constitué à votre sujet dans le cadre des procédures statutaires.' },
         ],
         etapes: [
@@ -1422,7 +1422,7 @@ export const MODULES = [
         ],
         pieges: [
           'Le médecin agréé n\'est pas un médecin de confiance choisi par l\'agent — il est désigné par l\'administration. Ses conclusions peuvent être défavorables à l\'agent.',
-          'L\'agent a le droit de se faire accompagner d\'un médecin de son choix lors de la visite — ne jamais y aller seul si la situation est complexe.',
+          'L\'agent a le droit de se faire accompagner d\'un médecin de son choix lors de la visite. Cet accompagnement est utile lorsque la situation est complexe.',
           'Le refus de se soumettre à la visite médicale peut être interprété défavorablement dans la procédure en cours.',
           'La différence entre médecin agréé (mandaté par l\'admin) et médecin de prévention (défenseur de la santé de l\'agent) est fondamentale — ne pas les confondre.',
           'Un agent RH qui note le nom d\'une maladie dans un dossier administratif commet une violation du secret médical — recours possible auprès de la CNIL et au pénal (art. 226-13 du Code pénal).',
@@ -1495,7 +1495,7 @@ export const MODULES = [
           'L\'assistant social ne peut pas prendre de décisions à la place de l\'agent. Il accompagne, oriente et soutient — il ne se substitue pas à la personne dans ses choix.',
           'Contacter l\'assistant social n\'a aucune conséquence sur la carrière ou l\'évaluation professionnelle. La hiérarchie n\'est pas informée.',
         ],
-        recours: 'Contrairement aux médecins ou aux avocats, les assistants de service social ne disposent PAS d\'un ordre professionnel : il n\'existe donc aucun « conseil de l\'ordre » à saisir. En cas de manquement au secret professionnel, deux voies existent : le signalement à la hiérarchie du service social dont dépend le professionnel (structure ministérielle ou régionale, distincte de votre service), et la plainte pénale sur le fondement de l\'article 226-13 du Code pénal, le secret professionnel de l\'assistant de service social étant pénalement sanctionné. Le Défenseur des droits peut également être saisi.',
+        recours: 'Contrairement aux médecins ou aux avocats, les assistants de service social ne disposent pas d\'un ordre professionnel : il n\'existe donc aucun « conseil de l\'ordre » à saisir. En cas de manquement au secret professionnel, deux voies existent : le signalement à la hiérarchie du service social dont dépend le professionnel (structure ministérielle ou régionale, distincte de votre service), et la plainte pénale sur le fondement de l\'article 226-13 du Code pénal, le secret professionnel de l\'assistant de service social étant pénalement sanctionné. Le Défenseur des droits peut également être saisi.',
         sources: [
           { texte: 'Art. L. 411-1 et suivants Code de l\'action sociale et des familles (profession réglementée)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000006074069' },
           { texte: 'Art. L. 411-3 CASF et art. 226-13 Code pénal (secret professionnel sanctionné pénalement)' },
@@ -1571,7 +1571,7 @@ export const MODULES = [
           { num: 4, titre: 'Prise en charge des frais', texte: 'Si la protection est accordée, les honoraires d\'avocat, les frais de procédure et les dépenses liées à la défense sont remboursés. Le remboursement se fait sur présentation des justificatifs.' },
         ],
         pieges: [
-          'Le refus de protection fonctionnelle est fréquent et souvent illégal — le contester systématiquement.',
+          'L\'administration est tenue d\'accorder la protection sauf faute personnelle de l\'agent. Les refus sont fréquents, et un refus qui n\'invoque pas une faute personnelle est contestable.',
           'Ne pas attendre la fin de la procédure judiciaire — demander la protection dès que les faits surviennent.',
         ],
         recours: 'Refus : recours gracieux immédiat, puis référé devant le tribunal administratif (urgence).',
@@ -1604,7 +1604,7 @@ export const MODULES = [
         recours: 'Signalement au Défenseur des droits. Plainte pénale. Recours devant le tribunal administratif.',
         sources: [
           { texte: 'Art. L. 133-1 à L. 133-3 CGFP (protection contre le harcèlement)', url: 'https://www.legifrance.gouv.fr/codes/section_lc/LEGITEXT000044416551/LEGISCTA000044420953/' },
-          { texte: 'Art. L. 133-3 CGFP (protection des victimes ET des témoins contre les représailles)' },
+          { texte: 'Art. L. 133-3 CGFP (protection des victimes et des témoins contre les représailles)' },
           { texte: 'Art. 222-33-2 Code pénal (harcèlement moral)', url: 'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000043908313' },
         ],
       },
@@ -1623,7 +1623,7 @@ export const MODULES = [
         etapes: [
           { num: 1, titre: 'Identifier la situation à signaler', texte: 'La fiche de signalement peut concerner : un accident de travail ou de trajet, un incident sans accident, une situation dangereuse (risque physique, chimique, psychosocial), une situation de mal-être au travail, un comportement potentiellement harcelant, ou tout autre fait portant atteinte à la santé ou à la sécurité.' },
           { num: 2, titre: 'Remplir la fiche de signalement', texte: 'La fiche comprend l\'identité de l\'agent (qui peut choisir de rester anonyme pour certains signalements), la description précise des faits (date, lieu, circonstances, personnes présentes), les conséquences constatées ou potentielles, et les mesures déjà prises le cas échéant.' },
-          { num: 3, titre: 'Transmettre la fiche', texte: 'La fiche est remise au supérieur hiérarchique direct ET à l\'assistant de prévention du service. Elle peut également être transmise directement au représentant du SPST (médecin de prévention) ou au référent harcèlement si les faits le justifient.' },
+          { num: 3, titre: 'Transmettre la fiche', texte: 'La fiche est remise au supérieur hiérarchique direct et à l\'assistant de prévention du service. Elle peut également être transmise directement au représentant du SPST (médecin de prévention) ou au référent harcèlement si les faits le justifient.' },
           { num: 4, titre: 'Suivi du signalement', texte: 'Le chef de service accuse réception et indique les mesures prises ou envisagées. En cas d\'inaction ou de réponse insatisfaisante, l\'agent peut saisir la formation spécialisée du CSA, l\'inspecteur santé et sécurité au travail, ou le Défenseur des droits selon la nature des faits.' },
         ],
         pieges: [
@@ -1666,10 +1666,10 @@ export const MODULES = [
           { label: 'Participation employeur santé', valeur: 'Min. 50 % depuis janv. 2022', detail: 'Participation obligatoire d\'au moins 50 % sur la cotisation santé via contrats collectifs obligatoires. Source : Décret 2021-1164.', versants: ['fpe'] },
           { label: 'Participation employeur santé', valeur: 'Min. 50 % depuis janv. 2026', detail: 'Obligatoire depuis le 1er janvier 2026 (et non 2025) : 50 % d\'un montant de référence de 30 €, soit au moins 15 € par mois et par agent. Les collectivités les plus avancées vont au-delà.', versants: ['fpt'] },
           { label: 'Participation employeur prévoyance', valeur: 'Min. 20 % depuis janv. 2025', detail: 'C\'est la prévoyance — pas la santé — qui est obligatoire depuis le 1er janvier 2025 en FPT : au moins 20 % d\'un montant de référence de 35 €, soit 7 € par mois.', versants: ['fpt'] },
-          { label: 'Participation employeur santé', valeur: '⏳ Reportée à janv. 2027', detail: 'La participation obligatoire de 50 % n\'est PAS encore en vigueur en FPH. Initialement prévue au 1er janvier 2026, elle a été reportée au 1er janvier 2027 par la loi de financement de la sécurité sociale pour 2026. D\'ici là, seuls les dispositifs propres à chaque établissement s\'appliquent.', versants: ['fph'] },
+          { label: 'Participation employeur santé', valeur: 'Reportée à janv. 2027', detail: 'La participation obligatoire de 50 % n\'est pas encore en vigueur en FPH. Initialement prévue au 1er janvier 2026, elle a été reportée au 1er janvier 2027 par la loi de financement de la sécurité sociale pour 2026. D\'ici là, seuls les dispositifs propres à chaque établissement s\'appliquent.', versants: ['fph'] },
           { label: 'Prévoyance', valeur: 'Déploiement en cours', detail: 'Participation employeur sur incapacité, invalidité et décès en cours de déploiement. Vérifier auprès du service RH le dispositif applicable.', versants: ['fpe', 'fph'] },
           { label: 'PSC et mi-traitement CMO', valeur: 'Complémentaire utile', detail: 'Lors du passage à 50 % du traitement en CMO (mois 4 à 12), la PSC santé peut rembourser les dépassements d\'honoraires, mais ne compense pas la perte de revenus — c\'est le rôle de la prévoyance.' },
-          { label: 'CMO 90 % non couvert', valeur: '⚠️ Point d\'attention', detail: 'Les contrats de prévoyance ne couvrent généralement pas la période à 90 % du CMO (3 premiers mois). La prévoyance n\'intervient qu\'à partir du demi-traitement ou après un délai de carence. Vérifier les conditions de son contrat.' },
+          { label: 'CMO 90 % non couvert', valeur: 'Point d\'attention', detail: 'Les contrats de prévoyance ne couvrent généralement pas la période à 90 % du CMO (3 premiers mois). La prévoyance n\'intervient qu\'à partir du demi-traitement ou après un délai de carence. Vérifier les conditions de son contrat.' },
         ],
         etapes: [
           { num: 1, titre: 'Se renseigner auprès du service RH', texte: 'Le service RH est l\'interlocuteur principal pour toute démarche d\'affiliation. Il informe l\'agent sur le contrat collectif retenu par l\'administration, les organismes éligibles, les niveaux de garanties, et les modalités d\'affiliation.' },
@@ -1691,9 +1691,9 @@ export const MODULES = [
           { texte: 'Art. L. 827-1 et suivants CGFP (protection sociale complémentaire)' },
         ],
         versantNotes: {
-          fpe: '✅ FPE : participation employeur obligatoire d\'au moins 50 % sur la santé depuis le 1er janvier 2022. Des contrats collectifs ont été négociés ministère par ministère. Votre RH dispose des détails du contrat retenu.',
-          fpt: '✅ FPT : deux dates à ne pas confondre. La PRÉVOYANCE est obligatoire depuis le 1er janvier 2025 (au moins 7 € par mois). La SANTÉ l\'est depuis le 1er janvier 2026 (au moins 15 € par mois, soit 50 % d\'un montant de référence de 30 €). Renseignez-vous auprès de votre DRH sur le contrat retenu par votre collectivité.',
-          fph: '⏳ FPH : la participation employeur de 50 % sur la santé n\'est pas encore en vigueur. Prévue initialement pour 2026, elle a été reportée au 1er janvier 2027 par la loi de financement de la sécurité sociale pour 2026. Certains établissements participent déjà à titre volontaire, via le CGOS ou un dispositif propre : c\'est à vérifier auprès de votre DRH, mais aucune obligation légale ne peut être invoquée avant 2027.',
+          fpe: 'FPE : participation employeur obligatoire d\'au moins 50 % sur la santé depuis le 1er janvier 2022. Des contrats collectifs ont été négociés ministère par ministère. Votre RH dispose des détails du contrat retenu.',
+          fpt: 'FPT : deux dates à ne pas confondre. La prévoyance est obligatoire depuis le 1er janvier 2025 (au moins 7 € par mois). La santé l\'est depuis le 1er janvier 2026 (au moins 15 € par mois, soit 50 % d\'un montant de référence de 30 €). Renseignez-vous auprès de votre DRH sur le contrat retenu par votre collectivité.',
+          fph: 'FPH : la participation employeur de 50 % sur la santé n\'est pas encore en vigueur. Prévue initialement pour 2026, elle a été reportée au 1er janvier 2027 par la loi de financement de la sécurité sociale pour 2026. Certains établissements participent déjà à titre volontaire, via le CGOS ou un dispositif propre : c\'est à vérifier auprès de votre DRH. Aucune obligation légale ne s\'impose toutefois avant 2027.',
         },
       },
       {
@@ -1758,13 +1758,13 @@ export const MODULES = [
           { num: 1, titre: 'Convocation', texte: 'Minimum 8 jours avant. L\'agent prépare ses éléments.' },
           { num: 2, titre: 'Déroulement', texte: 'Échange sur les thèmes réglementaires. L\'agent s\'exprime librement.' },
           { num: 3, titre: 'Compte rendu', texte: 'Rédigé par le supérieur hiérarchique direct et notifié à l\'agent dans un délai maximum de 15 jours. L\'agent le complète par ses observations, puis le signe — la signature atteste qu\'il en a pris connaissance, elle ne vaut pas approbation.' },
-          { num: 4, titre: 'Recours hiérarchique — 15 jours francs', texte: 'Demande de révision adressée à l\'autorité hiérarchique dans les 15 jours francs suivant la notification. Cette étape est un préalable OBLIGATOIRE : sans elle, la saisine de la CAP est irrecevable. L\'autorité dispose de 15 jours francs pour répondre.' },
+          { num: 4, titre: 'Recours hiérarchique — 15 jours francs', texte: 'Demande de révision adressée à l\'autorité hiérarchique dans les 15 jours francs suivant la notification. Cette étape est un préalable obligatoire : sans elle, la saisine de la CAP est irrecevable. L\'autorité dispose de 15 jours francs pour répondre.' },
           { num: 5, titre: 'Saisine de la CAP — 1 mois', texte: 'À compter de la notification de la réponse au recours hiérarchique, l\'agent dispose d\'un mois pour saisir la commission administrative paritaire (CAP), ou la commission consultative paritaire (CCP) s\'il est contractuel.' },
         ],
         pieges: [
-          'Ne jamais signer le compte rendu sans le lire entièrement — y compris les cases pré-cochées.',
+          'Lisez le compte rendu en entier avant de le signer, cases pré-cochées comprises.',
           'Les appréciations négatives non contestées restent au dossier et peuvent justifier un refus d\'avancement.',
-          'Le délai de 15 jours francs pour le recours hiérarchique est court et court à partir de la NOTIFICATION, pas de l\'entretien. Passé ce délai, le compte rendu devient définitif.',
+          'Le délai de 15 jours francs du recours hiérarchique court à compter de la notification, et non de l\'entretien. Passé ce délai, le compte rendu devient définitif.',
           'Le recours hiérarchique est un préalable obligatoire à la saisine de la CAP. Saisir directement la CAP — ou le tribunal — expose à une irrecevabilité sans examen du fond.',
         ],
         recours: 'Recours hiérarchique obligatoire (15 jours francs), puis saisine de la CAP ou de la CCP (1 mois), puis tribunal administratif.',
@@ -1785,7 +1785,7 @@ export const MODULES = [
         droits: [
           { label: 'Durée maximale', valeur: '3 ans sur la carrière', detail: 'Par fractions d\'au moins 5 jours consécutifs.' },
           { label: 'Indemnité', valeur: '85 % du traitement', detail: '85 % du traitement brut et de l\'indemnité de résidence, pendant 12 mois maximum. Au-delà : congé sans traitement.' },
-          { label: '⚠️ Plafond de l\'indemnité', valeur: 'Indice brut 650', detail: 'L\'indemnité ne peut pas dépasser 85 % du traitement correspondant à l\'indice brut 650. Au-delà de cet indice, vous percevez donc nettement moins de 85 % de votre salaire réel — à calculer avant de vous engager.' },
+          { label: 'Plafond de l\'indemnité', valeur: 'Indice brut 650', detail: 'L\'indemnité ne peut pas dépasser 85 % du traitement correspondant à l\'indice brut 650. Au-delà de cet indice, vous percevez donc nettement moins de 85 % de votre salaire réel — à calculer avant de vous engager.' },
         ],
         etapes: [
           { num: 1, titre: 'Vérifier les conditions', texte: 'Avoir au moins 3 ans de services effectifs. La formation peut être de tout type — elle n\'a pas besoin d\'être liée aux fonctions actuelles.' },
@@ -1799,7 +1799,7 @@ export const MODULES = [
           'Le remboursement de l\'indemnité est exigé si l\'agent quitte la fonction publique avant d\'avoir accompli son engagement de servir (une durée proportionnelle à la période indemnisée).',
           'Après un congé de formation, il faut attendre 12 mois à compter de la fin de la formation avant de pouvoir en demander un nouveau.',
         ],
-        recours: 'Refus ou report abusif : recours gracieux puis tribunal administratif.',
+        recours: 'Refus ou report : recours gracieux, puis tribunal administratif.',
         sources: [
           { texte: 'Art. L. 422-1 et suivants CGFP (congé de formation professionnelle)' },
           { texte: 'Décret n° 2007-1470 du 15 octobre 2007 (formation professionnelle FPE)' },
@@ -1831,7 +1831,7 @@ export const MODULES = [
         resume: 'La CNRACL gère la retraite des fonctionnaires territoriaux et hospitaliers. La réforme du 14 avril 2023 a modifié les règles de départ (âge légal porté à 64 ans, 43 annuités pour le taux plein).',
         ciblePublic: 'Fonctionnaires titulaires de la FPT et de la FPH.',
         droits: [
-          { label: '⚠️ Calendrier suspendu', valeur: 'LFSS 2026', detail: 'La loi de financement de la sécurité sociale pour 2026, promulguée fin décembre 2025, a GELÉ la montée en charge de la réforme de 2023. Les repères ci-dessous ne sont donc plus ceux annoncés en 2023 : vérifiez votre génération avant toute projection.' },
+          { label: 'Calendrier suspendu', valeur: 'LFSS 2026', detail: 'La loi de financement de la sécurité sociale pour 2026, promulguée fin décembre 2025, a gelé la montée en charge de la réforme de 2023. Les repères ci-dessous ne sont donc plus ceux annoncés en 2023 : vérifiez votre génération avant toute projection.' },
           { label: 'Âge légal — générations 1964 à 1968', valeur: '62 ans et 9 mois', detail: 'L\'âge légal est gelé à 62 ans et 9 mois à compter du 1er septembre 2026 et jusqu\'en janvier 2028. Ces générations partent un trimestre plus tôt que ne le prévoyait le calendrier de 2023.' },
           { label: 'Âge légal — à partir de 1969', valeur: '64 ans', detail: 'La cible de 64 ans s\'applique aux personnes nées à compter du 1er janvier 1969 — et non 1968 comme le prévoyait la réforme de 2023.' },
           { label: 'Durée de cotisation', valeur: '43 ans (172 trimestres)', detail: 'Les 43 ans s\'appliquent aux personnes nées à compter du 1er janvier 1966, et non 1965 comme initialement prévu. Pour les générations antérieures, la durée reste inférieure et progressive.' },
@@ -1853,7 +1853,7 @@ export const MODULES = [
         sources: [
           { texte: 'Décret n° 2003-1306 du 26 décembre 2003 (CNRACL)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000237342' },
           { texte: 'Loi n° 2023-270 du 14 avril 2023 (réforme des retraites)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000047528765' },
-          { texte: '🆕 Loi n° 2025-1403 du 30 décembre 2025 — LFSS 2026 (suspension du calendrier de la réforme 2023)' },
+          { texte: 'Loi n° 2025-1403 du 30 décembre 2025 — LFSS 2026 (suspension du calendrier de la réforme 2023)' },
         ],
       },
       {
@@ -1864,7 +1864,7 @@ export const MODULES = [
         resume: 'Le Service des Retraites de l\'État gère la pension des fonctionnaires civils de l\'État. Les règles sont proches de la CNRACL mais relèvent d\'un régime distinct.',
         ciblePublic: 'Fonctionnaires titulaires de la FPE.',
         droits: [
-          { label: '⚠️ Calendrier suspendu', valeur: 'LFSS 2026', detail: 'La loi de financement de la sécurité sociale pour 2026 a gelé la montée en charge de la réforme de 2023. L\'âge légal est bloqué à 62 ans et 9 mois pour les générations 1964 à 1968 ; les 64 ans ne s\'appliquent qu\'à partir de la génération 1969.' },
+          { label: 'Calendrier suspendu', valeur: 'LFSS 2026', detail: 'La loi de financement de la sécurité sociale pour 2026 a gelé la montée en charge de la réforme de 2023. L\'âge légal est bloqué à 62 ans et 9 mois pour les générations 1964 à 1968 ; les 64 ans ne s\'appliquent qu\'à partir de la génération 1969.' },
           { label: 'Taux de pension', valeur: '75 % du dernier traitement', detail: 'Calculé sur le traitement indiciaire brut détenu depuis au moins 6 mois. Les primes n\'entrent pas dans ce calcul — elles relèvent du RAFP.' },
           { label: 'Catégorie active', valeur: '59 ans, pas 57', detail: 'La réforme de 2023 a relevé l\'âge de départ anticipé des catégories actives de 57 à 59 ans, progressivement. Avec le gel de la LFSS 2026, la borne des 59 ans s\'applique aux agents nés en 1974 et après, contre 1973 dans le calendrier initial.' },
           { label: 'Durée de services actifs', valeur: '17 ans, inchangée', detail: 'La condition de durée de services en catégorie active n\'a pas été modifiée par la réforme, pas plus que l\'âge d\'annulation de la décote.' },
@@ -1883,7 +1883,7 @@ export const MODULES = [
         sources: [
           { texte: 'Code des pensions civiles et militaires de retraite', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000006063009' },
           { texte: 'Loi n° 2023-270 du 14 avril 2023 (réforme des retraites)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000047528765' },
-          { texte: '🆕 Loi n° 2025-1403 du 30 décembre 2025 — LFSS 2026 (suspension du calendrier de la réforme 2023)' },
+          { texte: 'Loi n° 2025-1403 du 30 décembre 2025 — LFSS 2026 (suspension du calendrier de la réforme 2023)' },
         ],
       },
       {
@@ -1895,8 +1895,8 @@ export const MODULES = [
         ciblePublic: 'Fonctionnaires titulaires dans l\'impossibilité permanente de continuer leurs fonctions.',
         droits: [
           { label: 'Âge', valeur: 'Aucune condition', detail: 'La retraite pour invalidité peut être accordée à tout âge, sans condition de durée de services.' },
-          { label: 'Pension minimale', valeur: '50 % si invalidité ≥ 60 %', detail: 'Lorsque le taux global d\'invalidité atteint au moins 60 %, la pension ne peut pas être inférieure à 50 % du traitement de référence, et sans décote. Attention : ce plancher tient au TAUX d\'invalidité, pas au fait que l\'invalidité soit imputable au service.' },
-          { label: 'Si imputable au service', valeur: 'Rente viagère en plus', detail: 'L\'imputabilité au service n\'améliore pas le plancher : elle ouvre une rente viagère d\'invalidité (RVI) qui S\'AJOUTE à la pension. Son montant s\'obtient en multipliant le taux d\'invalidité par le traitement détenu depuis au moins 6 mois. Elle est versée à vie et revalorisée.' },
+          { label: 'Pension minimale', valeur: '50 % si invalidité ≥ 60 %', detail: 'Lorsque le taux global d\'invalidité atteint au moins 60 %, la pension ne peut pas être inférieure à 50 % du traitement de référence, et sans décote. Ce plancher tient au taux d\'invalidité, et non au fait que l\'invalidité soit imputable au service.' },
+          { label: 'Si imputable au service', valeur: 'Rente viagère en plus', detail: 'L\'imputabilité au service n\'améliore pas le plancher : elle ouvre une rente viagère d\'invalidité (RVI) qui s\'ajoute à la pension. Son montant s\'obtient en multipliant le taux d\'invalidité par le traitement détenu depuis au moins 6 mois. Elle est versée à vie et revalorisée.' },
           { label: 'Circonstances exceptionnelles', valeur: 'Jusqu\'à 80 %', detail: 'Pour une invalidité d\'au moins 60 % résultant de circonstances exceptionnelles, le total pension + rente viagère est porté à 80 % du traitement de référence.' },
           { label: 'Majoration pour tierce personne', valeur: 'Forfait, cumulable', detail: 'Si votre état nécessite l\'assistance constante d\'une autre personne, une majoration forfaitaire s\'ajoute — cumulable avec la pension et la rente viagère. Voir la fiche dédiée.' },
         ],
@@ -1908,7 +1908,7 @@ export const MODULES = [
         ],
         pieges: [
           'L\'agent ne peut pas être mis à la retraite pour invalidité sans avis du conseil médical.',
-          'Si l\'invalidité est imputable au service, la pension est plus favorable — vérifier systématiquement.',
+          'Si l\'invalidité est imputable au service, la pension est plus favorable : faites examiner ce point par le conseil médical.',
         ],
         recours: 'Contestation : recours gracieux, puis tribunal administratif.',
         sources: [
