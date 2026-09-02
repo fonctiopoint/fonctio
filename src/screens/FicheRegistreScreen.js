@@ -212,7 +212,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
   const ui = { s, t, inter, th: theme, C };
 
   const module = fiche.moduleColor;
-  const synthese = getSynthese(ficheId);
+  const synthese = getSynthese(ficheId, versant);
   const droits = (fiche.droits || []).filter(d => !d.versants || d.versants.includes(versant));
   const etapes = pourCeVersant(fiche.etapes, versant);
   const pieges = pourCeVersant(fiche.pieges, versant);
