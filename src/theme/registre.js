@@ -2,23 +2,29 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // DIRECTION « REGISTRE »
 //
-// Système de présentation retenu le 01/09/2026 pour les fiches. Il repose sur
-// sept règles, rappelées ici parce qu'elles se contredisent facilement quand on
-// code vite :
+// Système de présentation retenu le 01/09/2026 pour les fiches, révisé le
+// 02/09/2026 après lecture sur appareil. Ses règles, rappelées ici parce
+// qu'elles se contredisent facilement quand on code vite :
 //
 //   1. La ligne a DEUX niveaux : libellé + valeur pour le balayage, explication
 //      entière en dessous pour la lecture. L'explication n'est jamais résumée.
-//   2. AUCUN contenant : ni carte, ni bordure, ni rayon, ni ombre. Deux filets
-//      seulement — fin entre deux lignes, franc entre deux rubriques.
-//   3. Deux familles, trois rôles : serif pour les titres et les chiffres de
-//      synthèse, sans système pour la lecture, chasse fixe pour les valeurs,
-//      les compteurs et les références.
-//   4. La couleur dit UNE seule chose (voir LECTURE ci-dessous).
+//   2. AUCUN contenant autour du TEXTE : ni carte, ni bordure, ni ombre. Des
+//      filets seulement — fin entre deux lignes, franc entre deux sections.
+//      Seuls les deux blocs d'ACTION du pied de fiche ont un fond, justement
+//      pour ne pas se lire comme du texte.
+//   3. Deux familles, trois rôles : serif pour le titre de la fiche, les
+//      chiffres de synthèse et les titres de section ; sans pour la lecture ;
+//      chasse fixe pour les valeurs, les compteurs et les références.
+//   4. La couleur ne CLASSE rien. Elle distingue des natures de bloc, pas des
+//      valeurs (voir `couleurs` ci-dessous). Un code dégressif/maintenu a été
+//      essayé puis retiré le 02/09/2026 : il obligeait à trancher le sens de
+//      chaque valeur des 43 fiches, et une couleur fausse est pire qu'une
+//      couleur absente.
 //   5. Trois chiffres en tête : deux montants ou durées, un délai.
-//   6. Rien ne se replie. Ce sont les étiquettes de rubrique collantes qui
-//      rendent une fiche longue navigable.
-//   7. Sources en pied, en chasse fixe, plus la référence sous l'explication
-//      qui cite un texte.
+//   6. Le CONTENU de la fiche ne se replie pas. Ce qui peut se replier, c'est
+//      une notice posée par-dessus — la veille juridique.
+//   7. Les textes de loi ont leur propre section en pied, plus la référence
+//      sous chaque explication qui cite un texte.
 // ─────────────────────────────────────────────────────────────────────────────
 import { Palette } from './index';
 
@@ -31,76 +37,68 @@ import { Palette } from './index';
 // d'interface. Vérifié le 02/09/2026 en affichant les dix alias côte à côte.
 // Le constructeur substitue sa police système à toutes les familles, et la
 // règle des deux familles — l'ossature de cette direction — disparaissait sans
-// aucun signe d'erreur. Un alias système n'est donc pas une garantie.
+// aucun signe d'erreur. Un alias système n'est donc pas une garantie : c'est
+// justement pour que la fiche se lise pareil sur n'importe quel téléphone que
+// ces fichiers sont embarqués.
 //
-// Ce sont les polices de la maquette validée. La police de LECTURE reste celle
-// du système : c'est celle de tout le reste de l'app, elle est bien dessinée,
-// et l'embarquer coûterait un fichier de plus sans rien changer à l'écran.
+// La police de LECTURE reste celle du système : c'est celle de tout le reste de
+// l'app, elle est bien dessinée, et l'embarquer coûterait un fichier de plus
+// sans rien changer à l'écran.
 export const SERIF = 'Newsreader_500Medium';
 export const MONO = 'IBMPlexMono_500Medium';
 export const MONO_LEGER = 'IBMPlexMono_400Regular';
 
-// ── Code de lecture ──────────────────────────────────────────────────────────
-// Une valeur porte au plus une de ces trois teintes, et la teinte ne dit qu'une
-// chose : le sens de la valeur pour l'agent.
+// ── Les couleurs ─────────────────────────────────────────────────────────────
+// Quatre rôles, un seul par teinte. Aucun ne porte de jugement sur la valeur :
+// ils disent de quelle NATURE est le bloc qu'on lit.
 //
-//   baisse  la rémunération ou le droit décroît
-//   tient   la rémunération ou le droit est maintenu
-//   neutre  ni l'un ni l'autre — une durée, un interlocuteur, une règle
+//   valeur     la valeur à droite d'un libellé, et les chiffres de synthèse
+//   versant    la note qui ne vaut que pour le versant de l'agent
+//   attention  les points d'attention, et une évolution non encore intégrée
+//   action     les deux blocs qui proposent de faire quelque chose
 //
-// Le classement est éditorial, fiche par fiche : il vit dans src/data/synthese.js.
-// Sans classement, une valeur reste NEUTRE. Une teinte absente n'induit personne
-// en erreur ; une teinte fausse, si.
-//
-// Les teintes de l'app sont posées pour de l'encre sombre sur fond clair. Sur le
-// fond nuit, elles s'éteignent : l'olive vire au noir et le terracotta perd son
-// contraste. Chaque rôle a donc une version éclaircie, de même famille — ce sont
-// celles de la maquette validée.
+// Les teintes de l'app sont posées pour de l'encre sombre sur fond clair. Sur
+// le fond nuit elles s'éteignent : chaque rôle a donc une version éclaircie de
+// la même famille.
 const CLAIR = {
-  baisse: Palette.terracotta,
-  tient: Palette.olive,
+  valeur: Palette.terracotta,
   versant: Palette.sky,
   attention: Palette.amber,
+  action: Palette.olive,
 };
 const SOMBRE = {
-  baisse: '#D98253',
-  tient: '#9AAB78',
+  valeur: '#D98253',
   versant: '#6FA8CC',
   attention: '#E0AE55',
+  action: '#9AAB78',
 };
 
-export const lecture = (isDark) => {
-  const c = isDark ? SOMBRE : CLAIR;
-  return {
-    baisse: c.baisse,
-    tient: c.tient,
-    neutre: null, // prend l'encre secondaire du thème
-    versant: c.versant,
-    attention: c.attention,
-  };
-};
+export const couleurs = (isDark) => (isDark ? SOMBRE : CLAIR);
 
 // ── Filets ───────────────────────────────────────────────────────────────────
-// Deux épaisseurs d'encre, pas deux épaisseurs de trait : le trait fait
-// toujours un pixel logique, c'est son opacité qui hiérarchise.
+// Trois épaisseurs d'encre, pas trois épaisseurs de trait : le trait fait
+// toujours un pixel logique, c'est son opacité qui hiérarchise. Le filet de
+// SECTION est franc — c'est lui qui découpe la fiche.
 export const filets = (isDark) => (isDark
-  ? { rubrique: 'rgba(233,231,226,0.13)', ligne: 'rgba(233,231,226,0.07)' }
-  : { rubrique: 'rgba(45,55,72,0.11)', ligne: 'rgba(45,55,72,0.07)' });
+  ? { section: 'rgba(233,231,226,0.30)', rubrique: 'rgba(233,231,226,0.13)', ligne: 'rgba(233,231,226,0.07)' }
+  : { section: 'rgba(45,55,72,0.26)', rubrique: 'rgba(45,55,72,0.11)', ligne: 'rgba(45,55,72,0.07)' });
 
 // ── Échelle typographique ────────────────────────────────────────────────────
-// Les tailles sont celles de la maquette validée. Elles passent toutes par le
-// fs() du thème, pour que le réglage d'accessibilité continue de les agrandir.
+// Toutes ces tailles passent par le fs() du thème, pour que le réglage
+// d'accessibilité continue de les agrandir.
 export const T = {
   titre: 26,      // serif — le titre de la fiche
   chiffre: 29,    // serif — les trois chiffres de synthèse
+  section: 17,    // serif — le titre d'une section
   lede: 12.5,     // le résumé
   label: 13,      // le libellé d'une ligne
   valeur: 12,     // chasse fixe — la valeur d'une ligne
   detail: 11.5,   // l'explication, en dessous
   etapeTitre: 12.5,
-  oeil: 8.5,      // les étiquettes de rubrique et de module
+  action: 15,     // serif — le titre d'un bloc d'action
+  oeil: 8.5,      // les petites étiquettes en capitales
   num: 9,         // chasse fixe — compteurs
-  source: 9,      // chasse fixe — références et pied de page
+  source: 9,      // chasse fixe — références et textes de loi
   fil: 10.5,      // le fil d'Ariane
 };
 
@@ -109,10 +107,13 @@ export const T = {
 export const INTERLIGNE = 1.55;
 
 // ── Espacement vertical ──────────────────────────────────────────────────────
+// L'écart au-dessus d'un titre de section est volontairement grand : c'est le
+// principal outil de découpage d'une fiche qui, sans lui, se lit comme un seul
+// bloc de texte du début à la fin.
 export const V = {
   zone: 20,        // marge latérale de la fiche
   ligne: 13,       // au-dessus d'une ligne
   ligneBas: 14,    // en dessous
-  rubrique: 26,    // au-dessus d'une étiquette de rubrique
+  section: 40,     // au-dessus d'un titre de section
   bloc: 22,        // au-dessus d'un bloc à filet latéral
 };

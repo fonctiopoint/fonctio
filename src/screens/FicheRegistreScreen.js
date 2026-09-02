@@ -1,22 +1,27 @@
 // src/screens/FicheRegistreScreen.js
 // ─────────────────────────────────────────────────────────────────────────────
 // Présentation « Registre » d'une fiche. Voir src/theme/registre.js pour les
-// sept règles du système, et src/data/synthese.js pour la surcouche éditoriale.
+// règles du système, et src/data/synthese.js pour la surcouche éditoriale.
 //
 // Cet écran n'est pour l'instant branché que sur la fiche du congé maladie
 // ordinaire — la plus longue du jeu de données, donc le pire cas. La liste des
 // fiches concernées est tenue dans FicheDetailScreen.js.
 //
 // Trois points de vigilance si on y touche :
-//   — les étiquettes de rubrique sont COLLANTES : elles doivent rester des
-//     enfants directs du ScrollView, et leurs index sont relevés au fil de la
-//     construction du tableau `enfants`. Envelopper une rubrique dans une View
-//     casse le collage et décale tous les index suivants.
-//   — les blocs élémentaires (Ligne, Rubrique…) sont définis au niveau du
+//   — les titres de section sont COLLANTS : ils doivent rester des enfants
+//     directs du ScrollView, et leurs index sont relevés au fil de la
+//     construction du tableau `enfants`. Envelopper un titre dans une View
+//     casse le collage et décale tous les index suivants. Leur écart supérieur
+//     ne peut pas non plus être une marge : React Native fige le titre AVEC sa
+//     marge, et le contenu défile alors visiblement dans cet interstice. D'où
+//     l'intercalaire poussé juste avant.
+//   — les blocs élémentaires (Ligne, Section…) sont définis au niveau du
 //     module, pas dans le composant : un composant redéfini à chaque rendu est
 //     un type neuf pour React, qui démonte puis remonte tout son sous-arbre.
-//   — aucun texte n'est tronqué ni replié. C'est la règle 6, et c'est ce qui
-//     distingue cette direction de la précédente.
+//   — le CONTENU de la fiche n'est ni tronqué ni replié. Seule la notice de
+//     veille juridique se replie : elle est posée par-dessus la fiche, elle
+//     n'en fait pas partie, et dépliée elle occupait deux écrans avant le
+//     premier droit.
 // ─────────────────────────────────────────────────────────────────────────────
 import React, { useContext, useState, useEffect } from 'react';
 import {
@@ -26,11 +31,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme';
 import {
-  SERIF, MONO, MONO_LEGER, lecture, filets, T, INTERLIGNE, V,
+  SERIF, MONO, MONO_LEGER, couleurs, filets, T, INTERLIGNE, V,
 } from '../theme/registre';
 import { getFicheById, MODULES } from '../data/fiches';
 import { getMajsForFiche } from '../data/veille';
-import { getSynthese, tonDuDroit } from '../data/synthese';
+import { getSynthese } from '../data/synthese';
 import { VersantContext } from '../navigation/VersantContext';
 import { addFavori, removeFavori, isFavori, addRecent } from '../utils/storage';
 import { partagerFiche } from '../utils/partageFiche';
@@ -50,7 +55,7 @@ const formatDateFr = (iso) => {
 
 const deuxChiffres = (n) => String(n).padStart(2, '0');
 
-// Règle 7 : la référence qui clôt une explication passe en chasse fixe, sous
+// La référence qui clôt une explication passe en chasse fixe, sous
 // l'explication. On ne coupe que si « Source : » ouvre bien la DERNIÈRE phrase
 // — d'où le plafond de longueur : au-delà, ce qui suit est du texte de lecture
 // qu'il serait faux de composer comme une référence. En cas de doute on ne
@@ -75,24 +80,24 @@ const pourCeVersant = (liste, versant) =>
   (liste || []).filter(x => !x || typeof x !== 'object' || !x.versants || x.versants.includes(versant));
 
 // ── Les blocs élémentaires ──────────────────────────────────────────────────
-// Tous reçoivent `ui` = { s, t, inter, th } : la feuille de style construite
-// pour le thème courant, l'échelle typographique et les interlignes.
+// Tous reçoivent `ui` = { s, t, inter, th, C } : la feuille de style construite
+// pour le thème courant, l'échelle typographique, les interlignes et les
+// couleurs de rôle.
 
-const Ligne = ({ ui, label, valeur, detail, ton, derniere }) => {
-  const { s, t, inter, th, C } = ui;
+const Ligne = ({ ui, label, valeur, detail, derniere }) => {
+  const { s, t, inter, C } = ui;
   const { texte, reference } = couperSource(detail);
-  const teinte = C[ton] || th.textSecondary;
   const dessous = (valeur || '').length > SEUIL_VALEUR_LONGUE;
   return (
     <View style={[s.ligne, derniere && s.ligneSansFilet]}>
       <View style={s.ligneHaut}>
         <Text style={[s.label, { fontSize: t(T.label), lineHeight: t(T.label) * 1.3 }]}>{label}</Text>
         {!!valeur && !dessous && (
-          <Text style={[s.valeur, { color: teinte, fontSize: t(T.valeur) }]}>{valeur}</Text>
+          <Text style={[s.valeur, { color: C.valeur, fontSize: t(T.valeur) }]}>{valeur}</Text>
         )}
       </View>
       {!!valeur && dessous && (
-        <Text style={[s.valeur, s.valeurDessous, { color: teinte, fontSize: t(T.valeur) }]}>{valeur}</Text>
+        <Text style={[s.valeur, s.valeurDessous, { color: C.valeur, fontSize: t(T.valeur) }]}>{valeur}</Text>
       )}
       {!!texte && (
         <Text style={[s.detail, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>{texte}</Text>
@@ -104,12 +109,17 @@ const Ligne = ({ ui, label, valeur, detail, ton, derniere }) => {
   );
 };
 
-const Rubrique = ({ ui, titre, compte }) => {
+// Le titre de section est l'outil principal de découpage de la fiche : filet
+// franc, serif, et beaucoup d'air au-dessus. Il reste collé en haut de l'écran
+// tant qu'on parcourt sa section, ce qui dit en permanence où l'on se trouve.
+const Section = ({ ui, titre, compte }) => {
   const { s, t } = ui;
   return (
-    <View style={s.rubrique}>
-      <Text style={[s.rubriqueTitre, { fontSize: t(T.oeil) }]}>{titre}</Text>
-      {compte != null && <Text style={[s.rubriqueCompte, { fontSize: t(T.num) }]}>{compte}</Text>}
+    <View style={s.section}>
+      <Text style={[s.sectionTitre, { fontSize: t(T.section), lineHeight: t(T.section) * 1.25 }]}>
+        {titre}
+      </Text>
+      {compte != null && <Text style={[s.sectionCompte, { fontSize: t(T.num) }]}>{compte}</Text>}
     </View>
   );
 };
@@ -133,6 +143,33 @@ const Paragraphe = ({ ui, style, children }) => {
   );
 };
 
+// Les deux blocs d'action sont les seuls objets de la fiche à porter un fond.
+// C'est délibéré : ils ne se lisent pas, ils se font, et rien d'autre dans la
+// page n'a de contenant qui pourrait les banaliser.
+const Action = ({ ui, titre, texte, onPress }) => {
+  const { s, t, inter, C } = ui;
+  const contenu = (
+    <>
+      <View style={s.actionTexte}>
+        <Text style={[s.actionTitre, { fontSize: t(T.action), lineHeight: t(T.action) * 1.25 }]}>
+          {titre}
+        </Text>
+        <Text style={[s.detail, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
+          {texte}
+        </Text>
+      </View>
+      {!!onPress && <Ionicons name="arrow-forward" size={18} color={C.action} />}
+    </>
+  );
+  return onPress
+    ? (
+      <TouchableOpacity style={[s.action, { borderLeftColor: C.action }]} onPress={onPress} activeOpacity={0.7}>
+        {contenu}
+      </TouchableOpacity>
+    )
+    : <View style={[s.action, { borderLeftColor: C.action }]}>{contenu}</View>;
+};
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function FicheRegistreScreen({ navigation, route }) {
@@ -140,6 +177,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
   const fiche = getFicheById(ficheId);
   const { versant } = useContext(VersantContext);
   const [favori, setFavori] = useState(false);
+  const [veilleOuverte, setVeilleOuverte] = useState(false);
 
   useEffect(() => {
     if (!fiche) return;
@@ -161,8 +199,8 @@ export default function FicheRegistreScreen({ navigation, route }) {
   const inter = (base) => base * echelle * INTERLIGNE;
 
   const F = filets(theme.isDark);
+  const C = couleurs(theme.isDark);
   const s = feuille(theme, F);
-  const C = lecture(theme.isDark);
   const ui = { s, t, inter, th: theme, C };
 
   const module = fiche.moduleColor;
@@ -203,19 +241,15 @@ export default function FicheRegistreScreen({ navigation, route }) {
   };
 
   // ── Construction du défilement ────────────────────────────────────────────
-  // Les index des étiquettes collantes sont relevés au fil de l'eau : c'est le
-  // seul moyen de les garder justes quand une rubrique est absente.
+  // Les index des titres collants sont relevés au fil de l'eau : c'est le seul
+  // moyen de les garder justes quand une section est absente.
   const enfants = [];
   const collants = [];
   const pousser = (noeud) => { enfants.push(noeud); };
-  const poserRubrique = (titre, compte) => {
-    // L'espacement au-dessus d'une étiquette ne peut PAS être une marge : React
-    // Native fige l'étiquette avec sa marge, et le contenu défile alors
-    // visiblement dans cet interstice, au-dessus du libellé. On intercale donc
-    // un blanc non collant, et l'étiquette reste compacte une fois figée.
-    enfants.push(<View key={`esp-${titre}`} style={s.espaceRubrique} />);
+  const poserSection = (titre, compte) => {
+    enfants.push(<View key={`esp-${titre}`} style={s.espaceSection} />);
     collants.push(enfants.length);
-    enfants.push(<Rubrique key={`rub-${titre}`} ui={ui} titre={titre} compte={compte} />);
+    enfants.push(<Section key={`sec-${titre}`} ui={ui} titre={titre} compte={compte} />);
   };
 
   // Tête : bandeau de module, titre, résumé, public concerné, trois chiffres.
@@ -251,9 +285,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
         <View style={s.synthese}>
           {synthese.chiffres.map((c, i) => (
             <View key={i} style={s.syntheseCase}>
-              <Text style={[s.syntheseN, { color: C[c.ton] || theme.textPrimary, fontSize: t(T.chiffre) }]}>
-                {c.n}
-              </Text>
+              <Text style={[s.syntheseN, { color: C.valeur, fontSize: t(T.chiffre) }]}>{c.n}</Text>
               <Text style={[s.syntheseC, { fontSize: t(T.num) }]}>{c.c}</Text>
             </View>
           ))}
@@ -263,15 +295,40 @@ export default function FicheRegistreScreen({ navigation, route }) {
   );
 
   // Veille juridique — un texte paru que la fiche ne reflète pas encore.
+  // Repliée par défaut quand elle annonce quelque chose : son résumé fait
+  // plusieurs centaines de mots et n'a pas à s'interposer entre le lecteur et
+  // la fiche. Le titre de l'évolution, lui, reste toujours visible.
   if (majs?.length) {
     const enAttente = majs.filter(m => !m.integre);
-    const couleur = enAttente.length ? C.attention : C.versant;
-    const titreBloc = enAttente.length
+    const alerte = enAttente.length > 0;
+    const teinte = alerte ? C.attention : C.versant;
+    const titreBloc = alerte
       ? `${enAttente.length} évolution${enAttente.length > 1 ? 's' : ''} à connaître`
       : `À jour au ${formatDateFr(majs[0].vigueur || majs[0].date)}`;
     pousser(
-      <BlocFilet key="veille" ui={ui} couleur={couleur} titre={titreBloc}>
-        {majs.map(maj => (
+      <View key="veille" style={[s.blocFilet, s.veille, { borderLeftColor: teinte }]}>
+        <TouchableOpacity onPress={() => setVeilleOuverte(o => !o)} activeOpacity={0.7} disabled={!alerte}>
+          <View style={s.veilleTete}>
+            <Text style={[s.blocFiletTitre, s.veilleTitre, { color: teinte, fontSize: t(T.oeil) }]}>
+              {titreBloc}
+            </Text>
+            {alerte && (
+              <Ionicons
+                name={veilleOuverte ? 'chevron-up' : 'chevron-down'}
+                size={14}
+                color={teinte}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
+
+        {alerte && !veilleOuverte && (
+          <Paragraphe ui={ui}>
+            {enAttente[0].titre} — le texte ci-dessous ne l'intègre pas encore.
+          </Paragraphe>
+        )}
+
+        {(veilleOuverte || !alerte) && majs.map(maj => (
           <View key={maj.id} style={s.maj}>
             <Text style={[s.majTitre, { fontSize: t(T.label), lineHeight: t(T.label) * 1.3 }]}>{maj.titre}</Text>
             <Paragraphe ui={ui}>{maj.resume}</Paragraphe>
@@ -302,13 +359,13 @@ export default function FicheRegistreScreen({ navigation, route }) {
             </TouchableOpacity>
           </View>
         ))}
-      </BlocFilet>
+      </View>
     );
   }
 
-  // Ce que vous percevez.
+  // ── Ce que vous percevez ──────────────────────────────────────────────────
   if (droits.length) {
-    poserRubrique('Ce que vous percevez', droits.length);
+    poserSection('Ce que vous percevez', droits.length);
     droits.forEach((d, i) => pousser(
       <Ligne
         key={`droit-${i}`}
@@ -316,50 +373,28 @@ export default function FicheRegistreScreen({ navigation, route }) {
         label={d.label}
         valeur={d.valeur}
         detail={d.detail}
-        ton={tonDuDroit(ficheId, d.label)}
         derniere={i === droits.length - 1}
       />
     ));
-    // La légende du code de lecture n'apparaît que si une teinte est réellement
-    // employée sur cette fiche : sinon elle explique une chose qu'on ne voit pas.
-    const tons = new Set(droits.map(d => tonDuDroit(ficheId, d.label)));
-    if (tons.has('baisse') || tons.has('tient')) {
+    // La note du versant clôt la section : elle ne vaut que pour les droits
+    // qu'on vient de lire.
+    if (versantNote) {
       pousser(
-        <View key="code" style={s.code}>
-          {tons.has('baisse') && (
-            <View style={s.codeCase}>
-              <View style={[s.codePastille, { backgroundColor: C.baisse }]} />
-              <Text style={[s.codeTexte, { fontSize: t(T.num) }]}>dégressif</Text>
-            </View>
-          )}
-          {tons.has('tient') && (
-            <View style={s.codeCase}>
-              <View style={[s.codePastille, { backgroundColor: C.tient }]} />
-              <Text style={[s.codeTexte, { fontSize: t(T.num) }]}>maintenu</Text>
-            </View>
-          )}
-        </View>
+        <BlocFilet key="versant" ui={ui} couleur={C.versant}
+                   titre={`Pour vous — ${VERSANT_LONG[versant] || versant}`}>
+          <Paragraphe ui={ui}>{versantNote}</Paragraphe>
+        </BlocFilet>
       );
     }
   }
 
-  // La note du versant de l'agent.
-  if (versantNote) {
-    pousser(
-      <BlocFilet key="versant" ui={ui} couleur={C.versant}
-                 titre={`Pour vous — ${VERSANT_LONG[versant] || versant}`}>
-        <Paragraphe ui={ui}>{versantNote}</Paragraphe>
-      </BlocFilet>
-    );
-  }
-
-  // Le tableau, quand la fiche en porte un.
+  // ── Récapitulatif ─────────────────────────────────────────────────────────
   const tableau = fiche.tableaux?.[versant]
     || fiche[`tableau${versant.charAt(0).toUpperCase()}${versant.slice(1)}`]
     || (fiche.tableau && (!fiche.tableau.versants || fiche.tableau.versants.includes(versant)) ? fiche.tableau : null);
 
   if (tableau) {
-    poserRubrique(tableau.titre || 'Le tableau', null);
+    poserSection(tableau.titre || 'Récapitulatif', null);
     pousser(
       <View key="tableau" style={s.tableau}>
         <View style={[s.tableauLigne, s.tableauTete]}>
@@ -393,9 +428,9 @@ export default function FicheRegistreScreen({ navigation, route }) {
     );
   }
 
-  // La démarche.
+  // ── La démarche ───────────────────────────────────────────────────────────
   if (etapes.length) {
-    poserRubrique('La démarche', etapes.length);
+    poserSection('La démarche', etapes.length);
     etapes.forEach((e, i) => pousser(
       <View key={`etape-${i}`} style={[s.ligne, i === etapes.length - 1 && s.ligneSansFilet]}>
         <View style={s.etapeHaut}>
@@ -411,7 +446,8 @@ export default function FicheRegistreScreen({ navigation, route }) {
     ));
   }
 
-  // Les points d'attention.
+  // Les points d'attention closent la démarche : ce sont les faux pas de cette
+  // procédure, pas une rubrique séparée.
   if (pieges.length) {
     pousser(
       <BlocFilet key="attention" ui={ui} couleur={C.attention} titre="Points d'attention">
@@ -424,9 +460,9 @@ export default function FicheRegistreScreen({ navigation, route }) {
     );
   }
 
-  // Les recours.
+  // ── Vos recours ───────────────────────────────────────────────────────────
   if (fiche.recours) {
-    poserRubrique('Vos recours', null);
+    poserSection('Vos recours', null);
     pousser(
       <Ligne
         key="recours"
@@ -434,51 +470,46 @@ export default function FicheRegistreScreen({ navigation, route }) {
         label={synthese?.recours?.label || "Si l'administration refuse"}
         valeur={synthese?.recours?.valeur}
         detail={fiche.recours}
-        ton="neutre"
         derniere
       />
     );
   }
 
-  // Le simulateur, quand la fiche en a un.
+  // ── Aller plus loin ───────────────────────────────────────────────────────
+  poserSection('Aller plus loin', null);
   if (simulerParams) {
     pousser(
-      <TouchableOpacity
+      <Action
         key="simuler"
-        style={s.action}
-        activeOpacity={0.7}
+        ui={ui}
+        titre="Simuler ce congé"
+        texte="Projeter vos revenus mois par mois, sur toute la durée du congé."
         onPress={() => navigation.navigate('SimulateurTabs', { screen: 'SimulateurMain', params: simulerParams })}
-      >
-        <View style={s.actionTexte}>
-          <Text style={[s.label, { fontSize: t(T.label), lineHeight: t(T.label) * 1.3 }]}>Simuler ce congé</Text>
-          <Text style={[s.detail, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
-            Projeter vos revenus sur toute la durée.
-          </Text>
-        </View>
-        <Ionicons name="arrow-forward" size={16} color={theme.textMuted} />
-      </TouchableOpacity>
+      />
     );
   }
-
-  // L'accompagnement social.
   pousser(
-    <View key="aide" style={s.aide}>
-      <Text style={[s.rubriqueTitre, { fontSize: t(T.oeil) }]}>Se faire accompagner</Text>
-      <Text style={[s.detail, s.aideTexte, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
-        Pour toute question relative à votre vie personnelle ou professionnelle, vous pouvez
-        contacter votre assistant de service social du personnel. Cet accompagnement est
-        gratuit, confidentiel et sans jugement. Ses coordonnées figurent sur l'intranet de
-        votre administration ou auprès de votre service RH.
-      </Text>
-    </View>
+    <Action
+      key="aide"
+      ui={ui}
+      titre="Se faire accompagner"
+      texte={"Votre assistant de service social du personnel répond à toute question, "
+        + "personnelle ou professionnelle. Gratuit, confidentiel, sans lien avec votre "
+        + "hiérarchie. Ses coordonnées sont sur l'intranet de votre administration ou "
+        + "auprès de votre service RH."}
+    />
   );
 
-  // Les sources, en pied.
+  // ── Sources ───────────────────────────────────────────────────────────────
   if (fiche.sources?.length) {
+    poserSection('Sources', fiche.sources.length);
     pousser(
       <View key="sources" style={s.sources}>
         {fiche.sources.map((src, i) => (
-          <Text key={i} style={[s.reference, i > 0 && s.source, { fontSize: t(T.source), lineHeight: t(T.source) * 1.7 }]}>
+          <Text
+            key={i}
+            style={[s.reference, i > 0 && s.source, { fontSize: t(T.source), lineHeight: t(T.source) * 1.7 }]}
+          >
             {src.texte}
           </Text>
         ))}
@@ -564,7 +595,6 @@ export default function FicheRegistreScreen({ navigation, route }) {
 //
 // Les filets font 1 dp, pas StyleSheet.hairlineWidth : sur un écran à forte
 // densité, un filet d'un seul pixel physique teinté à 7 % devient invisible.
-// La maquette validée les dessinait à 1 px CSS.
 // ─────────────────────────────────────────────────────────────────────────────
 const FILET = 1;
 
@@ -610,19 +640,20 @@ const feuille = (th, F) => StyleSheet.create({
   syntheseN: { fontFamily: SERIF },
   syntheseC: { color: th.textMuted, marginTop: 6 },
 
-  // ── Étiquette de rubrique, collante au défilement ─────────────────────────
-  espaceRubrique: { height: V.rubrique },
-  rubrique: {
+  // ── Titre de section, collant au défilement ───────────────────────────────
+  espaceSection: { height: V.section },
+  section: {
     flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between',
-    paddingTop: 6, paddingBottom: 5,
+    paddingTop: 13, paddingBottom: 11,
     backgroundColor: th.bg,
-    borderBottomWidth: FILET, borderBottomColor: F.rubrique,
+    borderTopWidth: 2, borderTopColor: F.section,
   },
-  rubriqueTitre: {
-    fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase',
-    color: th.textMuted, flexShrink: 1,
-  },
-  rubriqueCompte: { fontFamily: MONO_LEGER, color: th.textMuted },
+  // flex: 1 et non flexShrink: 1 — avec une police embarquée, Android mesure
+  // parfois le texte avec la police de repli et un titre rétrécissable finit
+  // rogné (« Aller plus » au lieu de « Aller plus loin »). En flex: 1 il occupe
+  // la place disponible et passe à la ligne au lieu d'être coupé.
+  sectionTitre: { fontFamily: SERIF, color: th.textPrimary, flex: 1 },
+  sectionCompte: { fontFamily: MONO_LEGER, color: th.textMuted, marginLeft: 12 },
 
   // ── La ligne à deux niveaux ───────────────────────────────────────────────
   ligne: {
@@ -643,15 +674,13 @@ const feuille = (th, F) => StyleSheet.create({
   blocFilet: { marginTop: V.bloc, paddingLeft: 13, borderLeftWidth: 2 },
   blocFiletTitre: { fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase', marginBottom: 6 },
 
+  veille: { marginTop: 24 },
+  veilleTete: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 2 },
+  veilleTitre: { marginBottom: 0, flexShrink: 1 },
+
   maj: { marginTop: 10 },
   majTitre: { fontWeight: '600', color: th.textPrimary },
   majMeta: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
-
-  // ── Le code de lecture ────────────────────────────────────────────────────
-  code: { flexDirection: 'row', gap: 16, marginTop: 13 },
-  codeCase: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  codePastille: { width: 6, height: 6, borderRadius: 3 },
-  codeTexte: { color: th.textMuted },
 
   // ── Étapes ────────────────────────────────────────────────────────────────
   etapeHaut: { flexDirection: 'row', alignItems: 'baseline', gap: 10 },
@@ -668,34 +697,33 @@ const feuille = (th, F) => StyleSheet.create({
     textTransform: 'uppercase', paddingVertical: 9, paddingRight: 8,
   },
   // Pas de chasse fixe ici : « Maintenu » et « Délibération » y débordent de
-  // leur colonne, et React Native, qui ne césure pas, les rompt au milieu
-  // d'un mot. La chasse fixe reste aux valeurs courtes.
+  // leur colonne, et React Native, qui ne césure pas, les rompt au milieu d'un
+  // mot. La chasse fixe reste aux valeurs courtes.
   tableauCellule: { color: th.textSecondary, paddingVertical: 11, paddingRight: 8 },
   tableauCelluleTete: { color: th.textPrimary, fontWeight: '600', paddingVertical: 11, paddingRight: 8 },
 
-  // ── Pied ──────────────────────────────────────────────────────────────────
+  // ── Actions ───────────────────────────────────────────────────────────────
   action: {
     flexDirection: 'row', alignItems: 'center', gap: 14,
-    marginTop: V.rubrique, paddingTop: 14, paddingBottom: 14,
-    borderTopWidth: FILET, borderTopColor: F.rubrique,
-    borderBottomWidth: FILET, borderBottomColor: F.rubrique,
+    backgroundColor: th.bgWarm, borderLeftWidth: 3,
+    paddingVertical: 15, paddingHorizontal: 15,
+    marginTop: 12,
   },
   actionTexte: { flex: 1 },
+  actionTitre: { fontFamily: SERIF, color: th.textPrimary, marginBottom: 2 },
 
-  aide: { marginTop: V.rubrique },
-  aideTexte: { marginTop: 8 },
-
-  sources: { marginTop: V.rubrique, paddingTop: 14, borderTopWidth: FILET, borderTopColor: F.rubrique },
+  // ── Pied ──────────────────────────────────────────────────────────────────
+  sources: { marginTop: 4 },
   // Sans cet écart, une source qui passe à la ligne se confond avec la suivante.
   source: { marginTop: 5 },
 
   nav: {
     flexDirection: 'row', justifyContent: 'space-between',
-    marginTop: V.rubrique, paddingTop: 14,
+    marginTop: V.section, paddingTop: 14,
     borderTopWidth: FILET, borderTopColor: F.rubrique,
   },
   navBtn: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingVertical: 4 },
   navTexte: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 0.6, textTransform: 'uppercase' },
 
-  mentions: { color: th.textMuted, marginTop: 22, textAlign: 'center' },
+  mentions: { color: th.textMuted, marginTop: 24, textAlign: 'center' },
 });
