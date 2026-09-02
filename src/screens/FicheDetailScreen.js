@@ -2,7 +2,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity,
-  StyleSheet, StatusBar, Share, Linking
+  StyleSheet, StatusBar, Linking
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,6 +11,8 @@ import { getFicheById, MODULES } from '../data/fiches';
 import { getMajsForFiche } from '../data/veille';
 import { VersantContext } from '../navigation/AppNavigator';
 import { addFavori, removeFavori, isFavori, addRecent } from '../utils/storage';
+import { partagerFiche } from '../utils/partageFiche';
+import FicheRegistreScreen from './FicheRegistreScreen';
 
 const Block = ({ title, dotColor, children }) => (
   <View style={styles.block}>
@@ -382,7 +384,7 @@ const majStyles = StyleSheet.create({
   itemSource: { marginTop: 2, fontWeight: '500', lineHeight: 16 },
 });
 
-export default function FicheDetailScreen({ navigation, route }) {
+function FicheClassique({ navigation, route }) {
   const { ficheId, ficheIndex, ficheTotal, moduleTitle } = route.params || {};
   const fiche = getFicheById(ficheId);
   const { versant } = useContext(VersantContext);
@@ -425,107 +427,10 @@ export default function FicheDetailScreen({ navigation, route }) {
   };
   const simulerParams = FICHE_TO_REGIME[ficheId];
 
-  const handleShare = async () => {
-    // Le texte partagé doit refléter le MÊME versant que l'écran : sans ce filtre,
-    // un agent hospitalier partagerait les règles FPT et FPE mélangées aux siennes.
-    const pourCeVersant = (arr) =>
-      (arr || []).filter(x => !x || typeof x !== 'object' || !x.versants || x.versants.includes(versant));
-    // Les pièges sont soit une chaîne, soit { texte, versants } — normaliser avant affichage,
-    // sinon l'interpolation produit "[object Object]".
-    const texteDuPiege = (p) => (typeof p === 'object' && p !== null ? p.texte : p);
-
-    // Construire le texte complet de la fiche
-    const lines = [];
-    lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━`);
-    lines.push(`FONCTIO. — Fiche pratique`);
-    lines.push(`━━━━━━━━━━━━━━━━━━━━━━━━━`);
-    lines.push(``);
-    lines.push(`📋 ${fiche.titre}`);
-    lines.push(`📁 ${fiche.categorie}`);
-    lines.push(``);
-
-    if (fiche.chips?.length) {
-      lines.push(`🏷️  ${fiche.chips.join(' · ')}`);
-      lines.push(``);
-    }
-
-    lines.push(`EN RÉSUMÉ`);
-    lines.push(`─────────`);
-    lines.push(fiche.resume);
-    lines.push(``);
-
-    if (fiche.ciblePublic) {
-      lines.push(`👥 Concerne : ${fiche.ciblePublic}`);
-      lines.push(``);
-    }
-
-    // Rappeler le versant : le contenu ci-dessous en dépend.
-    lines.push(`🏛️  Versant : FP ${VERSANT_LABELS[versant] || versant}`);
-    lines.push(``);
-
-    const versantNoteShare = fiche.versantNotes?.[versant];
-    if (versantNoteShare) {
-      lines.push(`POUR VOTRE VERSANT`);
-      lines.push(`──────────────────`);
-      lines.push(versantNoteShare);
-      lines.push(``);
-    }
-
-    const droitsShare = pourCeVersant(fiche.droits);
-    if (droitsShare.length) {
-      lines.push(`DROITS & DURÉES`);
-      lines.push(`───────────────`);
-      droitsShare.forEach(d => {
-        lines.push(`• ${d.label} : ${d.valeur}`);
-        if (d.detail) lines.push(`  ${d.detail}`);
-      });
-      lines.push(``);
-    }
-
-    const etapesShare = pourCeVersant(fiche.etapes);
-    if (etapesShare.length) {
-      lines.push(`LES ÉTAPES`);
-      lines.push(`──────────`);
-      etapesShare.forEach((e, i) => {
-        // Renuméroter : les étapes déclinées par versant laissent des trous dans e.num.
-        lines.push(`${i + 1}. ${e.titre}`);
-        lines.push(`   ${e.texte}`);
-      });
-      lines.push(``);
-    }
-
-    const piegesShare = pourCeVersant(fiche.pieges);
-    if (piegesShare.length) {
-      lines.push(`⚠️  POINTS D'ATTENTION`);
-      lines.push(`─────────────────────`);
-      piegesShare.forEach(p => lines.push(`→ ${texteDuPiege(p)}`));
-      lines.push(``);
-    }
-
-    if (fiche.recours) {
-      lines.push(`EN CAS DE REFUS`);
-      lines.push(`───────────────`);
-      lines.push(fiche.recours);
-      lines.push(``);
-    }
-
-    if (fiche.sources?.length) {
-      lines.push(`SOURCES JURIDIQUES`);
-      lines.push(`──────────────────`);
-      fiche.sources.forEach(s => lines.push(`§ ${s.texte}`));
-      lines.push(``);
-    }
-
-    lines.push(`─────────────────────────`);
-    lines.push(`Fonctio. — Application informative.`);
-    lines.push(`Cette fiche ne remplace pas un conseil juridique.`);
-    lines.push(`Rapprochez-vous de votre assistant de service social du personnel.`);
-
-    await Share.share({
-      message: lines.join('\n'),
-      title: fiche.titre,
-    });
-  };
+  // Le texte partagé est construit dans src/utils/partageFiche.js : les deux
+  // présentations de fiche doivent produire le MÊME texte, sinon elles divergent
+  // à la première correction.
+  const handleShare = () => partagerFiche(fiche, versant);
 
   const theme = useTheme();
   const { fs } = theme;
@@ -745,6 +650,28 @@ export default function FicheDetailScreen({ navigation, route }) {
       </ScrollView>
     </SafeAreaView>
   );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RÉPARTITEUR
+//
+// La direction « Registre » est en cours de déploiement : elle n'est branchée
+// que sur les fiches listées ici, le temps de la juger sur l'appareil. Le reste
+// de l'app continue de s'afficher comme avant.
+//
+// Ce composant ne doit contenir AUCUN hook. Il rend deux composants de types
+// différents : React démonte l'un et monte l'autre, ce qui est légal. Faire le
+// même aiguillage à l'intérieur d'un seul composant changerait le nombre de
+// hooks entre deux rendus — c'est exactement ce qui se produit quand on passe
+// d'une fiche à l'autre par navigation.replace().
+// ─────────────────────────────────────────────────────────────────────────────
+const FICHES_EN_REGISTRE = new Set(['cmo']);
+
+export default function FicheDetailScreen(props) {
+  const ficheId = props.route?.params?.ficheId;
+  return FICHES_EN_REGISTRE.has(ficheId)
+    ? <FicheRegistreScreen {...props} />
+    : <FicheClassique {...props} />;
 }
 
 const styles = StyleSheet.create({
