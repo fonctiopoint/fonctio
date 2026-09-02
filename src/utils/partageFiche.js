@@ -1,7 +1,7 @@
 // src/utils/partageFiche.js
-// Construction du texte partagé d'une fiche. Extrait de FicheDetailScreen pour
-// que la présentation « Registre » et la présentation historique partagent le
-// même texte : deux copies auraient divergé à la première correction.
+// Construction du texte partagé d'une fiche. Séparé de l'écran : le texte
+// partagé survit aux refontes de présentation, et il a déjà servi à deux écrans
+// à la fois pendant la bascule vers « Registre ».
 import { Share } from 'react-native';
 
 export const VERSANT_LABELS = { fpe: 'État (FPE)', fpt: 'Territoriale (FPT)', fph: 'Hospitalière (FPH)' };

@@ -3,9 +3,11 @@
 // Présentation « Registre » d'une fiche. Voir src/theme/registre.js pour les
 // règles du système, et src/data/synthese.js pour la surcouche éditoriale.
 //
-// Cet écran n'est pour l'instant branché que sur la fiche du congé maladie
-// ordinaire — la plus longue du jeu de données, donc le pire cas. La liste des
-// fiches concernées est tenue dans FicheDetailScreen.js.
+// C'est la présentation de TOUTES les fiches depuis le 02/09/2026. Elle a été
+// construite puis jugée sur l'appareil sur la seule fiche du congé maladie
+// ordinaire — la plus longue du jeu de données, donc le pire cas — avant d'être
+// généralisée aux 43. L'écran précédent (FicheDetailScreen.js, cartes et
+// accordéons) a été supprimé ; il est dans l'historique git si besoin.
 //
 // Trois points de vigilance si on y touche :
 //   — les titres de section sont COLLANTS : ils doivent rester des enfants
@@ -74,7 +76,10 @@ const couperSource = (detail) => {
 
 // Au-delà de cette longueur, la valeur ne tient plus à droite du libellé sur un
 // écran de téléphone : elle passe sous lui. Elle n'est jamais tronquée.
-const SEUIL_VALEUR_LONGUE = 24;
+// 22 et non 24 : « Aucune — allocations CAF » tenait tout juste sur cet écran
+// et débordait sur un plus étroit. Se tromper vers le bas ne coûte qu'une
+// valeur passée à la ligne ; se tromper vers le haut coupe le texte.
+const SEUIL_VALEUR_LONGUE = 22;
 
 const pourCeVersant = (liste, versant) =>
   (liste || []).filter(x => !x || typeof x !== 'object' || !x.versants || x.versants.includes(versant));
@@ -124,11 +129,14 @@ const Section = ({ ui, titre, compte }) => {
   );
 };
 
-const BlocFilet = ({ ui, couleur, titre, children }) => {
+const BlocFilet = ({ ui, couleur, titre, compte, children }) => {
   const { s, t } = ui;
   return (
     <View style={[s.blocFilet, { borderLeftColor: couleur }]}>
-      <Text style={[s.blocFiletTitre, { color: couleur, fontSize: t(T.oeil) }]}>{titre}</Text>
+      <View style={s.blocFiletTete}>
+        <Text style={[s.blocFiletTitre, { color: couleur, fontSize: t(T.oeil) }]}>{titre}</Text>
+        {compte != null && <Text style={[s.sectionCompte, { fontSize: t(T.num) }]}>{compte}</Text>}
+      </View>
       {children}
     </View>
   );
@@ -450,11 +458,17 @@ export default function FicheRegistreScreen({ navigation, route }) {
   // procédure, pas une rubrique séparée.
   if (pieges.length) {
     pousser(
-      <BlocFilet key="attention" ui={ui} couleur={C.attention} titre="Points d'attention">
+      <BlocFilet key="attention" ui={ui} couleur={C.attention}
+                 titre="Points d'attention" compte={pieges.length}>
         {pieges.map((p, i) => (
-          <Paragraphe key={i} ui={ui} style={i > 0 && s.paragrapheSuivant}>
-            {typeof p === 'object' ? p.texte : p}
-          </Paragraphe>
+          <View key={i} style={[s.point, i > 0 && s.pointSuivant]}>
+            <Text style={[s.pointNum, { color: C.attention, fontSize: t(T.valeur) }]}>
+              {deuxChiffres(i + 1)}
+            </Text>
+            <Text style={[s.detail, s.pointTexte, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
+              {typeof p === 'object' ? p.texte : p}
+            </Text>
+          </View>
         ))}
       </BlocFilet>
     );
@@ -625,7 +639,10 @@ const feuille = (th, F) => StyleSheet.create({
   titre: { fontFamily: SERIF, color: th.textPrimary, marginBottom: 11 },
   lede: { color: th.textSecondary, marginBottom: 16 },
 
-  concerne: { marginBottom: 16 },
+  // L'écart sous « Concerne » est porté par la bande de synthèse, qui n'existe
+  // pas sur toutes les fiches : sans cela, une fiche sans chiffres ouvrait sur
+  // 56 dp de blanc avant sa première section.
+  concerne: {},
   concerneOeil: {
     fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase',
     color: th.textMuted, marginBottom: 5,
@@ -633,10 +650,13 @@ const feuille = (th, F) => StyleSheet.create({
   concerneTexte: { color: th.textSecondary },
 
   synthese: {
-    flexDirection: 'row', gap: 22, paddingTop: 15, paddingBottom: 16,
+    flexDirection: 'row', gap: 16, marginTop: 16, paddingTop: 15, paddingBottom: 16,
     borderTopWidth: FILET, borderBottomWidth: FILET, borderColor: F.rubrique,
   },
-  syntheseCase: { flexShrink: 1 },
+  // Trois colonnes égales, et non trois blocs alignés à gauche : sans flex, les
+  // chiffres se tassaient dans le tiers gauche de la bande et laissaient un
+  // grand vide à droite.
+  syntheseCase: { flex: 1 },
   syntheseN: { fontFamily: SERIF },
   syntheseC: { color: th.textMuted, marginTop: 6 },
 
@@ -672,7 +692,15 @@ const feuille = (th, F) => StyleSheet.create({
 
   // ── Blocs à filet latéral ─────────────────────────────────────────────────
   blocFilet: { marginTop: V.bloc, paddingLeft: 13, borderLeftWidth: 2 },
-  blocFiletTitre: { fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase', marginBottom: 6 },
+  blocFiletTete: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
+  blocFiletTitre: { fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase', marginBottom: 6, flexShrink: 1 },
+
+  // Une suite de paragraphes sans repère se lit comme un pavé : les points
+  // d'attention sont numérotés, comme les étapes de la démarche.
+  point: { flexDirection: 'row', gap: 10, alignItems: 'baseline' },
+  pointSuivant: { marginTop: 12 },
+  pointNum: { fontFamily: MONO_LEGER, flexShrink: 0 },
+  pointTexte: { flex: 1, marginTop: 0 },
 
   veille: { marginTop: 24 },
   veilleTete: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 2 },

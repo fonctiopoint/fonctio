@@ -9,7 +9,7 @@ import { Colors, useTheme } from '../theme';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ModuleScreen from '../screens/ModuleScreen';
-import FicheDetailScreen from '../screens/FicheDetailScreen';
+import FicheRegistreScreen from '../screens/FicheRegistreScreen';
 import SimulateurScreen from '../screens/SimulateurScreen';
 import ProfilScreen from '../screens/ProfilScreen';
 import SearchScreen from '../screens/SearchScreen';
@@ -30,7 +30,7 @@ const HomeStack = ({ versant, setVersant }) => (
       {props => <HomeScreen {...props} versant={versant} setVersant={setVersant} />}
     </Stack.Screen>
     <Stack.Screen name="Module" component={ModuleScreen} />
-    <Stack.Screen name="FicheDetail" component={FicheDetailScreen} />
+    <Stack.Screen name="FicheDetail" component={FicheRegistreScreen} />
     <Stack.Screen name="Search" component={SearchScreen} />
   </Stack.Navigator>
 );
@@ -38,7 +38,7 @@ const HomeStack = ({ versant, setVersant }) => (
 const SimulateurStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="SimulateurMain" component={SimulateurScreen} />
-    <Stack.Screen name="FicheDetail" component={FicheDetailScreen} />
+    <Stack.Screen name="FicheDetail" component={FicheRegistreScreen} />
   </Stack.Navigator>
 );
 
