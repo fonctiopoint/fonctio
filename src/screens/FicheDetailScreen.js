@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Colors, Typography, Spacing, Radius, Shadow, useTheme } from '../theme';
 import { getFicheById, MODULES } from '../data/fiches';
 import { getMajsForFiche } from '../data/veille';
-import { VersantContext } from '../navigation/AppNavigator';
+import { VersantContext } from '../navigation/VersantContext';
 import { addFavori, removeFavori, isFavori, addRecent } from '../utils/storage';
 import { partagerFiche } from '../utils/partageFiche';
 import FicheRegistreScreen from './FicheRegistreScreen';

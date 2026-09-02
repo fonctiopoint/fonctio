@@ -26,12 +26,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../theme';
 import {
-  SERIF, MONO, LECTURE, FILET_VERSANT, FILET_ATTENTION, filets, T, INTERLIGNE, V,
+  SERIF, MONO, MONO_LEGER, lecture, filets, T, INTERLIGNE, V,
 } from '../theme/registre';
 import { getFicheById, MODULES } from '../data/fiches';
 import { getMajsForFiche } from '../data/veille';
 import { getSynthese, tonDuDroit } from '../data/synthese';
-import { VersantContext } from '../navigation/AppNavigator';
+import { VersantContext } from '../navigation/VersantContext';
 import { addFavori, removeFavori, isFavori, addRecent } from '../utils/storage';
 import { partagerFiche } from '../utils/partageFiche';
 
@@ -67,6 +67,10 @@ const couperSource = (detail) => {
   return { texte: detail.slice(0, i).trim(), reference };
 };
 
+// Au-delà de cette longueur, la valeur ne tient plus à droite du libellé sur un
+// écran de téléphone : elle passe sous lui. Elle n'est jamais tronquée.
+const SEUIL_VALEUR_LONGUE = 24;
+
 const pourCeVersant = (liste, versant) =>
   (liste || []).filter(x => !x || typeof x !== 'object' || !x.versants || x.versants.includes(versant));
 
@@ -75,17 +79,21 @@ const pourCeVersant = (liste, versant) =>
 // pour le thème courant, l'échelle typographique et les interlignes.
 
 const Ligne = ({ ui, label, valeur, detail, ton, derniere }) => {
-  const { s, t, inter, th } = ui;
+  const { s, t, inter, th, C } = ui;
   const { texte, reference } = couperSource(detail);
-  const teinte = LECTURE[ton] || th.textSecondary;
+  const teinte = C[ton] || th.textSecondary;
+  const dessous = (valeur || '').length > SEUIL_VALEUR_LONGUE;
   return (
     <View style={[s.ligne, derniere && s.ligneSansFilet]}>
       <View style={s.ligneHaut}>
         <Text style={[s.label, { fontSize: t(T.label), lineHeight: t(T.label) * 1.3 }]}>{label}</Text>
-        {!!valeur && (
+        {!!valeur && !dessous && (
           <Text style={[s.valeur, { color: teinte, fontSize: t(T.valeur) }]}>{valeur}</Text>
         )}
       </View>
+      {!!valeur && dessous && (
+        <Text style={[s.valeur, s.valeurDessous, { color: teinte, fontSize: t(T.valeur) }]}>{valeur}</Text>
+      )}
       {!!texte && (
         <Text style={[s.detail, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>{texte}</Text>
       )}
@@ -154,7 +162,8 @@ export default function FicheRegistreScreen({ navigation, route }) {
 
   const F = filets(theme.isDark);
   const s = feuille(theme, F);
-  const ui = { s, t, inter, th: theme };
+  const C = lecture(theme.isDark);
+  const ui = { s, t, inter, th: theme, C };
 
   const module = fiche.moduleColor;
   const synthese = getSynthese(ficheId);
@@ -200,6 +209,11 @@ export default function FicheRegistreScreen({ navigation, route }) {
   const collants = [];
   const pousser = (noeud) => { enfants.push(noeud); };
   const poserRubrique = (titre, compte) => {
+    // L'espacement au-dessus d'une étiquette ne peut PAS être une marge : React
+    // Native fige l'étiquette avec sa marge, et le contenu défile alors
+    // visiblement dans cet interstice, au-dessus du libellé. On intercale donc
+    // un blanc non collant, et l'étiquette reste compacte une fois figée.
+    enfants.push(<View key={`esp-${titre}`} style={s.espaceRubrique} />);
     collants.push(enfants.length);
     enfants.push(<Rubrique key={`rub-${titre}`} ui={ui} titre={titre} compte={compte} />);
   };
@@ -237,7 +251,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
         <View style={s.synthese}>
           {synthese.chiffres.map((c, i) => (
             <View key={i} style={s.syntheseCase}>
-              <Text style={[s.syntheseN, { color: LECTURE[c.ton] || theme.textPrimary, fontSize: t(T.chiffre) }]}>
+              <Text style={[s.syntheseN, { color: C[c.ton] || theme.textPrimary, fontSize: t(T.chiffre) }]}>
                 {c.n}
               </Text>
               <Text style={[s.syntheseC, { fontSize: t(T.num) }]}>{c.c}</Text>
@@ -251,7 +265,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
   // Veille juridique — un texte paru que la fiche ne reflète pas encore.
   if (majs?.length) {
     const enAttente = majs.filter(m => !m.integre);
-    const couleur = enAttente.length ? FILET_ATTENTION : FILET_VERSANT;
+    const couleur = enAttente.length ? C.attention : C.versant;
     const titreBloc = enAttente.length
       ? `${enAttente.length} évolution${enAttente.length > 1 ? 's' : ''} à connaître`
       : `À jour au ${formatDateFr(majs[0].vigueur || majs[0].date)}`;
@@ -268,7 +282,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
                 </Text>
               )}
               {!!maj.rectificatif && (
-                <Text style={[s.reference, { color: FILET_ATTENTION, fontSize: t(T.source) }]}>
+                <Text style={[s.reference, { color: C.attention, fontSize: t(T.source) }]}>
                   Rectificatif du {formatDateFr(maj.rectificatif)}
                 </Text>
               )}
@@ -281,7 +295,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
               <Text style={[
                 s.reference,
                 { fontSize: t(T.source), lineHeight: t(T.source) * 1.6 },
-                maj.source?.url && { color: FILET_VERSANT },
+                maj.source?.url && { color: C.versant },
               ]}>
                 {maj.source?.texte}{maj.source?.url ? '  ↗' : ''}
               </Text>
@@ -314,13 +328,13 @@ export default function FicheRegistreScreen({ navigation, route }) {
         <View key="code" style={s.code}>
           {tons.has('baisse') && (
             <View style={s.codeCase}>
-              <View style={[s.codePastille, { backgroundColor: LECTURE.baisse }]} />
+              <View style={[s.codePastille, { backgroundColor: C.baisse }]} />
               <Text style={[s.codeTexte, { fontSize: t(T.num) }]}>dégressif</Text>
             </View>
           )}
           {tons.has('tient') && (
             <View style={s.codeCase}>
-              <View style={[s.codePastille, { backgroundColor: LECTURE.tient }]} />
+              <View style={[s.codePastille, { backgroundColor: C.tient }]} />
               <Text style={[s.codeTexte, { fontSize: t(T.num) }]}>maintenu</Text>
             </View>
           )}
@@ -332,7 +346,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
   // La note du versant de l'agent.
   if (versantNote) {
     pousser(
-      <BlocFilet key="versant" ui={ui} couleur={FILET_VERSANT}
+      <BlocFilet key="versant" ui={ui} couleur={C.versant}
                  titre={`Pour vous — ${VERSANT_LONG[versant] || versant}`}>
         <Paragraphe ui={ui}>{versantNote}</Paragraphe>
       </BlocFilet>
@@ -400,7 +414,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
   // Les points d'attention.
   if (pieges.length) {
     pousser(
-      <BlocFilet key="attention" ui={ui} couleur={FILET_ATTENTION} titre="Points d'attention">
+      <BlocFilet key="attention" ui={ui} couleur={C.attention} titre="Points d'attention">
         {pieges.map((p, i) => (
           <Paragraphe key={i} ui={ui} style={i > 0 && s.paragrapheSuivant}>
             {typeof p === 'object' ? p.texte : p}
@@ -464,7 +478,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
     pousser(
       <View key="sources" style={s.sources}>
         {fiche.sources.map((src, i) => (
-          <Text key={i} style={[s.reference, { fontSize: t(T.source), lineHeight: t(T.source) * 1.8 }]}>
+          <Text key={i} style={[s.reference, i > 0 && s.source, { fontSize: t(T.source), lineHeight: t(T.source) * 1.7 }]}>
             {src.texte}
           </Text>
         ))}
@@ -522,7 +536,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
             <Ionicons
               name={favori ? 'star' : 'star-outline'}
               size={17}
-              color={favori ? FILET_ATTENTION : theme.textMuted}
+              color={favori ? C.attention : theme.textMuted}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => partagerFiche(fiche, versant)} style={s.filBtn} activeOpacity={0.7}>
@@ -564,7 +578,7 @@ const feuille = (th, F) => StyleSheet.create({
   filRetour: { flexDirection: 'row', alignItems: 'center', gap: 7, flex: 1, paddingVertical: 4 },
   filTexte: { color: th.textMuted, flexShrink: 1 },
   filDroite: { flexDirection: 'row', alignItems: 'center', gap: 2 },
-  filVersant: { fontFamily: MONO, color: th.textMuted, letterSpacing: 1.1, marginRight: 4 },
+  filVersant: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 1.1, marginRight: 4 },
   filBtn: { padding: 6 },
 
   scroll: { flex: 1 },
@@ -576,7 +590,7 @@ const feuille = (th, F) => StyleSheet.create({
   moduleGauche: { flexDirection: 'row', alignItems: 'center', gap: 9, flex: 1 },
   moduleFilet: { width: 18, height: 2 },
   moduleNom: { fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase', flexShrink: 1 },
-  moduleRangNum: { fontFamily: MONO, color: th.textMuted, letterSpacing: 0.6 },
+  moduleRangNum: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 0.6 },
 
   titre: { fontFamily: SERIF, color: th.textPrimary, marginBottom: 11 },
   lede: { color: th.textSecondary, marginBottom: 16 },
@@ -597,9 +611,10 @@ const feuille = (th, F) => StyleSheet.create({
   syntheseC: { color: th.textMuted, marginTop: 6 },
 
   // ── Étiquette de rubrique, collante au défilement ─────────────────────────
+  espaceRubrique: { height: V.rubrique },
   rubrique: {
     flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between',
-    marginTop: V.rubrique, paddingTop: 6, paddingBottom: 5,
+    paddingTop: 6, paddingBottom: 5,
     backgroundColor: th.bg,
     borderBottomWidth: FILET, borderBottomColor: F.rubrique,
   },
@@ -607,7 +622,7 @@ const feuille = (th, F) => StyleSheet.create({
     fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase',
     color: th.textMuted, flexShrink: 1,
   },
-  rubriqueCompte: { fontFamily: MONO, color: th.textMuted },
+  rubriqueCompte: { fontFamily: MONO_LEGER, color: th.textMuted },
 
   // ── La ligne à deux niveaux ───────────────────────────────────────────────
   ligne: {
@@ -617,9 +632,10 @@ const feuille = (th, F) => StyleSheet.create({
   ligneSansFilet: { borderBottomWidth: 0 },
   ligneHaut: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: 14 },
   label: { fontWeight: '600', color: th.textPrimary, flexShrink: 1 },
-  valeur: { fontFamily: MONO, fontWeight: '500', flexShrink: 0 },
+  valeur: { fontFamily: MONO, flexShrink: 0 },
+  valeurDessous: { marginTop: 5 },
   detail: { color: th.textSecondary, marginTop: 6 },
-  reference: { fontFamily: MONO, color: th.textMuted, marginTop: 4 },
+  reference: { fontFamily: MONO_LEGER, color: th.textMuted, marginTop: 4 },
 
   paragrapheSuivant: { marginTop: 10 },
 
@@ -639,7 +655,7 @@ const feuille = (th, F) => StyleSheet.create({
 
   // ── Étapes ────────────────────────────────────────────────────────────────
   etapeHaut: { flexDirection: 'row', alignItems: 'baseline', gap: 10 },
-  etapeNum: { fontFamily: MONO, color: th.textMuted, flexShrink: 0 },
+  etapeNum: { fontFamily: MONO_LEGER, color: th.textMuted, flexShrink: 0 },
   etapeTitre: { fontWeight: '600', color: th.textPrimary, flexShrink: 1 },
   etapeDetail: { paddingLeft: 27 },
 
@@ -648,10 +664,13 @@ const feuille = (th, F) => StyleSheet.create({
   tableauLigne: { flexDirection: 'row', borderBottomWidth: FILET, borderBottomColor: F.ligne },
   tableauTete: { borderBottomColor: F.rubrique },
   tableauEntete: {
-    fontFamily: MONO, color: th.textMuted, letterSpacing: 1,
+    fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 1,
     textTransform: 'uppercase', paddingVertical: 9, paddingRight: 8,
   },
-  tableauCellule: { fontFamily: MONO, color: th.textSecondary, paddingVertical: 11, paddingRight: 8 },
+  // Pas de chasse fixe ici : « Maintenu » et « Délibération » y débordent de
+  // leur colonne, et React Native, qui ne césure pas, les rompt au milieu
+  // d'un mot. La chasse fixe reste aux valeurs courtes.
+  tableauCellule: { color: th.textSecondary, paddingVertical: 11, paddingRight: 8 },
   tableauCelluleTete: { color: th.textPrimary, fontWeight: '600', paddingVertical: 11, paddingRight: 8 },
 
   // ── Pied ──────────────────────────────────────────────────────────────────
@@ -667,6 +686,8 @@ const feuille = (th, F) => StyleSheet.create({
   aideTexte: { marginTop: 8 },
 
   sources: { marginTop: V.rubrique, paddingTop: 14, borderTopWidth: FILET, borderTopColor: F.rubrique },
+  // Sans cet écart, une source qui passe à la ligne se confond avec la suivante.
+  source: { marginTop: 5 },
 
   nav: {
     flexDirection: 'row', justifyContent: 'space-between',
@@ -674,7 +695,7 @@ const feuille = (th, F) => StyleSheet.create({
     borderTopWidth: FILET, borderTopColor: F.rubrique,
   },
   navBtn: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingVertical: 4 },
-  navTexte: { fontFamily: MONO, color: th.textMuted, letterSpacing: 0.6, textTransform: 'uppercase' },
+  navTexte: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 0.6, textTransform: 'uppercase' },
 
-  mentions: { fontFamily: MONO, color: th.textMuted, marginTop: 22, textAlign: 'center' },
+  mentions: { color: th.textMuted, marginTop: 22, textAlign: 'center' },
 });

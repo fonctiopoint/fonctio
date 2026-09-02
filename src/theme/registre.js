@@ -20,14 +20,25 @@
 //   7. Sources en pied, en chasse fixe, plus la référence sous l'explication
 //      qui cite un texte.
 // ─────────────────────────────────────────────────────────────────────────────
-import { Platform } from 'react-native';
 import { Palette } from './index';
 
-// Aucune police n'est embarquée dans l'app : ces deux familles sont celles du
-// système. Sur Android, « serif » et « monospace » sont des noms valides et
-// renvoient vers Noto Serif et Roboto Mono.
-export const SERIF = Platform.select({ ios: 'Georgia', android: 'serif', default: 'serif' });
-export const MONO = Platform.select({ ios: 'Menlo', android: 'monospace', default: 'monospace' });
+// Les deux familles sont EMBARQUÉES (chargées dans App.js), et non demandées au
+// système par un alias.
+//
+// Pourquoi : sur le Motorola Razr 50 Ultra de test, « serif », « notoserif »,
+// « Noto Serif », « Georgia », « Times New Roman », « monospace »,
+// « Roboto Mono » et « Droid Sans Mono » rendent TOUS exactement la même police
+// d'interface. Vérifié le 02/09/2026 en affichant les dix alias côte à côte.
+// Le constructeur substitue sa police système à toutes les familles, et la
+// règle des deux familles — l'ossature de cette direction — disparaissait sans
+// aucun signe d'erreur. Un alias système n'est donc pas une garantie.
+//
+// Ce sont les polices de la maquette validée. La police de LECTURE reste celle
+// du système : c'est celle de tout le reste de l'app, elle est bien dessinée,
+// et l'embarquer coûterait un fichier de plus sans rien changer à l'écran.
+export const SERIF = 'Newsreader_500Medium';
+export const MONO = 'IBMPlexMono_500Medium';
+export const MONO_LEGER = 'IBMPlexMono_400Regular';
 
 // ── Code de lecture ──────────────────────────────────────────────────────────
 // Une valeur porte au plus une de ces trois teintes, et la teinte ne dit qu'une
@@ -40,15 +51,34 @@ export const MONO = Platform.select({ ios: 'Menlo', android: 'monospace', defaul
 // Le classement est éditorial, fiche par fiche : il vit dans src/data/synthese.js.
 // Sans classement, une valeur reste NEUTRE. Une teinte absente n'induit personne
 // en erreur ; une teinte fausse, si.
-export const LECTURE = {
+//
+// Les teintes de l'app sont posées pour de l'encre sombre sur fond clair. Sur le
+// fond nuit, elles s'éteignent : l'olive vire au noir et le terracotta perd son
+// contraste. Chaque rôle a donc une version éclaircie, de même famille — ce sont
+// celles de la maquette validée.
+const CLAIR = {
   baisse: Palette.terracotta,
   tient: Palette.olive,
-  neutre: null, // prend l'encre secondaire du thème
+  versant: Palette.sky,
+  attention: Palette.amber,
+};
+const SOMBRE = {
+  baisse: '#D98253',
+  tient: '#9AAB78',
+  versant: '#6FA8CC',
+  attention: '#E0AE55',
 };
 
-// La note par versant et les points d'attention gardent chacun leur filet.
-export const FILET_VERSANT = Palette.sky;
-export const FILET_ATTENTION = Palette.amber;
+export const lecture = (isDark) => {
+  const c = isDark ? SOMBRE : CLAIR;
+  return {
+    baisse: c.baisse,
+    tient: c.tient,
+    neutre: null, // prend l'encre secondaire du thème
+    versant: c.versant,
+    attention: c.attention,
+  };
+};
 
 // ── Filets ───────────────────────────────────────────────────────────────────
 // Deux épaisseurs d'encre, pas deux épaisseurs de trait : le trait fait

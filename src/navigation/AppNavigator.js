@@ -14,11 +14,15 @@ import SimulateurScreen from '../screens/SimulateurScreen';
 import ProfilScreen from '../screens/ProfilScreen';
 import SearchScreen from '../screens/SearchScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+// Réexporté pour les imports existants ; la déclaration est dans son propre
+// fichier, hors du cycle AppNavigator ↔ écrans.
+import { VersantContext } from './VersantContext';
+export { VersantContext };
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-export const VersantContext = React.createContext({ versant: 'fpe', setVersant: () => {} });
+
 
 const HomeStack = ({ versant, setVersant }) => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
