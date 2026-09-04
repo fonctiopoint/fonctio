@@ -1,203 +1,157 @@
 // src/screens/ProfilScreen.js
+// « À propos », dans la direction « Registre ».
+//
+// Le numéro de version est lu dans app.json, et non recopié : il affichait
+// encore 1.0.0 alors que l'app en était à 1.2.0.
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, StatusBar, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors, Typography, Spacing, Radius, Shadow, useTheme } from '../theme';
+import { useRegistre, FILET } from '../theme/registreStyles';
+import { TeteDePage, Section, Paragraphe, Numerote, Action } from '../components/registre';
+import { SERIF, MONO_LEGER, T, V } from '../theme/registre';
+import app from '../../app.json';
 
-const SettingRow = ({ icon, label, sub, onPress, chevron = true, iconBg, theme }) => (
-  <TouchableOpacity style={[styles.settingRow, { backgroundColor: theme.bgCard }]} onPress={onPress} activeOpacity={0.75}>
-    <View style={[styles.settingIcon, { backgroundColor: iconBg || theme.bgWarm }]}>
-      <Ionicons name={icon} size={17} color={iconBg ? 'white' : theme.textMuted} />
-    </View>
-    <View style={styles.settingInfo}>
-      <Text style={[styles.settingLabel, { color: theme.textPrimary }]}>{label}</Text>
-      {sub && <Text style={[styles.settingSub, { color: theme.textMuted }]}>{sub}</Text>}
-    </View>
-    {chevron && <Ionicons name="chevron-forward" size={15} color={theme.textMuted} />}
-  </TouchableOpacity>
-);
+const VERSION = app?.expo?.version || '';
+
+// Ce que l'app garantit. Ce ne sont pas des liens : ce sont des engagements, et
+// les lire suffit.
+const GARANTIES = [
+  { icone: 'shield-checkmark-outline', titre: 'Fiches vérifiées et sourcées', texte: 'Chaque fiche cite les textes dont elle sort, renvoyés à Légifrance.' },
+  { icone: 'refresh-outline', titre: 'Tenues à jour', texte: "Un texte qui paraît est signalé sur les fiches qu'il concerne, avant même leur réécriture." },
+  { icone: 'lock-closed-outline', titre: 'Aucune donnée collectée', texte: 'Pas de compte, pas de suivi, pas de statistiques. Rien ne quitte votre téléphone.' },
+  { icone: 'ban-outline', titre: 'Sans publicité', texte: "Aucune publicité, aucun partenariat, aucun contenu sponsorisé." },
+];
+
+const RESSOURCES = [
+  { titre: 'Légifrance', texte: 'Les textes eux-mêmes, en accès libre.', url: 'https://www.legifrance.gouv.fr' },
+  { titre: 'Portail de la Fonction publique', texte: 'Les publications de la DGAFP.', url: 'https://www.fonction-publique.gouv.fr' },
+];
 
 export default function ProfilScreen({ navigation }) {
-  const theme = useTheme();
+  const ui0 = useRegistre();
+  const { th, t, F, C } = ui0;
+  const s = { ...ui0.s, ...propre(th, F) };
+  const ui = { ...ui0, s };
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: theme.bg }]} edges={['top']}>
-      <StatusBar barStyle={theme.statusBar} />
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+    <SafeAreaView style={[s.safe, { backgroundColor: th.bg }]} edges={['top']}>
+      <StatusBar barStyle={th.statusBar} backgroundColor={th.bg} />
 
-        <View style={styles.pageHeader}>
-          <View style={styles.pageHeaderRow}>
-            <View>
-              <Text style={[styles.pageTitle, { color: theme.textPrimary }]}>À propos</Text>
-              <Text style={[styles.pageSub, { color: theme.textMuted }]}>
-                Fonctio<Text style={styles.dot}>.</Text> · Version 1.0.0
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={[styles.settingsBtn, { backgroundColor: theme.bgCard, borderColor: theme.border }]}
-              onPress={() => navigation.navigate('Settings')}
-              activeOpacity={0.8}
-            >
-              <Ionicons name="settings-outline" size={18} color={theme.textSecondary} />
-              <Text style={[styles.settingsBtnText, { color: theme.textSecondary }]}>Réglages</Text>
-            </TouchableOpacity>
+      <View style={s.fil}>
+        <View style={s.filRetour}>
+          <Text style={[s.filVersant, { fontSize: t(T.num) }]}>VERSION {VERSION}</Text>
+        </View>
+        <TouchableOpacity
+          style={s.reglages}
+          onPress={() => navigation.navigate('Settings')}
+          activeOpacity={0.7}
+        >
+          <Ionicons name="settings-outline" size={17} color={th.textMuted} />
+          <Text style={[s.reglagesTexte, { fontSize: t(T.num) }]}>Réglages</Text>
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView style={s.scroll} contentContainerStyle={s.scrollContenu} showsVerticalScrollIndicator={false}>
+        <TeteDePage
+          ui={ui}
+          titre="À propos"
+          lede="Fonctio est écrite par un assistant de service social du personnel, pour les agents qu'il accompagne."
+        />
+
+        <View style={s.avantSection}><Section ui={ui} titre="Qui écrit ces fiches" /></View>
+
+        <View style={s.auteur}>
+          <View style={s.pastille}>
+            <Text style={s.pastilleTexte}>F.</Text>
+          </View>
+          <View style={s.auteurTexte}>
+            <Text style={[s.label, { fontSize: t(T.label), lineHeight: t(T.label) * 1.3 }]}>Florian</Text>
+            <Text style={[s.reference, { fontSize: t(T.source), lineHeight: t(T.source) * 1.5 }]}>
+              Assistant de service social du personnel · FPE
+            </Text>
           </View>
         </View>
 
-        {/* Carte auteur */}
-        <View style={[styles.aboutCard, { backgroundColor: theme.bgCard, borderColor: theme.border }]}>
-          <View style={styles.aboutHeader}>
-            <View style={styles.avatarCircle}>
-              <Text style={styles.avatarText}>F.</Text>
-            </View>
-            <View style={styles.aboutHeaderText}>
-              <Text style={[styles.aboutName, { color: theme.textPrimary }]}>Florian</Text>
-              <Text style={[styles.aboutRole, { color: theme.textMuted }]}>
-                Assistant de service social du personnel · FPE
-              </Text>
-              <View style={styles.creatorBadge}>
-                <Ionicons name="code-slash-outline" size={11} color={Colors.terracotta} />
-                <Text style={styles.creatorBadgeText}>Créateur de l'application</Text>
-              </View>
-            </View>
-          </View>
-          <Text style={[styles.aboutBody, { color: theme.textSecondary }]}>
-            Je suis assistant de service social du personnel au sein de deux ministères. Mon quotidien, c'est accompagner les agents publics dans leurs difficultés professionnelles, sociales et personnelles.
-          </Text>
-          <Text style={[styles.aboutBody, { color: theme.textSecondary, marginTop: 10 }]}>
-            L'objectif de cette application est de permettre à chaque fonctionnaire d'avoir accès à une information claire et fiable, tout au long de sa carrière, dans toutes les situations.
-          </Text>
-          <Text style={[styles.aboutBody, { color: theme.textMuted, marginTop: 10, fontStyle: 'italic' }]}>
-            Cette application vous informe mais ne doit pas se substituer à un accompagnement social par votre assistant de service social du personnel. Pour toute demande relative à votre vie personnelle et professionnelle, n'hésitez pas à le contacter.
-          </Text>
-        </View>
+        <Paragraphe ui={ui}>
+          Je suis assistant de service social du personnel au sein de deux ministères. Mon
+          quotidien, c'est accompagner les agents publics dans leurs difficultés
+          professionnelles, sociales et personnelles.
+        </Paragraphe>
+        <Paragraphe ui={ui} style={s.suite}>
+          L'objectif de cette application est de permettre à chaque fonctionnaire d'avoir
+          accès à une information claire et fiable, tout au long de sa carrière, dans toutes
+          les situations.
+        </Paragraphe>
 
-        {/* Don */}
-        <View style={styles.donCard}>
-          <View style={styles.donHeader}>
-            <Text style={styles.donEmoji}>☕</Text>
-            <View>
-              <Text style={styles.donTitle}>Soutenir Fonctio<Text style={{ color: '#E8B88A' }}>.</Text></Text>
-              <Text style={styles.donSub}>L'application est et restera 100 % gratuite</Text>
-            </View>
-          </View>
-          <Text style={styles.donText}>
-            Fonctio est développée et maintenue bénévolement. Si elle vous a été utile, vous pouvez soutenir son développement par un don libre.
-          </Text>
-          <TouchableOpacity style={styles.donBtn} activeOpacity={0.85} onPress={() => Linking.openURL('https://www.tipeee.com/fonctio')}>
-            <Ionicons name="heart" size={16} color="white" />
-            <Text style={styles.donBtnText}>Soutenir le projet — don libre</Text>
-          </TouchableOpacity>
-          <Text style={styles.donNote}>Aucun abonnement · Aucune publicité · Aucune obligation.</Text>
-        </View>
+        <View style={s.avantSection}><Section ui={ui} titre="Ce que l'app garantit" compte={GARANTIES.length} /></View>
+        {GARANTIES.map((g, i) => (
+          <Numerote
+            key={g.titre}
+            ui={ui}
+            style={[s.ligne, i === GARANTIES.length - 1 && s.ligneSansFilet]}
+            icone={g.icone}
+            couleurIcone={C.action}
+            titre={g.titre}
+            texte={g.texte}
+          />
+        ))}
 
-        {/* Besoin d'aide */}
-        <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.textMuted }]}>Besoin d'aide ?</Text>
-          <View style={[styles.contactCard, { borderColor: theme.border }]}>
-            <View style={styles.contactIconBox}><Text style={styles.contactIconText}>🤝</Text></View>
-            <View style={styles.contactText}>
-              <Text style={[styles.contactTitle, { color: Colors.olive }]}>Votre assistant de service social</Text>
-              <Text style={[styles.contactBody, { color: theme.textSecondary }]}>
-                Pour toute question personnelle, professionnelle ou sociale : accompagnement gratuit, confidentiel et sans jugement.
-              </Text>
-              <Text style={[styles.contactBody, { color: theme.textMuted, marginTop: 6, fontStyle: 'italic' }]}>
-                Coordonnées disponibles sur l'intranet ou auprès du service RH.
-              </Text>
-            </View>
-          </View>
-        </View>
+        <View style={s.avantSection}><Section ui={ui} titre="Aller plus loin" /></View>
+        <Action
+          ui={ui}
+          titre="Soutenir Fonctio"
+          texte={"L'application est développée et maintenue bénévolement, et restera gratuite. "
+            + "Aucun abonnement, aucune publicité, aucune obligation."}
+          onPress={() => Linking.openURL('https://www.tipeee.com/fonctio')}
+        />
+        <Action
+          ui={ui}
+          titre="Se faire accompagner"
+          texte={"Votre assistant de service social du personnel répond à toute question, "
+            + "personnelle ou professionnelle. Gratuit, confidentiel, sans lien avec votre "
+            + "hiérarchie. Ses coordonnées sont sur l'intranet de votre administration ou "
+            + "auprès de votre service RH."}
+        />
 
-        {/* L'app */}
-        <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.textMuted }]}>L'application</Text>
-          <View style={[styles.settingsCard, { borderColor: theme.border }]}>
-            <SettingRow icon="shield-checkmark-outline" label="Fiches vérifiées et sourcées" sub="Références vers Légifrance" onPress={() => {}} chevron={false} iconBg={Colors.olive} theme={theme} />
-            <View style={[styles.separator, { backgroundColor: theme.border }]} />
-            <SettingRow icon="refresh-outline" label="Mises à jour régulières" sub="Contenu actualisé avec la réglementation" onPress={() => {}} chevron={false} theme={theme} />
-            <View style={[styles.separator, { backgroundColor: theme.border }]} />
-            <SettingRow icon="lock-closed-outline" label="Aucune donnée collectée" sub="Pas de compte, pas de suivi" onPress={() => {}} chevron={false} theme={theme} />
-            <View style={[styles.separator, { backgroundColor: theme.border }]} />
-            <SettingRow icon="ban-outline" label="Sans publicité" sub="Fonctio n'affiche aucune publicité" onPress={() => {}} chevron={false} theme={theme} />
-          </View>
-        </View>
+        <View style={s.avantSection}><Section ui={ui} titre="Ressources" compte={RESSOURCES.length} /></View>
+        {RESSOURCES.map((r, i) => (
+          <Numerote
+            key={r.url}
+            ui={ui}
+            style={[s.ligne, i === RESSOURCES.length - 1 && s.ligneSansFilet]}
+            icone="open-outline"
+            couleurIcone={C.versant}
+            titre={r.titre}
+            texte={r.texte}
+            fleche
+            onPress={() => Linking.openURL(r.url)}
+          />
+        ))}
 
-        {/* Ressources */}
-        <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.textMuted }]}>Ressources</Text>
-          <View style={[styles.settingsCard, { borderColor: theme.border }]}>
-            <SettingRow icon="open-outline" label="Légifrance" sub="Toutes nos sources vérifiables" onPress={() => Linking.openURL('https://www.legifrance.gouv.fr')} theme={theme} />
-            <View style={[styles.separator, { backgroundColor: theme.border }]} />
-            <SettingRow icon="globe-outline" label="Portail de la Fonction publique" onPress={() => Linking.openURL('https://www.fonction-publique.gouv.fr')} theme={theme} />
-          </View>
-        </View>
-
-        <View style={styles.disclaimer}>
-          <Text style={[styles.disclaimerText, { color: theme.textMuted }]}>
-            Fonctio est une application informative. Les fiches ne constituent pas un conseil juridique. En cas de litige, consultez un juriste spécialisé ou votre assistant social du personnel.
-          </Text>
-        </View>
-
+        <Text style={[s.mentions, { fontSize: t(T.source), lineHeight: t(T.source) * 1.7 }]}>
+          Fonctio est une application informative. Les fiches ne constituent pas un conseil
+          juridique. En cas de litige, consultez un juriste spécialisé ou votre assistant de
+          service social du personnel.
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  safe: { flex: 1 },
-  content: { padding: Spacing.xl, paddingBottom: 100, gap: 20 },
-  pageHeader: { marginBottom: 4 },
-  pageHeaderRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  pageTitle: { fontSize: Typography.xxl, fontWeight: '700' },
-  settingsBtn: {
-    flexDirection: 'row', alignItems: 'center', gap: 6,
-    borderRadius: Radius.md, borderWidth: 1,
-    paddingHorizontal: 12, paddingVertical: 8,
+const propre = (th, F) => StyleSheet.create({
+  avantSection: { marginTop: V.section },
+  reglages: { flexDirection: 'row', alignItems: 'center', gap: 6, padding: 6 },
+  reglagesTexte: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 0.6, textTransform: 'uppercase' },
+
+  auteur: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingTop: V.ligne, paddingBottom: V.ligneBas },
+  pastille: {
+    width: 44, height: 44, borderRadius: 22,
+    alignItems: 'center', justifyContent: 'center',
+    borderWidth: FILET, borderColor: F.rubrique, backgroundColor: th.bgWarm,
   },
-  settingsBtnText: { fontSize: 13, fontWeight: '500' },
-  pageSub: { fontSize: Typography.sm, marginTop: 2 },
-  dot: { color: Colors.terracotta },
+  pastilleTexte: { fontFamily: SERIF, fontSize: 19, color: th.textPrimary },
+  auteurTexte: { flex: 1 },
 
-  aboutCard: { borderRadius: Radius.lg, padding: Spacing.xl, borderWidth: 0.5, ...Shadow.sm },
-  aboutHeader: { flexDirection: 'row', alignItems: 'flex-start', gap: 12, marginBottom: Spacing.lg },
-  avatarCircle: { width: 52, height: 52, borderRadius: 26, backgroundColor: Colors.slate, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  avatarText: { fontSize: Typography.xl, color: 'white', fontWeight: '700' },
-  aboutHeaderText: { flex: 1 },
-  aboutName: { fontSize: Typography.lg, fontWeight: '700' },
-  aboutRole: { fontSize: Typography.xs, marginTop: 2, marginBottom: 6, lineHeight: 16 },
-  creatorBadge: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: Colors.terracottaLight, alignSelf: 'flex-start', borderRadius: Radius.full, paddingHorizontal: 8, paddingVertical: 3 },
-  creatorBadgeText: { fontSize: 11, color: Colors.terracotta, fontWeight: '500' },
-  aboutBody: { fontSize: Typography.sm, lineHeight: 20 },
-
-  donCard: { backgroundColor: Colors.terracotta, borderRadius: Radius.lg, padding: Spacing.xl, ...Shadow.md },
-  donHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: Spacing.md },
-  donEmoji: { fontSize: 28 },
-  donTitle: { fontSize: Typography.lg, fontWeight: '700', color: 'white' },
-  donSub: { fontSize: Typography.xs, color: 'rgba(255,255,255,0.7)', marginTop: 2 },
-  donText: { fontSize: Typography.sm, color: 'rgba(255,255,255,0.85)', lineHeight: 20, marginBottom: Spacing.lg },
-  donBtn: { backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: Radius.md, paddingVertical: 12, paddingHorizontal: Spacing.xl, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, borderWidth: 1, borderColor: 'rgba(255,255,255,0.4)' },
-  donBtnText: { fontSize: Typography.base, color: 'white', fontWeight: '600' },
-  donNote: { fontSize: 11, color: 'rgba(255,255,255,0.55)', textAlign: 'center', marginTop: Spacing.sm },
-
-  section: { gap: 10 },
-  sectionTitle: { fontSize: Typography.xs, fontWeight: '500', letterSpacing: 0.07, textTransform: 'uppercase' },
-
-  contactCard: { backgroundColor: Colors.oliveLight, borderRadius: Radius.lg, padding: Spacing.lg, flexDirection: 'row', gap: 12, alignItems: 'flex-start', borderWidth: 0.5 },
-  contactIconBox: { width: 44, height: 44, borderRadius: Radius.md, backgroundColor: Colors.olive, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  contactIconText: { fontSize: 20 },
-  contactText: { flex: 1 },
-  contactTitle: { fontSize: Typography.base, fontWeight: '600', marginBottom: 6 },
-  contactBody: { fontSize: Typography.sm, lineHeight: 19 },
-
-  settingsCard: { borderRadius: Radius.lg, overflow: 'hidden', borderWidth: 0.5, ...Shadow.sm },
-  settingRow: { flexDirection: 'row', alignItems: 'center', padding: Spacing.md, gap: 12 },
-  settingIcon: { width: 34, height: 34, borderRadius: Radius.sm, alignItems: 'center', justifyContent: 'center' },
-  settingInfo: { flex: 1 },
-  settingLabel: { fontSize: Typography.base },
-  settingSub: { fontSize: 11, marginTop: 1 },
-  separator: { height: 0.5, marginLeft: 58 },
-
-  disclaimer: { paddingTop: Spacing.sm },
-  disclaimerText: { fontSize: 11, lineHeight: 16, textAlign: 'center' },
+  suite: { marginTop: 12 },
 });

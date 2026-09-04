@@ -30,7 +30,9 @@ import { View, Text, Image, StyleSheet, Animated, Dimensions } from 'react-nativ
 const { width: LARGEUR_ECRAN } = Dimensions.get('window');
 // Doit rester égal à `imageWidth` du greffon expo-splash-screen, dans app.json.
 const LARGEUR_LOGO = 230;
-const RAPPORT_LOGO = 5.1765;              // largeur / hauteur de logo-splash.png
+// Largeur / hauteur de logo-splash.png. À recalculer si l'on regénère l'image :
+// scratchpad/faire_logo_splash.py l'imprime.
+const RAPPORT_LOGO = 4.8124;
 const HAUTEUR_LOGO = Math.round(LARGEUR_LOGO / RAPPORT_LOGO);
 
 export default function SplashScreen({ onReady }) {

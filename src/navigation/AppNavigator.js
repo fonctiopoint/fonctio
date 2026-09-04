@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, useTheme } from '../theme';
+import { MONO_LEGER, T, couleurs, filets } from '../theme/registre';
 
 import WelcomeScreen from '../screens/WelcomeScreen';
 import HomeScreen from '../screens/HomeScreen';
@@ -49,8 +50,14 @@ const ProfilStack = () => (
   </Stack.Navigator>
 );
 
+// La barre d'onglets, dans la direction « Registre » : fond sable comme les
+// bandes de section, un filet qui la sépare du contenu, et un TRAIT DE 2 dp au-
+// dessus de l'onglet courant. Le point sous l'icône a disparu — la couleur et
+// le trait disaient déjà la même chose trois fois.
 const CustomTabBar = ({ state, navigation }) => {
   const theme = useTheme();
+  const F = filets(theme.isDark);
+  const C = couleurs(theme.isDark);
   const tabs = [
     { name: 'HomeTabs', label: 'Accueil', icon: 'home', iconOutline: 'home-outline' },
     { name: 'SimulateurTabs', label: 'Simulateur', icon: 'calculator', iconOutline: 'calculator-outline' },
@@ -58,20 +65,23 @@ const CustomTabBar = ({ state, navigation }) => {
   ];
 
   return (
-    <View style={[styles.tabBar, { backgroundColor: theme.tabBg, borderTopColor: theme.tabBorder }]}>
+    <View style={[styles.tabBar, { backgroundColor: theme.bgWarm, borderTopColor: F.rubrique }]}>
       {state.routes.map((route, index) => {
         const tab = tabs[index];
-        const isFocused = state.index === index;
+        const actif = state.index === index;
         return (
           <TouchableOpacity
             key={route.key}
-            style={styles.tabItem}
-            onPress={() => { if (!isFocused) navigation.navigate(route.name); }}
+            style={[styles.tabItem, { borderTopColor: actif ? C.valeur : 'transparent' }]}
+            onPress={() => { if (!actif) navigation.navigate(route.name); }}
             activeOpacity={0.7}
           >
-            <Ionicons name={isFocused ? tab.icon : tab.iconOutline} size={22} color={isFocused ? Colors.terracotta : theme.textMuted} />
-            {isFocused && <View style={styles.tabDot} />}
-            <Text style={[styles.tabLabel, { color: isFocused ? Colors.terracotta : theme.textMuted }, isFocused && styles.tabLabelActive]}>
+            <Ionicons
+              name={actif ? tab.icon : tab.iconOutline}
+              size={21}
+              color={actif ? C.valeur : theme.textMuted}
+            />
+            <Text style={[styles.tabLabel, { color: actif ? C.valeur : theme.textMuted }]}>
               {tab.label}
             </Text>
           </TouchableOpacity>
@@ -116,13 +126,12 @@ export default function AppNavigator() {
 const styles = StyleSheet.create({
   tabBar: {
     flexDirection: 'row',
-    borderTopWidth: 0.5,
-    paddingTop: 8,
-    paddingBottom: Platform.OS === 'ios' ? 24 : 12,
+    borderTopWidth: 1,
+    paddingBottom: Platform.OS === 'ios' ? 24 : 10,
     paddingHorizontal: 8,
   },
-  tabItem: { flex: 1, alignItems: 'center', gap: 3 },
-  tabDot: { width: 4, height: 4, borderRadius: 2, backgroundColor: Colors.terracotta, marginTop: 1 },
-  tabLabel: { fontSize: 10, fontWeight: '400', marginTop: 1 },
-  tabLabelActive: { fontWeight: '500' },
+  // Le trait de l'onglet courant est la bordure haute de l'onglet lui-même : il
+  // touche ainsi le filet de la barre, sans intercalaire à positionner.
+  tabItem: { flex: 1, alignItems: 'center', gap: 4, paddingTop: 9, borderTopWidth: 2 },
+  tabLabel: { fontFamily: MONO_LEGER, fontSize: T.num, letterSpacing: 0.5 },
 });

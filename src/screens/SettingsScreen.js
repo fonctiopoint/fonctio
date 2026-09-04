@@ -1,164 +1,181 @@
 // src/screens/SettingsScreen.js
+// Les réglages, dans la direction « Registre ».
+//
+// L'aperçu de la taille du texte est un vrai extrait de fiche, composé avec les
+// styles réels : un « Aa » ne dit rien de ce que donnera une explication de six
+// lignes, qui est ce qu'on lit vraiment dans cette app.
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Switch, StyleSheet, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors, Typography, Spacing, Radius, Shadow, useTheme } from '../theme';
-import { useSettings, FONT_SCALES } from '../utils/SettingsContext';
+import { useRegistre, FILET } from '../theme/registreStyles';
+import { Fil, TeteDePage, Section, Paragraphe } from '../components/registre';
+import { MONO, MONO_LEGER, T, V } from '../theme/registre';
+import { useSettings } from '../utils/SettingsContext';
 
-const FONT_OPTIONS = [
-  { id: 'small',  label: 'Petite',  base: 11 },
-  { id: 'normal', label: 'Normale', base: 14 },
-  { id: 'large',  label: 'Grande',  base: 17 },
+const TAILLES = [
+  { id: 'small', label: 'Petite' },
+  { id: 'normal', label: 'Normale' },
+  { id: 'large', label: 'Grande' },
 ];
 
-const DARK_OPTIONS = [
-  { id: 'auto',  label: 'Automatique', sub: 'Suit les réglages du téléphone', icon: 'contrast-outline' },
-  { id: 'light', label: 'Mode clair',  sub: 'Toujours en thème clair',         icon: 'sunny-outline' },
-  { id: 'dark',  label: 'Mode sombre', sub: 'Toujours en thème sombre',        icon: 'moon-outline' },
+const AFFICHAGE = [
+  { id: 'auto', label: 'Automatique', sub: 'Suit le réglage du téléphone', icone: 'contrast-outline' },
+  { id: 'light', label: 'Clair', sub: 'Toujours sur fond papier', icone: 'sunny-outline' },
+  { id: 'dark', label: 'Sombre', sub: 'Toujours sur fond nuit', icone: 'moon-outline' },
 ];
 
 export default function SettingsScreen({ navigation }) {
-  const theme = useTheme();
+  const ui0 = useRegistre();
   const { settings, updateSetting } = useSettings();
-  const [flash, setFlash] = useState(false);
+  const [enregistre, setEnregistre] = useState(false);
 
-  const update = (key, val) => {
-    updateSetting(key, val);
-    setFlash(true);
-    setTimeout(() => setFlash(false), 1200);
+  const changer = (cle, valeur) => {
+    updateSetting(cle, valeur);
+    setEnregistre(true);
+    setTimeout(() => setEnregistre(false), 1200);
   };
 
-  const previewSize = FONT_OPTIONS.find(f => f.id === settings.fontSize)?.base || 14;
+  const { th, t, inter, F, C } = ui0;
+  const s = { ...ui0.s, ...propre(th, F) };
+  const ui = { ...ui0, s };
 
   return (
-    <SafeAreaView style={[s.safe, { backgroundColor: theme.bg }]} edges={['top']}>
-      <StatusBar barStyle={theme.statusBar} />
+    <SafeAreaView style={[s.safe, { backgroundColor: th.bg }]} edges={['top']}>
+      <StatusBar barStyle={th.statusBar} backgroundColor={th.bg} />
 
-      <View style={[s.header, { backgroundColor: Colors.slate }]}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={s.back}>
-          <Ionicons name="arrow-back" size={20} color="rgba(255,255,255,0.8)" />
-        </TouchableOpacity>
-        <Text style={s.headerTitle}>Réglages</Text>
-        {flash && (
-          <View style={s.flash}>
-            <Ionicons name="checkmark" size={12} color={Colors.olive} />
-            <Text style={s.flashText}>Enregistré</Text>
+      <Fil
+        ui={ui}
+        titre="À propos"
+        onRetour={() => navigation.goBack()}
+        droite={enregistre ? (
+          <View style={s.enregistre}>
+            <Ionicons name="checkmark" size={13} color={C.action} />
+            <Text style={[s.enregistreTexte, { color: C.action, fontSize: t(T.num) }]}>Enregistré</Text>
           </View>
-        )}
-      </View>
+        ) : null}
+      />
 
-      <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+      <ScrollView style={s.scroll} contentContainerStyle={s.scrollContenu} showsVerticalScrollIndicator={false}>
+        <TeteDePage
+          ui={ui}
+          titre="Réglages"
+          lede="Ils sont gardés sur votre téléphone, et nulle part ailleurs."
+        />
 
-        {/* ── Taille de police ── */}
-        <Text style={[s.section, { color: theme.textMuted }]}>Taille de la police</Text>
-        <View style={[s.card, { backgroundColor: theme.bgCard, borderColor: theme.border }]}>
-          <View style={s.preview}>
-            <Text style={[s.previewText, { fontSize: previewSize, color: theme.textPrimary }]}>
-              Aperçu — Droits des agents publics
-            </Text>
-            <Text style={[s.previewSub, { fontSize: previewSize - 3, color: theme.textMuted }]}>
-              Exemple de texte secondaire
-            </Text>
-          </View>
-          <View style={[s.sep, { backgroundColor: theme.border }]} />
-          <View style={s.fontRow}>
-            {FONT_OPTIONS.map((opt) => {
-              const sel = settings.fontSize === opt.id;
-              return (
-                <TouchableOpacity
-                  key={opt.id}
-                  style={[s.fontBtn, { borderColor: sel ? Colors.terracotta : theme.border },
-                    sel && { backgroundColor: Colors.terracotta }]}
-                  onPress={() => update('fontSize', opt.id)}
-                  activeOpacity={0.8}
-                >
-                  <Text style={[s.fontA, { fontSize: opt.base - 2 }, sel ? { color: 'white' } : { color: theme.textMuted }]}>A</Text>
-                  <Text style={[s.fontLabel, sel ? { color: 'rgba(255,255,255,0.9)' } : { color: theme.textMuted }]}>{opt.label}</Text>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
+        <View style={s.avantSection}><Section ui={ui} titre="Taille du texte" /></View>
+
+        <View style={s.apercu}>
+          <Text style={[s.label, { fontSize: t(T.label), lineHeight: t(T.label) * 1.3 }]}>
+            Jour de carence
+          </Text>
+          <Text style={[s.detail, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
+            Applicable au premier jour de chaque arrêt (sauf accident de service, longue
+            maladie, 3e arrêt pour la même pathologie dans les 12 mois).
+          </Text>
         </View>
 
-        {/* ── Mode sombre ── */}
-        <Text style={[s.section, { color: theme.textMuted }]}>Mode d'affichage</Text>
-        <View style={[s.card, { backgroundColor: theme.bgCard, borderColor: theme.border }]}>
-          {DARK_OPTIONS.map((opt, i) => {
-            const sel = settings.darkMode === opt.id;
+        <View style={s.choix}>
+          {TAILLES.map(opt => {
+            const actif = settings.fontSize === opt.id;
             return (
-              <React.Fragment key={opt.id}>
-                <TouchableOpacity style={s.optRow} onPress={() => update('darkMode', opt.id)} activeOpacity={0.75}>
-                  <View style={[s.optIcon, sel ? { backgroundColor: Colors.terracotta } : { backgroundColor: theme.bgWarm }]}>
-                    <Ionicons name={opt.icon} size={18} color={sel ? 'white' : theme.textMuted} />
-                  </View>
-                  <View style={{ flex: 1 }}>
-                    <Text style={[s.optLabel, { color: theme.textPrimary }]}>{opt.label}</Text>
-                    <Text style={[s.optSub, { color: theme.textMuted }]}>{opt.sub}</Text>
-                  </View>
-                  <View style={[s.radio, { borderColor: sel ? Colors.terracotta : theme.border },
-                    sel && { backgroundColor: Colors.terracotta }]}>
-                    {sel && <View style={s.radioDot} />}
-                  </View>
-                </TouchableOpacity>
-                {i < DARK_OPTIONS.length - 1 && <View style={[s.sep, { backgroundColor: theme.border, marginLeft: 58 }]} />}
-              </React.Fragment>
+              <TouchableOpacity
+                key={opt.id}
+                style={[s.choixPart, actif && s.choixPartActive]}
+                onPress={() => changer('fontSize', opt.id)}
+                activeOpacity={0.7}
+              >
+                <Text style={[s.choixTexte, { fontSize: t(T.valeur) }, actif && s.choixTexteActif]}>
+                  {opt.label}
+                </Text>
+              </TouchableOpacity>
             );
           })}
         </View>
 
-        {/* ── Affichage ── */}
-        <Text style={[s.section, { color: theme.textMuted }]}>Affichage</Text>
-        <View style={[s.card, { backgroundColor: theme.bgCard, borderColor: theme.border }]}>
-          <View style={s.switchRow}>
-            <View style={[s.optIcon, { backgroundColor: Colors.skyLight }]}>
-              <Ionicons name="megaphone-outline" size={18} color={Colors.sky} />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={[s.optLabel, { color: theme.textPrimary }]}>Bannière Nouveautés</Text>
-              <Text style={[s.optSub, { color: theme.textMuted }]}>Affiche les mises à jour sur l'accueil</Text>
-            </View>
-            <Switch
-              value={settings.showNouveautes}
-              onValueChange={(v) => update('showNouveautes', v)}
-              trackColor={{ false: theme.border, true: Colors.terracotta }}
-              thumbColor="white"
-            />
+        <View style={s.avantSection}><Section ui={ui} titre="Affichage" /></View>
+        {AFFICHAGE.map((opt, i) => {
+          const actif = settings.darkMode === opt.id;
+          return (
+            <TouchableOpacity
+              key={opt.id}
+              style={[s.option, i === AFFICHAGE.length - 1 && s.ligneSansFilet]}
+              onPress={() => changer('darkMode', opt.id)}
+              activeOpacity={0.7}
+            >
+              <Ionicons name={opt.icone} size={20} color={actif ? C.valeur : th.textMuted} style={s.optionIcone} />
+              <View style={s.optionTexte}>
+                <Text style={[s.label, { fontSize: t(T.label), lineHeight: t(T.label) * 1.3 }]}>{opt.label}</Text>
+                <Text style={[s.detail, s.optionSub, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
+                  {opt.sub}
+                </Text>
+              </View>
+              <View style={[s.coche, actif && { backgroundColor: C.valeur, borderColor: C.valeur }]}>
+                {actif && <Ionicons name="checkmark" size={13} color={th.bgCard} />}
+              </View>
+            </TouchableOpacity>
+          );
+        })}
+
+        <View style={s.avantSection}><Section ui={ui} titre="Accueil" /></View>
+        <View style={[s.option, s.ligneSansFilet]}>
+          <Ionicons name="megaphone-outline" size={20} color={th.textMuted} style={s.optionIcone} />
+          <View style={s.optionTexte}>
+            <Text style={[s.label, { fontSize: t(T.label), lineHeight: t(T.label) * 1.3 }]}>
+              Bandeau des nouveautés
+            </Text>
+            <Text style={[s.detail, s.optionSub, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
+              Ce qui a changé dans les fiches, en haut de l'accueil.
+            </Text>
           </View>
+          <Switch
+            value={settings.showNouveautes}
+            onValueChange={(v) => changer('showNouveautes', v)}
+            trackColor={{ false: F.rubrique, true: C.valeur }}
+            thumbColor={th.bgCard}
+          />
         </View>
 
-        <Text style={[s.note, { color: theme.textMuted }]}>
-          Les réglages sont sauvegardés localement sur votre appareil.
-        </Text>
+        <Paragraphe ui={ui} style={s.note}>
+          Fonctio ne crée aucun compte et n'envoie rien nulle part. Vos favoris, vos fiches
+          récentes et ces réglages restent sur cet appareil.
+        </Paragraphe>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-const s = StyleSheet.create({
-  safe: { flex: 1 },
-  header: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: Spacing.xl, paddingVertical: 14 },
-  back: { padding: 4 },
-  headerTitle: { fontSize: Typography.lg, color: 'white', fontWeight: '700', flex: 1 },
-  flash: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: Colors.oliveLight, borderRadius: Radius.full, paddingHorizontal: 10, paddingVertical: 4 },
-  flashText: { fontSize: 11, color: Colors.olive, fontWeight: '600' },
-  content: { padding: Spacing.xl, paddingBottom: 80, gap: 10 },
-  section: { fontSize: 11, fontWeight: '500', textTransform: 'uppercase', letterSpacing: 0.07, marginTop: 6 },
-  card: { borderRadius: Radius.lg, borderWidth: 0.5, overflow: 'hidden', ...Shadow.sm },
-  sep: { height: 0.5 },
-  preview: { padding: Spacing.lg, gap: 4 },
-  previewText: { fontWeight: '500', lineHeight: 24 },
-  previewSub: { lineHeight: 18 },
-  fontRow: { flexDirection: 'row', padding: Spacing.md, gap: 8 },
-  fontBtn: { flex: 1, alignItems: 'center', paddingVertical: 12, borderRadius: Radius.md, borderWidth: 1.5, gap: 4 },
-  fontA: { fontWeight: '700' },
-  fontLabel: { fontSize: 11 },
-  optRow: { flexDirection: 'row', alignItems: 'center', padding: Spacing.md, gap: 12 },
-  optIcon: { width: 36, height: 36, borderRadius: Radius.sm, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  optLabel: { fontSize: Typography.base },
-  optSub: { fontSize: 11, marginTop: 2 },
-  radio: { width: 20, height: 20, borderRadius: 10, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
-  radioDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: 'white' },
-  switchRow: { flexDirection: 'row', alignItems: 'center', padding: Spacing.md, gap: 12 },
-  note: { fontSize: 11, textAlign: 'center', lineHeight: 16, fontStyle: 'italic', paddingVertical: Spacing.sm },
+const propre = (th, F) => StyleSheet.create({
+  avantSection: { marginTop: V.section },
+  enregistre: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingRight: 6 },
+  enregistreTexte: { fontFamily: MONO_LEGER, letterSpacing: 0.6, textTransform: 'uppercase' },
+
+  // L'aperçu est un extrait de fiche véritable, avec les styles véritables.
+  apercu: { paddingTop: V.ligne, paddingBottom: V.ligneBas },
+
+  choix: {
+    flexDirection: 'row',
+    backgroundColor: th.bgWarm, borderRadius: 3,
+    borderWidth: FILET, borderColor: F.rubrique, overflow: 'hidden',
+  },
+  choixPart: { flex: 1, alignItems: 'center', paddingVertical: 11 },
+  choixPartActive: { backgroundColor: th.bgCard },
+  choixTexte: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 0.8 },
+  choixTexteActif: { fontFamily: MONO, color: th.textPrimary },
+
+  option: {
+    flexDirection: 'row', alignItems: 'center', gap: 14,
+    paddingTop: V.ligne, paddingBottom: V.ligneBas,
+    borderBottomWidth: FILET, borderBottomColor: F.ligne,
+  },
+  optionIcone: { width: 22, textAlign: 'center' },
+  optionTexte: { flex: 1 },
+  optionSub: { marginTop: 4 },
+  coche: {
+    width: 22, height: 22, borderRadius: 11, flexShrink: 0,
+    alignItems: 'center', justifyContent: 'center',
+    borderWidth: FILET, borderColor: F.rubrique,
+  },
+
+  note: { marginTop: V.section, textAlign: 'center' },
 });
