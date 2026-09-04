@@ -1,346 +1,271 @@
 // src/screens/HomeScreen.js
-import React, { useState, useEffect, useCallback } from 'react';
+// L'accueil, dans la direction « Registre ».
+//
+// Trois choses restent fixes en haut, parce qu'on y revient sans cesse : le
+// mot-symbole, la recherche et le versant. Tout le reste défile.
+//
+// Le sélecteur de versant ne prend PAS les couleurs des versants. Terracotta,
+// ciel et olive ont déjà un rôle dans cette direction — valeur, note de
+// versant, action — et les réemployer ici pour dire autre chose casserait la
+// seule règle de couleur du système. Le versant actif se lit à son encre pleine
+// et à son filet ; les autres sont en encre atténuée.
+import React, { useState, useCallback } from 'react';
 import {
-  View, Text, ScrollView, TouchableOpacity,
-  StyleSheet, StatusBar, Linking, TextInput
+  View, Text, ScrollView, TouchableOpacity, StyleSheet, StatusBar, Linking, TextInput,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
-import { Colors, Typography, Spacing, Radius, Shadow, useTheme } from '../theme';
+import { useRegistre, FILET } from '../theme/registreStyles';
+import { Section, BlocFilet, Paragraphe, Numerote, Action } from '../components/registre';
+import { SERIF, MONO_LEGER, T, V } from '../theme/registre';
 import { useSettings } from '../utils/SettingsContext';
 import { MODULES, searchFiches, NOUVEAUTES, getFicheById } from '../data/fiches';
 import {
-  getFavoris, getRecent,
-  isNouveautesDismissed, dismissNouveautes,
+  getFavoris, getRecent, isNouveautesDismissed, dismissNouveautes,
 } from '../utils/storage';
 
-const VERSANT_CHIPS = [
-  { id: 'fpe', label: 'FPE', icon: '🏛️', color: Colors.terracotta },
-  { id: 'fpt', label: 'FPT', icon: '🏙️', color: Colors.sky },
-  { id: 'fph', label: 'FPH', icon: '🏥', color: Colors.olive },
+const VERSANTS = [
+  { id: 'fpe', court: 'FPE', long: "Fonction publique de l'État" },
+  { id: 'fpt', court: 'FPT', long: 'Fonction publique territoriale' },
+  { id: 'fph', court: 'FPH', long: 'Fonction publique hospitalière' },
 ];
+const LONG = Object.fromEntries(VERSANTS.map(v => [v.id, v.long]));
 
-const VERSANT_LABELS = {
-  fpe: 'Fonction publique de l\'État',
-  fpt: 'Fonction publique Territoriale',
-  fph: 'Fonction publique Hospitalière',
-};
+const deuxChiffres = (n) => String(n).padStart(2, '0');
 
-// ── Carte fiche compacte (favoris / récents) ────────────────────────────────
-const FicheChip = ({ ficheId, onPress }) => {
-  const fiche = getFicheById(ficheId);
-  const theme = useTheme();
-  if (!fiche) return null;
-  return (
-    <TouchableOpacity style={[fchip.card, { borderLeftColor: fiche.moduleColor, backgroundColor: theme.bgCard }]} onPress={onPress} activeOpacity={0.75}>
-      <Text style={[fchip.titre, { color: fiche.moduleColor }]} numberOfLines={2}>{fiche.titre}</Text>
-      <Text style={[fchip.cat, { color: theme.textMuted }]} numberOfLines={1}>{fiche.categorie}</Text>
-    </TouchableOpacity>
-  );
-};
-const fchip = StyleSheet.create({
-  card: { borderRadius: Radius.md, padding: 10, borderLeftWidth: 3, width: 155, ...Shadow.sm },
-  titre: { fontSize: 12, fontWeight: '600', lineHeight: 16, marginBottom: 3 },
-  cat: { fontSize: 10 },
-});
+// Combien de favoris et de fiches récentes on montre. Au-delà, la liste
+// pousserait les modules hors de l'écran d'ouverture.
+const MAX_RACCOURCIS = 4;
 
-// ── Carte module ────────────────────────────────────────────────────────────
-const ModuleCard = ({ module, onPress, highlight = false, theme }) => {
-  if (highlight) {
-    return (
-      <TouchableOpacity style={[styles.moduleCardHighlight, { borderColor: module.color + '55' }]} onPress={onPress} activeOpacity={0.8}>
-        <View style={[styles.moduleHighlightHeader, { backgroundColor: module.color }]}>
-          <Text style={styles.moduleHighlightEmoji}>{module.icon}</Text>
-          <View style={styles.moduleHighlightBadge}>
-            <Text style={styles.moduleHighlightBadgeText}>Votre interlocuteur social</Text>
-          </View>
-        </View>
-        <View style={[styles.moduleHighlightBody, { backgroundColor: theme.bgCard, borderTopWidth: 0 }]}>
-          <Text style={[styles.moduleHighlightTitle, { color: theme.textPrimary }]}>{module.title}</Text>
-          <Text style={[styles.moduleHighlightDesc, { color: theme.textMuted }]}>{module.description}</Text>
-          <View style={styles.moduleHighlightFooter}>
-            <Text style={[styles.moduleHighlightCount, { color: module.color }]}>
-              {module.fiches?.length || 0} fiche{module.fiches?.length > 1 ? 's' : ''}
-            </Text>
-            <View style={[styles.moduleHighlightBtn, { backgroundColor: module.color }]}>
-              <Text style={styles.moduleHighlightBtnText}>Consulter →</Text>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-
-  return (
-    <TouchableOpacity
-      style={[styles.moduleCard, { backgroundColor: theme.bgCard, borderColor: theme.border }]}
-      onPress={onPress} activeOpacity={0.75}
-    >
-      <View style={[styles.moduleIcon, { backgroundColor: module.bgColor }]}>
-        <Text style={styles.moduleIconText}>{module.icon}</Text>
-      </View>
-      <View style={styles.moduleInfo}>
-        <Text style={[styles.moduleName, { color: theme.textPrimary }]}>{module.title}</Text>
-        <Text style={[styles.moduleDesc, { color: theme.textMuted }]} numberOfLines={1}>{module.description}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-          <Text style={[styles.moduleCount, { color: module.color }]}>{module.fiches?.length || 0} fiches</Text>
-          {module.updatedAt && <Text style={[styles.moduleUpdated, { color: theme.textMuted }]}>· Màj {module.updatedAt}</Text>}
-        </View>
-      </View>
-      <Ionicons name="chevron-forward" size={16} color={theme.textMuted} />
-    </TouchableOpacity>
-  );
-};
-
-// ── Écran principal ─────────────────────────────────────────────────────────
 export default function HomeScreen({ navigation, versant, setVersant }) {
-  const theme = useTheme();
+  const ui0 = useRegistre();
   const { settings } = useSettings();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchFocused, setSearchFocused] = useState(false);
+  const [recherche, setRecherche] = useState('');
   const [nouveautesVisible, setNouveautesVisible] = useState(false);
   const [favoris, setFavoris] = useState([]);
   const [recents, setRecents] = useState([]);
 
-  // Charger l'état persisté au focus
   useFocusEffect(useCallback(() => {
-    let mounted = true;
+    let monte = true;
     (async () => {
-      const [dismissed, favs, recs] = await Promise.all([
+      const [masquee, favs, recs] = await Promise.all([
         isNouveautesDismissed(NOUVEAUTES.version),
         getFavoris(),
         getRecent(),
       ]);
-      if (!mounted) return;
-      const bannerOk = NOUVEAUTES.active && !dismissed && (settings.showNouveautes !== false);
-      setNouveautesVisible(bannerOk);
+      if (!monte) return;
+      setNouveautesVisible(NOUVEAUTES.active && !masquee && settings.showNouveautes !== false);
       setFavoris(favs);
       setRecents(recs);
     })();
-    return () => { mounted = false; };
-  }, [settings.showNouveautes]));    
+    return () => { monte = false; };
+  }, [settings.showNouveautes]));
 
-  const handleDismissNouveautes = async () => {
+  const { th, t, inter, F, C } = ui0;
+  const s = { ...ui0.s, ...propre(th, F) };
+  const ui = { ...ui0, s };
+
+  const modules = MODULES.filter(m => !m.versants || m.versants.includes(versant));
+  const cherche = recherche.length >= 2;
+  const resultats = cherche ? searchFiches(recherche) : [];
+
+  const ouvrirFiche = (ficheId) => navigation.navigate('FicheDetail', { ficheId });
+  const ouvrirModule = (moduleId) => navigation.navigate('Module', { moduleId });
+
+  // La première section suit la tête de page, déjà séparée par son filet : elle
+  // n'a pas besoin des 40 dp d'air des suivantes. Sans ce calcul, toutes les
+  // sections sauf la première se retrouvaient collées à ce qui les précède.
+  let premiereFaite = false;
+  const espaceDeSection = () => {
+    // `espaceSection` de la feuille commune est une HAUTEUR, faite pour un
+    // intercalaire à part sur l'écran de fiche, où le titre doit rester
+    // collant. Ici il n'y a pas de collage : c'est une marge qu'il faut.
+    const style = premiereFaite ? s.avantSection : s.premiereSection;
+    premiereFaite = true;
+    return style;
+  };
+
+  const masquerNouveautes = async () => {
     await dismissNouveautes(NOUVEAUTES.version);
     setNouveautesVisible(false);
   };
 
-  const filteredModules = MODULES.filter(m => !m.versants || m.versants.includes(versant));
-  const regularModules = filteredModules;
-
-  // Depuis la refonte d'août 2026, l'assistant de service social n'est plus un
-  // module à lui seul : c'est une fiche du module « Vos interlocuteurs ». On
-  // conserve sa mise en avant — c'est le point d'entrée humain de l'app, et
-  // souvent la personne qui la recommande.
-  const assFiche = getFicheById('role-ass');
-  const assCard = assFiche && {
-    icon: '🤝',
-    color: Colors.olive,
-    bgColor: Colors.oliveLight,
-    title: 'L\'assistant de service social',
-    description: 'Confidentiel, gratuit, indépendant de votre hiérarchie. Il vous accompagne sur toute difficulté, personnelle comme professionnelle.',
-    fiches: [assFiche],
+  // Un raccourci vers une fiche : son titre, et le module d'où elle vient.
+  // C'est une fonction qui rend un élément, pas un composant défini dans le
+  // corps du rendu : un composant redéfini à chaque passe est un type neuf pour
+  // React, qui démonte puis remonte tout son sous-arbre.
+  const raccourci = (ficheId, index, derniere) => {
+    const fiche = getFicheById(ficheId);
+    if (!fiche) return null;
+    return (
+      <Numerote
+        key={ficheId}
+        ui={ui}
+        style={[s.ligne, derniere && s.ligneSansFilet]}
+        num={deuxChiffres(index + 1)}
+        titre={fiche.titre}
+        texte={fiche.categorie}
+        fleche
+        onPress={() => ouvrirFiche(ficheId)}
+      />
+    );
   };
-  const searchResults = searchQuery.length >= 2 ? searchFiches(searchQuery) : [];
-  const isSearching = searchQuery.length >= 2;
-
-  const openFiche = (ficheId) => navigation.navigate('FicheDetail', { ficheId });
-  const openModule = (moduleId) => navigation.navigate('Module', { moduleId });
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: Colors.slate }]} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={Colors.slate} />
+    <SafeAreaView style={[s.safe, { backgroundColor: th.bg }]} edges={['top']}>
+      <StatusBar barStyle={th.statusBar} backgroundColor={th.bg} />
 
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerTop}>
-          <Text style={styles.title}>Fonctio<Text style={styles.dot}>.</Text></Text>
-          <Text style={styles.tagline}>Pour une carrière plus claire</Text>
-        </View>
+      <View style={s.tetePage}>
+        <Text style={[s.marque, { fontSize: t(T.titre), lineHeight: t(T.titre) * 1.14 }]}>
+          Fonctio<Text style={{ color: C.valeur }}>.</Text>
+        </Text>
+        <Text style={[s.accroche, { fontSize: t(T.lede), lineHeight: inter(T.lede) }]}>
+          Pour une carrière plus claire
+        </Text>
 
-        {/* Recherche */}
-        <View style={[styles.searchBar, searchFocused && styles.searchBarFocused]}>
-          <Ionicons name="search" size={15} color="rgba(255,255,255,0.45)" />
+        <View style={s.recherche}>
+          <Ionicons name="search" size={15} color={th.textMuted} />
           <TextInput
-            style={styles.searchInput}
+            style={[s.rechercheChamp, { fontSize: t(T.label) }]}
             placeholder="Rechercher une fiche, un droit…"
-            placeholderTextColor="rgba(255,255,255,0.35)"
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            onFocus={() => setSearchFocused(true)}
-            onBlur={() => setSearchFocused(false)}
+            placeholderTextColor={th.textMuted}
+            value={recherche}
+            onChangeText={setRecherche}
           />
-          {searchQuery.length > 0 && (
-            <TouchableOpacity onPress={() => setSearchQuery('')}>
-              <Ionicons name="close-circle" size={15} color="rgba(255,255,255,0.4)" />
+          {recherche.length > 0 && (
+            <TouchableOpacity onPress={() => setRecherche('')} hitSlop={8}>
+              <Ionicons name="close" size={15} color={th.textMuted} />
             </TouchableOpacity>
           )}
         </View>
 
-        {/* Sélecteur versant */}
-        {!isSearching && (
-          <View style={styles.versantRow}>
-            {VERSANT_CHIPS.map(v => (
-              <TouchableOpacity
-                key={v.id}
-                style={[styles.versantBtn, versant === v.id && { backgroundColor: v.color, borderColor: v.color }]}
-                onPress={() => setVersant(v.id)} activeOpacity={0.8}
-              >
-                <Text style={styles.versantIcon}>{v.icon}</Text>
-                <Text style={[styles.versantLabel, versant === v.id && { color: 'white' }]}>{v.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
+        <View style={s.versants}>
+          {VERSANTS.map(v => (
+            <TouchableOpacity
+              key={v.id}
+              style={[s.versant, versant === v.id && s.versantActif]}
+              onPress={() => setVersant(v.id)}
+              activeOpacity={0.7}
+            >
+              <Text style={[
+                s.versantTexte,
+                { fontSize: t(T.num) },
+                versant === v.id && s.versantTexteActif,
+              ]}>
+                {v.court}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
 
       <ScrollView
-        style={[styles.scroll, { backgroundColor: theme.bg }]}
-        contentContainerStyle={styles.scrollContent}
+        style={s.scroll}
+        contentContainerStyle={s.scrollContenu}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-
-        {/* ── RECHERCHE ───────────────────────────────────────── */}
-        {isSearching ? (
+        {cherche ? (
           <>
-            <Text style={[styles.sectionTitle, { color: theme.textMuted }]}>
-              {searchResults.length} résultat{searchResults.length !== 1 ? 's' : ''} pour « {searchQuery} »
-            </Text>
-            {searchResults.length === 0 ? (
-              <View style={[styles.emptySearch, { backgroundColor: theme.bgCard, borderColor: theme.border }]}>
-                <Text style={styles.emptySearchIcon}>🔍</Text>
-                <Text style={[styles.emptySearchTitle, { color: theme.textPrimary }]}>Aucun résultat</Text>
-                <Text style={[styles.emptySearchSub, { color: theme.textMuted }]}>
-                  Essayez : CLM, CMO, CITIS, contractuel, reclassement, PSC…
-                </Text>
-              </View>
-            ) : searchResults.map(fiche => (
-              <TouchableOpacity
+            <View style={espaceDeSection()}>
+              <Section ui={ui} titre={`« ${recherche} »`} compte={resultats.length} />
+            </View>
+            {resultats.length === 0 ? (
+              <Paragraphe ui={ui} style={s.vide}>
+                Aucune fiche ne répond. Essayez un sigle ou un mot du titre : CLM, CMO,
+                CITIS, contractuel, reclassement, PSC…
+              </Paragraphe>
+            ) : resultats.map((fiche, i) => (
+              <Numerote
                 key={fiche.id}
-                style={[styles.searchResult, { backgroundColor: theme.bgCard, borderColor: theme.border }]}
-                onPress={() => openFiche(fiche.id)} activeOpacity={0.75}
-              >
-                <View style={[styles.searchResultBar, { backgroundColor: fiche.moduleColor }]} />
-                <View style={styles.searchResultInfo}>
-                  <Text style={[styles.searchResultCat, { color: theme.textMuted }]}>{fiche.moduleTitle}</Text>
-                  <Text style={[styles.searchResultTitle, { color: theme.textPrimary }]}>{fiche.titre}</Text>
-                  <Text style={[styles.searchResultResume, { color: theme.textSecondary }]} numberOfLines={2}>{fiche.resume}</Text>
-                  <View style={styles.searchChips}>
-                    {fiche.chips.slice(0, 2).map(chip => (
-                      <View key={chip} style={[styles.searchChip, { backgroundColor: fiche.moduleColor + '22' }]}>
-                        <Text style={[styles.searchChipText, { color: fiche.moduleColor }]}>{chip}</Text>
-                      </View>
-                    ))}
-                  </View>
-                </View>
-                <Ionicons name="chevron-forward" size={15} color={theme.textMuted} />
-              </TouchableOpacity>
+                ui={ui}
+                style={[s.ligne, i === resultats.length - 1 && s.ligneSansFilet]}
+                num={deuxChiffres(i + 1)}
+                titre={fiche.titre}
+                texte={fiche.resume}
+                fleche
+                onPress={() => ouvrirFiche(fiche.id)}
+              />
             ))}
           </>
         ) : (
           <>
-            {/* ── FAVORIS ──────────────────────────────────────── */}
-            {favoris.length > 0 && (
-              <View>
-                <View style={styles.sectionRow}>
-                  <Text style={[styles.sectionTitle, { color: theme.textMuted }]}>⭐ Mes favoris</Text>
-                  <TouchableOpacity onPress={() => navigation.navigate('FavorisList', { favoris })}>
-                    <Text style={[styles.sectionLink, { color: Colors.sky }]}>Voir tout</Text>
-                  </TouchableOpacity>
-                </View>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                  <View style={styles.ficheChipRow}>
-                    {favoris.slice(0, 6).map(id => (
-                      <FicheChip key={id} ficheId={id} onPress={() => openFiche(id)} />
-                    ))}
-                  </View>
-                </ScrollView>
-              </View>
-            )}
-
-            {/* ── RÉCENTS ──────────────────────────────────────── */}
-            {recents.length > 0 && (
-              <View>
-                <Text style={[styles.sectionTitle, { color: theme.textMuted }]}>🕐 Consultées récemment</Text>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                  <View style={styles.ficheChipRow}>
-                    {recents.map(id => (
-                      <FicheChip key={id} ficheId={id} onPress={() => openFiche(id)} />
-                    ))}
-                  </View>
-                </ScrollView>
-              </View>
-            )}
-
-            {/* ── DON ──────────────────────────────────────────── */}
-            <TouchableOpacity
-              style={styles.donBanner} activeOpacity={0.85}
-              onPress={() => Linking.openURL('https://www.tipeee.com/fonctio')}
-            >
-              <View style={styles.donLeft}>
-                <Text style={styles.donEmoji}>☕</Text>
-                <View>
-                  <Text style={styles.donTitle}>Fonctio est 100 % gratuit</Text>
-                  <Text style={[styles.donSub, { color: theme.textMuted }]}>Soutenir le projet sur Tipeee</Text>
-                </View>
-              </View>
-              <Ionicons name="heart" size={16} color={Colors.terracotta} />
-            </TouchableOpacity>
-
-            {/* ── NOUVEAUTÉS (persistant) ───────────────────────── */}
             {nouveautesVisible && (
-              <View style={[styles.nouveautesBanner, { backgroundColor: theme.bgCard, borderColor: Colors.sky + '44' }]}>
-                <View style={styles.nouveautesHeader}>
-                  <View style={styles.nouveautesLeft}>
-                    <View style={styles.nouveautesBadge}>
-                      <Text style={styles.nouveautesBadgeText}>{NOUVEAUTES.version}</Text>
-                    </View>
-                    <View>
-                      <Text style={[styles.nouveautesTitle, { color: theme.textPrimary }]}>{NOUVEAUTES.titre}</Text>
-                      <Text style={[styles.nouveautesDate, { color: theme.textMuted }]}>{NOUVEAUTES.date}</Text>
-                    </View>
-                  </View>
-                  <TouchableOpacity onPress={handleDismissNouveautes} style={styles.nouveautesClose}>
-                    <Ionicons name="close" size={16} color={theme.textMuted} />
+              <View style={espaceDeSection()}>
+                <BlocFilet ui={ui} couleur={C.versant} titre={NOUVEAUTES.titre} compte={NOUVEAUTES.version}>
+                  {NOUVEAUTES.lignes.map((ligne, i) => (
+                    <Paragraphe key={i} ui={ui} style={i > 0 && s.nouveauteSuivante}>{ligne}</Paragraphe>
+                  ))}
+                  <TouchableOpacity onPress={masquerNouveautes} activeOpacity={0.7} style={s.masquer}>
+                    <Text style={[s.navTexte, { fontSize: t(T.num) }]}>Ne plus afficher</Text>
                   </TouchableOpacity>
+                </BlocFilet>
+              </View>
+            )}
+
+            {favoris.length > 0 && (
+              <>
+                <View style={espaceDeSection()}>
+                  <Section ui={ui} titre="Vos favoris" compte={favoris.length} />
                 </View>
-                {NOUVEAUTES.lignes.map((ligne, i) => (
-                  <Text key={i} style={[styles.nouveautesLigne, { color: theme.textSecondary }]}>{ligne}</Text>
-                ))}
-              </View>
+                {favoris.slice(0, MAX_RACCOURCIS).map((id, i, tab) =>
+                  raccourci(id, i, i === tab.length - 1))}
+              </>
             )}
 
-            {/* ── ASSISTANT SOCIAL — carte mise en valeur ────────── */}
-            {assCard && (
-              <ModuleCard module={assCard} onPress={() => openFiche('role-ass')} highlight theme={theme} />
+            {recents.length > 0 && (
+              <>
+                <View style={espaceDeSection()}>
+                  <Section ui={ui} titre="Consultées récemment" compte={recents.length} />
+                </View>
+                {recents.slice(0, MAX_RACCOURCIS).map((id, i, tab) =>
+                  raccourci(id, i, i === tab.length - 1))}
+              </>
             )}
 
-            {/* ── ALERTE RÉFORME ────────────────────────────────── */}
-            <TouchableOpacity
-              style={styles.banner} activeOpacity={0.85}
-              onPress={() => openModule('contractuels')}
-            >
-              <Text style={styles.bannerEmoji}>⚡</Text>
-              <View style={styles.bannerText}>
-                <Text style={styles.bannerTitle}>Réforme CMO — mars 2025</Text>
-                <Text style={[styles.bannerSub, { color: theme.textMuted }]}>Primes au prorata du traitement (90 % puis 50 %)</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={14} color={Colors.amber} />
-            </TouchableOpacity>
-
-            {/* ── MODULES ──────────────────────────────────────── */}
-            <Text style={[styles.sectionTitle, { color: theme.textMuted }]}>
-              {VERSANT_LABELS[versant]}
-            </Text>
-            {regularModules.map(module => (
-              <ModuleCard key={module.id} module={module} onPress={() => openModule(module.id)} theme={theme} />
+            <View style={espaceDeSection()}>
+              <Section ui={ui} titre={LONG[versant]} compte={modules.length} />
+            </View>
+            {modules.map((module, i) => (
+              <Numerote
+                key={module.id}
+                ui={ui}
+                style={[s.ligne, i === modules.length - 1 && s.ligneSansFilet]}
+                num={deuxChiffres(i + 1)}
+                titre={module.title}
+                texte={module.description}
+                fleche
+                onPress={() => ouvrirModule(module.id)}
+              />
             ))}
 
-            <View style={styles.footer}>
-              <Text style={[styles.footerText, { color: theme.textMuted }]}>Fiches vérifiées et sourcées · Légifrance</Text>
+            <View style={s.avantSection}>
+              <Section ui={ui} titre="Aller plus loin" />
             </View>
+            {/* Depuis la refonte d'août 2026, l'assistant de service social n'est
+                plus un module : c'est une fiche de « Vos interlocuteurs ». On
+                garde sa mise en avant — c'est le point d'entrée humain de l'app,
+                et souvent la personne qui la fait connaître. */}
+            {!!getFicheById('role-ass') && (
+              <Action
+                ui={ui}
+                titre="L'assistant de service social"
+                texte={"Confidentiel, gratuit, indépendant de votre hiérarchie. Il vous accompagne "
+                  + "sur toute difficulté, personnelle comme professionnelle."}
+                onPress={() => ouvrirFiche('role-ass')}
+              />
+            )}
+            <Action
+              ui={ui}
+              titre="Fonctio est 100 % gratuit"
+              texte="Soutenir le projet sur Tipeee."
+              onPress={() => Linking.openURL('https://www.tipeee.com/fonctio')}
+            />
+
+            <Text style={[s.mentions, { fontSize: t(T.source), lineHeight: t(T.source) * 1.7 }]}>
+              Fiches vérifiées et sourcées · Légifrance
+            </Text>
           </>
         )}
       </ScrollView>
@@ -348,128 +273,31 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
   );
 }
 
-const styles = StyleSheet.create({
-  safe: { flex: 1 },
-  header: {
-    backgroundColor: Colors.slate,
-    paddingHorizontal: Spacing.xl,
-    paddingTop: Spacing.sm,
-    paddingBottom: Spacing.lg,
-    gap: Spacing.md,
+const propre = (th, F) => StyleSheet.create({
+  tetePage: {
+    paddingHorizontal: V.zone, paddingTop: 6, paddingBottom: 12,
+    borderBottomWidth: FILET, borderBottomColor: F.rubrique,
   },
-  headerTop: {},
-  title: { fontSize: 30, color: Colors.white, fontWeight: '700', letterSpacing: -0.5 },
-  dot: { color: '#E8B88A' },
-  tagline: { fontSize: Typography.xs, color: 'rgba(255,255,255,0.4)', marginTop: 2 },
+  marque: { fontFamily: SERIF, color: th.textPrimary },
+  accroche: { color: th.textMuted, marginTop: 2 },
 
-  searchBar: {
-    flexDirection: 'row', alignItems: 'center', gap: 8,
-    backgroundColor: 'rgba(255,255,255,0.09)', borderRadius: Radius.md,
-    paddingHorizontal: 12, paddingVertical: 9, borderWidth: 1, borderColor: 'transparent',
+  recherche: {
+    flexDirection: 'row', alignItems: 'center', gap: 9, marginTop: 16,
+    paddingBottom: 8, borderBottomWidth: FILET, borderBottomColor: F.rubrique,
   },
-  searchBarFocused: { borderColor: 'rgba(255,255,255,0.2)', backgroundColor: 'rgba(255,255,255,0.12)' },
-  searchInput: { flex: 1, fontSize: Typography.sm, color: 'white' },
+  rechercheChamp: { flex: 1, color: th.textPrimary, padding: 0 },
 
-  versantRow: { flexDirection: 'row', gap: 8 },
-  versantBtn: {
-    flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-    gap: 5, paddingVertical: 8, borderRadius: Radius.md,
-    backgroundColor: 'rgba(255,255,255,0.08)', borderWidth: 1, borderColor: 'transparent',
-  },
-  versantIcon: { fontSize: 13 },
-  versantLabel: { fontSize: 11, color: 'rgba(255,255,255,0.55)', fontWeight: '500' },
+  versants: { flexDirection: 'row', gap: 22, marginTop: 12 },
+  versant: { paddingBottom: 5, borderBottomWidth: 2, borderBottomColor: 'transparent' },
+  versantActif: { borderBottomColor: th.textPrimary },
+  versantTexte: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 1.4 },
+  versantTexteActif: { color: th.textPrimary },
 
-  scroll: { flex: 1 },
-  scrollContent: { padding: Spacing.lg, paddingBottom: 100, gap: 12 },
-
-  sectionRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  sectionTitle: { fontSize: Typography.xs, fontWeight: '500', letterSpacing: 0.07, textTransform: 'uppercase' },
-  sectionLink: { fontSize: 12 },
-
-  // Fiches horizontales
-  ficheChipRow: { flexDirection: 'row', gap: 8, paddingBottom: 4, paddingTop: 2 },
-
-  // Recherche
-  emptySearch: { borderRadius: Radius.lg, padding: Spacing.xxl, alignItems: 'center', borderWidth: 0.5 },
-  emptySearchIcon: { fontSize: 36, marginBottom: 10 },
-  emptySearchTitle: { fontSize: Typography.md, fontWeight: '600', marginBottom: 4 },
-  emptySearchSub: { fontSize: Typography.sm, textAlign: 'center', lineHeight: 18 },
-  searchResult: { borderRadius: Radius.lg, padding: Spacing.lg, flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 0.5 },
-  searchResultBar: { width: 3, height: 44, borderRadius: 2, flexShrink: 0 },
-  searchResultInfo: { flex: 1 },
-  searchResultCat: { fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.05, marginBottom: 2 },
-  searchResultTitle: { fontSize: Typography.base, fontWeight: '600', marginBottom: 3 },
-  searchResultResume: { fontSize: Typography.sm, lineHeight: 17, marginBottom: 6 },
-  searchChips: { flexDirection: 'row', gap: 5 },
-  searchChip: { borderRadius: Radius.full, paddingHorizontal: 7, paddingVertical: 2 },
-  searchChipText: { fontSize: 10, fontWeight: '500' },
-
-  // Don
-  donBanner: {
-    backgroundColor: Colors.terracottaLight, borderRadius: Radius.md, padding: Spacing.md,
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    borderWidth: 1, borderColor: 'rgba(196,103,58,0.2)',
-  },
-  donLeft: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  donEmoji: { fontSize: 18 },
-  donTitle: { fontSize: Typography.sm, fontWeight: '500', color: Colors.terracottaDark },
-  donSub: { fontSize: 11, marginTop: 1 },
-
-  // Nouveautés
-  nouveautesBanner: { borderRadius: Radius.lg, padding: Spacing.lg, borderWidth: 1, borderLeftWidth: 3, borderLeftColor: Colors.sky, gap: 5 },
-  nouveautesHeader: { flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 6 },
-  nouveautesLeft: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  nouveautesBadge: { backgroundColor: Colors.sky, borderRadius: Radius.sm, paddingHorizontal: 7, paddingVertical: 3 },
-  nouveautesBadgeText: { fontSize: 10, color: 'white', fontWeight: '700' },
-  nouveautesTitle: { fontSize: Typography.sm, fontWeight: '600' },
-  nouveautesDate: { fontSize: 11, marginTop: 1 },
-  nouveautesClose: { padding: 2 },
-  nouveautesLigne: { fontSize: 12, lineHeight: 18 },
-
-  // Module ASS mis en valeur
-  moduleCardHighlight: {
-    borderRadius: Radius.lg, overflow: 'hidden',
-    borderWidth: 1, ...Shadow.md,
-  },
-  moduleHighlightHeader: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: Spacing.lg, paddingVertical: 12,
-  },
-  moduleHighlightEmoji: { fontSize: 28 },
-  moduleHighlightBadge: {
-    backgroundColor: 'rgba(255,255,255,0.22)', borderRadius: Radius.full,
-    paddingHorizontal: 10, paddingVertical: 4,
-  },
-  moduleHighlightBadgeText: { fontSize: 11, color: 'white', fontWeight: '500' },
-  moduleHighlightBody: { padding: Spacing.lg },
-  moduleHighlightTitle: { fontSize: Typography.lg, fontWeight: '700', marginBottom: 4 },
-  moduleHighlightDesc: { fontSize: Typography.sm, lineHeight: 18, marginBottom: Spacing.md },
-  moduleHighlightFooter: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  moduleHighlightCount: { fontSize: Typography.sm, fontWeight: '500' },
-  moduleHighlightBtn: { borderRadius: Radius.md, paddingHorizontal: 14, paddingVertical: 7 },
-  moduleHighlightBtnText: { fontSize: 12, color: 'white', fontWeight: '600' },
-
-  // Module standard
-  moduleCard: { borderRadius: Radius.lg, padding: Spacing.lg, flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 0.5, ...Shadow.sm },
-  moduleIcon: { width: 46, height: 46, borderRadius: Radius.md, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  moduleIconText: { fontSize: 20 },
-  moduleInfo: { flex: 1 },
-  moduleName: { fontSize: Typography.base, fontWeight: '600', marginBottom: 2 },
-  moduleDesc: { fontSize: 11, lineHeight: 15, marginBottom: 3 },
-  moduleCount: { fontSize: 11, fontWeight: '500' },
-  moduleUpdated: { fontSize: 10 },
-
-  // Bannière réforme
-  banner: {
-    backgroundColor: Colors.amberLight, borderRadius: Radius.md, padding: Spacing.md,
-    flexDirection: 'row', alignItems: 'center', gap: 10,
-    borderLeftWidth: 3, borderLeftColor: Colors.amber,
-  },
-  bannerEmoji: { fontSize: 16 },
-  bannerText: { flex: 1 },
-  bannerTitle: { fontSize: Typography.sm, fontWeight: '500', color: Colors.terracottaDark },
-  bannerSub: { fontSize: 11, marginTop: 1 },
-
-  footer: { alignItems: 'center', paddingVertical: Spacing.md },
-  footerText: { fontSize: 11 },
+  // Le premier titre de section n'a pas besoin des 40 dp d'air réservés aux
+  // suivants : la tête de page est déjà séparée par son filet.
+  premiereSection: { marginTop: 6 },
+  avantSection: { marginTop: V.section },
+  vide: { marginTop: 14 },
+  nouveauteSuivante: { marginTop: 4 },
+  masquer: { marginTop: 12, alignSelf: 'flex-start' },
 });
