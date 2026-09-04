@@ -21,9 +21,22 @@ export const Fil = ({ ui, titre, onRetour, versant, droite }) => {
   const { s, t, th } = ui;
   return (
     <View style={s.fil}>
-      <TouchableOpacity style={s.filRetour} onPress={onRetour} activeOpacity={0.7} disabled={!onRetour}>
-        {!!onRetour && <Ionicons name="arrow-back" size={15} color={th.textMuted} />}
-        <Text style={[s.filTexte, { fontSize: t(T.fil) }]} numberOfLines={1}>{titre}</Text>
+      <TouchableOpacity
+        style={s.filRetour}
+        onPress={onRetour}
+        activeOpacity={0.6}
+        disabled={!onRetour}
+        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+        accessibilityRole={onRetour ? 'button' : 'header'}
+        accessibilityLabel={onRetour ? `Retour vers ${titre}` : titre}
+      >
+        {!!onRetour && <Ionicons name="arrow-back" size={18} color={th.textSecondary} />}
+        <Text
+          style={[s.filTexte, { fontSize: t(T.fil) }, !!onRetour && { color: th.textSecondary }]}
+          numberOfLines={1}
+        >
+          {titre}
+        </Text>
       </TouchableOpacity>
       <View style={s.filDroite}>
         {!!versant && (

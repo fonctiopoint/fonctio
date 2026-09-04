@@ -809,6 +809,10 @@ export default function SimulateurScreen({ navigation }) {
                 ))}
               </View>
 
+              {/* Pas de légende de couleurs sous le graphique : le tableau qui
+                  suit décode chaque barre, ligne par ligne, avec son montant et
+                  son pourcentage — et toucher une barre en donne le détail
+                  complet, poste par poste. */}
               <Graphique
                 ui={ui}
                 data={projection}
@@ -819,20 +823,6 @@ export default function SimulateurScreen({ navigation }) {
                 onSelect={setMoisSelectionne}
               />
 
-              <View style={s.legende}>
-                {[
-                  { c: Colors.terracotta, l: '90 %' },
-                  { c: Colors.amber, l: '50-60 %' },
-                  { c: Colors.sky, l: '100 %' },
-                  { c: Colors.olive, l: 'Plein + primes' },
-                  { c: Colors.slateLight, l: 'IJ CPAM' },
-                ].map((item, i) => (
-                  <View key={i} style={s.legendeCase}>
-                    <View style={[s.legendePastille, { backgroundColor: item.c }]} />
-                    <Text style={[s.legendeTexte, { fontSize: t(T.num) }]}>{item.l}</Text>
-                  </View>
-                ))}
-              </View>
 
               <View style={s.tableau}>
                 {/* La colonne du numéro de mois a disparu : elle répétait la
@@ -1015,10 +1005,6 @@ const propre = (th, F) => StyleSheet.create({
   barreRemplie: { width: '100%', borderRadius: 1 },
   barreMois: { fontFamily: MONO_LEGER, color: th.textMuted, textAlign: 'center', marginTop: 6, lineHeight: 12 },
 
-  legende: { flexDirection: 'row', flexWrap: 'wrap', gap: 14, marginTop: 14 },
-  legendeCase: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  legendePastille: { width: 7, height: 7, borderRadius: 4 },
-  legendeTexte: { color: th.textMuted },
 
   tableau: { marginTop: 18 },
   tableauLigne: { flexDirection: 'row', borderBottomWidth: FILET, borderBottomColor: F.ligne },

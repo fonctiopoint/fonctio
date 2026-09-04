@@ -1,6 +1,7 @@
 // src/navigation/AppNavigator.js
 import React, { useState, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Platform, Animated } from 'react-native';
+import { StackActions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
@@ -64,6 +65,20 @@ const CustomTabBar = ({ state, navigation }) => {
     { name: 'ProfilTabs', label: 'À propos', icon: 'person', iconOutline: 'person-outline' },
   ];
 
+  // Toucher l'onglet COURANT ramène à sa racine. C'est le geste que tout le
+  // monde connaît, et il ne faisait rien : la barre se contentait d'ignorer un
+  // appui sur l'onglet déjà actif. Depuis une fiche, il n'y avait donc aucun
+  // moyen évident de revenir à l'accueil, sinon la petite flèche du fil.
+  const retourOuAller = (route, actif) => {
+    if (!actif) { navigation.navigate(route.name); return; }
+    // route.state n'existe que si la pile a déjà été rendue ; sans elle, on est
+    // déjà à la racine et il n'y a rien à dépiler.
+    const pile = route.state;
+    if (pile && pile.index > 0) {
+      navigation.dispatch({ ...StackActions.popToTop(), target: pile.key });
+    }
+  };
+
   return (
     <View style={[styles.tabBar, { backgroundColor: theme.bgWarm, borderTopColor: F.rubrique }]}>
       {state.routes.map((route, index) => {
@@ -73,7 +88,7 @@ const CustomTabBar = ({ state, navigation }) => {
           <TouchableOpacity
             key={route.key}
             style={[styles.tabItem, { borderTopColor: actif ? C.valeur : 'transparent' }]}
-            onPress={() => { if (!actif) navigation.navigate(route.name); }}
+            onPress={() => retourOuAller(route, actif)}
             activeOpacity={0.7}
           >
             <Ionicons
