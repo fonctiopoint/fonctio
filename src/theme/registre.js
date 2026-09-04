@@ -80,7 +80,7 @@ export const couleurs = (isDark) => (isDark ? SOMBRE : CLAIR);
 // toujours un pixel logique, c'est son opacité qui hiérarchise. Le filet de
 // SECTION est franc — c'est lui qui découpe la fiche.
 export const filets = (isDark) => (isDark
-  ? { section: 'rgba(233,231,226,0.30)', rubrique: 'rgba(233,231,226,0.13)', ligne: 'rgba(233,231,226,0.07)' }
+  ? { section: 'rgba(240,237,231,0.30)', rubrique: 'rgba(240,237,231,0.15)', ligne: 'rgba(240,237,231,0.10)' }
   : { section: 'rgba(51,47,41,0.26)', rubrique: 'rgba(51,47,41,0.13)', ligne: 'rgba(51,47,41,0.09)' });
 
 // ── Échelle typographique ────────────────────────────────────────────────────

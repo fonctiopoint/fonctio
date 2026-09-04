@@ -28,7 +28,7 @@ const SlateTheme = {
 
 const SlateDarkTheme = {
   ...DarkTheme,
-  colors: { ...DarkTheme.colors, background: '#1A1A2E', card: '#1E1E3A' },
+  colors: { ...DarkTheme.colors, background: '#1A1714', card: '#282219' },
 };
 
 function AppContent() {
@@ -71,7 +71,7 @@ function AppContent() {
     }
   }, [appReady]);
 
-  const bgColor = isDark ? '#1A1A2E' : '#2D3748';
+  const bgColor = isDark ? '#1A1714' : '#2D3748';
 
   // Avant que l'app soit prête : fond ardoise uni (le splash natif est encore affiché par-dessus)
   if (!appReady) {

@@ -24,10 +24,19 @@ const light = {
   border: 'rgba(51,47,41,0.10)', statusBar: 'dark-content', tabBg: '#FFFFFF', tabBorder: 'rgba(51,47,41,0.10)',
 };
 
+// Le fond nuit est CHAUD lui aussi, depuis le 04/09/2026. Il était en bleu nuit
+// (#1A1A2E) quand l'encre du mode clair était en ardoise bleutée ; l'encre est
+// passée au brun-gris, et garder un fond bleu de l'autre côté aurait donné deux
+// apps différentes selon l'heure. C'est la même famille que le crème et le
+// sable, éteinte — du papier vu à la lueur d'une lampe, pas un écran d'ordinateur.
+//
+// Les trois fonds vont du plus sombre au plus clair : la page, les bandes de
+// section et les blocs d'action, puis ce qui doit ressortir par-dessus — la
+// part active d'un commutateur, une feuille modale.
 const dark = {
-  bg: '#1A1A2E', bgWarm: '#16213E', bgSand: '#0F3460', bgCard: '#1E1E3A', bgHeader: '#12122A',
-  textPrimary: '#F0EEE9', textSecondary: '#C5C3BE', textMuted: '#8A8880', textInverse: '#FFFFFF',
-  border: 'rgba(255,255,255,0.10)', statusBar: 'light-content', tabBg: '#1E1E3A', tabBorder: 'rgba(255,255,255,0.08)',
+  bg: '#1A1714', bgWarm: '#231F1A', bgSand: '#2E2820', bgCard: '#282219', bgHeader: '#141210',
+  textPrimary: '#F0EDE7', textSecondary: '#C6C0B6', textMuted: '#8D867B', textInverse: '#FFFFFF',
+  border: 'rgba(240,237,231,0.10)', statusBar: 'light-content', tabBg: '#231F1A', tabBorder: 'rgba(240,237,231,0.10)',
 };
 
 export function useTheme() {
