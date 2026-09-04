@@ -6,7 +6,10 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors, Typography, Spacing, Radius, Shadow, useTheme } from '../theme';
+import { Colors } from '../theme';
+import { useRegistre, FILET } from '../theme/registreStyles';
+import { Fil, TeteDePage, Section, BlocFilet, Paragraphe, Action } from '../components/registre';
+import { SERIF, MONO, MONO_LEGER, T, V } from '../theme/registre';
 
 // ── Durées maximales réglementaires par régime ─────────────────────────────
 // Sources référencées dans les commentaires de chaque cas
@@ -305,43 +308,56 @@ function calculerProjection({ statut, versant, traitement, primes, quotite, regi
   return result;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// LA VUE
+//
+// Tout ce qui précède est le moteur de calcul et n'a pas bougé. Ci-dessous, la
+// présentation, refaite dans la direction « Registre » le 04/09/2026.
+//
+// Le parcours se lit comme une fiche : des sections en bandes, des lignes à
+// filet, aucune carte. Les trois chiffres du résultat reprennent exactement la
+// bande de synthèse des fiches — c'est le même objet, il dit la même chose.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const ETAPES = ['Statut', 'Versant', 'Rémunération', 'Régime'];
+
 // ── Sélecteur de date mois/année ────────────────────────────────────────────
-function DateSelector({ value, onChange, theme }) {
-  const [open, setOpen] = useState(false);
-  const currentYear = new Date().getFullYear();
-  const years = [currentYear - 1, currentYear, currentYear + 1];
+function SelecteurDeDate({ ui, valeur, onChange }) {
+  const { s, t, th, C } = ui;
+  const [ouvert, setOuvert] = useState(false);
+  const annee = new Date().getFullYear();
+  const annees = [annee - 1, annee, annee + 1];
 
   return (
     <>
-      <TouchableOpacity
-        style={[ds.btn, { borderColor: theme.border, backgroundColor: theme.bgCard }]}
-        onPress={() => setOpen(true)} activeOpacity={0.8}
-      >
-        <Ionicons name="calendar-outline" size={16} color={Colors.sky} />
-        <Text style={[ds.btnText, { color: value ? theme.textPrimary : theme.textMuted }]}>
-          {value ? `${MOIS_LABELS[value.mois - 1]} ${value.annee}` : 'Choisir une date de début'}
+      <TouchableOpacity style={s.champDate} onPress={() => setOuvert(true)} activeOpacity={0.7}>
+        <Ionicons name="calendar-outline" size={17} color={th.textMuted} />
+        <Text style={[s.champDateTexte, { fontSize: t(T.label) }, !valeur && { color: th.textMuted }]}>
+          {valeur ? `${MOIS_LABELS[valeur.mois - 1]} ${valeur.annee}` : 'Choisir un mois de début'}
         </Text>
-        <Ionicons name="chevron-down" size={14} color={theme.textMuted} />
+        <Ionicons name="chevron-down" size={15} color={th.textMuted} />
       </TouchableOpacity>
 
-      <Modal visible={open} transparent animationType="fade" onRequestClose={() => setOpen(false)}>
-        <TouchableOpacity style={ds.overlay} activeOpacity={1} onPress={() => setOpen(false)}>
-          <View style={[ds.modal, { backgroundColor: theme.bgCard }]}>
-            <Text style={[ds.modalTitle, { color: theme.textPrimary }]}>Date de début de l'arrêt</Text>
-            {years.map(annee => (
-              <View key={annee}>
-                <Text style={[ds.yearLabel, { color: theme.textMuted }]}>{annee}</Text>
-                <View style={ds.monthGrid}>
+      <Modal visible={ouvert} transparent animationType="fade" onRequestClose={() => setOuvert(false)}>
+        <TouchableOpacity style={s.voile} activeOpacity={1} onPress={() => setOuvert(false)}>
+          <View style={s.feuille}>
+            <Text style={[s.feuilleTitre, { fontSize: t(T.section), lineHeight: t(T.section) * 1.25 }]}>
+              Début de l'arrêt
+            </Text>
+            {annees.map(a => (
+              <View key={a}>
+                <Text style={[s.feuilleAnnee, { fontSize: t(T.num) }]}>{a}</Text>
+                <View style={s.grilleMois}>
                   {MOIS_LABELS.map((ml, idx) => {
-                    const isSelected = value?.annee === annee && value?.mois === idx + 1;
+                    const actif = valeur?.annee === a && valeur?.mois === idx + 1;
                     return (
                       <TouchableOpacity
                         key={idx}
-                        style={[ds.monthBtn, { borderColor: theme.border }, isSelected && { backgroundColor: Colors.sky, borderColor: Colors.sky }]}
-                        onPress={() => { onChange({ mois: idx + 1, annee }); setOpen(false); }}
+                        style={[s.caseMois, actif && { backgroundColor: C.valeur, borderColor: C.valeur }]}
+                        onPress={() => { onChange({ mois: idx + 1, annee: a }); setOuvert(false); }}
                         activeOpacity={0.75}
                       >
-                        <Text style={[ds.monthText, { color: theme.textSecondary }, isSelected && { color: 'white', fontWeight: '700' }]}>
+                        <Text style={[s.caseMoisTexte, { fontSize: t(T.valeur) }, actif && { color: th.bgCard }]}>
                           {ml}
                         </Text>
                       </TouchableOpacity>
@@ -357,154 +373,96 @@ function DateSelector({ value, onChange, theme }) {
   );
 }
 
-const ds = StyleSheet.create({
-  btn: { flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1.5, borderRadius: Radius.md, padding: 11 },
-  btnText: { flex: 1, fontSize: Typography.sm },
-  overlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', paddingHorizontal: Spacing.lg },
-  modal: { borderRadius: Radius.lg, padding: Spacing.xl, ...Shadow.lg, maxHeight: '80%' },
-  modalTitle: { fontSize: Typography.base, fontWeight: '700', marginBottom: Spacing.lg },
-  yearLabel: { fontSize: 12, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 0.06, marginBottom: 8, marginTop: 4 },
-  monthGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 12 },
-  monthBtn: { width: '23%', alignItems: 'center', paddingVertical: 8, borderRadius: Radius.sm, borderWidth: 1 },
-  monthText: { fontSize: 12 },
-});
+// ── Une option de parcours ──────────────────────────────────────────────────
+const Option = ({ ui, label, sub, droite, actif, onPress, derniere }) => {
+  const { s, t, inter, th, C } = ui;
+  return (
+    <TouchableOpacity
+      style={[s.option, derniere && s.ligneSansFilet]}
+      onPress={onPress}
+      activeOpacity={0.7}
+    >
+      <View style={s.optionTexte}>
+        <View style={s.optionHaut}>
+          <Text style={[s.label, { fontSize: t(T.label), lineHeight: t(T.label) * 1.3 }]}>{label}</Text>
+          {!!droite && <Text style={[s.valeur, { color: C.valeur, fontSize: t(T.valeur) }]}>{droite}</Text>}
+        </View>
+        {!!sub && (
+          <Text style={[s.detail, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>{sub}</Text>
+        )}
+      </View>
+      <View style={[s.coche, actif && { backgroundColor: C.valeur, borderColor: C.valeur }]}>
+        {actif && <Ionicons name="checkmark" size={13} color={th.bgCard} />}
+      </View>
+    </TouchableOpacity>
+  );
+};
 
-// ── Barre de progression étapes ────────────────────────────────────────────
-const ETAPES_LABELS = ['Statut', 'Versant', 'Rémunération', 'Régime'];
-
-const ProgressBar = ({ current, theme }) => (
-  <View style={[pb.container, { backgroundColor: theme.bgCard, borderBottomColor: theme.border }]}>
-    <View style={pb.steps}>
-      {ETAPES_LABELS.map((label, i) => {
-        const done = i < current - 1;
-        const active = i === current - 1;
-        return (
-          <React.Fragment key={i}>
-            <View style={pb.step}>
-              <View style={[pb.circle,
-                done   && { backgroundColor: Colors.olive,    borderColor: Colors.olive },
-                active && { backgroundColor: Colors.terracotta, borderColor: Colors.terracotta },
-                !done && !active && { backgroundColor: 'transparent', borderColor: theme.border },
-              ]}>
-                {done
-                  ? <Ionicons name="checkmark" size={11} color="white" />
-                  : <Text style={[pb.num, (done || active) && { color: 'white' }, !done && !active && { color: theme.textMuted }]}>{i + 1}</Text>
-                }
-              </View>
-              <Text style={[pb.label, active && { color: Colors.terracotta, fontWeight: '600' }, !active && { color: theme.textMuted }]}>
-                {label}
-              </Text>
-            </View>
-            {i < ETAPES_LABELS.length - 1 && (
-              <View style={[pb.connector, { backgroundColor: done ? Colors.olive : theme.border }]} />
-            )}
-          </React.Fragment>
-        );
-      })}
+// ── Un champ chiffré ────────────────────────────────────────────────────────
+const Champ = ({ ui, label, valeur, onChange, exemple, suffixe }) => {
+  const { s, t, th } = ui;
+  return (
+    <View style={s.champ}>
+      <Text style={[s.label, { fontSize: t(T.label), lineHeight: t(T.label) * 1.3 }]}>{label}</Text>
+      <View style={s.champDroite}>
+        <TextInput
+          style={[s.champSaisie, { fontSize: t(T.valeur) }]}
+          value={valeur}
+          onChangeText={onChange}
+          placeholder={exemple}
+          placeholderTextColor={th.textMuted}
+          keyboardType="numeric"
+        />
+        {!!suffixe && <Text style={[s.champSuffixe, { fontSize: t(T.num) }]}>{suffixe}</Text>}
+      </View>
     </View>
-    <View style={[pb.track, { backgroundColor: theme.border }]}>
-      <View style={[pb.fill, { width: `${((current - 1) / 3) * 100}%`, backgroundColor: Colors.terracotta }]} />
-    </View>
-  </View>
-);
-
-const pb = StyleSheet.create({
-  container: { paddingHorizontal: Spacing.lg, paddingVertical: 12, borderBottomWidth: 0.5 },
-  steps: { flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
-  step: { alignItems: 'center', gap: 4 },
-  circle: { width: 24, height: 24, borderRadius: 12, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
-  num: { fontSize: 11, fontWeight: '600' },
-  label: { fontSize: 9, textAlign: 'center', width: 55 },
-  connector: { flex: 1, height: 1.5, marginTop: -14 },
-  track: { height: 3, borderRadius: 2, overflow: 'hidden' },
-  fill: { height: '100%', borderRadius: 2 },
-});
-
-// ── Composants formulaire ───────────────────────────────────────────────────
-const OptionBtn = ({ label, sub, selected, onPress, right, theme }) => (
-  <TouchableOpacity
-    style={[styles.optBtn, { borderColor: theme.border, backgroundColor: theme.bgCard },
-      selected && { borderColor: Colors.sky, backgroundColor: Colors.skyLight + '33' }]}
-    onPress={onPress} activeOpacity={0.75}
-  >
-    <View style={styles.optBtnLeft}>
-      <Text style={[styles.optBtnLabel, { color: theme.textPrimary }, selected && { color: Colors.sky, fontWeight: '600' }]}>{label}</Text>
-      {sub && <Text style={[styles.optBtnSub, { color: theme.textMuted }]}>{sub}</Text>}
-    </View>
-    {right && <Text style={[styles.optBtnRight, { color: theme.textMuted }]}>{right}</Text>}
-    {selected && <Ionicons name="checkmark-circle" size={18} color={Colors.sky} style={{ marginLeft: 4 }} />}
-  </TouchableOpacity>
-);
-
-const StepCard = ({ title, children, theme }) => (
-  <View style={[styles.stepCard, { backgroundColor: theme.bgCard, borderColor: theme.border }]}>
-    <Text style={[styles.stepTitle, { color: theme.textSecondary }]}>{title}</Text>
-    {children}
-  </View>
-);
-
-const InputRow = ({ label, value, onChange, placeholder, suffix, theme }) => (
-  <View style={[styles.inputRow, { borderBottomColor: theme.border }]}>
-    <Text style={[styles.inputLabel, { color: theme.textSecondary }]}>{label}</Text>
-    <View style={styles.inputWrap}>
-      <TextInput
-        style={[styles.input, { borderColor: theme.border, color: theme.textPrimary, backgroundColor: theme.bg }]}
-        value={value} onChangeText={onChange} placeholder={placeholder}
-        placeholderTextColor={theme.textMuted} keyboardType="numeric"
-      />
-      {suffix && <Text style={[styles.inputSuffix, { color: theme.textMuted }]}>{suffix}</Text>}
-    </View>
-  </View>
-);
+  );
+};
 
 // ── Graphique en barres ─────────────────────────────────────────────────────
-const BarChart = ({ data, maxVal, dateDebut, theme, mode, selection, onSelect }) => {
+const Graphique = ({ ui, data, maxVal, dateDebut, mode, selection, onSelect }) => {
+  const { s, t, th } = ui;
   const valeur = (d) => (mode === 'net' ? d.net : d.total);
   const max = maxVal || Math.max(...data.map(valeur), 1);
-  // Afficher max 24 barres, scroll au-delà
   const visible = data.slice(0, 24);
 
-  const getMoisLabel = (idx) => {
+  const etiquette = (idx) => {
     if (!dateDebut) return `M${idx + 1}`;
-    let m = dateDebut.mois - 1 + idx;
-    const annee = dateDebut.annee + Math.floor(m / 12);
-    const moisIdx = m % 12;
-    return `${MOIS_LABELS[moisIdx].slice(0,3)}\n${String(annee).slice(2)}`;
+    const m = dateDebut.mois - 1 + idx;
+    return `${MOIS_LABELS[m % 12].slice(0, 3)}\n${String(dateDebut.annee + Math.floor(m / 12)).slice(2)}`;
   };
 
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      <View style={[styles.chartContainer, { width: Math.max(visible.length * 38, 300) }]}>
-        <View style={styles.chartBars}>
-          {visible.map((d, i) => {
-            const v = valeur(d);
-            const actif = selection === i;
-            return (
-              <TouchableOpacity
-                key={i}
-                style={styles.chartBarWrap}
-                onPress={() => onSelect(i)}
-                activeOpacity={0.7}
-                accessibilityRole="button"
-                accessibilityLabel={`Mois ${d.mois}, ${v} euros ${mode === 'net' ? 'net' : 'brut'}`}
-              >
-                <Text style={[styles.chartBarVal, { color: actif ? theme.textPrimary : theme.textMuted }, actif && { fontWeight: '800' }]}>
-                  {v > 0 ? `${Math.round(v / 100) * 100}` : '—'}
-                </Text>
-                <View style={[styles.chartBarOuter, actif && { backgroundColor: theme.border, borderRadius: 4 }]}>
-                  <View style={[styles.chartBarInner, {
-                    height: `${Math.max((v / max) * 100, v > 0 ? 4 : 0)}%`,
-                    backgroundColor: d.couleur,
-                    opacity: actif || selection === null ? 1 : 0.45,
-                  }]} />
-                </View>
-                <Text style={[styles.chartBarMonth, { color: actif ? theme.textPrimary : theme.textMuted }, actif && { fontWeight: '700' }]}>
-                  {getMoisLabel(i)}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+      <View style={[s.graphique, { width: Math.max(visible.length * 40, 300) }]}>
+        {visible.map((d, i) => {
+          const v = valeur(d);
+          const actif = selection === i;
+          return (
+            <TouchableOpacity
+              key={i}
+              style={s.barre}
+              onPress={() => onSelect(i)}
+              activeOpacity={0.7}
+              accessibilityRole="button"
+              accessibilityLabel={`Mois ${d.mois}, ${v} euros ${mode === 'net' ? 'net' : 'brut'}`}
+            >
+              <Text style={[s.barreVal, { fontSize: t(T.num) }, actif && { color: th.textPrimary }]}>
+                {v > 0 ? `${Math.round(v / 100) * 100}` : '—'}
+              </Text>
+              <View style={s.barreFond}>
+                <View style={[s.barreRemplie, {
+                  height: `${Math.max((v / max) * 100, v > 0 ? 4 : 0)}%`,
+                  backgroundColor: d.couleur,
+                  opacity: actif || selection === null ? 1 : 0.4,
+                }]} />
+              </View>
+              <Text style={[s.barreMois, { fontSize: t(T.num) }, actif && { color: th.textPrimary }]}>
+                {etiquette(i)}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     </ScrollView>
   );
@@ -513,45 +471,47 @@ const BarChart = ({ data, maxVal, dateDebut, theme, mode, selection, onSelect })
 // ── Calcul date de fin ──────────────────────────────────────────────────────
 function getDateFin(dateDebut, nbMois) {
   if (!dateDebut) return null;
-  let m = dateDebut.mois - 1 + nbMois - 1;
-  const annee = dateDebut.annee + Math.floor(m / 12);
-  const moisIdx = m % 12;
-  return `${MOIS_LABELS[moisIdx]} ${annee}`;
+  const m = dateDebut.mois - 1 + nbMois - 1;
+  return `${MOIS_LABELS[m % 12]} ${dateDebut.annee + Math.floor(m / 12)}`;
 }
 
 // ── Écran principal ─────────────────────────────────────────────────────────
 export default function SimulateurScreen({ navigation }) {
-  const theme = useTheme();
-  const [statut,     setStatut]     = useState(null);
-  const [versant,    setVersant]    = useState(null);
-  const [regime,     setRegime]     = useState(null);
+  const ui0 = useRegistre();
+  const [statut, setStatut] = useState(null);
+  const [versant, setVersant] = useState(null);
+  const [regime, setRegime] = useState(null);
   const [traitement, setTraitement] = useState('');
-  const [primes,     setPrimes]     = useState('');
-  const [quotite,    setQuotite]    = useState('100');
+  const [primes, setPrimes] = useState('');
+  const [quotite, setQuotite] = useState('100');
   const [anciennete, setAnciennete] = useState(null);
-  const [dateDebut,  setDateDebut]  = useState(null);
+  const [dateDebut, setDateDebut] = useState(null);
   // Mois dont on affiche le détail — null = le dernier, c'est-à-dire le plus
   // défavorable, qui est ce qu'on veut voir en premier.
   const [moisSelectionne, setMoisSelectionne] = useState(null);
   const [modeMontant, setModeMontant] = useState('brut');
 
-  const currentStep = !statut ? 1 : !versant ? 2 : !traitement ? 3 : 4;
+  const etape = !statut ? 1 : !versant ? 2 : !traitement ? 3 : 4;
   const regimes = statut === 'titulaire' ? REGIMES_TITULAIRE : REGIMES_CONTRACTUEL;
   // FPT et FPH partagent le régime progressif : l'ancienneté conditionne le calcul
   // dans les deux versants (Décret 88-145 art. 7 / Décret 91-155 art. 10).
-  const showAnciennete = statut === 'contractuel' && (versant === 'fpt' || versant === 'fph') && regime === 'cmo_c';
+  const ancienneteCmo = statut === 'contractuel' && (versant === 'fpt' || versant === 'fph') && regime === 'cmo_c';
   // L'accident du travail des contractuels dépend aussi de l'ancienneté, dans
   // les trois versants — mais avec des paliers différents de ceux du CMO.
-  const showAncienneteAt = statut === 'contractuel' && regime === 'at_c';
-  const ancienneteRequise = showAnciennete || showAncienneteAt;
+  const ancienneteAt = statut === 'contractuel' && regime === 'at_c';
+  const ancienneteRequise = ancienneteCmo || ancienneteAt;
   const ficheId = regimes.find(r => r.id === regime)?.ficheId;
   const nbMoisMax = regime ? (MAX_MOIS[regime] || 12) : 12;
-  const canCompute = statut && versant && regime && parseFloat(traitement) > 0 && (!ancienneteRequise || anciennete);
+  const calculable = statut && versant && regime && parseFloat(traitement) > 0 && (!ancienneteRequise || anciennete);
 
   const projection = useMemo(() => {
-    if (!canCompute) return null;
+    if (!calculable) return null;
     return calculerProjection({ statut, versant, traitement, primes, quotite, regime, anciennete, nbMois: nbMoisMax });
-  }, [statut, versant, regime, traitement, primes, quotite, anciennete, canCompute, nbMoisMax]);
+  }, [statut, versant, regime, traitement, primes, quotite, anciennete, calculable, nbMoisMax]);
+
+  const { th, t, inter, F, C } = ui0;
+  const s = { ...ui0.s, ...propre(th, F) };
+  const ui = { ...ui0, s };
 
   const tq = (parseFloat(traitement) || 0) * ((parseFloat(quotite) || 100) / 100);
   const pq = (parseFloat(primes) || 0) * ((parseFloat(quotite) || 100) / 100);
@@ -560,457 +520,513 @@ export default function SimulateurScreen({ navigation }) {
   const dateFin = getDateFin(dateDebut, nbMoisMax);
   const perteTotal = projection ? projection.reduce((acc, m) => acc + (baseTotal - m.total), 0) : 0;
   const perteNette = projection ? projection.reduce((acc, m) => acc + (baseNet - m.net), 0) : 0;
+  // Espace INSÉCABLE avant l'euro : dans la bande de synthèse, « -12 800 € »
+  // se coupait après le nombre et le symbole tombait seul à la ligne.
+  const euros = (n) => `${Math.round(n).toLocaleString('fr-FR')}\u00a0€`;
+
+  // Le numéro d'une section : les étapes d'ancienneté et de date n'existent pas
+  // toujours, et une numérotation figée aurait sauté des chiffres.
+  let rang = 0;
+  const numero = () => { rang += 1; return `0${rang}`; };
+
+  const section = (titre) => (
+    <View style={rang === 0 ? s.premiereSection : s.avantSection}>
+      <Section ui={ui} titre={titre} compte={numero()} />
+    </View>
+  );
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: Colors.sky }]} edges={['top']}>
-      <StatusBar barStyle="light-content" backgroundColor={Colors.sky} />
+    <SafeAreaView style={[s.safe, { backgroundColor: th.bg }]} edges={['top']}>
+      <StatusBar barStyle={th.statusBar} backgroundColor={th.bg} />
 
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Simulateur</Text>
-        <Text style={styles.headerSub}>Projection sur toute la durée de l'arrêt</Text>
-      </View>
-
-      <ProgressBar current={currentStep} theme={theme} />
+      <Fil
+        ui={ui}
+        titre={projection ? 'Projection prête' : `Étape ${etape} sur ${ETAPES.length} — ${ETAPES[etape - 1]}`}
+      />
 
       <ScrollView
-        style={[styles.scroll, { backgroundColor: theme.bg }]}
-        contentContainerStyle={styles.scrollContent}
+        style={s.scroll}
+        contentContainerStyle={s.scrollContenu}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        {/* Étape 1 — Statut */}
-        <StepCard title="1 · Votre statut" theme={theme}>
-          {STATUTS.map(s => (
-            <OptionBtn key={s.id} label={s.label} selected={statut === s.id}
-              onPress={() => { setStatut(s.id); setRegime(null); setAnciennete(null); }} theme={theme} />
-          ))}
-        </StepCard>
+        <TeteDePage
+          ui={ui}
+          titre="Simulateur"
+          lede="Ce que vous percevrez, mois par mois, sur toute la durée de l'arrêt."
+        />
 
-        {/* Étape 2 — Versant */}
-        {statut && (
-          <StepCard title="2 · Versant de la fonction publique" theme={theme}>
-            {VERSANTS.map(v => (
-              <OptionBtn key={v.id} label={v.label} selected={versant === v.id}
-                onPress={() => { setVersant(v.id); setRegime(null); setAnciennete(null); setMoisSelectionne(null); }} theme={theme} />
-            ))}
-          </StepCard>
-        )}
+        {section('Votre statut')}
+        {STATUTS.map((o, i) => (
+          <Option key={o.id} ui={ui} label={o.label} actif={statut === o.id}
+            derniere={i === STATUTS.length - 1}
+            onPress={() => { setStatut(o.id); setRegime(null); setAnciennete(null); }} />
+        ))}
 
-        {/* Étape 3 — Rémunération */}
-        {versant && (
-          <StepCard title="3 · Rémunération mensuelle brute" theme={theme}>
-            <InputRow label="Traitement indiciaire brut" value={traitement} onChange={setTraitement} placeholder="Ex : 2 200" suffix="€ / mois" theme={theme} />
-            <InputRow label="Primes et indemnités" value={primes} onChange={setPrimes} placeholder="Ex : 450" suffix="€ / mois" theme={theme} />
-            <InputRow label="Quotité de travail" value={quotite} onChange={setQuotite} placeholder="100" suffix="%" theme={theme} />
-            <Text style={[styles.inputHint, { color: theme.textMuted }]}>
-              💡 Traitement brut = ligne « Traitement » de votre fiche de paie. Ne pas inclure le supplément familial ni l'indemnité de résidence, qui restent versés en entier.
-            </Text>
-            <Text style={[styles.inputHint, { color: theme.textMuted }]}>
-              💡 Quotité = votre temps de travail habituel, avant l'arrêt. Pour un temps partiel thérapeutique, indiquez bien votre quotité habituelle : le TPT maintient l'intégralité du traitement, quelle que soit la quotité travaillée pendant la reprise.
-            </Text>
-          </StepCard>
-        )}
-
-        {/* Étape 4 — Régime */}
-        {versant && parseFloat(traitement) > 0 && (
-          <StepCard title="4 · Régime statutaire de l'arrêt" theme={theme}>
-            {regimes.map(r => (
-              <OptionBtn key={r.id} label={r.label} right={r.maxLabel} selected={regime === r.id}
-                onPress={() => { setRegime(r.id); setAnciennete(null); setMoisSelectionne(null); }} theme={theme} />
-            ))}
-          </StepCard>
-        )}
-
-        {/* Ancienneté — FPT et FPH (régime progressif) */}
-        {showAnciennete && (
-          <StepCard title={versant === 'fph' ? "5 · Ancienneté dans l'établissement" : '5 · Ancienneté dans la collectivité'} theme={theme}>
-            {ANCIENNETES_PROGRESSIF.map(a => (
-              <OptionBtn key={a.id} label={a.label}
-                sub={a.plein === 0 ? 'Aucun maintien — IJ CPAM uniquement' : `${a.plein} mois à 90 % + ${a.demi} mois à 50 %`}
-                selected={anciennete === a.id} onPress={() => setAnciennete(a.id)} theme={theme} />
-            ))}
-          </StepCard>
-        )}
-
-        {/* Ancienneté — accident du travail des contractuels */}
-        {showAncienneteAt && (
-          <StepCard title="5 · Ancienneté chez cet employeur" theme={theme}>
-            {(ANCIENNETES_AT[versant] || ANCIENNETES_AT.fpe).map(a => (
-              <OptionBtn key={a.id} label={a.label}
-                sub={`${a.plein} mois à plein traitement, puis IJ seules`}
-                selected={anciennete === a.id} onPress={() => setAnciennete(a.id)} theme={theme} />
-            ))}
-          </StepCard>
-        )}
-
-        {/* Date de début */}
-        {canCompute && (
-          <StepCard title={ancienneteRequise ? "6 · Date de début de l'arrêt (optionnel)" : "5 · Date de début de l'arrêt (optionnel)"} theme={theme}>
-            <DateSelector value={dateDebut} onChange={setDateDebut} theme={theme} />
-            {dateDebut && dateFin && (
-              <View style={[styles.dateRange, { backgroundColor: theme.bgWarm }]}>
-                <View style={styles.dateRangeItem}>
-                  <Text style={[styles.dateRangeLabel, { color: theme.textMuted }]}>Début</Text>
-                  <Text style={[styles.dateRangeVal, { color: Colors.sky }]}>
-                    {MOIS_LABELS[dateDebut.mois - 1]} {dateDebut.annee}
-                  </Text>
-                </View>
-                <Ionicons name="arrow-forward" size={14} color={theme.textMuted} />
-                <View style={styles.dateRangeItem}>
-                  <Text style={[styles.dateRangeLabel, { color: theme.textMuted }]}>Fin estimée</Text>
-                  <Text style={[styles.dateRangeVal, { color: Colors.terracotta }]}>{dateFin}</Text>
-                </View>
-                <View style={styles.dateRangeItem}>
-                  <Text style={[styles.dateRangeLabel, { color: theme.textMuted }]}>Durée max.</Text>
-                  <Text style={[styles.dateRangeVal, { color: theme.textPrimary }]}>{nbMoisMax} mois</Text>
-                </View>
-              </View>
-            )}
-            {!dateDebut && (
-              <Text style={[styles.inputHint, { color: theme.textMuted, marginTop: 6 }]}>
-                Sans date, la projection affiche les mois M1, M2… Avec une date, les noms réels des mois s'affichent.
-              </Text>
-            )}
-          </StepCard>
-        )}
-
-        {/* Note primes CMO hors FPE : la projection retient 0 € par prudence */}
-        {regime === 'cmo' && versant !== 'fpe' && (
-          <View style={[styles.infoCard, { backgroundColor: theme.bgWarm, borderColor: theme.border }]}>
-            <Ionicons name="information-circle-outline" size={16} color={Colors.sky} />
-            <Text style={[styles.infoText, { color: theme.textSecondary }]}>
-              {versant === 'fpt'
-                ? 'FPT — Le maintien des primes au prorata du traitement (90 % puis 50 %) suppose une délibération de la collectivité ; sans elle, elles peuvent être suspendues. Cette projection retient 0 € de primes : si la délibération existe, votre revenu réel sera supérieur. Source : CE n°462452 du 4 juillet 2024.'
-                : 'FPH — Il n’existe pas de règle nationale alignant les primes sur le traitement comme à l’État. Chaque prime suit son propre texte, et la prime de service est réduite à proportion des jours d’absence. Cette projection retient 0 € de primes : demandez le détail à votre DRH.'}
-            </Text>
-          </View>
-        )}
-
-        {/* Note primes CLM/CGM hors FPE : la projection retient 0 € par prudence */}
-        {(regime === 'clm' || regime === 'cgm') && versant !== 'fpe' && (
-          <View style={[styles.infoCard, { backgroundColor: theme.bgWarm, borderColor: theme.border }]}>
-            <Ionicons name="information-circle-outline" size={16} color={Colors.sky} />
-            <Text style={[styles.infoText, { color: theme.textSecondary }]}>
-              {versant === 'fpt'
-                ? 'FPT — Le maintien partiel des primes (33 % puis 60 %) prévu par le Décret 2024-641 ne vaut que pour l’État. Il peut être transposé par délibération de la collectivité, sans pouvoir aller au-delà. Cette projection retient 0 € de primes : si une délibération existe, votre revenu réel sera supérieur.'
-                : 'FPH — Le Décret 2024-641 ne s’applique pas à la fonction publique hospitalière et aucun texte national n’organise le maintien des primes pendant ces congés. Cette projection retient donc 0 € de primes ; faites confirmer par écrit par votre DRH si votre établissement prévoit mieux.'}
-            </Text>
-          </View>
-        )}
-
-        {/* Note primes CLD : suspendues dans les 3 versants */}
-        {regime === 'cld' && (
-          <View style={[styles.infoCard, { backgroundColor: theme.bgWarm, borderColor: theme.border }]}>
-            <Ionicons name="information-circle-outline" size={16} color={Colors.sky} />
-            <Text style={[styles.infoText, { color: theme.textSecondary }]}>
-              En CLD, le régime indemnitaire est suspendu dans les trois versants. Le Décret 2024-641 a ouvert le maintien partiel des primes en CLM et CGM uniquement — il laisse le CLD en dehors du dispositif.
-            </Text>
-          </View>
-        )}
-
-        {/* Résultats */}
-        {projection && (
+        {!!statut && (
           <>
-            {/* Résumé 3 chiffres clés */}
-            <View style={[styles.resumeCard, { backgroundColor: Colors.slate }]}>
-              <View style={styles.resumeRow}>
-                <View style={styles.resumeItem}>
-                  <Text style={styles.resumeLabel}>Rémunération de base</Text>
-                  <Text style={styles.resumeVal}>{baseTotal.toLocaleString('fr-FR')} €</Text>
-                  <Text style={styles.resumeSub}>brut / mois</Text>
-                  <Text style={styles.resumeNet}>≈ {baseNet.toLocaleString('fr-FR')} € net</Text>
+            {section('Votre versant')}
+            {VERSANTS.map((o, i) => (
+              <Option key={o.id} ui={ui} label={o.label} actif={versant === o.id}
+                derniere={i === VERSANTS.length - 1}
+                onPress={() => { setVersant(o.id); setRegime(null); setAnciennete(null); setMoisSelectionne(null); }} />
+            ))}
+          </>
+        )}
+
+        {!!versant && (
+          <>
+            {section('Votre rémunération brute')}
+            <Champ ui={ui} label="Traitement indiciaire" valeur={traitement} onChange={setTraitement}
+              exemple="2 200" suffixe="€ / mois" />
+            <Champ ui={ui} label="Primes et indemnités" valeur={primes} onChange={setPrimes}
+              exemple="450" suffixe="€ / mois" />
+            <Champ ui={ui} label="Quotité de travail" valeur={quotite} onChange={setQuotite}
+              exemple="100" suffixe="%" />
+            <Paragraphe ui={ui} style={s.aide}>
+              Le traitement brut est la ligne « Traitement » de votre fiche de paie. N'y
+              ajoutez ni le supplément familial ni l'indemnité de résidence : ils restent
+              versés en entier.
+            </Paragraphe>
+            <Paragraphe ui={ui} style={s.aideSuivante}>
+              La quotité est votre temps de travail habituel, avant l'arrêt. Pour un temps
+              partiel thérapeutique, indiquez bien cette quotité habituelle : le TPT
+              maintient l'intégralité du traitement, quelle que soit la quotité travaillée
+              pendant la reprise.
+            </Paragraphe>
+          </>
+        )}
+
+        {!!versant && parseFloat(traitement) > 0 && (
+          <>
+            {section("Le régime de l'arrêt")}
+            {regimes.map((r, i) => (
+              <Option key={r.id} ui={ui} label={r.label} droite={r.maxLabel} actif={regime === r.id}
+                derniere={i === regimes.length - 1}
+                onPress={() => { setRegime(r.id); setAnciennete(null); setMoisSelectionne(null); }} />
+            ))}
+          </>
+        )}
+
+        {ancienneteCmo && (
+          <>
+            {section(versant === 'fph' ? "Votre ancienneté dans l'établissement" : 'Votre ancienneté dans la collectivité')}
+            {ANCIENNETES_PROGRESSIF.map((a, i) => (
+              <Option key={a.id} ui={ui} label={a.label} actif={anciennete === a.id}
+                derniere={i === ANCIENNETES_PROGRESSIF.length - 1}
+                sub={a.plein === 0 ? 'Aucun maintien — indemnités journalières seules'
+                  : `${a.plein} mois à 90 %, puis ${a.demi} mois à 50 %`}
+                onPress={() => setAnciennete(a.id)} />
+            ))}
+          </>
+        )}
+
+        {ancienneteAt && (
+          <>
+            {section('Votre ancienneté chez cet employeur')}
+            {(ANCIENNETES_AT[versant] || ANCIENNETES_AT.fpe).map((a, i, tab) => (
+              <Option key={a.id} ui={ui} label={a.label} actif={anciennete === a.id}
+                derniere={i === tab.length - 1}
+                sub={`${a.plein} mois à plein traitement, puis indemnités journalières seules`}
+                onPress={() => setAnciennete(a.id)} />
+            ))}
+          </>
+        )}
+
+        {calculable && (
+          <>
+            {section("Le début de l'arrêt")}
+            <View style={s.zoneDate}>
+              <SelecteurDeDate ui={ui} valeur={dateDebut} onChange={setDateDebut} />
+              {dateDebut && dateFin ? (
+                <View style={s.synthese}>
+                  <View style={s.syntheseCase}>
+                    <Text style={[s.syntheseN, { color: C.valeur, fontSize: t(T.chiffre) * 0.6 }]}>
+                      {MOIS_LABELS[dateDebut.mois - 1]} {String(dateDebut.annee).slice(2)}
+                    </Text>
+                    <Text style={[s.syntheseC, { fontSize: t(T.num) }]}>début</Text>
+                  </View>
+                  <View style={s.syntheseCase}>
+                    <Text style={[s.syntheseN, { color: C.valeur, fontSize: t(T.chiffre) * 0.6 }]}>{dateFin}</Text>
+                    <Text style={[s.syntheseC, { fontSize: t(T.num) }]}>fin des droits</Text>
+                  </View>
+                  <View style={s.syntheseCase}>
+                    <Text style={[s.syntheseN, { color: th.textPrimary, fontSize: t(T.chiffre) * 0.6 }]}>
+                      {nbMoisMax} mois
+                    </Text>
+                    <Text style={[s.syntheseC, { fontSize: t(T.num) }]}>au maximum</Text>
+                  </View>
                 </View>
-                <View style={styles.resumeSep} />
-                <View style={styles.resumeItem}>
-                  <Text style={styles.resumeLabel}>Minimum projeté</Text>
-                  <Text style={[styles.resumeVal, { color: projection[projection.length - 1].couleur }]}>
-                    {projection[projection.length - 1].total.toLocaleString('fr-FR')} €
-                  </Text>
-                  <Text style={styles.resumeSub}>dernier mois</Text>
-                  <Text style={styles.resumeNet}>≈ {projection[projection.length - 1].net.toLocaleString('fr-FR')} € net</Text>
-                </View>
-                <View style={styles.resumeSep} />
-                <View style={styles.resumeItem}>
-                  <Text style={styles.resumeLabel}>Perte totale cumulée</Text>
-                  <Text style={[styles.resumeVal, { color: Colors.danger }]}>
-                    -{perteTotal.toLocaleString('fr-FR')} €
-                  </Text>
-                  <Text style={styles.resumeSub}>brut sur {nbMoisMax} mois</Text>
-                  <Text style={styles.resumeNet}>≈ -{perteNette.toLocaleString('fr-FR')} € net</Text>
-                </View>
-              </View>
+              ) : (
+                <Paragraphe ui={ui} style={s.aide}>
+                  Facultatif. Sans date, la projection parle de M1, M2… ; avec une date, elle
+                  nomme les mois réels.
+                </Paragraphe>
+              )}
             </View>
+          </>
+        )}
 
-            {/* Détail chiffré du mois sélectionné dans le graphique */}
-            {(() => {
-              const idx = Math.min(moisSelectionne ?? projection.length - 1, projection.length - 1);
-              const m = projection[idx];
-              const estPire = m.total === Math.min(...projection.map(x => x.total));
-              const libelleMois = dateDebut
-                ? `${MOIS_LABELS[(dateDebut.mois - 1 + idx) % 12]} ${dateDebut.annee + Math.floor((dateDebut.mois - 1 + idx) / 12)}`
-                : `mois ${m.mois}`;
-              const L = ({ label, val, negatif, fort }) => (
-                <View style={styles.detailRow}>
-                  <Text style={[styles.detailLabel, { color: fort ? theme.textPrimary : theme.textSecondary }, fort && { fontWeight: '700' }]}>{label}</Text>
-                  <Text style={[styles.detailVal, { color: negatif ? Colors.danger : (fort ? theme.textPrimary : theme.textSecondary) }, fort && { fontWeight: '700' }]}>
-                    {negatif ? '-' : ''}{Math.abs(val).toLocaleString('fr-FR')} €
-                  </Text>
-                </View>
-              );
-              return (
-                <View style={[styles.chartCard, { backgroundColor: theme.bgCard, borderColor: theme.border }]}>
-                  <View style={styles.detailHead}>
-                    <Text style={[styles.chartTitle, { color: theme.textPrimary, marginBottom: 0 }]}>
-                      Détail — {libelleMois}
-                    </Text>
-                    {estPire && (
-                      <View style={[styles.detailBadge, { backgroundColor: Colors.amber + '22' }]}>
-                        <Text style={[styles.detailBadgeTxt, { color: Colors.amber }]}>mois le plus bas</Text>
-                      </View>
-                    )}
-                  </View>
-                  <Text style={[styles.chartSub, { color: theme.textMuted }]}>
-                    {m.label} · {m.pct} % de votre rémunération habituelle
-                  </Text>
-                  <View style={styles.detailBlock}>
-                    {m.traitMaintenu > 0 && <L label="Traitement maintenu" val={m.traitMaintenu} />}
-                    {m.primesMaintenues > 0 && <L label="Primes maintenues" val={m.primesMaintenues} />}
-                    {m.ij > 0 && <L label={regime === 'at_c' ? 'IJ accident du travail' : 'IJ maladie (sécurité sociale)'} val={m.ij} />}
-                    {m.total === 0 && <L label="Aucun versement" val={0} />}
-                    <View style={[styles.detailSep, { backgroundColor: theme.border }]} />
-                    <L label="Total brut" val={m.total} fort />
-                    {m.retenues.pension > 0 && <L label="Retenue pension (11,10 %)" val={m.retenues.pension} negatif />}
-                    {m.retenues.csgCrds > 0 && <L label="CSG + CRDS (9,70 %)" val={m.retenues.csgCrds} negatif />}
-                    {m.retenues.rafp > 0 && <L label="RAFP (5 % des primes)" val={m.retenues.rafp} negatif />}
-                    <View style={[styles.detailSep, { backgroundColor: theme.border }]} />
-                    <L label="Net estimé" val={m.net} fort />
-                  </View>
-                  {m.carence > 0 && (
-                    <Text style={[styles.detailNote, { color: theme.textMuted }]}>
-                      Un jour de carence de {m.carence.toLocaleString('fr-FR')} € a été retenu sur ce mois. Il ne s'applique pas si vous êtes en affection de longue durée déjà décomptée depuis moins de trois ans, ni si vous reprenez moins de 48 heures entre deux arrêts de même cause.
-                    </Text>
-                  )}
-                  {m.ij > 0 && (
-                    <Text style={[styles.detailNote, { color: theme.textMuted }]}>
-                      Les indemnités journalières sont estimées à partir de votre brut habituel{regime === 'at_c' ? ', à 60 % le premier mois puis 80 %' : ', à 50 % d’un salaire de base plafonné à 1,4 SMIC'}. Le montant réel dépend de vos trois derniers bulletins de paie.
-                    </Text>
-                  )}
-                </View>
-              );
-            })()}
+        {/* Ce que la projection ne peut pas savoir, régime par régime. */}
+        {regime === 'cmo' && versant !== 'fpe' && (
+          <BlocFilet ui={ui} couleur={C.versant} titre="Les primes ne sont pas comptées">
+            <Paragraphe ui={ui}>
+              {versant === 'fpt'
+                ? "En FPT, le maintien des primes au prorata du traitement (90 % puis 50 %) suppose une délibération de la collectivité ; sans elle, elles peuvent être suspendues. Cette projection retient 0 € de primes : si la délibération existe, votre revenu réel sera supérieur. Source : CE n°462452 du 4 juillet 2024."
+                : "En FPH, il n'existe pas de règle nationale alignant les primes sur le traitement comme à l'État. Chaque prime suit son propre texte, et la prime de service est réduite à proportion des jours d'absence. Cette projection retient 0 € de primes : demandez le détail à votre DRH."}
+            </Paragraphe>
+          </BlocFilet>
+        )}
 
-            {/* Ce que recouvre — et ne recouvre pas — l'estimation nette */}
-            <View style={[styles.infoCard, { backgroundColor: theme.bgWarm, borderColor: theme.border }]}>
-              <Ionicons name="calculator-outline" size={16} color={Colors.sky} />
-              <Text style={[styles.infoText, { color: theme.textSecondary }]}>
-                Le net affiché est un ordre de grandeur. Il déduit la retenue pour pension (11,10 % du traitement indiciaire), la CSG et la CRDS (9,70 % sur 98,25 % du brut) et la RAFP (5 % des primes, plafonnée). Il n’intègre ni votre mutuelle, ni l’impôt prélevé à la source, ni les cotisations propres à certains corps : votre net réel sera un peu inférieur.
+        {(regime === 'clm' || regime === 'cgm') && versant !== 'fpe' && (
+          <BlocFilet ui={ui} couleur={C.versant} titre="Les primes ne sont pas comptées">
+            <Paragraphe ui={ui}>
+              {versant === 'fpt'
+                ? "Le maintien partiel des primes (33 % puis 60 %) prévu par le Décret 2024-641 ne vaut que pour l'État. Il peut être transposé par délibération de la collectivité, sans pouvoir aller au-delà. Cette projection retient 0 € de primes : si une délibération existe, votre revenu réel sera supérieur."
+                : "Le Décret 2024-641 ne s'applique pas à la fonction publique hospitalière, et aucun texte national n'organise le maintien des primes pendant ces congés. Cette projection retient donc 0 € de primes ; faites confirmer par écrit par votre DRH si votre établissement prévoit mieux."}
+            </Paragraphe>
+          </BlocFilet>
+        )}
+
+        {regime === 'cld' && (
+          <BlocFilet ui={ui} couleur={C.versant} titre="Les primes sont suspendues">
+            <Paragraphe ui={ui}>
+              En CLD, le régime indemnitaire est suspendu dans les trois versants. Le Décret
+              2024-641 a ouvert le maintien partiel des primes en CLM et CGM uniquement — il
+              laisse le CLD en dehors du dispositif.
+            </Paragraphe>
+          </BlocFilet>
+        )}
+
+        {projection && (() => {
+          const idx = Math.min(moisSelectionne ?? projection.length - 1, projection.length - 1);
+          const m = projection[idx];
+          const pire = m.total === Math.min(...projection.map(x => x.total));
+          const nomDuMois = dateDebut
+            ? `${MOIS_LABELS[(dateDebut.mois - 1 + idx) % 12]} ${dateDebut.annee + Math.floor((dateDebut.mois - 1 + idx) / 12)}`
+            : `mois ${m.mois}`;
+          const L = ({ label, val, negatif, fort }) => (
+            <View style={[s.detailLigne, fort && s.detailLigneForte]}>
+              <Text style={[s.detailLabel, { fontSize: t(T.detail) }, fort && s.detailFort]}>{label}</Text>
+              <Text style={[
+                s.detailVal,
+                { fontSize: t(T.valeur) },
+                negatif && { color: C.attention },
+                fort && s.detailFort,
+              ]}>
+                {negatif ? '-' : ''}{euros(Math.abs(val))}
               </Text>
             </View>
+          );
 
-            {/* Mois non rémunérés par l'employeur : les IJ ne sont pas modélisées */}
-            {projection.some(m => m.total === 0) && (
-              <View style={[styles.infoCard, { backgroundColor: theme.bgWarm, borderColor: theme.border }]}>
-                <Ionicons name="alert-circle-outline" size={16} color={Colors.amber} />
-                <Text style={[styles.infoText, { color: theme.textSecondary }]}>
-                  Les mois affichés à 0 € ne signifient pas un revenu nul : votre employeur ne vous verse plus rien, mais la sécurité sociale prend le relais avec des indemnités journalières. Leur montant dépend de votre salaire et n’est pas calculé ici.
+          return (
+            <>
+              {section('Ce que vous percevrez')}
+              <View style={s.synthese}>
+                <View style={s.syntheseCase}>
+                  <Text style={[s.syntheseN, { color: th.textPrimary, fontSize: t(T.chiffre) * 0.68 }]}>
+                    {euros(baseTotal)}
+                  </Text>
+                  <Text style={[s.syntheseC, { fontSize: t(T.num) }]}>brut habituel</Text>
+                </View>
+                <View style={s.syntheseCase}>
+                  <Text style={[s.syntheseN, { color: C.valeur, fontSize: t(T.chiffre) * 0.68 }]}>
+                    {euros(projection[projection.length - 1].total)}
+                  </Text>
+                  <Text style={[s.syntheseC, { fontSize: t(T.num) }]}>au plus bas</Text>
+                </View>
+                <View style={s.syntheseCase}>
+                  <Text style={[s.syntheseN, { color: C.attention, fontSize: t(T.chiffre) * 0.68 }]}>
+                    -{euros(perteTotal)}
+                  </Text>
+                  <Text style={[s.syntheseC, { fontSize: t(T.num) }]}>perdus en {nbMoisMax} mois</Text>
+                </View>
+              </View>
+              <Paragraphe ui={ui} style={s.aide}>
+                Soit environ {euros(baseNet)} net par mois d'ordinaire, {euros(projection[projection.length - 1].net)} net
+                au plus bas, et {euros(perteNette)} net de manque à gagner sur toute la période.
+              </Paragraphe>
+
+              {section('Le détail du mois')}
+              <View style={s.detailTete}>
+                <Text style={[s.label, { fontSize: t(T.label), lineHeight: t(T.label) * 1.3 }]}>
+                  {nomDuMois}
                 </Text>
+                {pire && (
+                  <Text style={[s.badge, { color: C.attention, fontSize: t(T.num) }]}>le plus bas</Text>
+                )}
               </View>
-            )}
+              <Paragraphe ui={ui} style={s.detailSous}>
+                {m.label} · {m.pct} % de votre rémunération habituelle
+              </Paragraphe>
 
-            {/* Info durée maximale */}
-            <View style={[styles.dureeBanner, { backgroundColor: Colors.skyLight, borderColor: Colors.sky + '55' }]}>
-              <Ionicons name="time-outline" size={15} color={Colors.sky} />
-              <Text style={[styles.dureeText, { color: Colors.sky }]}>
-                Durée maximale réglementaire : <Text style={{ fontWeight: '700' }}>{nbMoisMax} mois</Text>
-                {dateFin && dateDebut ? ` — jusqu'en ${dateFin}` : ''}
-                {regime === 'citis' ? ' (illimité en pratique)' : ''}
-                {regime === 'tpt' ? ' par autorisation — renouvelable après 1 an d\'activité, sans limite de nombre.' : ''}
-              </Text>
-            </View>
+              <View style={s.detailBloc}>
+                {m.traitMaintenu > 0 && <L label="Traitement maintenu" val={m.traitMaintenu} />}
+                {m.primesMaintenues > 0 && <L label="Primes maintenues" val={m.primesMaintenues} />}
+                {m.ij > 0 && <L label={regime === 'at_c' ? 'Indemnités journalières AT' : 'Indemnités journalières maladie'} val={m.ij} />}
+                {m.total === 0 && <L label="Aucun versement de l'employeur" val={0} />}
+                <L label="Total brut" val={m.total} fort />
+                {m.retenues.pension > 0 && <L label="Retenue pension (11,10 %)" val={m.retenues.pension} negatif />}
+                {m.retenues.csgCrds > 0 && <L label="CSG et CRDS (9,70 %)" val={m.retenues.csgCrds} negatif />}
+                {m.retenues.rafp > 0 && <L label="RAFP (5 % des primes)" val={m.retenues.rafp} negatif />}
+                <L label="Net estimé" val={m.net} fort />
+              </View>
 
-            {/* Graphique */}
-            <View style={[styles.chartCard, { backgroundColor: theme.bgCard, borderColor: theme.border }]}>
-              <Text style={[styles.chartTitle, { color: theme.textPrimary }]}>
-                Projection sur {nbMoisMax} mois
-                {dateDebut ? ` — à partir de ${MOIS_LABELS[dateDebut.mois - 1]} ${dateDebut.annee}` : ''}
-              </Text>
-              <Text style={[styles.chartSub, { color: theme.textMuted }]}>
-                Touchez un mois pour en voir le détail. Défiler horizontalement si besoin.
-              </Text>
-              <View style={styles.toggleRow}>
+              {m.carence > 0 && (
+                <Paragraphe ui={ui} style={s.aide}>
+                  Un jour de carence de {euros(m.carence)} a été retenu sur ce mois. Il ne
+                  s'applique pas si vous êtes en affection de longue durée déjà décomptée
+                  depuis moins de trois ans, ni si vous reprenez moins de 48 heures entre
+                  deux arrêts de même cause.
+                </Paragraphe>
+              )}
+              {m.ij > 0 && (
+                <Paragraphe ui={ui} style={s.aideSuivante}>
+                  Les indemnités journalières sont estimées à partir de votre brut habituel
+                  {regime === 'at_c' ? ', à 60 % le premier mois puis 80 %' : ", à 50 % d'un salaire de base plafonné à 1,4 SMIC"}.
+                  Le montant réel dépend de vos trois derniers bulletins de paie.
+                </Paragraphe>
+              )}
+
+              {section('Mois par mois')}
+              <Paragraphe ui={ui} style={s.aide}>
+                Touchez un mois pour en voir le détail. Faites défiler sur le côté si la
+                projection dépasse l'écran.
+              </Paragraphe>
+
+              <View style={s.bascule}>
                 {[{ id: 'brut', l: 'Brut' }, { id: 'net', l: 'Net estimé' }].map(o => (
                   <TouchableOpacity
                     key={o.id}
                     onPress={() => setModeMontant(o.id)}
-                    activeOpacity={0.8}
-                    style={[
-                      styles.toggleBtn,
-                      { borderColor: theme.border },
-                      modeMontant === o.id && { backgroundColor: Colors.sky, borderColor: Colors.sky },
-                    ]}
+                    activeOpacity={0.7}
+                    style={[s.basculePart, modeMontant === o.id && s.basculePartActive]}
                   >
-                    <Text style={[
-                      styles.toggleTxt,
-                      { color: theme.textSecondary },
-                      modeMontant === o.id && { color: 'white', fontWeight: '700' },
-                    ]}>{o.l}</Text>
+                    <Text style={[s.basculeTexte, { fontSize: t(T.valeur) }, modeMontant === o.id && s.basculeTexteActif]}>
+                      {o.l}
+                    </Text>
                   </TouchableOpacity>
                 ))}
               </View>
-              <BarChart
+
+              <Graphique
+                ui={ui}
                 data={projection}
                 maxVal={(modeMontant === 'net' ? baseNet : baseTotal) * 1.1}
                 dateDebut={dateDebut}
-                theme={theme}
                 mode={modeMontant}
                 selection={moisSelectionne}
                 onSelect={setMoisSelectionne}
               />
-              <View style={styles.legendRow}>
+
+              <View style={s.legende}>
                 {[
                   { c: Colors.terracotta, l: '90 %' },
-                  { c: Colors.amber,      l: '50-60 %' },
-                  { c: Colors.sky,        l: '100 %' },
-                  { c: Colors.olive,      l: 'Plein + primes' },
+                  { c: Colors.amber, l: '50-60 %' },
+                  { c: Colors.sky, l: '100 %' },
+                  { c: Colors.olive, l: 'Plein + primes' },
                   { c: Colors.slateLight, l: 'IJ CPAM' },
                 ].map((item, i) => (
-                  <View key={i} style={styles.legendItem}>
-                    <View style={[styles.legendDot, { backgroundColor: item.c }]} />
-                    <Text style={[styles.legendText, { color: theme.textMuted }]}>{item.l}</Text>
+                  <View key={i} style={s.legendeCase}>
+                    <View style={[s.legendePastille, { backgroundColor: item.c }]} />
+                    <Text style={[s.legendeTexte, { fontSize: t(T.num) }]}>{item.l}</Text>
                   </View>
                 ))}
               </View>
-            </View>
 
-            {/* Tableau détaillé */}
-            <View style={[styles.tableCard, { backgroundColor: theme.bgCard, borderColor: theme.border }]}>
-              <Text style={[styles.chartTitle, { color: theme.textPrimary }]}>Détail mois par mois</Text>
-              <View style={[styles.tableHeader, { backgroundColor: Colors.slate }]}>
-                {['Mois','Période','Traitement','Primes','Total','%'].map((h, i) => (
-                  <Text key={i} style={[styles.tableCell, styles.tableCellHead,
-                    { flex: [0.5, 1.4, 1, 0.8, 1, 0.5][i] }]}>{h}</Text>
-                ))}
+              <View style={s.tableau}>
+                {/* La colonne du numéro de mois a disparu : elle répétait la
+                    période, et sa largeur manquait à « Traitement », que React
+                    Native rompait au milieu du mot — « TRAITEMEN / T ». */}
+                <View style={[s.tableauLigne, s.tableauTete]}>
+                  {['Période', 'Traitement', 'Primes', 'Total', '%'].map((h, i) => (
+                    <Text key={i} style={[s.tableauEntete, { flex: [1, 1.25, 0.95, 1.1, 0.6][i], fontSize: t(T.oeil) }]}
+                      adjustsFontSizeToFit minimumFontScale={0.75} numberOfLines={2}>
+                      {h}
+                    </Text>
+                  ))}
+                </View>
+                {projection.map((m2, i) => {
+                  const nom = dateDebut
+                    ? `${MOIS_LABELS[(dateDebut.mois - 1 + i) % 12]} ${String(dateDebut.annee + Math.floor((dateDebut.mois - 1 + i) / 12)).slice(2)}`
+                    : `M${m2.mois}`;
+                  return (
+                    <View key={i} style={[s.tableauLigne, i === projection.length - 1 && s.ligneSansFilet]}>
+                      <Text style={[s.tableauCelluleTete, { flex: 1, fontSize: t(T.num) }]} numberOfLines={1}>{nom}</Text>
+                      <Text style={[s.tableauCellule, { flex: 1.25, fontSize: t(T.num) }]}>{euros(m2.traitMaintenu)}</Text>
+                      <Text style={[s.tableauCellule, { flex: 0.95, fontSize: t(T.num) }]}>
+                        {m2.primesMaintenues > 0 ? euros(m2.primesMaintenues) : '—'}
+                      </Text>
+                      <Text style={[s.tableauCellule, { flex: 1.1, fontSize: t(T.num), color: m2.couleur }]}>{euros(m2.total)}</Text>
+                      <Text style={[s.tableauCellule, { flex: 0.6, fontSize: t(T.num) }]}>{m2.pct} %</Text>
+                    </View>
+                  );
+                })}
               </View>
-              {projection.map((m, i) => {
-                const moisLabel = dateDebut
-                  ? `${MOIS_LABELS[(dateDebut.mois - 1 + i) % 12]} ${dateDebut.annee + Math.floor((dateDebut.mois - 1 + i) / 12)}`
-                  : `M${m.mois}`;
-                return (
-                  <View key={i} style={[styles.tableRow, i % 2 === 1 && { backgroundColor: theme.bgWarm }]}>
-                    <Text style={[styles.tableCell, { flex: 0.5, color: theme.textMuted }]}>{m.mois}</Text>
-                    <Text style={[styles.tableCell, { flex: 1.4, color: Colors.sky, fontWeight: '500' }]} numberOfLines={1}>{moisLabel}</Text>
-                    <Text style={[styles.tableCell, { flex: 1, color: theme.textSecondary }]}>{m.traitMaintenu.toLocaleString('fr-FR')} €</Text>
-                    <Text style={[styles.tableCell, { flex: 0.8, color: theme.textMuted }]}>{m.primesMaintenues > 0 ? `${m.primesMaintenues.toLocaleString('fr-FR')} €` : '—'}</Text>
-                    <Text style={[styles.tableCell, { flex: 1, fontWeight: '600', color: m.couleur }]}>{m.total.toLocaleString('fr-FR')} €</Text>
-                    <Text style={[styles.tableCell, { flex: 0.5, color: m.pct < 75 ? Colors.danger : Colors.olive }]}>{m.pct}%</Text>
-                  </View>
-                );
-              })}
-            </View>
 
-            {/* Avertissement rouge */}
-            <View style={styles.warningCard}>
-              <Ionicons name="warning" size={18} color={Colors.danger} />
-              <Text style={styles.warningText}>
-                Projection indicative à titre informatif uniquement. Les montants réels dépendent de votre situation individuelle (SFT, IR, NBI, primes spécifiques, jours de carence, IJ CPAM, délibération FPT…). Pour une information concrète, rapprochez-vous impérativement de votre service RH.
-              </Text>
-            </View>
+              <BlocFilet ui={ui} couleur={C.versant} titre="Ce que le net recouvre">
+                <Paragraphe ui={ui}>
+                  Le net affiché est un ordre de grandeur. Il déduit la retenue pour pension
+                  (11,10 % du traitement indiciaire), la CSG et la CRDS (9,70 % sur 98,25 % du
+                  brut) et la RAFP (5 % des primes, plafonnée). Il n'intègre ni votre mutuelle,
+                  ni l'impôt prélevé à la source, ni les cotisations propres à certains corps :
+                  votre net réel sera un peu inférieur.
+                </Paragraphe>
+              </BlocFilet>
 
-            {ficheId && (
-              <TouchableOpacity
-                style={[styles.ficheLink, { backgroundColor: theme.bgCard, borderColor: Colors.terracottaLight }]}
-                onPress={() => navigation.navigate('FicheDetail', { ficheId })} activeOpacity={0.8}
-              >
-                <Ionicons name="document-text-outline" size={16} color={Colors.terracotta} />
-                <Text style={styles.ficheLinkText}>Consulter la fiche détaillée →</Text>
-              </TouchableOpacity>
-            )}
-          </>
-        )}
+              {projection.some(m2 => m2.total === 0) && (
+                <BlocFilet ui={ui} couleur={C.attention} titre="Les mois à zéro">
+                  <Paragraphe ui={ui}>
+                    Un mois affiché à 0 € ne veut pas dire un revenu nul : votre employeur ne
+                    vous verse plus rien, mais la sécurité sociale prend le relais avec des
+                    indemnités journalières. Leur montant dépend de votre salaire et n'est pas
+                    calculé ici.
+                  </Paragraphe>
+                </BlocFilet>
+              )}
 
-        <View style={styles.noteCard}>
-          <Text style={[styles.noteText, { color: theme.textMuted }]}>
-            CMO : primes au prorata du traitement (Décret 2010-997 + Loi 2025-127).
-            CLM/CGM FPE : 33 % an 1, 60 % ans 2-3 (Décret 2024-641).
-            CITIS : toutes primes maintenues (Art. L.822-21 CGFP). FPT : primes CMO selon délibération.
-          </Text>
-        </View>
+              <BlocFilet ui={ui} couleur={C.attention} titre="Une projection, pas un bulletin de paie">
+                <Paragraphe ui={ui}>
+                  Les montants réels dépendent de votre situation individuelle : supplément
+                  familial, indemnité de résidence, NBI, primes propres à votre corps, jours de
+                  carence, indemnités journalières, délibération de votre collectivité. Pour un
+                  chiffre qui engage, rapprochez-vous de votre service RH.
+                </Paragraphe>
+              </BlocFilet>
+
+              {!!ficheId && (
+                <>
+                  {section('Aller plus loin')}
+                  <Action
+                    ui={ui}
+                    titre="Lire la fiche"
+                    texte="Le régime en entier : vos droits, la démarche, les points d'attention et les textes."
+                    onPress={() => navigation.navigate('FicheDetail', { ficheId })}
+                  />
+                </>
+              )}
+            </>
+          );
+        })()}
+
+        <Text style={[s.mentions, { fontSize: t(T.source), lineHeight: t(T.source) * 1.7 }]}>
+          CMO : primes au prorata du traitement (Décret 2010-997 et Loi 2025-127). CLM et CGM
+          à l'État : 33 % la première année, 60 % les deux suivantes (Décret 2024-641). CITIS :
+          toutes primes maintenues (Art. L. 822-21 CGFP). FPT : primes du CMO selon délibération.
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  safe: { flex: 1 },
-  header: { backgroundColor: Colors.sky, paddingHorizontal: Spacing.xl, paddingTop: Spacing.sm, paddingBottom: Spacing.xl },
-  headerTitle: { fontSize: Typography.xxl, color: Colors.white, fontWeight: '700' },
-  headerSub: { fontSize: Typography.sm, color: 'rgba(255,255,255,0.6)', marginTop: 2 },
-  scroll: { flex: 1 },
-  scrollContent: { padding: Spacing.lg, paddingBottom: 100, gap: 12 },
-  stepCard: { borderRadius: Radius.lg, padding: Spacing.lg, borderWidth: 0.5, ...Shadow.sm, gap: 8 },
-  stepTitle: { fontSize: Typography.sm, fontWeight: '600', marginBottom: 4, textTransform: 'uppercase', letterSpacing: 0.04 },
-  optBtn: { borderWidth: 1.5, borderRadius: Radius.md, padding: 11, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  optBtnLeft: { flex: 1 },
-  optBtnLabel: { fontSize: Typography.sm },
-  optBtnSub: { fontSize: 11, marginTop: 2 },
-  optBtnRight: { fontSize: 11, marginRight: 4 },
-  inputRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 8, borderBottomWidth: 0.5 },
-  inputLabel: { fontSize: Typography.sm, flex: 1.2 },
-  inputWrap: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  input: { borderWidth: 1, borderRadius: Radius.sm, paddingHorizontal: 10, paddingVertical: 7, fontSize: Typography.base, width: 90, textAlign: 'right' },
-  inputSuffix: { fontSize: 11, width: 50 },
-  inputHint: { fontSize: 11, lineHeight: 16, marginTop: 4, fontStyle: 'italic' },
-  dateRange: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderRadius: Radius.md, padding: Spacing.md, marginTop: 8, gap: 4 },
-  dateRangeItem: { alignItems: 'center', flex: 1 },
-  dateRangeLabel: { fontSize: 10, marginBottom: 2 },
-  dateRangeVal: { fontSize: 13, fontWeight: '600' },
-  infoCard: { borderRadius: Radius.md, padding: Spacing.md, flexDirection: 'row', gap: 8, alignItems: 'flex-start', borderWidth: 0.5 },
-  infoText: { fontSize: Typography.sm, lineHeight: 18, flex: 1 },
-  resumeCard: { borderRadius: Radius.lg, padding: Spacing.lg, ...Shadow.md },
-  resumeRow: { flexDirection: 'row', alignItems: 'center' },
-  resumeItem: { flex: 1, alignItems: 'center', gap: 2 },
-  resumeLabel: { fontSize: 9, color: 'rgba(255,255,255,0.55)', textAlign: 'center' },
-  resumeVal: { fontSize: 16, fontWeight: '700', color: 'white', textAlign: 'center' },
-  resumeSub: { fontSize: 9, color: 'rgba(255,255,255,0.4)', textAlign: 'center' },
-  resumeNet: { fontSize: 10, fontWeight: '600', color: 'rgba(255,255,255,0.72)', textAlign: 'center', marginTop: 3 },
-  detailBlock: { marginTop: 10 },
-  detailRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', paddingVertical: 5 },
-  detailLabel: { fontSize: 13, flex: 1, paddingRight: 10 },
-  detailVal: { fontSize: 13.5, fontVariant: ['tabular-nums'] },
-  detailSep: { height: 1, marginVertical: 6, opacity: 0.7 },
-  detailNote: { fontSize: 11.5, lineHeight: 16, marginTop: 10, fontStyle: 'italic' },
-  detailHead: { flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 4 },
-  detailBadge: { paddingHorizontal: 7, paddingVertical: 2, borderRadius: 4 },
-  detailBadgeTxt: { fontSize: 10, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.4 },
-  toggleRow: { flexDirection: 'row', gap: 8, marginBottom: 12 },
-  toggleBtn: { flex: 1, paddingVertical: 7, borderRadius: Radius.sm, borderWidth: 1.5, alignItems: 'center' },
-  toggleTxt: { fontSize: 13 },
-  resumeSep: { width: 0.5, height: 44, backgroundColor: 'rgba(255,255,255,0.15)' },
-  dureeBanner: { borderRadius: Radius.md, padding: Spacing.md, flexDirection: 'row', gap: 8, alignItems: 'center', borderWidth: 1 },
-  dureeText: { fontSize: Typography.sm, flex: 1, lineHeight: 18 },
-  chartCard: { borderRadius: Radius.lg, padding: Spacing.lg, borderWidth: 0.5, ...Shadow.sm },
-  chartTitle: { fontSize: Typography.base, fontWeight: '600', marginBottom: 2 },
-  chartSub: { fontSize: 11, marginBottom: 12 },
-  chartContainer: { height: 150 },
-  chartBars: { flexDirection: 'row', alignItems: 'flex-end', height: '100%', gap: 2, paddingBottom: 18 },
-  chartBarWrap: { width: 34, alignItems: 'center', height: '100%', justifyContent: 'flex-end' },
-  chartBarVal: { fontSize: 7, marginBottom: 2, textAlign: 'center', width: 34 },
-  chartBarOuter: { width: 28, height: '75%', justifyContent: 'flex-end' },
-  chartBarInner: { width: '100%', borderRadius: 2, minHeight: 2 },
-  chartBarMonth: { fontSize: 7, marginTop: 3, textAlign: 'center', width: 34, lineHeight: 10 },
-  legendRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 12 },
-  legendItem: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  legendDot: { width: 8, height: 8, borderRadius: 2 },
-  legendText: { fontSize: 11 },
-  tableCard: { borderRadius: Radius.lg, padding: Spacing.lg, borderWidth: 0.5, ...Shadow.sm, overflow: 'hidden' },
-  tableHeader: { flexDirection: 'row', marginHorizontal: -Spacing.lg, paddingHorizontal: Spacing.lg, paddingVertical: 8, marginTop: 10 },
-  tableRow: { flexDirection: 'row', paddingVertical: 6 },
-  tableCell: { fontSize: 10, paddingHorizontal: 2 },
-  tableCellHead: { fontSize: 9, color: 'white', fontWeight: '600' },
-  warningCard: { backgroundColor: Colors.dangerLight, borderRadius: Radius.lg, padding: Spacing.lg, flexDirection: 'row', gap: 10, alignItems: 'flex-start', borderWidth: 1, borderColor: Colors.danger },
-  warningText: { fontSize: Typography.sm, color: Colors.danger, lineHeight: 19, flex: 1, fontWeight: '500' },
-  ficheLink: { borderRadius: Radius.md, padding: Spacing.md, flexDirection: 'row', alignItems: 'center', gap: 8, borderWidth: 1 },
-  ficheLinkText: { fontSize: Typography.sm, color: Colors.terracotta, fontWeight: '500' },
-  noteCard: { paddingVertical: Spacing.sm },
-  noteText: { fontSize: 10, textAlign: 'center', lineHeight: 15, fontStyle: 'italic' },
+const propre = (th, F) => StyleSheet.create({
+  premiereSection: { marginTop: 6 },
+  avantSection: { marginTop: V.section },
+
+  option: {
+    flexDirection: 'row', alignItems: 'center', gap: 14,
+    paddingTop: V.ligne, paddingBottom: V.ligneBas,
+    borderBottomWidth: FILET, borderBottomColor: F.ligne,
+  },
+  optionTexte: { flex: 1 },
+  optionHaut: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 },
+  coche: {
+    width: 22, height: 22, borderRadius: 11, flexShrink: 0,
+    alignItems: 'center', justifyContent: 'center',
+    borderWidth: FILET, borderColor: F.rubrique,
+  },
+
+  champ: {
+    flexDirection: 'row', alignItems: 'center', gap: 14,
+    paddingTop: V.ligne, paddingBottom: V.ligneBas,
+    borderBottomWidth: FILET, borderBottomColor: F.ligne,
+  },
+  champDroite: { flexDirection: 'row', alignItems: 'baseline', gap: 6, flexShrink: 0 },
+  champSaisie: {
+    fontFamily: MONO, color: th.textPrimary, textAlign: 'right',
+    minWidth: 74, padding: 0,
+  },
+  champSuffixe: { fontFamily: MONO_LEGER, color: th.textMuted, minWidth: 52 },
+
+  zoneDate: { paddingTop: V.ligne },
+  champDate: {
+    flexDirection: 'row', alignItems: 'center', gap: 10,
+    backgroundColor: th.bgWarm, borderRadius: 4,
+    borderWidth: FILET, borderColor: F.rubrique,
+    paddingVertical: 14, paddingHorizontal: 14,
+  },
+  champDateTexte: { flex: 1, color: th.textPrimary },
+
+  voile: { flex: 1, backgroundColor: 'rgba(27,31,38,0.55)', justifyContent: 'center', paddingHorizontal: V.zone },
+  feuille: { backgroundColor: th.bgCard, borderRadius: 4, padding: 22, maxHeight: '82%' },
+  feuilleTitre: { fontFamily: SERIF, color: th.textPrimary, marginBottom: 16 },
+  feuilleAnnee: {
+    fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 1.4,
+    marginTop: 8, marginBottom: 8,
+  },
+  grilleMois: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  caseMois: {
+    width: '23%', alignItems: 'center', paddingVertical: 10, borderRadius: 3,
+    borderWidth: FILET, borderColor: F.rubrique,
+  },
+  caseMoisTexte: { fontFamily: MONO_LEGER, color: th.textSecondary },
+
+  synthese: {
+    flexDirection: 'row', gap: 12, marginTop: 16, paddingTop: 15, paddingBottom: 16,
+    borderTopWidth: FILET, borderBottomWidth: FILET, borderColor: F.rubrique,
+  },
+  syntheseCase: { flex: 1, alignItems: 'center' },
+  syntheseN: { fontFamily: SERIF, textAlign: 'center' },
+  syntheseC: { color: th.textMuted, marginTop: 7, textAlign: 'center' },
+
+  aide: { marginTop: 14 },
+  aideSuivante: { marginTop: 10 },
+
+  detailTete: {
+    flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between',
+    gap: 12, paddingTop: V.ligne,
+  },
+  badge: { fontFamily: MONO_LEGER, letterSpacing: 0.6, textTransform: 'uppercase' },
+  detailSous: { marginTop: 5 },
+  detailBloc: { marginTop: 14 },
+  detailLigne: {
+    flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between',
+    gap: 14, paddingVertical: 7,
+  },
+  detailLigneForte: { borderTopWidth: FILET, borderTopColor: F.rubrique, paddingTop: 11, marginTop: 4 },
+  detailLabel: { color: th.textSecondary, flexShrink: 1 },
+  detailVal: { fontFamily: MONO, color: th.textSecondary, flexShrink: 0 },
+  detailFort: { color: th.textPrimary, fontWeight: '600' },
+
+  bascule: {
+    flexDirection: 'row', marginTop: 16,
+    backgroundColor: th.bgWarm, borderRadius: 3,
+    borderWidth: FILET, borderColor: F.rubrique, overflow: 'hidden',
+  },
+  basculePart: { flex: 1, alignItems: 'center', paddingVertical: 10 },
+  basculePartActive: { backgroundColor: th.bgCard },
+  basculeTexte: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 0.8 },
+  basculeTexteActif: { fontFamily: MONO, color: th.textPrimary },
+
+  graphique: { flexDirection: 'row', alignItems: 'flex-end', height: 210, paddingTop: 16 },
+  barre: { flex: 1, alignItems: 'center', height: '100%' },
+  barreVal: { fontFamily: MONO_LEGER, color: th.textMuted, marginBottom: 5 },
+  barreFond: { flex: 1, width: 20, justifyContent: 'flex-end' },
+  barreRemplie: { width: '100%', borderRadius: 1 },
+  barreMois: { fontFamily: MONO_LEGER, color: th.textMuted, textAlign: 'center', marginTop: 6, lineHeight: 12 },
+
+  legende: { flexDirection: 'row', flexWrap: 'wrap', gap: 14, marginTop: 14 },
+  legendeCase: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  legendePastille: { width: 7, height: 7, borderRadius: 4 },
+  legendeTexte: { color: th.textMuted },
+
+  tableau: { marginTop: 18 },
+  tableauLigne: { flexDirection: 'row', borderBottomWidth: FILET, borderBottomColor: F.ligne },
+  tableauTete: { borderBottomColor: F.rubrique },
+  tableauEntete: {
+    fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 0.8,
+    textTransform: 'uppercase', paddingVertical: 9, paddingRight: 6,
+  },
+  tableauCellule: { fontFamily: MONO_LEGER, color: th.textSecondary, paddingVertical: 11, paddingRight: 6 },
+  tableauCelluleTete: { fontFamily: MONO, color: th.textPrimary, paddingVertical: 11, paddingRight: 6 },
 });
