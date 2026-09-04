@@ -19,6 +19,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useRegistre, FILET } from '../theme/registreStyles';
 import { Section, BlocFilet, Paragraphe, Numerote, Action } from '../components/registre';
 import { SERIF, MONO, MONO_LEGER, T, V } from '../theme/registre';
+import { Palette } from '../theme';
 import { useSettings } from '../utils/SettingsContext';
 import { MODULES, NOUVEAUTES, getFicheById } from '../data/fiches';
 import { iconeDeModule } from '../theme/icones';
@@ -142,23 +143,28 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
           )}
         </View>
 
+        <Text style={[s.oeil, s.versantsOeil, { fontSize: t(T.oeil) }]}>
+          Vous consultez la {LONG[versant].toLowerCase().replace('fonction publique', 'FP')}
+        </Text>
         <View style={s.versants}>
-          {VERSANTS.map(v => (
-            <TouchableOpacity
-              key={v.id}
-              style={[s.versant, versant === v.id && s.versantActif]}
-              onPress={() => setVersant(v.id)}
-              activeOpacity={0.7}
-            >
-              <Text style={[
-                s.versantTexte,
-                { fontSize: t(T.valeur) },
-                versant === v.id && s.versantTexteActif,
-              ]}>
-                {v.court}
-              </Text>
-            </TouchableOpacity>
-          ))}
+          {VERSANTS.map(v => {
+            const actif = versant === v.id;
+            return (
+              <TouchableOpacity
+                key={v.id}
+                style={[s.versant, actif && s.versantActif]}
+                onPress={() => setVersant(v.id)}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityState={{ selected: actif }}
+                accessibilityLabel={v.long}
+              >
+                <Text style={[s.versantTexte, { fontSize: t(T.valeur) }, actif && s.versantTexteActif]}>
+                  {v.court}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </View>
 
@@ -293,15 +299,24 @@ const propre = (th, F) => StyleSheet.create({
   // Trois parts égales : le sélecteur est ainsi centré par construction, et
   // chaque versant offre une cible de la même taille. En simples mots soulignés
   // il ne se voyait pas et se tassait à gauche.
+  //
+  // La part active porte l'accent de l'app — le même que l'onglet courant de la
+  // barre du bas —, un fond clair et un trait de 2 dp. En simple panneau plus
+  // clair, on ne voyait pas lequel des trois était choisi, et rien ne disait ce
+  // que « FPE » désignait : d'où la ligne qui l'annonce en toutes lettres.
+  versantsOeil: { marginTop: 16, marginBottom: 7 },
   versants: {
-    flexDirection: 'row', marginTop: 16,
+    flexDirection: 'row',
     backgroundColor: th.bgWarm, borderRadius: 3,
     borderWidth: FILET, borderColor: F.rubrique, overflow: 'hidden',
   },
-  versant: { flex: 1, alignItems: 'center', paddingVertical: 10 },
-  versantActif: { backgroundColor: th.bgCard },
+  versant: {
+    flex: 1, alignItems: 'center', paddingVertical: 11,
+    borderBottomWidth: 2, borderBottomColor: 'transparent',
+  },
+  versantActif: { backgroundColor: th.bgCard, borderBottomColor: Palette.terracotta },
   versantTexte: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 1.8 },
-  versantTexteActif: { fontFamily: MONO, color: th.textPrimary },
+  versantTexteActif: { fontFamily: MONO, color: Palette.terracotta },
 
   // Le premier titre de section n'a pas besoin des 40 dp d'air réservés aux
   // suivants : la tête de page est déjà séparée par son filet.
