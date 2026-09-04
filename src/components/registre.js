@@ -108,9 +108,11 @@ export const Numerote = ({ ui, num, titre, texte, style, onPress, fleche }) => {
     <>
       <View style={s.numerote}>
         <Text style={[s.numeroteNum, { fontSize: t(T.valeur) }]}>{num}</Text>
-        <Text style={[s.numeroteTitre, { fontSize: t(T.etapeTitre), lineHeight: t(T.etapeTitre) * 1.3 }]}>
-          {titre}
-        </Text>
+        <View style={s.numeroteBoite}>
+          <Text style={[s.numeroteTitre, { fontSize: t(T.etapeTitre), lineHeight: t(T.etapeTitre) * 1.3 }]}>
+            {titre}
+          </Text>
+        </View>
         {!!fleche && <Ionicons name="chevron-forward" size={15} color={th.textMuted} />}
       </View>
       {!!texte && (

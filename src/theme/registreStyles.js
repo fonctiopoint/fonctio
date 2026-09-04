@@ -106,7 +106,13 @@ const commun = (th, F) => StyleSheet.create({
   // ── Une entrée numérotée : étape, point d'attention, fiche d'un module ────
   numerote: { flexDirection: 'row', alignItems: 'baseline', gap: 10 },
   numeroteNum: { fontFamily: MONO_LEGER, color: th.textMuted, flexShrink: 0 },
-  numeroteTitre: { fontWeight: '600', color: th.textPrimary, flexShrink: 1 },
+  // Le titre est enfermé dans une boîte à flex: 1, et ne porte lui-même aucun
+  // flex. Deux essais avant celui-ci : `flexShrink: 1` collait le chevron à la
+  // fin du titre au lieu de le ranger au bord droit ; `flex: 1` posé sur le
+  // Text laissait un titre long déborder de l'écran sans passer à la ligne.
+  // Une View bornée, elle, contraint toujours le texte qu'elle contient.
+  numeroteBoite: { flex: 1 },
+  numeroteTitre: { fontWeight: '600', color: th.textPrimary },
   numeroteDetail: { paddingLeft: 27 },
 
   // ── Actions : les seuls objets à porter un fond ───────────────────────────

@@ -1,32 +1,35 @@
 // src/screens/SplashScreen.js
 //
-// Ce splash prend le relais du splash NATIF (assets/splash.png), qu'Expo
-// affiche pendant le démarrage. Les deux montrent désormais le MÊME
-// mot-symbole (assets/logo-splash.png), à la même taille et au même endroit,
-// pour que le passage de l'un à l'autre ne se voie pas.
+// Ce splash prend le relais du splash NATIF, qu'Android affiche pendant le
+// démarrage. Les deux montrent le MÊME mot-symbole (assets/logo-splash.png),
+// à la même taille et au même endroit, pour que le passage de l'un à l'autre
+// ne se voie pas.
 //
 // Le défaut corrigé : le splash natif dessinait « Fonctio » sur environ 32 %
 // de la largeur, en serif, puis ce fichier le redessinait en sans-serif gras
 // à 64 dp, soit près de 56 %. Le mot semblait apparaître tout petit avant de
 // grossir d'un coup.
 //
-// Deux invariants à respecter si l'on retouche l'un des deux étages :
-//   · LARGEUR_LOGO doit rester égale à la fraction de largeur occupée par le
-//     mot-symbole dans splash.png (voir scratchpad/faire_splash.py) ;
-//   · le logo doit rester centré sur l'écran. « resizeMode: contain » rend le
-//     carré source à W×W centré : ce qui est au centre du carré tombe au
-//     centre de l'écran. Le bloc ligne + accroche + badge est donc positionné
-//     en absolu SOUS le logo, pour ne pas décaler celui-ci.
+// LA LARGEUR EST FIXE, EN DP, et c'est volontaire. Depuis le SDK 57, le splash
+// natif d'Android passe par l'API SplashScreen d'Android 12 : elle dessine le
+// logo à une largeur en dp, `imageWidth` du greffon expo-splash-screen dans
+// app.json, et non plus à une fraction de l'écran. Une fraction ici et une
+// largeur fixe là-bas se seraient séparées sur tout écran de largeur autre que
+// celle de référence — exactement le défaut qu'on avait corrigé.
+//
+// DONC : LARGEUR_LOGO et `imageWidth` doivent rester égales. Toucher l'une sans
+// l'autre fait réapparaître le saut de taille au démarrage.
+//
+// Le logo reste centré sur l'écran ; le bloc ligne + accroche + badge est
+// positionné en absolu SOUS lui, pour ne pas le décaler.
 import React, { useEffect, useRef } from 'react';
 import { View, Text, Image, StyleSheet, Animated, Dimensions } from 'react-native';
 
-const { width: LARGEUR_ECRAN, height: HAUTEUR_ECRAN } = Dimensions.get('window');
-// « contain » met le carré source à l'échelle du PLUS PETIT côté de l'écran :
-// c'est donc ce côté qui commande la taille apparente du mot-symbole. En
-// portrait c'est la largeur, mais l'écran de couverture d'un pliant est
-// presque carré et un passage en paysage inverserait le rapport.
-const COTE_DE_REFERENCE = Math.min(LARGEUR_ECRAN, HAUTEUR_ECRAN);
-const LARGEUR_LOGO = Math.round(COTE_DE_REFERENCE * 0.56);
+// La largeur d'écran ne sert plus qu'à étaler le bloc du dessous sur toute la
+// page : le logo, lui, a une taille fixe.
+const { width: LARGEUR_ECRAN } = Dimensions.get('window');
+// Doit rester égal à `imageWidth` du greffon expo-splash-screen, dans app.json.
+const LARGEUR_LOGO = 230;
 const RAPPORT_LOGO = 5.1765;              // largeur / hauteur de logo-splash.png
 const HAUTEUR_LOGO = Math.round(LARGEUR_LOGO / RAPPORT_LOGO);
 
