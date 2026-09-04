@@ -20,7 +20,9 @@ import { useRegistre, FILET } from '../theme/registreStyles';
 import { Section, BlocFilet, Paragraphe, Numerote, Action } from '../components/registre';
 import { SERIF, MONO, MONO_LEGER, T, V } from '../theme/registre';
 import { useSettings } from '../utils/SettingsContext';
-import { MODULES, searchFiches, NOUVEAUTES, getFicheById } from '../data/fiches';
+import { MODULES, NOUVEAUTES, getFicheById } from '../data/fiches';
+import { iconeDeModule } from '../theme/icones';
+import { chercherFiches } from '../utils/recherche';
 import {
   getFavoris, getRecent, isNouveautesDismissed, dismissNouveautes,
 } from '../utils/storage';
@@ -68,7 +70,7 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
 
   const modules = MODULES.filter(m => !m.versants || m.versants.includes(versant));
   const cherche = recherche.length >= 2;
-  const resultats = cherche ? searchFiches(recherche) : [];
+  const resultats = cherche ? chercherFiches(MODULES, recherche) : [];
 
   const ouvrirFiche = (ficheId) => navigation.navigate('FicheDetail', { ficheId });
   const ouvrirModule = (moduleId) => navigation.navigate('Module', { moduleId });
@@ -232,7 +234,8 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
                 key={module.id}
                 ui={ui}
                 style={[s.ligne, i === modules.length - 1 && s.ligneSansFilet]}
-                icone={module.icon}
+                icone={iconeDeModule(module.id)}
+                couleurIcone={module.color}
                 titre={module.title}
                 texte={module.description}
                 fleche

@@ -529,9 +529,12 @@ const propre = (th, F) => StyleSheet.create({
     flexDirection: 'row', gap: 16, marginTop: 16, paddingTop: 15, paddingBottom: 16,
     borderTopWidth: FILET, borderBottomWidth: FILET, borderColor: F.rubrique,
   },
-  syntheseCase: { flex: 1 },
-  syntheseN: { fontFamily: SERIF },
-  syntheseC: { color: th.textMuted, marginTop: 6 },
+  // Chaque chiffre est CENTRÉ dans son tiers. Alignés à gauche, ils paraissaient
+  // mal répartis : les trois nombres n'ont pas la même largeur, et « 48 h »
+  // laissait un vide au bord droit.
+  syntheseCase: { flex: 1, alignItems: 'center' },
+  syntheseN: { fontFamily: SERIF, textAlign: 'center' },
+  syntheseC: { color: th.textMuted, marginTop: 7, textAlign: 'center' },
 
   veille: { marginTop: 24 },
   veilleTete: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 2 },
@@ -541,7 +544,7 @@ const propre = (th, F) => StyleSheet.create({
   majMeta: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
 
   point: { flexDirection: 'row', gap: 10, alignItems: 'baseline' },
-  pointSuivant: { marginTop: 12 },
+  pointSuivant: { marginTop: 16 },
   pointNum: { fontFamily: MONO_LEGER, flexShrink: 0 },
   pointTexte: { flex: 1, marginTop: 0 },
 

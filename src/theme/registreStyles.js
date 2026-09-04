@@ -102,11 +102,11 @@ const commun = (th, F) => StyleSheet.create({
   label: { fontWeight: '600', color: th.textPrimary, flexShrink: 1 },
   valeur: { fontFamily: MONO, flexShrink: 0 },
   valeurDessous: { marginTop: 5 },
-  detail: { color: th.textSecondary, marginTop: 6 },
+  detail: { color: th.textSecondary, marginTop: 9 },
   reference: { fontFamily: MONO_LEGER, color: th.textMuted, marginTop: 4 },
 
   // ── Blocs à filet latéral ─────────────────────────────────────────────────
-  blocFilet: { marginTop: V.bloc, paddingLeft: 13, borderLeftWidth: 2 },
+  blocFilet: { marginTop: V.bloc, paddingLeft: 16, borderLeftWidth: 2 },
   blocFiletTete: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
   blocFiletTitre: {
     fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase',
@@ -114,17 +114,19 @@ const commun = (th, F) => StyleSheet.create({
   },
 
   // ── Une entrée numérotée : étape, point d'attention, fiche d'un module ────
-  numerote: { flexDirection: 'row', alignItems: 'baseline', gap: 10 },
+  numerote: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   numeroteNum: { fontFamily: MONO_LEGER, color: th.textMuted, flexShrink: 0 },
   // Le titre est enfermé dans une boîte à flex: 1, et ne porte lui-même aucun
   // flex. Deux essais avant celui-ci : `flexShrink: 1` collait le chevron à la
   // fin du titre au lieu de le ranger au bord droit ; `flex: 1` posé sur le
   // Text laissait un titre long déborder de l'écran sans passer à la ligne.
   // Une View bornée, elle, contraint toujours le texte qu'elle contient.
-  numeroteIcone: { fontSize: 19, marginRight: 1 },
+  // Largeur fixe, égale à celle d'un numéro à deux chiffres : les titres
+  // s'alignent qu'une entrée porte une icône ou un numéro.
+  numeroteIcone: { width: 22, alignItems: 'flex-start' },
   numeroteBoite: { flex: 1 },
   numeroteTitre: { fontWeight: '600', color: th.textPrimary },
-  numeroteDetail: { paddingLeft: 27 },
+  numeroteDetail: { paddingLeft: 32 },
 
   // ── Actions : les seuls objets à porter un fond ───────────────────────────
   action: {

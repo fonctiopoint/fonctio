@@ -14,6 +14,7 @@ import { useRegistre } from '../theme/registreStyles';
 import { Fil, TeteDePage, Numerote } from '../components/registre';
 import { T, V, MONO_LEGER } from '../theme/registre';
 import { getModuleById } from '../data/fiches';
+import { iconeDeModule } from '../theme/icones';
 
 const deuxChiffres = (n) => String(n).padStart(2, '0');
 
@@ -40,7 +41,7 @@ export default function ModuleScreen({ navigation, route }) {
           ui={ui}
           module={`${deuxChiffres(fiches.length)} fiches`}
           couleurModule={module.color}
-          icone={module.icon}
+          icone={iconeDeModule(module.id)}
           titre={module.title}
           lede={module.description}
           enfants={!!module.updatedAt && (

@@ -106,9 +106,12 @@ export const T = {
   fil: 12,        // le fil d'Ariane
 };
 
-// Interlignes. 1,55 pour tout ce qui se lit en paragraphe : c'est la valeur qui
-// tenait le mieux sur l'écran de test.
-export const INTERLIGNE = 1.55;
+// Interlignes. 1,72 pour tout ce qui se lit en paragraphe. La valeur d'origine,
+// 1,55, était celle d'une maquette d'écran large ; sur la colonne étroite d'un
+// téléphone, une explication de six lignes y formait un pavé compact et
+// indigeste. Un interligne large est ce qui coûte le moins cher en place pour
+// ce qu'il rend en lisibilité.
+export const INTERLIGNE = 1.72;
 
 // ── Espacement vertical ──────────────────────────────────────────────────────
 // L'écart au-dessus d'un titre de section est volontairement grand : c'est le
@@ -116,8 +119,8 @@ export const INTERLIGNE = 1.55;
 // bloc de texte du début à la fin.
 export const V = {
   zone: 20,        // marge latérale de la fiche
-  ligne: 15,       // au-dessus d'une ligne
-  ligneBas: 16,    // en dessous
+  ligne: 18,       // au-dessus d'une ligne
+  ligneBas: 20,    // en dessous
   section: 36,     // au-dessus d'un titre de section
   bloc: 24,        // au-dessus d'un bloc à filet latéral
 };
