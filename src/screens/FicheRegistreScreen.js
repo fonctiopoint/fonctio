@@ -1,7 +1,9 @@
 // src/screens/FicheRegistreScreen.js
 // ─────────────────────────────────────────────────────────────────────────────
 // Présentation « Registre » d'une fiche. Voir src/theme/registre.js pour les
-// règles du système, et src/data/synthese.js pour la surcouche éditoriale.
+// règles du système, src/theme/registreStyles.js pour la feuille commune,
+// src/components/registre.js pour les blocs partagés, et src/data/synthese.js
+// pour la surcouche éditoriale.
 //
 // C'est la présentation de TOUTES les fiches depuis le 02/09/2026. Elle a été
 // construite puis jugée sur l'appareil sur la seule fiche du congé maladie
@@ -9,17 +11,11 @@
 // généralisée aux 43. L'écran précédent (FicheDetailScreen.js, cartes et
 // accordéons) a été supprimé ; il est dans l'historique git si besoin.
 //
-// Trois points de vigilance si on y touche :
+// Deux points de vigilance si on y touche :
 //   — les titres de section sont COLLANTS : ils doivent rester des enfants
 //     directs du ScrollView, et leurs index sont relevés au fil de la
 //     construction du tableau `enfants`. Envelopper un titre dans une View
-//     casse le collage et décale tous les index suivants. Leur écart supérieur
-//     ne peut pas non plus être une marge : React Native fige le titre AVEC sa
-//     marge, et le contenu défile alors visiblement dans cet interstice. D'où
-//     l'intercalaire poussé juste avant.
-//   — les blocs élémentaires (Ligne, Section…) sont définis au niveau du
-//     module, pas dans le composant : un composant redéfini à chaque rendu est
-//     un type neuf pour React, qui démonte puis remonte tout son sous-arbre.
+//     casse le collage et décale tous les index suivants.
 //   — le CONTENU de la fiche n'est ni tronqué ni replié. Seule la notice de
 //     veille juridique se replie : elle est posée par-dessus la fiche, elle
 //     n'en fait pas partie, et dépliée elle occupait deux écrans avant le
@@ -31,10 +27,11 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../theme';
+import { useRegistre, FILET } from '../theme/registreStyles';
 import {
-  SERIF, MONO, MONO_LEGER, couleurs, filets, T, INTERLIGNE, V,
-} from '../theme/registre';
+  Fil, TeteDePage, Section, BlocFilet, Paragraphe, Numerote, Action,
+} from '../components/registre';
+import { SERIF, MONO_LEGER, T } from '../theme/registre';
 import { getFicheById, MODULES } from '../data/fiches';
 import { getMajsForFiche } from '../data/veille';
 import { getSynthese } from '../data/synthese';
@@ -84,11 +81,9 @@ const SEUIL_VALEUR_LONGUE = 22;
 const pourCeVersant = (liste, versant) =>
   (liste || []).filter(x => !x || typeof x !== 'object' || !x.versants || x.versants.includes(versant));
 
-// ── Les blocs élémentaires ──────────────────────────────────────────────────
-// Tous reçoivent `ui` = { s, t, inter, th, C } : la feuille de style construite
-// pour le thème courant, l'échelle typographique, les interlignes et les
-// couleurs de rôle.
-
+// La ligne à deux niveaux, propre à la fiche : elle sait couper la référence
+// qui clôt une explication et faire passer une valeur trop longue sous son
+// libellé.
 const Ligne = ({ ui, label, valeur, detail, derniere }) => {
   const { s, t, inter, C } = ui;
   const { texte, reference } = couperSource(detail);
@@ -114,70 +109,6 @@ const Ligne = ({ ui, label, valeur, detail, derniere }) => {
   );
 };
 
-// Le titre de section est l'outil principal de découpage de la fiche : filet
-// franc, serif, et beaucoup d'air au-dessus. Il reste collé en haut de l'écran
-// tant qu'on parcourt sa section, ce qui dit en permanence où l'on se trouve.
-const Section = ({ ui, titre, compte }) => {
-  const { s, t } = ui;
-  return (
-    <View style={s.section}>
-      <Text style={[s.sectionTitre, { fontSize: t(T.section), lineHeight: t(T.section) * 1.25 }]}>
-        {titre}
-      </Text>
-      {compte != null && <Text style={[s.sectionCompte, { fontSize: t(T.num) }]}>{compte}</Text>}
-    </View>
-  );
-};
-
-const BlocFilet = ({ ui, couleur, titre, compte, children }) => {
-  const { s, t } = ui;
-  return (
-    <View style={[s.blocFilet, { borderLeftColor: couleur }]}>
-      <View style={s.blocFiletTete}>
-        <Text style={[s.blocFiletTitre, { color: couleur, fontSize: t(T.oeil) }]}>{titre}</Text>
-        {compte != null && <Text style={[s.sectionCompte, { fontSize: t(T.num) }]}>{compte}</Text>}
-      </View>
-      {children}
-    </View>
-  );
-};
-
-const Paragraphe = ({ ui, style, children }) => {
-  const { s, t, inter } = ui;
-  return (
-    <Text style={[s.detail, { fontSize: t(T.detail), lineHeight: inter(T.detail) }, style]}>
-      {children}
-    </Text>
-  );
-};
-
-// Les deux blocs d'action sont les seuls objets de la fiche à porter un fond.
-// C'est délibéré : ils ne se lisent pas, ils se font, et rien d'autre dans la
-// page n'a de contenant qui pourrait les banaliser.
-const Action = ({ ui, titre, texte, onPress }) => {
-  const { s, t, inter, C } = ui;
-  const contenu = (
-    <>
-      <View style={s.actionTexte}>
-        <Text style={[s.actionTitre, { fontSize: t(T.action), lineHeight: t(T.action) * 1.25 }]}>
-          {titre}
-        </Text>
-        <Text style={[s.detail, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
-          {texte}
-        </Text>
-      </View>
-      {!!onPress && <Ionicons name="arrow-forward" size={18} color={C.action} />}
-    </>
-  );
-  return onPress
-    ? (
-      <TouchableOpacity style={[s.action, { borderLeftColor: C.action }]} onPress={onPress} activeOpacity={0.7}>
-        {contenu}
-      </TouchableOpacity>
-    )
-    : <View style={[s.action, { borderLeftColor: C.action }]}>{contenu}</View>;
-};
-
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function FicheRegistreScreen({ navigation, route }) {
@@ -186,6 +117,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
   const { versant } = useContext(VersantContext);
   const [favori, setFavori] = useState(false);
   const [veilleOuverte, setVeilleOuverte] = useState(false);
+  const ui0 = useRegistre();
 
   useEffect(() => {
     if (!fiche) return;
@@ -193,23 +125,12 @@ export default function FicheRegistreScreen({ navigation, route }) {
     isFavori(ficheId).then(setFavori);
   }, [ficheId]);
 
-  const theme = useTheme();
-  const { fs } = theme;
-
   // Dernier hook passé — la sortie anticipée est sûre à partir d'ici.
   if (!fiche) return null;
 
-  // fs() arrondit à l'entier, ce qui écraserait les demi-points de l'échelle
-  // (11,5 · 12,5 · 8,5). On récupère donc le facteur lui-même et on l'applique
-  // sans arrondir : React Native accepte les tailles fractionnaires.
-  const echelle = fs(1000) / 1000;
-  const t = (base) => base * echelle;
-  const inter = (base) => base * echelle * INTERLIGNE;
-
-  const F = filets(theme.isDark);
-  const C = couleurs(theme.isDark);
-  const s = feuille(theme, F);
-  const ui = { s, t, inter, th: theme, C };
+  const { th, t, inter, F, C } = ui0;
+  const s = { ...ui0.s, ...propre(th, F) };
+  const ui = { ...ui0, s };
 
   const module = fiche.moduleColor;
   const synthese = getSynthese(ficheId, versant);
@@ -250,7 +171,9 @@ export default function FicheRegistreScreen({ navigation, route }) {
 
   // ── Construction du défilement ────────────────────────────────────────────
   // Les index des titres collants sont relevés au fil de l'eau : c'est le seul
-  // moyen de les garder justes quand une section est absente.
+  // moyen de les garder justes quand une section est absente. L'écart au-dessus
+  // d'un titre est un intercalaire, jamais une marge : React Native fige le
+  // titre AVEC sa marge, et le contenu défilerait visiblement dans cet espace.
   const enfants = [];
   const collants = [];
   const pousser = (noeud) => { enfants.push(noeud); };
@@ -262,44 +185,37 @@ export default function FicheRegistreScreen({ navigation, route }) {
 
   // Tête : bandeau de module, titre, résumé, public concerné, trois chiffres.
   pousser(
-    <View key="tete" style={s.tete}>
-      <View style={s.moduleRang}>
-        <View style={s.moduleGauche}>
-          <View style={[s.moduleFilet, { backgroundColor: module }]} />
-          <Text style={[s.moduleNom, { color: module, fontSize: t(T.oeil) }]}>
-            {moduleTitle || fiche.categorie}
-          </Text>
-        </View>
-        {hasPosition && (
-          <Text style={[s.moduleRangNum, { fontSize: t(T.num) }]}>
-            {deuxChiffres(ficheIndex + 1)} / {deuxChiffres(ficheTotal)}
-          </Text>
-        )}
-      </View>
-
-      <Text style={[s.titre, { fontSize: t(T.titre), lineHeight: t(T.titre) * 1.14 }]}>{fiche.titre}</Text>
-      <Text style={[s.lede, { fontSize: t(T.lede), lineHeight: inter(T.lede) }]}>{fiche.resume}</Text>
-
-      {!!fiche.ciblePublic && (
-        <View style={s.concerne}>
-          <Text style={[s.concerneOeil, { fontSize: t(T.oeil) }]}>Concerne</Text>
-          <Text style={[s.concerneTexte, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
-            {fiche.ciblePublic}
-          </Text>
-        </View>
-      )}
-
-      {!!synthese?.chiffres?.length && (
-        <View style={s.synthese}>
-          {synthese.chiffres.map((c, i) => (
-            <View key={i} style={s.syntheseCase}>
-              <Text style={[s.syntheseN, { color: C.valeur, fontSize: t(T.chiffre) }]}>{c.n}</Text>
-              <Text style={[s.syntheseC, { fontSize: t(T.num) }]}>{c.c}</Text>
+    <TeteDePage
+      key="tete"
+      ui={ui}
+      module={moduleTitle || fiche.categorie}
+      couleurModule={module}
+      rang={hasPosition ? `${deuxChiffres(ficheIndex + 1)} / ${deuxChiffres(ficheTotal)}` : null}
+      titre={fiche.titre}
+      lede={fiche.resume}
+      enfants={
+        <>
+          {!!fiche.ciblePublic && (
+            <View style={s.concerne}>
+              <Text style={[s.oeil, { fontSize: t(T.oeil), marginBottom: 5 }]}>Concerne</Text>
+              <Text style={[s.detail, s.concerneTexte, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
+                {fiche.ciblePublic}
+              </Text>
             </View>
-          ))}
-        </View>
-      )}
-    </View>
+          )}
+          {!!synthese?.chiffres?.length && (
+            <View style={s.synthese}>
+              {synthese.chiffres.map((c, i) => (
+                <View key={i} style={s.syntheseCase}>
+                  <Text style={[s.syntheseN, { color: C.valeur, fontSize: t(T.chiffre) }]}>{c.n}</Text>
+                  <Text style={[s.syntheseC, { fontSize: t(T.num) }]}>{c.c}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </>
+      }
+    />
   );
 
   // Veille juridique — un texte paru que la fiche ne reflète pas encore.
@@ -321,11 +237,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
               {titreBloc}
             </Text>
             {alerte && (
-              <Ionicons
-                name={veilleOuverte ? 'chevron-up' : 'chevron-down'}
-                size={14}
-                color={teinte}
-              />
+              <Ionicons name={veilleOuverte ? 'chevron-up' : 'chevron-down'} size={14} color={teinte} />
             )}
           </View>
         </TouchableOpacity>
@@ -440,22 +352,20 @@ export default function FicheRegistreScreen({ navigation, route }) {
   if (etapes.length) {
     poserSection('La démarche', etapes.length);
     etapes.forEach((e, i) => pousser(
-      <View key={`etape-${i}`} style={[s.ligne, i === etapes.length - 1 && s.ligneSansFilet]}>
-        <View style={s.etapeHaut}>
-          <Text style={[s.etapeNum, { fontSize: t(T.valeur) }]}>{deuxChiffres(i + 1)}</Text>
-          <Text style={[s.etapeTitre, { fontSize: t(T.etapeTitre), lineHeight: t(T.etapeTitre) * 1.3 }]}>
-            {e.titre}
-          </Text>
-        </View>
-        <Text style={[s.detail, s.etapeDetail, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
-          {e.texte}
-        </Text>
-      </View>
+      <Numerote
+        key={`etape-${i}`}
+        ui={ui}
+        style={[s.ligne, i === etapes.length - 1 && s.ligneSansFilet]}
+        num={deuxChiffres(i + 1)}
+        titre={e.titre}
+        texte={e.texte}
+      />
     ));
   }
 
   // Les points d'attention closent la démarche : ce sont les faux pas de cette
-  // procédure, pas une rubrique séparée.
+  // procédure, pas une rubrique séparée. Numérotés, parce qu'une suite de
+  // paragraphes sans repère se lit comme un pavé.
   if (pieges.length) {
     pousser(
       <BlocFilet key="attention" ui={ui} couleur={C.attention}
@@ -541,7 +451,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
           onPress={() => allerVers(-1)}
           activeOpacity={0.7}
         >
-          <Ionicons name="chevron-back" size={14} color={theme.textMuted} />
+          <Ionicons name="chevron-back" size={14} color={th.textMuted} />
           <Text style={[s.navTexte, { fontSize: t(T.num) }]}>Précédente</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -551,7 +461,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
           activeOpacity={0.7}
         >
           <Text style={[s.navTexte, { fontSize: t(T.num) }]}>Suivante</Text>
-          <Ionicons name="chevron-forward" size={14} color={theme.textMuted} />
+          <Ionicons name="chevron-forward" size={14} color={th.textMuted} />
         </TouchableOpacity>
       </View>
     );
@@ -565,30 +475,29 @@ export default function FicheRegistreScreen({ navigation, route }) {
   );
 
   return (
-    <SafeAreaView style={[s.safe, { backgroundColor: theme.bg }]} edges={['top']}>
-      <StatusBar barStyle={theme.statusBar} backgroundColor={theme.bg} />
+    <SafeAreaView style={[s.safe, { backgroundColor: th.bg }]} edges={['top']}>
+      <StatusBar barStyle={th.statusBar} backgroundColor={th.bg} />
 
-      <View style={s.fil}>
-        <TouchableOpacity style={s.filRetour} onPress={() => navigation.goBack()} activeOpacity={0.7}>
-          <Ionicons name="arrow-back" size={15} color={theme.textMuted} />
-          <Text style={[s.filTexte, { fontSize: t(T.fil) }]} numberOfLines={1}>
-            {moduleTitle || fiche.categorie}
-          </Text>
-        </TouchableOpacity>
-        <View style={s.filDroite}>
-          <Text style={[s.filVersant, { fontSize: t(T.num) }]}>{VERSANT_COURT[versant] || versant}</Text>
-          <TouchableOpacity onPress={toggleFavori} style={s.filBtn} activeOpacity={0.7}>
-            <Ionicons
-              name={favori ? 'star' : 'star-outline'}
-              size={17}
-              color={favori ? C.attention : theme.textMuted}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => partagerFiche(fiche, versant)} style={s.filBtn} activeOpacity={0.7}>
-            <Ionicons name="share-outline" size={17} color={theme.textMuted} />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <Fil
+        ui={ui}
+        titre={moduleTitle || fiche.categorie}
+        onRetour={() => navigation.goBack()}
+        versant={VERSANT_COURT[versant] || versant}
+        droite={
+          <>
+            <TouchableOpacity onPress={toggleFavori} style={s.filBtn} activeOpacity={0.7}>
+              <Ionicons
+                name={favori ? 'star' : 'star-outline'}
+                size={17}
+                color={favori ? C.attention : th.textMuted}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => partagerFiche(fiche, versant)} style={s.filBtn} activeOpacity={0.7}>
+              <Ionicons name="share-outline" size={17} color={th.textMuted} />
+            </TouchableOpacity>
+          </>
+        }
+      />
 
       <ScrollView
         style={s.scroll}
@@ -603,120 +512,39 @@ export default function FicheRegistreScreen({ navigation, route }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// La feuille de style dépend du thème : elle est donc construite à chaque
-// rendu. Le coût est celui d'un objet littéral, négligeable devant le texte à
-// composer.
-//
-// Les filets font 1 dp, pas StyleSheet.hairlineWidth : sur un écran à forte
-// densité, un filet d'un seul pixel physique teinté à 7 % devient invisible.
+// Ce qui n'appartient qu'à la fiche. Tout le reste vient de la feuille commune,
+// dans src/theme/registreStyles.js.
 // ─────────────────────────────────────────────────────────────────────────────
-const FILET = 1;
-
-const feuille = (th, F) => StyleSheet.create({
-  safe: { flex: 1 },
-
-  fil: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingLeft: V.zone - 4, paddingRight: V.zone - 6, paddingTop: 4, paddingBottom: 8,
-  },
-  filRetour: { flexDirection: 'row', alignItems: 'center', gap: 7, flex: 1, paddingVertical: 4 },
-  filTexte: { color: th.textMuted, flexShrink: 1 },
-  filDroite: { flexDirection: 'row', alignItems: 'center', gap: 2 },
-  filVersant: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 1.1, marginRight: 4 },
-  filBtn: { padding: 6 },
-
-  scroll: { flex: 1 },
-  scrollContenu: { paddingHorizontal: V.zone, paddingBottom: 90 },
-
-  // ── Tête ──────────────────────────────────────────────────────────────────
-  tete: { paddingTop: 4 },
-  moduleRang: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 13 },
-  moduleGauche: { flexDirection: 'row', alignItems: 'center', gap: 9, flex: 1 },
-  moduleFilet: { width: 18, height: 2 },
-  moduleNom: { fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase', flexShrink: 1 },
-  moduleRangNum: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 0.6 },
-
-  titre: { fontFamily: SERIF, color: th.textPrimary, marginBottom: 11 },
-  lede: { color: th.textSecondary, marginBottom: 16 },
-
-  // L'écart sous « Concerne » est porté par la bande de synthèse, qui n'existe
-  // pas sur toutes les fiches : sans cela, une fiche sans chiffres ouvrait sur
-  // 56 dp de blanc avant sa première section.
+const propre = (th, F) => StyleSheet.create({
   concerne: {},
-  concerneOeil: {
-    fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase',
-    color: th.textMuted, marginBottom: 5,
-  },
-  concerneTexte: { color: th.textSecondary },
+  concerneTexte: { marginTop: 0 },
 
+  // Trois colonnes égales, et non trois blocs alignés à gauche : sans flex, les
+  // chiffres se tassaient dans le tiers gauche de la bande.
+  //
+  // L'écart au-dessus est porté ici, et non sous « Concerne », parce que la
+  // bande n'existe pas sur toutes les fiches : sinon une fiche sans chiffres
+  // ouvrait sur 56 dp de blanc avant sa première section.
   synthese: {
     flexDirection: 'row', gap: 16, marginTop: 16, paddingTop: 15, paddingBottom: 16,
     borderTopWidth: FILET, borderBottomWidth: FILET, borderColor: F.rubrique,
   },
-  // Trois colonnes égales, et non trois blocs alignés à gauche : sans flex, les
-  // chiffres se tassaient dans le tiers gauche de la bande et laissaient un
-  // grand vide à droite.
   syntheseCase: { flex: 1 },
   syntheseN: { fontFamily: SERIF },
   syntheseC: { color: th.textMuted, marginTop: 6 },
 
-  // ── Titre de section, collant au défilement ───────────────────────────────
-  espaceSection: { height: V.section },
-  section: {
-    flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between',
-    paddingTop: 13, paddingBottom: 11,
-    backgroundColor: th.bg,
-    borderTopWidth: 2, borderTopColor: F.section,
-  },
-  // flex: 1 et non flexShrink: 1 — avec une police embarquée, Android mesure
-  // parfois le texte avec la police de repli et un titre rétrécissable finit
-  // rogné (« Aller plus » au lieu de « Aller plus loin »). En flex: 1 il occupe
-  // la place disponible et passe à la ligne au lieu d'être coupé.
-  sectionTitre: { fontFamily: SERIF, color: th.textPrimary, flex: 1 },
-  sectionCompte: { fontFamily: MONO_LEGER, color: th.textMuted, marginLeft: 12 },
+  veille: { marginTop: 24 },
+  veilleTete: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 2 },
+  veilleTitre: { marginBottom: 0, flexShrink: 1 },
+  maj: { marginTop: 10 },
+  majTitre: { fontWeight: '600', color: th.textPrimary },
+  majMeta: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
 
-  // ── La ligne à deux niveaux ───────────────────────────────────────────────
-  ligne: {
-    paddingTop: V.ligne, paddingBottom: V.ligneBas,
-    borderBottomWidth: FILET, borderBottomColor: F.ligne,
-  },
-  ligneSansFilet: { borderBottomWidth: 0 },
-  ligneHaut: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: 14 },
-  label: { fontWeight: '600', color: th.textPrimary, flexShrink: 1 },
-  valeur: { fontFamily: MONO, flexShrink: 0 },
-  valeurDessous: { marginTop: 5 },
-  detail: { color: th.textSecondary, marginTop: 6 },
-  reference: { fontFamily: MONO_LEGER, color: th.textMuted, marginTop: 4 },
-
-  paragrapheSuivant: { marginTop: 10 },
-
-  // ── Blocs à filet latéral ─────────────────────────────────────────────────
-  blocFilet: { marginTop: V.bloc, paddingLeft: 13, borderLeftWidth: 2 },
-  blocFiletTete: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
-  blocFiletTitre: { fontWeight: '700', letterSpacing: 1.4, textTransform: 'uppercase', marginBottom: 6, flexShrink: 1 },
-
-  // Une suite de paragraphes sans repère se lit comme un pavé : les points
-  // d'attention sont numérotés, comme les étapes de la démarche.
   point: { flexDirection: 'row', gap: 10, alignItems: 'baseline' },
   pointSuivant: { marginTop: 12 },
   pointNum: { fontFamily: MONO_LEGER, flexShrink: 0 },
   pointTexte: { flex: 1, marginTop: 0 },
 
-  veille: { marginTop: 24 },
-  veilleTete: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 2 },
-  veilleTitre: { marginBottom: 0, flexShrink: 1 },
-
-  maj: { marginTop: 10 },
-  majTitre: { fontWeight: '600', color: th.textPrimary },
-  majMeta: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
-
-  // ── Étapes ────────────────────────────────────────────────────────────────
-  etapeHaut: { flexDirection: 'row', alignItems: 'baseline', gap: 10 },
-  etapeNum: { fontFamily: MONO_LEGER, color: th.textMuted, flexShrink: 0 },
-  etapeTitre: { fontWeight: '600', color: th.textPrimary, flexShrink: 1 },
-  etapeDetail: { paddingLeft: 27 },
-
-  // ── Tableau ───────────────────────────────────────────────────────────────
   tableau: { marginTop: 4 },
   tableauLigne: { flexDirection: 'row', borderBottomWidth: FILET, borderBottomColor: F.ligne },
   tableauTete: { borderBottomColor: F.rubrique },
@@ -730,28 +558,7 @@ const feuille = (th, F) => StyleSheet.create({
   tableauCellule: { color: th.textSecondary, paddingVertical: 11, paddingRight: 8 },
   tableauCelluleTete: { color: th.textPrimary, fontWeight: '600', paddingVertical: 11, paddingRight: 8 },
 
-  // ── Actions ───────────────────────────────────────────────────────────────
-  action: {
-    flexDirection: 'row', alignItems: 'center', gap: 14,
-    backgroundColor: th.bgWarm, borderLeftWidth: 3,
-    paddingVertical: 15, paddingHorizontal: 15,
-    marginTop: 12,
-  },
-  actionTexte: { flex: 1 },
-  actionTitre: { fontFamily: SERIF, color: th.textPrimary, marginBottom: 2 },
-
-  // ── Pied ──────────────────────────────────────────────────────────────────
   sources: { marginTop: 4 },
   // Sans cet écart, une source qui passe à la ligne se confond avec la suivante.
   source: { marginTop: 5 },
-
-  nav: {
-    flexDirection: 'row', justifyContent: 'space-between',
-    marginTop: V.section, paddingTop: 14,
-    borderTopWidth: FILET, borderTopColor: F.rubrique,
-  },
-  navBtn: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingVertical: 4 },
-  navTexte: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 0.6, textTransform: 'uppercase' },
-
-  mentions: { color: th.textMuted, marginTop: 24, textAlign: 'center' },
 });
