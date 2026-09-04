@@ -11,10 +11,17 @@ export const Palette = {
   danger: '#C0392B', dangerLight: '#FDECEA',
 };
 
+// L'encre est CHAUDE, et c'est le point. Elle était en ardoise bleutée
+// (#2D3748) sur un fond crème : deux températures opposées, et l'app se lisait
+// comme un formulaire administratif. Le brun-gris ci-dessous appartient à la
+// même famille que le fond, le terracotta et le sable — l'écran se lit comme
+// une page imprimée plutôt que comme une interface.
+// Contrastes vérifiés sur le fond crème : 13:1 pour l'encre pleine, 7:1 pour
+// la secondaire, 4,3:1 pour l'atténuée — au moins autant qu'avant.
 const light = {
   bg: '#FAF7F2', bgWarm: '#F5EFE4', bgSand: '#E8DECE', bgCard: '#FFFFFF', bgHeader: '#2D3748',
-  textPrimary: '#2D3748', textSecondary: '#4A5568', textMuted: '#718096', textInverse: '#FFFFFF',
-  border: 'rgba(0,0,0,0.08)', statusBar: 'dark-content', tabBg: '#FFFFFF', tabBorder: 'rgba(0,0,0,0.08)',
+  textPrimary: '#332F29', textSecondary: '#57524A', textMuted: '#7C766C', textInverse: '#FFFFFF',
+  border: 'rgba(51,47,41,0.10)', statusBar: 'dark-content', tabBg: '#FFFFFF', tabBorder: 'rgba(51,47,41,0.10)',
 };
 
 const dark = {

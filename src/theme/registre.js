@@ -81,25 +81,29 @@ export const couleurs = (isDark) => (isDark ? SOMBRE : CLAIR);
 // SECTION est franc — c'est lui qui découpe la fiche.
 export const filets = (isDark) => (isDark
   ? { section: 'rgba(233,231,226,0.30)', rubrique: 'rgba(233,231,226,0.13)', ligne: 'rgba(233,231,226,0.07)' }
-  : { section: 'rgba(45,55,72,0.26)', rubrique: 'rgba(45,55,72,0.11)', ligne: 'rgba(45,55,72,0.07)' });
+  : { section: 'rgba(51,47,41,0.26)', rubrique: 'rgba(51,47,41,0.13)', ligne: 'rgba(51,47,41,0.09)' });
 
 // ── Échelle typographique ────────────────────────────────────────────────────
 // Toutes ces tailles passent par le fs() du thème, pour que le réglage
 // d'accessibilité continue de les agrandir.
+// Échelle relevée d'environ 12 % le 04/09/2026 : à l'usage, tout était trop
+// petit. Les tailles d'origine venaient d'une maquette regardée sur un écran
+// d'ordinateur, où l'on est deux fois plus près du texte que d'un téléphone
+// tenu à bout de bras.
 export const T = {
-  titre: 26,      // serif — le titre de la fiche
-  chiffre: 29,    // serif — les trois chiffres de synthèse
-  section: 17,    // serif — le titre d'une section
-  lede: 12.5,     // le résumé
-  label: 13,      // le libellé d'une ligne
-  valeur: 12,     // chasse fixe — la valeur d'une ligne
-  detail: 11.5,   // l'explication, en dessous
-  etapeTitre: 12.5,
-  action: 15,     // serif — le titre d'un bloc d'action
-  oeil: 8.5,      // les petites étiquettes en capitales
-  num: 9,         // chasse fixe — compteurs
-  source: 9,      // chasse fixe — références et textes de loi
-  fil: 10.5,      // le fil d'Ariane
+  titre: 29,      // serif — le titre de la fiche
+  chiffre: 33,    // serif — les chiffres de synthèse
+  section: 20,    // serif — le titre d'une section
+  lede: 14,       // le résumé
+  label: 15,      // le libellé d'une ligne
+  valeur: 13,     // chasse fixe — la valeur d'une ligne
+  detail: 13,     // l'explication, en dessous
+  etapeTitre: 14.5,
+  action: 17,     // serif — le titre d'un bloc d'action
+  oeil: 10,       // les petites étiquettes en capitales
+  num: 10.5,      // chasse fixe — compteurs
+  source: 10.5,   // chasse fixe — références et textes de loi
+  fil: 12,        // le fil d'Ariane
 };
 
 // Interlignes. 1,55 pour tout ce qui se lit en paragraphe : c'est la valeur qui
@@ -112,8 +116,8 @@ export const INTERLIGNE = 1.55;
 // bloc de texte du début à la fin.
 export const V = {
   zone: 20,        // marge latérale de la fiche
-  ligne: 13,       // au-dessus d'une ligne
-  ligneBas: 14,    // en dessous
-  section: 40,     // au-dessus d'un titre de section
-  bloc: 22,        // au-dessus d'un bloc à filet latéral
+  ligne: 15,       // au-dessus d'une ligne
+  ligneBas: 16,    // en dessous
+  section: 36,     // au-dessus d'un titre de section
+  bloc: 24,        // au-dessus d'un bloc à filet latéral
 };

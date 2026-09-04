@@ -69,12 +69,22 @@ const commun = (th, F) => StyleSheet.create({
   },
 
   // ── Titre de section ──────────────────────────────────────────────────────
+  // Une BANDE, et non un simple filet : les sections d'une même page se
+  // ressemblaient trop et se lisaient comme un seul flot. La bande sort des
+  // marges de la page — marge négative puis rembourrage égal — pour toucher les
+  // deux bords de l'écran : c'est ce débord qui la fait lire comme une coupure
+  // et non comme un paragraphe de plus.
+  //
+  // Son fond sert aussi au collage : le titre reste opaque quand le contenu
+  // défile dessous.
   espaceSection: { height: V.section },
   section: {
-    flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between',
-    paddingTop: 13, paddingBottom: 11,
-    backgroundColor: th.bg,
-    borderTopWidth: 2, borderTopColor: F.section,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingTop: 13, paddingBottom: 13,
+    marginHorizontal: -V.zone, paddingHorizontal: V.zone,
+    backgroundColor: th.bgWarm,
+    borderTopWidth: FILET, borderTopColor: F.rubrique,
+    borderBottomWidth: FILET, borderBottomColor: F.rubrique,
   },
   // flex: 1 et non flexShrink: 1 — avec une police embarquée, Android mesure
   // parfois le texte avec la police de repli et un titre rétrécissable finit
@@ -111,6 +121,7 @@ const commun = (th, F) => StyleSheet.create({
   // fin du titre au lieu de le ranger au bord droit ; `flex: 1` posé sur le
   // Text laissait un titre long déborder de l'écran sans passer à la ligne.
   // Une View bornée, elle, contraint toujours le texte qu'elle contient.
+  numeroteIcone: { fontSize: 19, marginRight: 1 },
   numeroteBoite: { flex: 1 },
   numeroteTitre: { fontWeight: '600', color: th.textPrimary },
   numeroteDetail: { paddingLeft: 27 },
@@ -118,8 +129,8 @@ const commun = (th, F) => StyleSheet.create({
   // ── Actions : les seuls objets à porter un fond ───────────────────────────
   action: {
     flexDirection: 'row', alignItems: 'center', gap: 14,
-    backgroundColor: th.bgWarm, borderLeftWidth: 3,
-    paddingVertical: 15, paddingHorizontal: 15,
+    backgroundColor: th.bgWarm, borderLeftWidth: 3, borderRadius: 4,
+    paddingVertical: 16, paddingHorizontal: 16,
     marginTop: 12,
   },
   actionTexte: { flex: 1 },

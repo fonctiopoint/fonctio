@@ -36,14 +36,16 @@ export const Fil = ({ ui, titre, onRetour, versant, droite }) => {
 };
 
 // ── Tête de page : filet de module, titre, chapeau ──────────────────────────
-export const TeteDePage = ({ ui, module, couleurModule, rang, titre, lede, enfants }) => {
+export const TeteDePage = ({ ui, module, couleurModule, icone, rang, titre, lede, enfants }) => {
   const { s, t, inter } = ui;
   return (
     <View style={s.tete}>
       {!!module && (
         <View style={s.moduleRang}>
           <View style={s.moduleGauche}>
-            <View style={[s.moduleFilet, { backgroundColor: couleurModule }]} />
+            {icone
+              ? <Text style={s.numeroteIcone}>{icone}</Text>
+              : <View style={[s.moduleFilet, { backgroundColor: couleurModule }]} />}
             <Text style={[s.moduleNom, { color: couleurModule, fontSize: t(T.oeil) }]}>{module}</Text>
           </View>
           {!!rang && <Text style={[s.moduleRangNum, { fontSize: t(T.num) }]}>{rang}</Text>}
@@ -102,12 +104,14 @@ export const Paragraphe = ({ ui, style, children }) => {
 };
 
 // ── Une entrée numérotée : étape, point d'attention, fiche d'un module ──────
-export const Numerote = ({ ui, num, titre, texte, style, onPress, fleche }) => {
+export const Numerote = ({ ui, num, icone, titre, texte, style, onPress, fleche }) => {
   const { s, t, inter, th } = ui;
   const contenu = (
     <>
       <View style={s.numerote}>
-        <Text style={[s.numeroteNum, { fontSize: t(T.valeur) }]}>{num}</Text>
+        {icone
+          ? <Text style={s.numeroteIcone}>{icone}</Text>
+          : <Text style={[s.numeroteNum, { fontSize: t(T.valeur) }]}>{num}</Text>}
         <View style={s.numeroteBoite}>
           <Text style={[s.numeroteTitre, { fontSize: t(T.etapeTitre), lineHeight: t(T.etapeTitre) * 1.3 }]}>
             {titre}

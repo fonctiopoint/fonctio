@@ -18,7 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { useRegistre, FILET } from '../theme/registreStyles';
 import { Section, BlocFilet, Paragraphe, Numerote, Action } from '../components/registre';
-import { SERIF, MONO_LEGER, T, V } from '../theme/registre';
+import { SERIF, MONO, MONO_LEGER, T, V } from '../theme/registre';
 import { useSettings } from '../utils/SettingsContext';
 import { MODULES, searchFiches, NOUVEAUTES, getFicheById } from '../data/fiches';
 import {
@@ -150,7 +150,7 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
             >
               <Text style={[
                 s.versantTexte,
-                { fontSize: t(T.num) },
+                { fontSize: t(T.valeur) },
                 versant === v.id && s.versantTexteActif,
               ]}>
                 {v.court}
@@ -232,7 +232,7 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
                 key={module.id}
                 ui={ui}
                 style={[s.ligne, i === modules.length - 1 && s.ligneSansFilet]}
-                num={deuxChiffres(i + 1)}
+                icone={module.icon}
                 titre={module.title}
                 texte={module.description}
                 fleche
@@ -287,11 +287,18 @@ const propre = (th, F) => StyleSheet.create({
   },
   rechercheChamp: { flex: 1, color: th.textPrimary, padding: 0 },
 
-  versants: { flexDirection: 'row', gap: 22, marginTop: 12 },
-  versant: { paddingBottom: 5, borderBottomWidth: 2, borderBottomColor: 'transparent' },
-  versantActif: { borderBottomColor: th.textPrimary },
-  versantTexte: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 1.4 },
-  versantTexteActif: { color: th.textPrimary },
+  // Trois parts égales : le sélecteur est ainsi centré par construction, et
+  // chaque versant offre une cible de la même taille. En simples mots soulignés
+  // il ne se voyait pas et se tassait à gauche.
+  versants: {
+    flexDirection: 'row', marginTop: 16,
+    backgroundColor: th.bgWarm, borderRadius: 3,
+    borderWidth: FILET, borderColor: F.rubrique, overflow: 'hidden',
+  },
+  versant: { flex: 1, alignItems: 'center', paddingVertical: 10 },
+  versantActif: { backgroundColor: th.bgCard },
+  versantTexte: { fontFamily: MONO_LEGER, color: th.textMuted, letterSpacing: 1.8 },
+  versantTexteActif: { fontFamily: MONO, color: th.textPrimary },
 
   // Le premier titre de section n'a pas besoin des 40 dp d'air réservés aux
   // suivants : la tête de page est déjà séparée par son filet.

@@ -40,6 +40,7 @@ export default function ModuleScreen({ navigation, route }) {
           ui={ui}
           module={`${deuxChiffres(fiches.length)} fiches`}
           couleurModule={module.color}
+          icone={module.icon}
           titre={module.title}
           lede={module.description}
           enfants={!!module.updatedAt && (
