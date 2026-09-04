@@ -177,10 +177,10 @@ export default function FicheRegistreScreen({ navigation, route }) {
   const enfants = [];
   const collants = [];
   const pousser = (noeud) => { enfants.push(noeud); };
-  const poserSection = (titre, compte) => {
+  const poserSection = (titre) => {
     enfants.push(<View key={`esp-${titre}`} style={s.espaceSection} />);
     collants.push(enfants.length);
-    enfants.push(<Section key={`sec-${titre}`} ui={ui} titre={titre} compte={compte} />);
+    enfants.push(<Section key={`sec-${titre}`} ui={ui} titre={titre} />);
   };
 
   // Tête : bandeau de module, titre, résumé, public concerné, trois chiffres.
@@ -283,9 +283,11 @@ export default function FicheRegistreScreen({ navigation, route }) {
     );
   }
 
-  // ── Ce que vous percevez ──────────────────────────────────────────────────
+  // ── Les droits ────────────────────────────────────────────────────────────
+  // Le libellé par défaut suppose des montants. Il est faux sur les fiches qui
+  // décrivent des garanties ou un rôle : synthese.js le surcharge alors.
   if (droits.length) {
-    poserSection('Ce que vous percevez', droits.length);
+    poserSection(synthese?.droits?.label || 'Ce que vous percevez');
     droits.forEach((d, i) => pousser(
       <Ligne
         key={`droit-${i}`}
@@ -314,7 +316,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
     || (fiche.tableau && (!fiche.tableau.versants || fiche.tableau.versants.includes(versant)) ? fiche.tableau : null);
 
   if (tableau) {
-    poserSection(tableau.titre || 'Récapitulatif', null);
+    poserSection(tableau.titre || 'Récapitulatif');
     pousser(
       <View key="tableau" style={s.tableau}>
         <View style={[s.tableauLigne, s.tableauTete]}>
@@ -350,7 +352,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
 
   // ── La démarche ───────────────────────────────────────────────────────────
   if (etapes.length) {
-    poserSection('La démarche', etapes.length);
+    poserSection('La démarche');
     etapes.forEach((e, i) => pousser(
       <Numerote
         key={`etape-${i}`}
@@ -369,7 +371,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
   if (pieges.length) {
     pousser(
       <BlocFilet key="attention" ui={ui} couleur={C.attention}
-                 titre="Points d'attention" compte={pieges.length}>
+                 titre="Points d'attention">
         {pieges.map((p, i) => (
           <View key={i} style={[s.point, i > 0 && s.pointSuivant]}>
             <Text style={[s.pointNum, { color: C.attention, fontSize: t(T.valeur) }]}>
@@ -386,7 +388,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
 
   // ── Vos recours ───────────────────────────────────────────────────────────
   if (fiche.recours) {
-    poserSection('Vos recours', null);
+    poserSection('Vos recours');
     pousser(
       <Ligne
         key="recours"
@@ -400,7 +402,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
   }
 
   // ── Aller plus loin ───────────────────────────────────────────────────────
-  poserSection('Aller plus loin', null);
+  poserSection('Aller plus loin');
   if (simulerParams) {
     pousser(
       <Action
@@ -426,7 +428,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
 
   // ── Sources ───────────────────────────────────────────────────────────────
   if (fiche.sources?.length) {
-    poserSection('Sources', fiche.sources.length);
+    poserSection('Sources');
     pousser(
       <View key="sources" style={s.sources}>
         {fiche.sources.map((src, i) => (

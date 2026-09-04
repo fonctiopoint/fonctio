@@ -84,7 +84,7 @@ export default function ProfilScreen({ navigation }) {
           les situations.
         </Paragraphe>
 
-        <View style={s.avantSection}><Section ui={ui} titre="Ce que l'app garantit" compte={GARANTIES.length} /></View>
+        <View style={s.avantSection}><Section ui={ui} titre="Ce que l'app garantit" /></View>
         {GARANTIES.map((g, i) => (
           <Numerote
             key={g.titre}
@@ -114,7 +114,7 @@ export default function ProfilScreen({ navigation }) {
             + "auprès de votre service RH."}
         />
 
-        <View style={s.avantSection}><Section ui={ui} titre="Ressources" compte={RESSOURCES.length} /></View>
+        <View style={s.avantSection}><Section ui={ui} titre="Ressources" /></View>
         {RESSOURCES.map((r, i) => (
           <Numerote
             key={r.url}

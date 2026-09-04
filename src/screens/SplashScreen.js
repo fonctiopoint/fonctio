@@ -29,11 +29,22 @@ import { View, Text, Image, StyleSheet, Animated, Dimensions } from 'react-nativ
 // page : le logo, lui, a une taille fixe.
 const { width: LARGEUR_ECRAN } = Dimensions.get('window');
 // Doit rester égal à `imageWidth` du greffon expo-splash-screen, dans app.json.
-const LARGEUR_LOGO = 230;
-// Largeur / hauteur de logo-splash.png. À recalculer si l'on regénère l'image :
-// scratchpad/faire_logo_splash.py l'imprime.
-const RAPPORT_LOGO = 4.8124;
-const HAUTEUR_LOGO = Math.round(LARGEUR_LOGO / RAPPORT_LOGO);
+// C'est le côté du CARRÉ, pas la largeur du mot : voir ci-dessous.
+const LARGEUR_LOGO = 320;
+// logo-splash.png est désormais un carré transparent, le mot centré dedans.
+// L'API SplashScreen d'Android 12 masque l'icône du splash DANS UN CERCLE et
+// rogne tout ce qui dépasse : un mot-symbole de rapport 4,8:1 dessiné à pleine
+// largeur y perdait son « F » et son point. Le mot occupe donc PART_MOT du côté
+// du carré, calé pour tenir dans le cercle sûr des deux tiers.
+// Les trois valeurs sont imprimées par scratchpad/faire_logo_splash.py.
+const PART_MOT = 0.62;
+const RAPPORT_MOT = 4.8124;
+const LARGEUR_MOT = LARGEUR_LOGO * PART_MOT;
+const HAUTEUR_MOT = LARGEUR_MOT / RAPPORT_MOT;
+// Hauteur de vide sous le mot, à l'intérieur du carré. Le bloc du dessous est
+// ancré au bas du CARRÉ : sans cette remontée, l'accroche tomberait 139 dp trop
+// bas, à la distance du bord de l'image et non du bas du mot.
+const VIDE_SOUS_LE_MOT = Math.round((LARGEUR_LOGO - HAUTEUR_MOT) / 2);
 
 export default function SplashScreen({ onReady }) {
   const tagOpacity   = useRef(new Animated.Value(0)).current;
@@ -122,18 +133,20 @@ const s = StyleSheet.create({
   },
   centre: {
     width: LARGEUR_LOGO,
-    height: HAUTEUR_LOGO,
+    height: LARGEUR_LOGO,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   logo: {
     width: LARGEUR_LOGO,
-    height: HAUTEUR_LOGO,
+    height: LARGEUR_LOGO,
   },
   // Ancré sous le logo, et volontairement plus large que lui pour que
   // l'accroche ne soit pas coupée.
   dessous: {
     position: 'absolute',
     top: '100%',
+    marginTop: -VIDE_SOUS_LE_MOT,
     width: LARGEUR_ECRAN,
     left: (LARGEUR_LOGO - LARGEUR_ECRAN) / 2,
     alignItems: 'center',

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Fonctio",
     "slug": "fonctio",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "updates": {
@@ -44,7 +44,7 @@
         {
           "image": "./assets/logo-splash.png",
           "backgroundColor": "#2D3748",
-          "imageWidth": 230,
+          "imageWidth": 320,
           "resizeMode": "contain"
         }
       ],

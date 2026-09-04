@@ -177,7 +177,7 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
         {cherche ? (
           <>
             <View style={espaceDeSection()}>
-              <Section ui={ui} titre={`« ${recherche} »`} compte={resultats.length} />
+              <Section ui={ui} titre={`« ${recherche} »`} />
             </View>
             {resultats.length === 0 ? (
               <Paragraphe ui={ui} style={s.vide}>
@@ -203,7 +203,12 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
               <View style={espaceDeSection()}>
                 <BlocFilet ui={ui} couleur={C.versant} titre={NOUVEAUTES.titre} compte={NOUVEAUTES.version}>
                   {NOUVEAUTES.lignes.map((ligne, i) => (
-                    <Paragraphe key={i} ui={ui} style={i > 0 && s.nouveauteSuivante}>{ligne}</Paragraphe>
+                    <View key={i} style={[s.nouveaute, i > 0 && s.nouveauteSuivante]}>
+                      <Text style={[s.detail, s.nouveauteTiret, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
+                        —
+                      </Text>
+                      <Paragraphe ui={ui} style={s.nouveauteTexte}>{ligne}</Paragraphe>
+                    </View>
                   ))}
                   <TouchableOpacity onPress={masquerNouveautes} activeOpacity={0.7} style={s.masquer}>
                     <Text style={[s.navTexte, { fontSize: t(T.num) }]}>Ne plus afficher</Text>
@@ -215,7 +220,7 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
             {favoris.length > 0 && (
               <>
                 <View style={espaceDeSection()}>
-                  <Section ui={ui} titre="Vos favoris" compte={favoris.length} />
+                  <Section ui={ui} titre="Vos favoris" />
                 </View>
                 {favoris.slice(0, MAX_RACCOURCIS).map((id, i, tab) =>
                   raccourci(id, i, i === tab.length - 1))}
@@ -225,7 +230,7 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
             {recents.length > 0 && (
               <>
                 <View style={espaceDeSection()}>
-                  <Section ui={ui} titre="Consultées récemment" compte={recents.length} />
+                  <Section ui={ui} titre="Consultées récemment" />
                 </View>
                 {recents.slice(0, MAX_RACCOURCIS).map((id, i, tab) =>
                   raccourci(id, i, i === tab.length - 1))}
@@ -233,7 +238,7 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
             )}
 
             <View style={espaceDeSection()}>
-              <Section ui={ui} titre={LONG[versant]} compte={modules.length} />
+              <Section ui={ui} titre={LONG[versant]} />
             </View>
             {modules.map((module, i) => (
               <Numerote
@@ -324,5 +329,8 @@ const propre = (th, F) => StyleSheet.create({
   avantSection: { marginTop: V.section },
   vide: { marginTop: 14 },
   nouveauteSuivante: { marginTop: 4 },
+  nouveaute: { flexDirection: 'row' },
+  nouveauteTiret: { width: 16 },
+  nouveauteTexte: { flex: 1 },
   masquer: { marginTop: 12, alignSelf: 'flex-start' },
 });

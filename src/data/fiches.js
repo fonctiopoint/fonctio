@@ -1475,7 +1475,7 @@ export const MODULES = [
         titre: 'L\'assistant de service social du personnel — qui est-il ?',
         categorie: 'Vos interlocuteurs',
         chips: ['Tous agents', 'Confidentiel', 'Neutre institutionnellement'],
-        resume: 'L\'assistant de service social du personnel est un professionnel du travail social diplômé d\'État, au service exclusif des agents. Il accompagne toute difficulté personnelle ou professionnelle, dans la plus stricte confidentialité et sans lien de dépendance avec la hiérarchie locale.',
+        resume: 'L\'assistant de service social du personnel est un professionnel du travail social diplômé d\'État, dont le positionnement est neutre. Il accompagne toute difficulté personnelle ou professionnelle, dans la plus stricte confidentialité et sans lien de dépendance avec la hiérarchie locale.',
         ciblePublic: 'Tous les agents publics, titulaires et contractuels, des trois versants. Sans condition de grade, de statut ou d\'ancienneté.',
         droits: [
           { label: 'Accès', valeur: 'Libre, gratuit, confidentiel', detail: 'Tout agent peut contacter l\'assistant social sans en informer sa hiérarchie, sans rendez-vous obligatoire, sans justification à donner.' },
@@ -1490,7 +1490,7 @@ export const MODULES = [
           { num: 4, titre: 'Intervention en urgence', texte: 'En cas de situation urgente (précarité financière grave, violence conjugale, risque suicidaire, expulsion…), l\'assistant social peut mobiliser rapidement des ressources d\'urgence et des réseaux de partenaires.' },
         ],
         pieges: [
-          'L\'assistant de service social du personnel n\'est pas un représentant de l\'employeur — il travaille pour l\'agent, pas pour l\'administration.',
+          'L\'assistant de service social du personnel n\'est pas un représentant de l\'employeur, et il n\'est pas davantage le porte-parole de l\'agent : son positionnement est neutre. Il œuvre pour l\'agent et pour le service, et c\'est précisément ce qui lui permet d\'intervenir sans être une partie au différend.',
           'Ne pas attendre que la situation soit en crise pour consulter. L\'assistant social intervient aussi en prévention, avant que les difficultés ne deviennent insurmontables.',
           'L\'assistant social ne peut pas prendre de décisions à la place de l\'agent. Il accompagne, oriente et soutient — il ne se substitue pas à la personne dans ses choix.',
           'Contacter l\'assistant social n\'a aucune conséquence sur la carrière ou l\'évaluation professionnelle. La hiérarchie n\'est pas informée.',

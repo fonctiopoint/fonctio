@@ -5,7 +5,10 @@
 // Ce fichier ne contient AUCUNE donnée juridique nouvelle. Il ne fait que dire,
 // pour une fiche donnée :
 //   — quels chiffres méritent la bande de tête ;
-//   — sous quel libellé et quel délai présenter le paragraphe de recours.
+//   — sous quel libellé et quel délai présenter le paragraphe de recours ;
+//   — sous quel libellé présenter la rubrique des droits, quand « Ce que vous
+//     percevez » annonce des montants que la fiche ne porte pas. C'est le cas
+//     de 15 fiches sur 43 : rôles, instances, procédures et garanties.
 //
 // RÈGLE ABSOLUE : tout chiffre écrit ici doit se retrouver TEL QUEL dans la
 // fiche correspondante de fiches.js — dans la valeur d'un droit, dans une puce,
@@ -126,6 +129,7 @@ export const SYNTHESE = {
   },
 
   'cdi-public': {
+    droits: { label: 'Ce à quoi vous avez droit' },
     chiffres: [
       { n: '6 ans', c: 'puis CDI de droit' },
     ],
@@ -148,6 +152,7 @@ export const SYNTHESE = {
 
   // ── Inaptitude & reclassement ─────────────────────────────────────────────
   'inaptitude-def': {
+    droits: { label: "Ce qu'il faut savoir" },
     chiffres: [
       { n: '30 j', c: 'puis visite de reprise' },
     ],
@@ -160,6 +165,7 @@ export const SYNTHESE = {
   },
 
   rqth: {
+    droits: { label: 'Ce que la RQTH ouvre' },
     chiffres: [
       { n: '1 à 5 ans', c: 'renouvelables' },
     ],
@@ -216,6 +222,7 @@ export const SYNTHESE = {
 
   // ── Vos interlocuteurs ────────────────────────────────────────────────────
   prevention: {
+    droits: { label: 'Ce à quoi vous avez droit' },
     chiffres: [
       { n: '5 ans', c: 'entre deux visites' },
       { n: '4 ans', c: 'si suivi renforcé' },
@@ -239,6 +246,8 @@ export const SYNTHESE = {
 
   // ── Carrière & formation ──────────────────────────────────────────────────
   evaluation: {
+    droits: { label: 'Ce que prévoit la règle' },
+    recours: { label: 'Contester votre évaluation' },
     chiffres: [
       { n: '15 j', c: 'recours hiérarchique' },
       { n: '1 mois', c: 'saisine de la CAP' },
@@ -281,6 +290,43 @@ export const SYNTHESE = {
     chiffres: [
       { n: '10 %', c: '5 % agent, 5 % employeur' },
     ],
+  },
+  'conseil-medical': {
+    droits: { label: 'Ce que fait le conseil médical' },
+    recours: { label: 'Contester un avis' },
+  },
+  'delegations-sociales': {
+    droits: { label: 'Qui fait quoi' },
+  },
+  'fiche-signalement': {
+    recours: { label: 'Si le signalement reste sans suite' },
+  },
+  'formation-pendant-conge': {
+    droits: { label: 'Ce que dit la règle' },
+  },
+  harcelement: {
+    droits: { label: 'Ce que la loi garantit' },
+    recours: { label: 'Vers qui se tourner' },
+  },
+  'maladie-pro': {
+    droits: { label: "Ce qu'il faut savoir" },
+  },
+  'medecine-statutaire': {
+    droits: { label: 'Qui fait quoi' },
+  },
+  prevoyance: {
+    droits: { label: 'Ce que la prévoyance couvre' },
+  },
+  'protection-fonctionnelle': {
+    droits: { label: 'Ce que la protection couvre' },
+  },
+  'role-ass': {
+    droits: { label: 'Ce qui vous est garanti' },
+    recours: { label: 'En cas de manquement au secret' },
+  },
+  'role-assistant-prevention': {
+    droits: { label: 'Ce que prévoit le texte' },
+    recours: { label: "En cas d'entrave à ses missions" },
   },
 };
 
