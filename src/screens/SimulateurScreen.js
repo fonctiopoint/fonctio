@@ -16,9 +16,10 @@ import { SERIF, MONO, MONO_LEGER, T, V } from '../theme/registre';
 const MAX_MOIS = {
   cmo: 12,      // Art. L.822-1 à L.822-5 CGFP : 3 mois à 90 % + 9 mois à 50 %
   clm: 36,      // Art. L.822-6 et suivants CGFP : 3 ans
-  cld: 60,      // Art. L.822-6 à L.822-11 CGFP : 5 ans par groupe d'affections
-                // (8 ans si l'affection est imputable au service — non modélisé,
-                //  cela supposerait une question de plus dans le parcours)
+  cld: 60,      // Art. L.822-12 à L.822-17 CGFP : 5 ans par groupe d'affections.
+                // L822-6 à L822-11, cités ici jusqu'au 11/09/2026, sont ceux du CLM.
+                // Imputable au service : c'est le CITIS qui s'applique depuis 2019
+                // (2020 en FPH), pas un CLD allongé — choisir le régime citis.
   citis: 36,    // Art. L.822-18 CGFP : illimité — on affiche 36 mois par défaut
   tpt: 12,      // Art. L.823-5 CGFP : 1 an max par autorisation, renouvelable
                 // après 1 an d'activité, sans limite de nombre ni d'affection
@@ -215,7 +216,10 @@ function calculerProjection({ statut, versant, traitement, primes, quotite, regi
           }
           break;
         case 'cld':
-          // Art. L.822-6 à L.822-11 CGFP — 3 ans à plein traitement puis 2 ans à demi.
+          // Art. L.822-15 CGFP — 3 ans à plein traitement puis 2 ans à demi.
+          // Projection d'un CLD pris de bout en bout. Si l'agent vient d'un CLM,
+          // l'année de CLM à plein traitement est décomptée du CLD (L822-14) :
+          // il lui reste alors 2 ans à 100 %, non 3. Voir la fiche cld.
           // Primes : le Décret 2024-641 a ouvert le maintien partiel du régime indemnitaire
           // en CLM et CGM UNIQUEMENT. En CLD, les primes restent suspendues dans les 3 versants.
           if (i <= 36) { traitMaintenu = tBase;        primesMaintenues = 0; label = '100 % · primes suspendues'; couleur = Colors.sky; }
