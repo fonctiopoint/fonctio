@@ -144,7 +144,7 @@ export const SYNTHESE = {
   'cdi-public': {
     droits: { label: 'Ce à quoi vous avez droit' },
     chiffres: [
-      { n: '6 ans', c: 'puis CDI de droit' },
+      { n: '6 ans', c: 'de services requis' },
     ],
   },
 
