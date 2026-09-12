@@ -222,7 +222,7 @@ export const MODULES = [
           { texte: 'Décret n° 87-602 du 30 juillet 1987 (FPT)' },
           { texte: 'Décret n° 88-386 du 19 avril 1988 (FPH)' },
           { texte: 'Décret n° 2024-641 du 27 juin 2024 (rémunération CLM/CGM — FPE uniquement)' },
-          { texte: 'Décret n° 2022-353 du 11 mars 2022 (conseil médical)' },
+          { texte: 'Décrets n° 2022-353 (FPE), n° 2022-350 (FPT) et n° 2022-351 (FPH) du 11 mars 2022 (conseil médical)' },
         ],
         versantNotes: {
           fpe: 'En FPE : 100 % du traitement + 33 % des primes en 1re année, puis 60 % + 60 % des primes en 2e et 3e années. Source : Décret n°2024-641 du 27 juin 2024.',
@@ -283,6 +283,7 @@ export const MODULES = [
         sources: [
           { texte: 'Art. L. 822-12 à L. 822-17 CGFP (congé de longue durée)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000044416551' },
           { texte: 'Décret n° 86-442 du 14 mars 1986, art. 36 à 40 (FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000695191' },
+          { texte: 'Décret n° 87-602 du 30 juillet 1987 (congés pour raison de santé — FPT)' },
           { texte: 'Décret n° 88-386 du 19 avril 1988, art. 30 et suivants (FPH)' },
           { texte: 'Arrêté du 14 mars 1986 (liste des 5 groupes d\'affections CLD)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000319546' },
           { texte: 'Décret n° 2010-997 du 26 août 2010 modifié (régime indemnitaire — CLD exclu du maintien)' },
@@ -414,10 +415,13 @@ export const MODULES = [
         recours: 'Contestation du placement en disponibilité d\'office : recours gracieux (2 mois), puis tribunal administratif. Refus de réintégration : recours contentieux urgent (référé). L\'agent peut demander une contre-expertise médicale auprès du conseil médical.',
         sources: [
           { texte: 'Art. L. 514-1 et suivants CGFP (disponibilité d\'office pour raison de santé)' },
-          { texte: 'Décret n° 86-442 du 14 mars 1986 (congés maladie et disponibilité d\'office)' },
-          { texte: 'Décret n° 85-986 du 16 septembre 1985 (positions statutaires FPE)' },
+          { texte: 'Décret n° 86-442 du 14 mars 1986 (congés maladie et disponibilité d\'office — FPE)' },
+          { texte: 'Décret n° 87-602 du 30 juillet 1987 (congés pour raison de santé — FPT)' },
           { texte: 'Décret n° 88-386 du 19 avril 1988 (congés pour raison de santé — FPH)' },
-          { texte: 'Décret n° 2022-353 du 11 mars 2022 (conseil médical)' },
+          { texte: 'Décret n° 85-986 du 16 septembre 1985 (positions statutaires — FPE)' },
+          { texte: 'Décret n° 86-68 du 13 janvier 1986 (positions statutaires — FPT)' },
+          { texte: 'Décret n° 88-976 du 13 octobre 1988 (positions statutaires — FPH)' },
+          { texte: 'Décrets n° 2022-353 (FPE), n° 2022-350 (FPT) et n° 2022-351 (FPH) du 11 mars 2022 (conseil médical)' },
         ],
       },
       // ── Formation pendant un congé de santé (nouveau — Décret 2026-705) ──────
@@ -981,8 +985,10 @@ export const MODULES = [
         recours: 'Contestation de l\'avis du conseil médical. Recours administratif devant le tribunal administratif.',
         sources: [
           { texte: 'Art. L. 826-1 et suivants CGFP (inaptitude définitive)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000044416551' },
-          { texte: 'Décret n° 2022-353 du 11 mars 2022 (conseil médical)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045344395' },
-          { texte: 'Décret n° 88-386 du 19 avril 1988 (FPH — aptitude et congés de santé)' },
+          { texte: 'Décrets n° 2022-353 (FPE), n° 2022-350 (FPT) et n° 2022-351 (FPH) du 11 mars 2022 (conseil médical)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045344395' },
+          { texte: 'Décret n° 86-442 du 14 mars 1986 (aptitude et congés de santé — FPE)' },
+          { texte: 'Décret n° 87-602 du 30 juillet 1987 (aptitude et congés de santé — FPT)' },
+          { texte: 'Décret n° 88-386 du 19 avril 1988 (aptitude et congés de santé — FPH)' },
         ],
       },
       {
@@ -1640,7 +1646,8 @@ export const MODULES = [
         recours: 'Absence de traitement du signalement : saisine de la formation spécialisée du CSA. Saisine de l\'inspection du travail compétente pour la FP. Recours devant le tribunal administratif si l\'inaction de l\'administration cause un préjudice. Signalement au Défenseur des droits.',
         sources: [
           { texte: 'Art. L. 4131-1 et suivants Code du travail (droit de retrait — applicable par renvoi)', url: 'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006902840' },
-          { texte: 'Décret n° 82-453 du 28 mai 1982 modifié (registre de signalement FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000509290' },
+          { texte: 'Décret n° 82-453 du 28 mai 1982 modifié (registre de santé et de sécurité au travail — FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000509290' },
+          { texte: 'Décret n° 85-603 du 10 juin 1985 modifié (registre de santé et de sécurité au travail — FPT)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000883380' },
           { texte: 'Art. L. 135-1 CGFP (lanceurs d\'alerte dans la FP)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000044416551' },
         ],
       },
