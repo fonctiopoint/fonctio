@@ -1717,7 +1717,7 @@ export const MODULES = [
         categorie: 'Protection sociale complémentaire',
         chips: ['Tous agents', 'Incapacité / Invalidité / Décès', 'Complément indispensable'],
         resume: 'La prévoyance couvre les risques financiers liés à une incapacité de travail prolongée, une invalidité ou un décès. Dans la fonction publique, le statut protège mais ne garantit pas le maintien total des revenus sur le long terme.',
-        ciblePublic: 'Tous les agents publics. Particulièrement important pour les agents en CLM/CLD dont les revenus sont réduits à 60 % du traitement après la première année.',
+        ciblePublic: 'Tous les agents publics. Particulièrement important pour les agents dont le traitement va être réduit : en congé de longue maladie à partir de la 2e année (60 % à l\'État, 50 % en territoriale et à l\'hôpital), et en congé de longue durée à partir de la 4e année (50 % dans les trois versants).',
         droits: [
           { label: 'Incapacité', valeur: 'Complément maladie longue', detail: 'Verse une indemnité quand le traitement est réduit (CLM, CLD). Maintien du niveau de revenus proche du net habituel.' },
           { label: 'Invalidité', valeur: 'Rente complémentaire', detail: 'Rente complémentaire à la pension d\'invalidité. Particulièrement utile si le taux d\'IPP est insuffisant pour une pension correcte.' },
@@ -1725,7 +1725,7 @@ export const MODULES = [
           { label: 'Participation employeur', valeur: 'Minimum légal', detail: 'L\'employeur contribue selon les accords de branche. Vérifier le taux exact auprès du service RH.' },
         ],
         etapes: [
-          { num: 1, titre: 'Évaluer ses besoins', texte: 'Calculer l\'écart entre son revenu actuel et ce qu\'il serait en cas de CLM/CLD (60 % du traitement après an 1). La prévoyance vient combler cet écart. Plus les charges fixes sont importantes (prêt immobilier, loyer), plus la prévoyance est utile.' },
+          { num: 1, titre: 'Évaluer ses besoins', texte: 'Calculer l\'écart entre son revenu actuel et ce qu\'il serait en cas de congé long. En CLM, le traitement passe à 60 % en 2e et 3e années à l\'État, mais à 50 % en territoriale et à l\'hôpital — vérifiez votre versant avant de chiffrer, l\'écart est de dix points. En CLD, il reste entier trois ans puis tombe à 50 % les deux suivantes, dans les trois versants. Et les primes ne suivent pas les mêmes règles selon le congé. La prévoyance vient combler cet écart : plus les charges fixes sont importantes (prêt immobilier, loyer), plus elle est utile.' },
           { num: 2, titre: 'Choisir son contrat', texte: 'Se référer au contrat collectif proposé par l\'administration pour bénéficier de la participation employeur. Vérifier les garanties : délai de carence, niveau d\'indemnisation, durée de versement, couverture décès.' },
           { num: 3, titre: 'S\'affilier via le service RH', texte: 'L\'affiliation se fait auprès du service RH qui transmet à l\'organisme désigné. C\'est le RH qui gère l\'ensemble du processus d\'affiliation collective.' },
         ],

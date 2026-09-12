@@ -255,11 +255,25 @@ export const SYNTHESE = {
   },
 
   'conge-formation': {
-    chiffres: [
-      { n: '3 ans', c: 'sur la carrière' },
-      { n: '85 %', c: 'du traitement' },
-      { n: '120 j', c: 'avant la formation' },
-    ],
+    // Le délai de dépôt est la seule valeur de cette fiche qui change d'un
+    // versant à l'autre, et c'est aussi celle qui fait rejeter les demandes.
+    chiffresParVersant: {
+      fpe: [
+        { n: '3 ans', c: 'sur la carrière' },
+        { n: '85 %', c: 'du traitement' },
+        { n: '120 j', c: 'avant la formation' },
+      ],
+      fpt: [
+        { n: '3 ans', c: 'sur la carrière' },
+        { n: '85 %', c: 'du traitement' },
+        { n: '90 j', c: 'avant la formation' },
+      ],
+      fph: [
+        { n: '3 ans', c: 'sur la carrière' },
+        { n: '85 %', c: 'du traitement' },
+        { n: '60 j', c: 'avant la formation' },
+      ],
+    },
   },
 
   // ── Retraite ──────────────────────────────────────────────────────────────
