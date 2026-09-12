@@ -820,10 +820,12 @@ export const MODULES = [
           { label: 'CITIS', valeur: 'Plein traitement', detail: 'Congé pour Invalidité Temporaire Imputable au Service : plein traitement maintenu jusqu\'à guérison ou mise à la retraite.' },
           { label: 'Frais médicaux', valeur: '100 % pris en charge', detail: 'Tous les frais médicaux liés à l\'accident sont pris en charge par l\'administration, sans avance de frais.' },
           { label: 'Primes et indemnités', valeur: 'Maintenues', detail: 'Contrairement au CLM, les primes sont maintenues intégralement pendant le CITIS.' },
+          { label: 'Délai de déclaration', valeur: '15 jours', detail: 'La déclaration d\'accident doit parvenir à l\'administration dans les 15 jours suivant la date de l\'accident. Le délai est le même dans les trois versants. Pour une maladie professionnelle, le délai est de 2 ans à compter de la première constatation médicale.' },
+          { label: 'Certificat médical initial', valeur: '48 heures', detail: 'Lorsque l\'accident entraîne un arrêt de travail, le certificat médical initial doit être transmis à l\'administration dans les 48 heures suivant son établissement.' },
         ],
         etapes: [
-          { num: 1, titre: 'Déclaration immédiate', texte: 'Déclarer l\'accident à son supérieur hiérarchique immédiatement ou dans les plus brefs délais.' },
-          { num: 2, titre: 'Certificat médical initial', texte: 'Un certificat médical initial décrivant les lésions doit être établi et transmis à l\'administration.' },
+          { num: 1, titre: 'Déclaration dans les 15 jours', texte: 'Prévenir son supérieur hiérarchique le plus tôt possible, et adresser la déclaration d\'accident à l\'administration dans un délai de 15 jours à compter de la date de l\'accident. Ce délai est ferme et vaut dans les trois versants.' },
+          { num: 2, titre: 'Certificat médical initial — 48 heures', texte: 'Un certificat médical initial décrivant les lésions doit être établi. Lorsque l\'accident entraîne un arrêt de travail, ce certificat est transmis à l\'administration dans les 48 heures suivant son établissement.' },
           { num: 3, titre: 'Instruction administrative', texte: 'L\'administration instruit le dossier pour reconnaître l\'imputabilité au service.' },
           { num: 4, titre: 'Reconnaissance de l\'imputabilité', texte: 'Si l\'imputabilité est reconnue → CITIS. Si refusée → CMO classique. Contestation possible.' },
           { num: 5, titre: 'Consolidation', texte: 'À la consolidation des blessures, le médecin évalue les éventuelles séquelles. L\'ATI peut être accordée.' },
@@ -831,6 +833,7 @@ export const MODULES = [
         pieges: [
           'L\'accident de service doit avoir un lien direct avec l\'exercice des fonctions. Un malaise sur le lieu de travail ne suffit pas automatiquement.',
           'Le refus d\'imputabilité doit être motivé et notifié. Il est contestable.',
+          'Le délai de déclaration est de 15 jours à compter de l\'accident, et non « dès que possible ». Une déclaration hors délai peut être écartée pour ce seul motif, sauf cas de force majeure, d\'impossibilité absolue ou de motif légitime. Si vous êtes hors délai, dites-le et justifiez-le : c\'est prévu par les textes.',
           'L\'accident de trajet est couvert entre le domicile et le travail, ainsi qu\'entre le travail et le lieu habituel de repas. Un détour justifié par les nécessités de la vie courante — déposer un enfant, un covoiturage régulier — ne fait pas perdre la protection ; un détour personnel, oui.',
           'Un protocole transactionnel peut emporter renonciation à des droits. Faites-le relire par un conseil juridique avant de le signer.',
         ],
