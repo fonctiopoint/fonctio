@@ -100,10 +100,23 @@ export const SYNTHESE = {
   // FPT et FPH n'ont pas de bande : leur régime est un escalier d'ancienneté
   // que deux ou trois chiffres ne résument pas sans tromper.
   'cmo-contractuels': {
+    // La FPE est forfaitaire depuis le 01/09/2024 ; la FPT et la FPH restent
+    // progressives selon l'ancienneté. C'est la différence que la bande doit
+    // faire voir, sinon un contractuel territorial lit le régime de l'État.
     chiffresParVersant: {
       fpe: [
         { n: '90 %', c: '3 premiers mois' },
         { n: '50 %', c: '9 mois suivants' },
+      ],
+      fpt: [
+        { n: '4 mois', c: "d'ancienneté minimum" },
+        { n: '90 %', c: '1 à 3 mois selon ancienneté' },
+        { n: '50 %', c: 'puis autant de mois' },
+      ],
+      fph: [
+        { n: '4 mois', c: "d'ancienneté minimum" },
+        { n: '90 %', c: '1 à 3 mois selon ancienneté' },
+        { n: '50 %', c: 'puis autant de mois' },
       ],
     },
   },
@@ -240,6 +253,10 @@ export const SYNTHESE = {
       fpt: [
         { n: '50 %', c: 'santé, depuis 2026' },
         { n: '20 %', c: 'prévoyance, depuis 2025' },
+      ],
+      fph: [
+        { n: '50 %', c: 'part employeur santé' },
+        { n: '2027', c: 'entrée en vigueur' },
       ],
     },
   },
