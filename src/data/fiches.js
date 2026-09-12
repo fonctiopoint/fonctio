@@ -896,7 +896,7 @@ export const MODULES = [
         ],
         pieges: [
           'Ne pas confondre ATI (en activité) et rente d\'invalidité (à la retraite) — ce sont deux dispositifs distincts qui se suivent.',
-          'L\'ATI est imposable.',
+          'L\'ATI est exonérée d\'impôt sur le revenu, sur le fondement du 8° de l\'article 81 du code général des impôts. Ne la déclarez pas comme un traitement : c\'est une erreur fréquente, et elle vous coûte.',
           'Le délai d\'un an court à compter de la reprise des fonctions après consolidation, et non de la consolidation elle-même. Le point de départ est donc plus tardif, mais le délai reste strict.',
           'L\'ATI n\'est pas acquise définitivement : votre taux est réexaminé au bout de 5 ans. À l\'issue de ce réexamen, elle est soit attribuée sans limitation de durée, soit supprimée. Préparez cette échéance.',
         ],
@@ -1768,11 +1768,14 @@ export const MODULES = [
         droits: [
           { label: 'Périodicité', valeur: 'Annuel', detail: 'Convocation au moins 8 jours à l\'avance.' },
           { label: 'Compte rendu', valeur: 'Signable avec réserves', detail: 'L\'agent peut signer avec réserves ou refuser de signer.' },
+          { label: 'Notification du compte rendu', valeur: 'Aucun délai fixé', detail: 'Le décret 2010-888 ne fixe pas de délai de notification du compte rendu à l\'agent. Le délai de recours, lui, court à compter de cette notification.', versants: ['fpe'] },
+          { label: 'Notification du compte rendu', valeur: '15 jours', detail: 'Le compte rendu est notifié au fonctionnaire dans un délai maximum de 15 jours. Source : Décret 2014-1526 art. 6.', versants: ['fpt'] },
+          { label: 'Notification du compte rendu', valeur: '30 jours', detail: 'Le compte rendu est communiqué à l\'agent dans un délai maximum de 30 jours suivant l\'entretien — et non 15 comme en territoriale. L\'agent dispose ensuite de 15 jours pour le compléter par ses observations. Source : Décret 2020-719 art. 6.', versants: ['fph'] },
         ],
         etapes: [
           { num: 1, titre: 'Convocation', texte: 'Minimum 8 jours avant. L\'agent prépare ses éléments.' },
           { num: 2, titre: 'Déroulement', texte: 'Échange sur les thèmes réglementaires. L\'agent s\'exprime librement.' },
-          { num: 3, titre: 'Compte rendu', texte: 'Rédigé par le supérieur hiérarchique direct et notifié à l\'agent dans un délai maximum de 15 jours. L\'agent le complète par ses observations, puis le signe — la signature atteste qu\'il en a pris connaissance, elle ne vaut pas approbation.' },
+          { num: 3, titre: 'Compte rendu', texte: 'Rédigé par le supérieur hiérarchique direct, puis notifié à l\'agent — dans un délai maximum de 15 jours en territoriale, de 30 jours suivant l\'entretien à l\'hôpital, sans délai fixé par le décret à l\'État. L\'agent le complète par ses observations, puis le signe — la signature atteste qu\'il en a pris connaissance, elle ne vaut pas approbation.' },
           { num: 4, titre: 'Recours hiérarchique — 15 jours francs', texte: 'Demande de révision adressée à l\'autorité hiérarchique dans les 15 jours francs suivant la notification. Cette étape est un préalable obligatoire : sans elle, la saisine de la CAP est irrecevable. L\'autorité dispose de 15 jours francs pour répondre.' },
           { num: 5, titre: 'Saisine de la CAP — 1 mois', texte: 'À compter de la notification de la réponse au recours hiérarchique, l\'agent dispose d\'un mois pour saisir la commission administrative paritaire (CAP), ou la commission consultative paritaire (CCP) s\'il est contractuel.' },
         ],
