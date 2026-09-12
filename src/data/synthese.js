@@ -310,11 +310,24 @@ export const SYNTHESE = {
     ],
   },
 
+  // Le plafond des cas exceptionnels n'est pas le même des deux côtés :
+  // 75 % à l'État (art. L. 28 renvoyant au maximum de l'art. L. 13), 80 % au
+  // régime CNRACL (art. 38 du décret 2003-1306).
   'retraite-invalidite': {
-    chiffres: [
-      { n: '50 %', c: 'si invalidité ≥ 60 %' },
-      { n: '80 %', c: 'cas exceptionnels' },
-    ],
+    chiffresParVersant: {
+      fpe: [
+        { n: '50 %', c: 'si invalidité ≥ 60 %' },
+        { n: '75 %', c: 'cas exceptionnels' },
+      ],
+      fpt: [
+        { n: '50 %', c: 'si invalidité ≥ 60 %' },
+        { n: '80 %', c: 'cas exceptionnels' },
+      ],
+      fph: [
+        { n: '50 %', c: 'si invalidité ≥ 60 %' },
+        { n: '80 %', c: 'cas exceptionnels' },
+      ],
+    },
   },
 
   rafp: {
