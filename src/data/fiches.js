@@ -365,7 +365,7 @@ export const MODULES = [
         pieges: [
           'Confusion fréquente : la limite « 1 an renouvelable une fois », qui existait avant 2021, a été supprimée. Le TPT n\'est plus limité à 2 ans par affection. La seule contrainte est : 1 an de TPT maximum, puis 1 an d\'activité avant une nouvelle autorisation.',
           'Depuis le 1er août 2026, deux garanties nouvelles à faire valoir : un refus pour motif médical suppose la consultation préalable d\'un médecin agréé, et un refus pour nécessités de service doit être précédé d\'un entretien. Un refus qui ne respecte pas ces étapes est irrégulier.',
-          'Ne vous laissez pas imposer un découpage en périodes de 1 à 3 mois : depuis le 1er août 2026, l\'autorisation peut couvrir jusqu\'à un an d\'un seul tenant, sans renouvellement périodique obligatoire.',
+          'Le découpage en périodes de 1 à 3 mois n\'est plus obligatoire : depuis le 1er août 2026, l\'autorisation peut couvrir jusqu\'à un an d\'un seul tenant. Si votre décision porte encore sur trois mois, vous pouvez demander qu\'elle soit établie sur une durée plus longue.',
           'Le refus de TPT est une décision administrative défavorable qui doit être motivée par l\'administration. Un refus non motivé peut être contesté à ce seul titre.',
           'Le refus de se soumettre à un contrôle médical peut entraîner l\'interruption du TPT — les contrôles restent possibles à tout moment, même s\'ils ne sont plus systématiques.',
           'Le temps partiel thérapeutique prend fin si vous vous trouvez, pendant son exercice, depuis plus de 30 jours consécutifs en congé pour raisons de santé. À l\'inverse, vous pouvez à tout moment demander à en modifier la quotité ou à l\'interrompre par anticipation, sur présentation d\'un nouveau certificat médical. Source : art. 23-8 du décret 86-442.',
@@ -420,7 +420,7 @@ export const MODULES = [
           'L\'agent en disponibilité d\'office ne perçoit plus de traitement mais reste fonctionnaire — il conserve ses droits à réintégration.',
           'Le placement en disponibilité d\'office obéit à des conditions précises : des droits à congé épuisés, un avis du conseil médical, une notification motivée portant les voies et délais de recours. Une décision qui s\'écarte de ce cadre peut être contestée — c\'est une question de régularité, et elle s\'apprécie sur pièces.',
           'Durant la disponibilité d\'office, l\'agent doit informer son administration de tout changement dans son état de santé susceptible de permettre une reprise.',
-          'L\'agent peut demander sa réintégration à tout moment s\'il est en état de reprendre ses fonctions — l\'administration ne peut pas refuser sans motif.',
+          'L\'agent peut demander sa réintégration à tout moment s\'il est en état de reprendre ses fonctions. La décision doit être motivée : c\'est cette motivation qui permet, le cas échéant, de la discuter.',
         ],
         recours: 'Contestation du placement en disponibilité d\'office : recours gracieux (2 mois), puis tribunal administratif. Refus de réintégration : recours contentieux urgent (référé). L\'agent peut demander une contre-expertise médicale auprès du conseil médical.',
         sources: [
@@ -1565,7 +1565,7 @@ export const MODULES = [
         titre: 'L\'assistant de service social du personnel — qui est-il ?',
         categorie: 'Vos interlocuteurs',
         chips: ['Tous agents', 'Confidentiel', 'Neutre institutionnellement'],
-        resume: 'L\'assistant de service social du personnel est un professionnel du travail social diplômé d\'État, dont le positionnement est neutre. Il accompagne toute difficulté personnelle ou professionnelle, dans la plus stricte confidentialité et sans lien de dépendance avec la hiérarchie locale.',
+        resume: 'L\'assistant de service social du personnel est un professionnel du travail social diplômé d\'État, dont le positionnement est neutre. Il accompagne, renseigne, écoute — quelle que soit la difficulté, personnelle ou professionnelle — dans la plus stricte confidentialité et sans lien de dépendance avec la hiérarchie locale.',
         ciblePublic: 'Tous les agents publics, titulaires et contractuels, des trois versants. Sans condition de grade, de statut ou d\'ancienneté.',
         droits: [
           { label: 'Accès', valeur: 'Libre, gratuit, confidentiel', detail: 'Tout agent peut contacter l\'assistant social sans en informer sa hiérarchie, sans rendez-vous obligatoire, sans justification à donner.' },
@@ -1582,7 +1582,7 @@ export const MODULES = [
         pieges: [
           'L\'assistant de service social du personnel n\'est pas un représentant de l\'employeur, et il n\'est pas davantage le porte-parole de l\'agent : son positionnement est neutre. Il œuvre pour l\'agent et pour le service, et c\'est précisément ce qui lui permet d\'intervenir sans être une partie au différend.',
           'Ne pas attendre que la situation soit en crise pour consulter. L\'assistant social intervient aussi en prévention, avant que les difficultés ne deviennent insurmontables.',
-          'L\'assistant social ne peut pas prendre de décisions à la place de l\'agent. Il accompagne, oriente et soutient — il ne se substitue pas à la personne dans ses choix.',
+          'L\'assistant social ne peut pas prendre de décisions à la place de l\'agent. Il accompagne, renseigne, écoute — il ne se substitue pas à la personne dans ses choix.',
           'Contacter l\'assistant social n\'a aucune conséquence sur la carrière ou l\'évaluation professionnelle. La hiérarchie n\'est pas informée.',
         ],
         recours: 'Contrairement aux médecins ou aux avocats, les assistants de service social ne disposent pas d\'un ordre professionnel : il n\'existe donc aucun « conseil de l\'ordre » à saisir. En cas de manquement au secret professionnel, deux voies existent : le signalement à la hiérarchie du service social dont dépend le professionnel (structure ministérielle ou régionale, distincte de votre service), et la plainte pénale sur le fondement de l\'article 226-13 du Code pénal, le secret professionnel de l\'assistant de service social étant pénalement sanctionné. Le Défenseur des droits peut également être saisi.',
