@@ -976,7 +976,7 @@ export const MODULES = [
           { label: 'Conditions', valeur: 'Taux ≥ 10 %', detail: 'L\'ATI est accordée si le taux d\'incapacité permanente partielle (IPP) est d\'au moins 10 %.' },
           { label: 'Montant', valeur: 'Proportionnel au taux IPP', detail: 'Calculé en pourcentage du traitement indiciaire brut.' },
           { label: 'Cumul', valeur: 'Avec le traitement', detail: 'L\'ATI est cumulable avec le traitement en activité. Elle se transforme en rente d\'invalidité à la retraite.' },
-          { label: 'Délai de demande', valeur: '1 an', detail: 'Le délai d\'un an court à compter du jour où vous reprenez vos fonctions après la consolidation — pas à compter de la consolidation elle-même. Passé ce délai, les droits sont perdus.' },
+          { label: 'Délai de demande', valeur: '1 an', detail: 'Par défaut, le délai d\'un an court à compter du jour où vous reprenez vos fonctions après la consolidation — pas à compter de la consolidation elle-même. Mais si vous n\'avez jamais interrompu votre activité, si vous avez repris le service avant la consolidation, ou si vous atteignez la limite d\'âge ou êtes rayé des cadres avant d\'avoir pu reprendre, c\'est l\'inverse : le délai court depuis la date de constatation officielle de la consolidation elle-même. Cela concerne en premier lieu les séquelles légères, les plus fréquentes, pour lesquelles il n\'y a souvent pas eu d\'arrêt. Passé le délai applicable, les droits sont perdus. Source : art. 1er du décret 60-1089.' },
           { label: 'Durée initiale', valeur: '5 ans', detail: 'L\'ATI est d\'abord accordée pour 5 ans. À l\'issue de cette période, le conseil médical réexamine votre taux d\'invalidité : l\'allocation est alors soit attribuée sans limitation de durée, soit supprimée si l\'invalidité a disparu.' },
         ],
         etapes: [
@@ -988,12 +988,12 @@ export const MODULES = [
         pieges: [
           'Ne pas confondre ATI (en activité) et rente d\'invalidité (à la retraite) — ce sont deux dispositifs distincts qui se suivent.',
           'L\'ATI est exonérée d\'impôt sur le revenu, sur le fondement du 8° de l\'article 81 du code général des impôts. Ne la déclarez pas comme un traitement : c\'est une erreur fréquente, et elle vous coûte.',
-          'Le délai d\'un an court à compter de la reprise des fonctions après consolidation, et non de la consolidation elle-même. Le point de départ est donc plus tardif, mais le délai reste strict.',
+          'Le délai d\'un an a deux points de départ possibles selon votre situation : la reprise des fonctions après consolidation, par défaut — mais la consolidation elle-même si vous n\'avez jamais interrompu votre activité, avez repris avant consolidation, ou atteignez la limite d\'âge avant d\'avoir pu reprendre. Identifiez lequel s\'applique à vous : le délai reste strict quel que soit le point de départ.',
           'L\'ATI n\'est pas acquise définitivement : votre taux est réexaminé au bout de 5 ans. À l\'issue de ce réexamen, elle est soit attribuée sans limitation de durée, soit supprimée. Préparez cette échéance.',
         ],
         recours: 'Contestation du taux d\'IPP devant le conseil médical. Recours contentieux.',
         sources: [
-          { texte: 'Décret n° 60-1089 du 6 octobre 1960 (ATI — FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000304764' },
+          { texte: 'Décret n° 60-1089 du 6 octobre 1960, art. 1er (délai de demande et ses deux points de départ) et art. 5 (réexamen à 5 ans) — FPE', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000304764' },
           { texte: 'Décret n° 2005-442 du 2 mai 2005 (ATI — FPT et FPH, régime CNRACL)' },
           { texte: 'Barème indicatif d\'invalidité des pensions civiles et militaires (évaluation du taux d\'IPP)' },
         ],
