@@ -164,11 +164,18 @@ export const SYNTHESE = {
   },
 
   // ── Inaptitude & reclassement ─────────────────────────────────────────────
+  // La visite de reprise après 30 jours n'existe qu'à l'hôpital, par l'article
+  // R. 4626-29 du code du travail — et elle suit la reprise au lieu de la
+  // conditionner. La bande l'annonçait pour les trois versants. Les deux
+  // autres ne portent aucun chiffre marquant sur cette fiche : ils n'ont donc
+  // pas de bande, ce qui vaut mieux qu'une bande fausse.
   'inaptitude-def': {
     droits: { label: "Ce qu'il faut savoir" },
-    chiffres: [
-      { n: '30 j', c: 'puis visite de reprise' },
-    ],
+    chiffresParVersant: {
+      fph: [
+        { n: '30 jours', c: 'ouvrent la visite de reprise' },
+      ],
+    },
   },
 
   reclassement: {
