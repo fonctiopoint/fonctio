@@ -1768,7 +1768,7 @@ export const MODULES = [
           'L\'anonymat du signalement n\'est pas toujours possible — certains signalements nécessitent d\'être nominatifs pour déclencher une procédure disciplinaire contre la personne mise en cause.',
           'Le délai de prescription pour les faits signalés commence à courir dès que l\'agent a connaissance des faits. Agir sans délai.',
         ],
-        recours: 'Absence de traitement du signalement : saisine de la formation spécialisée du CSA. Saisine de l\'inspection du travail compétente pour la FP. Recours devant le tribunal administratif si l\'inaction de l\'administration cause un préjudice. Signalement au Défenseur des droits.',
+        recours: 'Absence de traitement du signalement : saisine de la formation spécialisée du CSA, puis de l\'inspecteur santé et sécurité au travail (ISST) à l\'État et en territoriale, ou de l\'inspection du travail à l\'hôpital. Recours devant le tribunal administratif si l\'inaction de l\'administration cause un préjudice. Signalement au Défenseur des droits.',
         sources: [
           { texte: 'Art. L. 4131-1 et suivants Code du travail (droit de retrait — applicable par renvoi)', url: 'https://www.legifrance.gouv.fr/codes/article_lc/LEGIARTI000006902840' },
           { texte: 'Décret n° 82-453 du 28 mai 1982 modifié (registre de santé et de sécurité au travail — FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000509290' },
