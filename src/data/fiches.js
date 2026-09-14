@@ -152,7 +152,7 @@ export const MODULES = [
         droits: [
           { label: '1re année — traitement', valeur: '100 %', detail: '100 % du traitement indiciaire.' },
           { label: '1re année — primes', valeur: '33 %', detail: 'Depuis le Décret n°2024-641 du 27 juin 2024.', versants: ['fpe'] },
-          { label: '1re année — primes', valeur: 'Selon délibération', detail: 'Le Décret 2024-641 ne s\'applique pas directement. La collectivité peut prévoir le maintien par délibération.', versants: ['fpt'] },
+          { label: '1re année — primes', valeur: 'Selon délibération', detail: 'Le Décret 2024-641 ne s\'applique pas directement. La collectivité peut prévoir le maintien par délibération, prise après avis du comité social territorial, et dans la limite des taux de l\'État — 33 % la première année. Demandez à voir cette délibération : c\'est elle qui fait votre droit, pas le décret.', versants: ['fpt'] },
           { label: '1re année — primes', valeur: 'Selon règles locales', detail: 'Se renseigner auprès de la DRH de l\'établissement.', versants: ['fph'] },
           { label: '2e et 3e années — traitement', valeur: '60 %', detail: '60 % du traitement indiciaire depuis le Décret n°2024-641 du 27 juin 2024, qui a relevé l\'ancien demi-traitement.', versants: ['fpe'] },
           { label: '2e et 3e années — traitement', valeur: '50 %', detail: 'Demi-traitement. Le relèvement à 60 % opéré par le Décret 2024-641 ne concerne que la fonction publique de l\'État : il ne s\'applique pas aux agents territoriaux.', versants: ['fpt'] },
@@ -205,7 +205,7 @@ export const MODULES = [
         etapes: [
           { num: 1, titre: 'Certificat médical circonstancié', texte: 'Votre médecin traitant rédige un certificat détaillant la pathologie (sans que le diagnostic soit transmis à l\'employeur — secret médical).' },
           { num: 2, titre: 'Demande à l\'administration', texte: 'Transmission du certificat au service RH dans les 48 heures. L\'administration saisit le conseil médical.' },
-          { num: 3, titre: 'Avis du conseil médical', texte: 'La formation restreinte se prononce. Délai réglementaire : 2 mois. L\'agent peut se faire accompagner.' },
+          { num: 3, titre: 'Avis du conseil médical', texte: 'La formation restreinte se prononce. Aucun texte n\'enferme son avis dans un délai déterminé — en revanche, une fois l\'avis notifié, vous disposez de deux mois pour le contester devant le conseil médical supérieur. Vous pouvez vous faire accompagner.' },
           { num: 4, titre: 'Décision de l\'administration', texte: 'L\'administration place l\'agent en CLM. Elle suit en principe l\'avis du conseil médical.' },
           { num: 5, titre: 'Renouvellements', texte: 'Tous les 3 à 6 mois, le conseil médical est à nouveau saisi pour renouveler ou modifier le congé.' },
         ],
@@ -214,9 +214,9 @@ export const MODULES = [
           'Le refus de CLM doit être motivé et notifié par écrit. Il est contestable devant le tribunal administratif.',
           'Lors du changement de taux en 2e année, le traitement peut continuer d\'être versé au taux plein le temps que la paie se cale. La somme perçue en trop est un indu qui devra être remboursé — prévenir le service RH dès le passage.',
           { texte: 'Le passage à 60 % en 2e et 3e années est propre à la fonction publique de l\'État. Si un article généraliste vous annonce 60 %, vérifiez qu\'il ne parle pas uniquement de la FPE — vous êtes à 50 %.', versants: ['fpt', 'fph'] },
-          { texte: 'Les primes sont maintenues à 33 % puis 60 % sur décision de la collectivité — vérifier la délibération auprès du service RH.', versants: ['fpt'] },
+          { texte: 'Les primes ne sont maintenues que si la collectivité l\'a décidé par délibération, prise après avis du comité social territorial, et au plus aux taux de l\'État : 33 % la première année, 60 % les deux suivantes. Demandez copie de la délibération au service RH — sans elle, il n\'y a pas de droit à faire valoir.', versants: ['fpt'] },
           { texte: 'Les primes sont maintenues à 33 % puis 60 % depuis le Décret 2024-641.', versants: ['fpe'] },
-          'Rechute : de nouveaux droits s\'ouvrent si l\'agent a accompli 1 an de service actif entre les deux congés.',
+          'Le droit intégral au congé de longue maladie — les trois ans en entier — est rouvert chaque fois que la reprise des fonctions entre deux périodes atteint un an. Ce n\'est pas un reliquat qui se recharge : c\'est un nouveau compteur complet.',
           'Le fractionnement ne rallonge pas la durée totale des droits — il change seulement leur mode d\'utilisation. Et la reprise entre deux périodes est une vraie reprise : les obligations de service s\'appliquent pleinement.',
           'Un congé fractionné peut précéder un temps partiel thérapeutique à la reprise. Des versements en trop sont fréquents aux transitions entre périodes — vérifier sa fiche de paie à chaque bascule.',
         ],
@@ -231,7 +231,7 @@ export const MODULES = [
         ],
         versantNotes: {
           fpe: 'En FPE : 100 % du traitement + 33 % des primes en 1re année, puis 60 % + 60 % des primes en 2e et 3e années. Source : Décret n°2024-641 du 27 juin 2024.',
-          fpt: 'En FPT : 100 % du traitement la 1re année, puis demi-traitement (50 %) les 2e et 3e années — Décret 87-602. Le relèvement à 60 % opéré par le Décret 2024-641 vise la seule fonction publique de l\'État et ne vous est pas applicable. Les primes ne sont maintenues que si la collectivité l\'a prévu par délibération, sans pouvoir dépasser les taux de l\'État. Vérifier la délibération auprès du service RH.',
+          fpt: 'En FPT : 100 % du traitement la 1re année, puis demi-traitement (50 %) les 2e et 3e années — Décret 87-602. Le relèvement à 60 % opéré par le Décret 2024-641 vise la seule fonction publique de l\'État et ne vous est pas applicable. Les primes ne sont maintenues que si la collectivité l\'a prévu par délibération, prise après avis du comité social territorial et sans pouvoir dépasser les taux de l\'État. Vérifier la délibération auprès du service RH.',
           fph: 'En FPH : 100 % du traitement la 1re année, puis demi-traitement (50 %) les 2e et 3e années — Décret 88-386 du 19 avril 1988. Le relèvement à 60 % opéré par le Décret 2024-641 vise la seule fonction publique de l\'État. Sur les primes, il n\'existe aucun équivalent hospitalier à ce décret : leur sort dépend de chaque prime et des règles de l\'établissement (la prime de service, par exemple, est réduite en fonction des jours d\'absence). À faire confirmer par écrit par la DRH.',
         },
       },
