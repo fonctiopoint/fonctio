@@ -1311,7 +1311,7 @@ export const MODULES = [
           { num: 3, titre: 'Prendre les 21 jours restants', texte: 'Fractionnables en 2 périodes de 5 jours minimum, à prendre dans les 6 mois suivant la naissance. Ce délai se reporte dans deux situations : l\'hospitalisation immédiate de l\'enfant, et le décès de la mère. En dehors de ces cas, les jours non pris sont perdus.' },
         ],
         pieges: [
-          'Les 4 jours obligatoires s\'ajoutent aux 3 jours d\'ASA pour naissance — ne pas les confondre. L\'agent bénéficie donc d\'au moins 7 jours.',
+          'Les 4 jours obligatoires s\'ajoutent au congé de naissance de 3 jours (art. L. 631-6 CGFP) — ce n\'est pas une simple autorisation d\'absence, c\'est un congé à part entière. Ne pas les confondre : l\'agent bénéficie donc d\'au moins 7 jours consécutifs.',
           'Le délai de six mois se reporte dans deux situations. Si l\'enfant est hospitalisé immédiatement après la naissance, le délai court jusqu\'à la fin de l\'hospitalisation, et la période de 4 jours peut elle-même être prolongée pendant cette hospitalisation, dans la limite de 30 jours consécutifs. Si la mère décède, le second parent a droit au congé postnatal de maternité, et les six mois ne commencent qu\'à la fin de ce congé — la demande est à adresser au service dans les huit jours du décès.',
           'En cas de décès de la mère, le second parent peut reprendre tout ou partie du congé de maternité non pris.',
         ],
