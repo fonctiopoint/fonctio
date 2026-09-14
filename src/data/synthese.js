@@ -216,11 +216,15 @@ export const SYNTHESE = {
     ],
   },
 
+  // Le taux est le meme pour les titulaires et les contractuels : 70 % puis
+  // 60 % du traitement (decret 2026-428, et art. 15 du decret 86-83 pour les
+  // contractuels). La bande annoncait un regime degressif « jamais sous 50 % »
+  // pour les titulaires : il n'existe pas.
   'conge-naissance': {
     chiffres: [
       { n: '1 ou 2 mois', c: 'au choix' },
-      { n: '≥ 50 %', c: 'titulaires, dégressif' },
-      { n: '70 %', c: 'contractuels, puis 60 %' },
+      { n: '70 %', c: 'le 1er mois, puis 60 %' },
+      { n: '9 mois', c: 'pour le prendre' },
     ],
   },
 
