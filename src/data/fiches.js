@@ -1986,7 +1986,8 @@ export const MODULES = [
         ciblePublic: 'Fonctionnaires titulaires de la FPT et de la FPH.',
         droits: [
           { label: 'Calendrier suspendu', valeur: 'LFSS 2026', detail: 'La loi de financement de la sécurité sociale pour 2026, promulguée fin décembre 2025, a gelé la montée en charge de la réforme de 2023. Les repères ci-dessous ne sont donc plus ceux annoncés en 2023 : vérifiez votre génération avant toute projection.' },
-          { label: 'Âge légal — générations 1964 à 1968', valeur: '62 ans et 9 mois', detail: 'L\'âge légal est gelé à 62 ans et 9 mois à compter du 1er septembre 2026 et jusqu\'en janvier 2028. Ces générations partent un trimestre plus tôt que ne le prévoyait le calendrier de 2023.' },
+          { label: 'Âge légal — 1964 et T1 1965', valeur: '62 ans et 9 mois', detail: 'Seules ces deux classes restent gelées à 62 ans et 9 mois à compter du 1er septembre 2026. Ce n\'est pas un plateau qui vaut pour toute la période 1964-1968 : voir la ligne suivante pour les générations qui suivent.' },
+          { label: 'Âge légal — de T2 1965 à 1968', valeur: 'Progression trimestrielle', detail: 'À partir des personnes nées au deuxième trimestre 1965, l\'âge légal reprend sa progression, d\'un trimestre par génération, jusqu\'à 64 ans atteints par la génération 1969. Ces classes ne bénéficient donc pas du palier de 62 ans et 9 mois : elles partent plus tard, sur cette pente, et non à un âge fixe. Vérifiez votre trimestre exact de naissance sur le simulateur CNRACL plutôt que de retenir un seul chiffre pour toute la période.' },
           { label: 'Âge légal — à partir de 1969', valeur: '64 ans', detail: 'La cible de 64 ans s\'applique aux personnes nées à compter du 1er janvier 1969 — et non 1968 comme le prévoyait la réforme de 2023.' },
           { label: 'Durée de cotisation', valeur: '43 ans (172 trimestres)', detail: 'Les 43 ans s\'appliquent aux personnes nées à compter du 1er janvier 1966, et non 1965 comme initialement prévu. Pour les générations antérieures, la durée reste inférieure et progressive.' },
           { label: 'Départ anticipé', valeur: 'Carrière longue, handicap, invalidité', detail: 'Ces dispositifs restent ouverts indépendamment de l\'âge légal.' },
@@ -2019,7 +2020,7 @@ export const MODULES = [
         resume: 'Le Service des Retraites de l\'État gère la pension des fonctionnaires civils de l\'État. Les règles sont proches de la CNRACL mais relèvent d\'un régime distinct.',
         ciblePublic: 'Fonctionnaires titulaires de la FPE.',
         droits: [
-          { label: 'Calendrier suspendu', valeur: 'LFSS 2026', detail: 'La loi de financement de la sécurité sociale pour 2026 a gelé la montée en charge de la réforme de 2023. L\'âge légal est bloqué à 62 ans et 9 mois pour les générations 1964 à 1968 ; les 64 ans ne s\'appliquent qu\'à partir de la génération 1969.' },
+          { label: 'Calendrier suspendu', valeur: 'LFSS 2026', detail: 'La loi de financement de la sécurité sociale pour 2026 a gelé la montée en charge de la réforme de 2023 — mais pas en un seul palier. Seules les personnes nées en 1964 et au premier trimestre 1965 restent bloquées à 62 ans et 9 mois. À partir du deuxième trimestre 1965, l\'âge légal reprend sa progression, d\'un trimestre par génération, jusqu\'à 64 ans atteints par la génération 1969. Ne retenez pas « 62 ans et 9 mois » comme valant pour toute la période 1964-1968 : vérifiez votre trimestre de naissance exact.' },
           { label: 'Taux de pension', valeur: '75 % du dernier traitement', detail: 'Calculé sur le traitement indiciaire brut détenu depuis au moins 6 mois. Les primes n\'entrent pas dans ce calcul — elles relèvent du RAFP.' },
           { label: 'Catégorie active', valeur: '59 ans, pas 57', detail: 'La réforme de 2023 a relevé l\'âge de départ anticipé des catégories actives de 57 à 59 ans, progressivement. Avec le gel de la LFSS 2026, la borne des 59 ans s\'applique aux agents nés en 1974 et après, contre 1973 dans le calendrier initial.' },
           { label: 'Durée de services actifs', valeur: '17 ans, inchangée', detail: 'La condition de durée de services en catégorie active n\'a pas été modifiée par la réforme, pas plus que l\'âge d\'annulation de la décote.' },
@@ -2092,7 +2093,7 @@ export const MODULES = [
           { num: 1, titre: "Cotisation automatique", texte: "Les cotisations au RAFP sont prélevées automatiquement chaque mois sur les primes et indemnités. Aucune démarche n'est requise pendant la carrière." },
           { num: 2, titre: "Consulter ses droits", texte: "Les droits accumulés sont consultables sur rafp.fr. Une estimation est également fournie lors de l'entretien retraite." },
           { num: 3, titre: "Liquidation automatique", texte: "La liquidation du RAFP est déclenchée lors de la mise à la retraite principale. Aucune demande séparée n'est nécessaire dans la plupart des cas." },
-          { num: 4, titre: "Versement", texte: "Versé en rente mensuelle si les droits dépassent le seuil, ou en capital si insuffisants. Le versement commence en même temps que la pension principale." },
+          { num: 4, titre: "Versement", texte: "La nature du versement dépend du nombre de points acquis à la date d'effet, et de rien d'autre — aucune conversion n'est possible pour convenance personnelle. Jusqu'à 4 899 points : capital unique. De 4 900 à 5 124 points : capital fractionné — un premier versement équivalant à 4 mois de rente lors de la liquidation, le solde 5 mois plus tard. À partir de 5 125 points : rente mensuelle, versée en même temps que la pension principale. Source : rafp.fr." },
         ],
         pieges: [
           'Les contractuels ne cotisent pas au RAFP — ils cotisent à l\'IRCANTEC.',
@@ -2101,7 +2102,7 @@ export const MODULES = [
         recours: 'Contestation : recours gracieux auprès de la CNRACL (gestionnaire du RAFP), puis tribunal administratif.',
         sources: [
           { texte: 'Loi n° 2003-775 du 21 août 2003 (création du RAFP)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000424993' },
-          { texte: 'RAFP — portail officiel', url: 'https://www.rafp.fr' },
+          { texte: 'RAFP — portail officiel, page « Calcul et paiement de votre prestation RAFP » (seuils de 4 900 et 5 125 points)', url: 'https://www.rafp.fr' },
         ],
       },
     ],
