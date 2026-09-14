@@ -471,7 +471,8 @@ export const MODULES = [
         resume: 'Depuis le 1er septembre 2026, un agent en congé pour raison de santé peut demander à suivre une formation ou à réaliser un bilan de compétences, sous réserve de l\'avis favorable d\'un médecin agréé. Un levier concret pour préparer un reclassement ou une reconversion sans attendre la reprise.',
         ciblePublic: 'Agents publics des trois versants, titulaires et contractuels, placés en congé pour raison de santé (CMO, CLM, CLD, CITIS).',
         droits: [
-          { label: 'Droit de demander', valeur: 'Ouvert pendant le congé', detail: 'L\'agent en congé pour raison de santé peut demander une action de formation ou un bilan de compétences, sans attendre la fin de son congé ni sa reprise de fonctions.' },
+          { label: 'Initiative médicale — dès 30 jours', valeur: 'Sans que vous ayez à la demander', detail: 'Au cours de toute interruption de travail pour raison de santé dépassant trente jours, le médecin agréé, en lien avec votre médecin traitant, peut de sa propre initiative saisir le médecin du travail pour préparer les conditions de votre reprise ou envisager des actions de formation. Vous pouvez vous faire assister durant cette phase par une personne de votre choix. Source : art. 41-1 du décret 86-442 (et équivalents FPT/FPH).' },
+          { label: 'Droit de demander', valeur: 'Ouvert pendant le congé', detail: 'L\'agent en congé pour raison de santé peut demander à réaliser ou à poursuivre une action de formation ou un bilan de compétences déjà engagé, sans attendre la fin de son congé ni sa reprise de fonctions.' },
           { label: 'Condition', valeur: 'Avis favorable médecin agréé', detail: 'La demande est subordonnée à l\'avis favorable d\'un médecin agréé, qui apprécie la compatibilité de la formation avec l\'état de santé. C\'est une garantie, pas un obstacle : elle protège l\'agent d\'un effort prématuré.' },
           { label: 'Effet sur le congé', valeur: 'Aucune interruption', detail: 'Suivre une formation dans ce cadre n\'interrompt pas le congé de santé et ne vaut pas reprise de fonctions. Les droits à rémunération du congé continuent de s\'appliquer.' },
           { label: 'À quoi ça sert', valeur: 'Préparer l\'après', detail: 'Particulièrement utile lorsqu\'un reclassement se profile : le bilan de compétences permet d\'identifier des pistes avant même que l\'inaptitude soit constatée, au lieu de subir la procédure.' },
@@ -479,7 +480,7 @@ export const MODULES = [
           { label: 'Crédit d\'heures supplémentaire', valeur: 'Jusqu\'à 150 heures', detail: 'Lorsque le projet vise à prévenir une inaptitude, un crédit d\'heures s\'ajoute aux droits déjà acquis sur le compte personnel de formation, dans la limite de 150 heures. Il faut pour cela produire un avis du médecin de prévention attestant que votre état de santé vous expose, compte tenu de vos conditions de travail, à un risque d\'inaptitude. Ces heures sont attribuées pour l\'action envisagée et ne se conservent pas ensuite.' },
         ],
         etapes: [
-          { num: 1, titre: 'Identifier son besoin', texte: 'Bilan de compétences pour faire le point sur une réorientation possible, ou action de formation ciblée si le projet est déjà défini. En parler au médecin de prévention et à l\'assistant de service social du personnel, qui connaissent les dispositifs disponibles.' },
+          { num: 1, titre: 'Identifier son besoin', texte: 'Bilan de compétences pour faire le point sur une réorientation possible, ou action de formation ciblée si le projet est déjà défini. En parler au médecin de prévention et à l\'assistant de service social du personnel, qui connaissent les dispositifs disponibles. Si votre arrêt dépasse 30 jours, le médecin agréé peut de lui-même avoir engagé cette réflexion avec le médecin du travail — renseignez-vous, la démarche est parfois déjà amorcée.' },
           { num: 2, titre: 'Adresser la demande à l\'administration', texte: 'Demande écrite au service RH précisant la nature de l\'action envisagée, sa durée et ses modalités. Indiquer en quoi elle s\'inscrit dans un projet professionnel — notamment un maintien dans l\'emploi ou un reclassement.' },
           { num: 3, titre: 'Avis du médecin agréé', texte: 'L\'administration saisit un médecin agréé, qui se prononce sur la compatibilité de l\'action avec votre état de santé. Un avis défavorable doit être motivé et peut être contesté par une demande de contre-expertise.' },
           { num: 4, titre: 'Financer la formation', texte: 'La formation peut être financée en mobilisant votre compte personnel de formation (CPF), alimenté de 25 heures par an dans la limite de 150 heures — et de 50 heures par an dans la limite de 400 heures si vous êtes de catégorie C et sans diplôme ou titre professionnel de niveau 3. Demandez en outre le crédit supplémentaire de 150 heures si un risque d\'inaptitude est en cause. L\'utilisation du CPF suppose l\'accord écrit de votre employeur : demandez-le en même temps que l\'autorisation de vous former pendant le congé, cela évite deux allers-retours.' },
@@ -491,7 +492,8 @@ export const MODULES = [
         ],
         recours: 'Refus non motivé de l\'administration : recours gracieux (2 mois) puis tribunal administratif. Avis médical défavorable : demande de contre-expertise, puis saisine du conseil médical.',
         sources: [
-          { texte: 'Décret n° 2026-705 du 29 juillet 2026 (congés pour raison de santé — en vigueur au 1er septembre 2026)' },
+          { texte: 'Décret n° 2026-705 du 29 juillet 2026, art. 2, 3 et 4 (insère les art. 41-1 et 41-2 au décret 86-442, 31-1 et 31-2 au décret 87-602, et leurs équivalents au décret 88-386 — en vigueur au 1er septembre 2026)' },
+          { texte: 'Art. 47-9-1 du décret 86-442 (et équivalents FPT/FPH), inséré par le décret 2026-705 (étend le droit à formation, entre autres, au congé pour invalidité temporaire imputable au service)' },
           { texte: 'Art. L. 422-1 et suivants CGFP (formation professionnelle et CPF)' },
           { texte: 'Décret n° 2017-928 du 6 mai 2017 (alimentation du CPF, crédit supplémentaire de 150 heures en prévention d\'inaptitude)' },
         ],
@@ -509,8 +511,8 @@ export const MODULES = [
         resume: 'Le temps partiel est accordé de droit dans certains cas (naissance, jeune enfant, proche aidant, handicap), sur autorisation dans les autres. La rémunération suit la quotité, sauf à 80 % et 90 % où elle est volontairement plus favorable.',
         ciblePublic: 'Fonctionnaires titulaires et agents contractuels. À ne pas confondre avec le temps partiel thérapeutique, qui répond à une logique médicale et maintient le plein traitement.',
         droits: [
-          { label: 'Temps partiel de droit', valeur: 'Incontournable', detail: 'Motifs : naissance, enfant < 3 ans, proche aidant, handicap. L\'administration ne peut pas le refuser.' },
-          { label: 'Sur autorisation', valeur: 'Sous conditions', detail: 'L\'administration peut le refuser pour nécessité de service. Quotités : 50 %, 60 %, 70 %, 80 %, 90 %.' },
+          { label: 'Temps partiel de droit', valeur: 'Incontournable, jusqu\'à 80 %', detail: 'Quatre motifs ouvrent le droit, à une quotité de 50, 60, 70 ou 80 % : chaque naissance (jusqu\'aux 3 ans de l\'enfant) ou adoption (3 ans à compter de l\'arrivée au foyer) ; les soins à donner à un conjoint, un partenaire de PACS, un enfant à charge ou un ascendant victime d\'un handicap nécessitant la présence d\'un tiers, d\'un accident ou d\'une maladie grave ; ou le handicap de l\'agent lui-même, sur avis du médecin du travail. L\'administration ne peut pas le refuser. Le palier à 90 % n\'existe pas en temps partiel de droit. Source : art. L. 612-3 du CGFP.' },
+          { label: 'Sur autorisation', valeur: 'Sous conditions, jusqu\'à 90 %', detail: 'L\'administration peut le refuser pour nécessité de service, mais le refus doit être précédé d\'un entretien et motivé. Quotités : 50 %, 60 %, 70 %, 80 %, 90 % — c\'est le seul régime qui ouvre le palier à 90 %. Source : art. L. 612-1 et L. 612-2 du CGFP.' },
           { label: 'Rémunération 50 / 60 / 70 %', valeur: 'Strictement au prorata', detail: 'À 50 % de quotité, vous percevez 50 % du traitement. À 60 %, 60 %. À 70 %, 70 %. Aucune sur-rémunération sur ces trois quotités.' },
           { label: 'Rémunération 80 %', valeur: '6/7 ≈ 85,71 %', detail: 'Sur-rémunération légale : travailler à 80 % rapporte 6/7 du traitement plein, soit environ 85,71 % — et non 80 %.' },
           { label: 'Rémunération 90 %', valeur: '32/35 ≈ 91,43 %', detail: 'Même logique : travailler à 90 % rapporte 32/35 du traitement plein, soit environ 91,43 %.' },
@@ -842,7 +844,7 @@ export const MODULES = [
         id: 'cdi-public',
         titre: 'CDI de droit public',
         categorie: 'Droits des contractuels',
-        chips: ['CDI uniquement', 'Droits renforcés', 'Portabilité'],
+        chips: ['CDI uniquement', '6 ans de services', 'Droits renforcés', 'Portabilité'],
         resume: 'Le CDI dans la fonction publique confère des droits renforcés : protection contre le licenciement, portabilité en cas de restructuration, droits à la formation.',
         ciblePublic: 'Agents contractuels en CDI de droit public.',
         droits: [

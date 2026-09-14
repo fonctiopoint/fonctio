@@ -187,15 +187,15 @@ export const SYNTHESE = {
   rqth: {
     droits: { label: 'Ce que la RQTH ouvre' },
     chiffres: [
-      { n: '1 à 5 ans', c: 'renouvelables' },
+      { n: '1 à 10 ans', c: 'ou sans limite' },
     ],
   },
 
   // ── Congés familiaux ──────────────────────────────────────────────────────
   'conge-maternite': {
     chiffres: [
-      { n: '16 sem.', c: '1er ou 2e enfant' },
-      { n: '26 sem.', c: '3e enfant ou plus' },
+      { n: '16 semaines', c: '1er ou 2e enfant' },
+      { n: '26 semaines', c: '3e enfant ou plus' },
       { n: '100 %', c: 'du traitement' },
     ],
   },
@@ -203,7 +203,7 @@ export const SYNTHESE = {
   'conge-patho': {
     chiffres: [
       { n: '21 j', c: 'en prénatal' },
-      { n: '4 sem.', c: 'en postnatal' },
+      { n: '4 semaines', c: 'en postnatal' },
       { n: '100 %', c: 'du traitement' },
     ],
   },
@@ -230,8 +230,8 @@ export const SYNTHESE = {
 
   'conge-adoption': {
     chiffres: [
-      { n: '10 sem.', c: '1er ou 2e enfant' },
-      { n: '18 sem.', c: '3e enfant ou plus' },
+      { n: '16 semaines', c: '1er ou 2e enfant' },
+      { n: '18 semaines', c: '3e enfant ou plus' },
       { n: '100 %', c: 'du traitement' },
     ],
   },
