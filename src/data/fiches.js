@@ -1281,7 +1281,7 @@ export const MODULES = [
         resume: 'Tout agent public a droit à un congé de paternité et d\'accueil de l\'enfant lors de la naissance. 25 jours pour une naissance simple, dont 4 jours obligatoires immédiatement après la naissance, sans condition d\'ancienneté.',
         ciblePublic: 'Père ou conjoint/partenaire PACS/concubin de la mère, quel que soit son sexe. Titulaires, stagiaires et contractuels, sans condition d\'ancienneté.',
         droits: [
-          { label: 'Naissance simple', valeur: '25 jours calendaires', detail: '4 jours obligatoires immédiatement après la naissance + 21 jours à prendre dans les 6 mois. Les 4 jours s\'ajoutent au congé de naissance de 3 jours — ce n\'est pas une autorisation d\'absence, c\'est un congé : vous avez donc au moins 7 jours consécutifs.' },
+          { label: 'Naissance simple', valeur: '25 jours calendaires', detail: '4 jours obligatoires immédiatement après la naissance + 21 jours à prendre dans les 6 mois. Les 4 jours s\'ajoutent au congé de naissance de 3 jours — ce n\'est pas une autorisation d\'absence, c\'est un congé : vous avez donc au moins 7 jours consécutifs. Source : art. L. 631-6 CGFP (congé de naissance).' },
           { label: 'Naissances multiples', valeur: '32 jours calendaires', detail: '4 jours obligatoires + 28 jours à prendre dans les 6 mois.' },
           { label: 'Rémunération', valeur: '100 % — temps plein', detail: 'Traitement et régime indemnitaire maintenus à 100 %. En cas de temps partiel, l\'agent est rémunéré à temps plein pendant le congé.' },
           { label: 'Sans condition d\'ancienneté', valeur: 'Depuis le 1er juillet 2021', detail: 'La condition de six mois de services a été supprimée par les trois décrets du printemps 2021 — 2021-846 en territoriale, 2021-871 à l\'État, 2021-1342 à l\'hôpital. Les contractuels conservent l\'intégralité de leur traitement dès le premier jour de contrat : décret 86-83 art. 15, décret 88-145 art. 10, décret 91-155 art. 13.' },
@@ -1293,7 +1293,6 @@ export const MODULES = [
           { num: 3, titre: 'Prendre les 21 jours restants', texte: 'Fractionnables en 2 périodes de 5 jours minimum, à prendre dans les 6 mois suivant la naissance. Ce délai se reporte dans deux situations : l\'hospitalisation immédiate de l\'enfant, et le décès de la mère. En dehors de ces cas, les jours non pris sont perdus.' },
         ],
         pieges: [
-          'Les 4 jours obligatoires s\'ajoutent au congé de naissance de 3 jours (art. L. 631-6 CGFP) — ce n\'est pas une simple autorisation d\'absence, c\'est un congé à part entière. Ne pas les confondre : l\'agent bénéficie donc d\'au moins 7 jours consécutifs.',
           'Le délai de six mois se reporte dans deux situations. Si l\'enfant est hospitalisé immédiatement après la naissance, le délai court jusqu\'à la fin de l\'hospitalisation, et la période de 4 jours peut elle-même être prolongée pendant cette hospitalisation, dans la limite de 30 jours consécutifs. Si la mère décède, le second parent a droit au congé postnatal de maternité, et les six mois ne commencent qu\'à la fin de ce congé — la demande est à adresser au service dans les huit jours du décès.',
           'En cas de décès de la mère, le second parent peut reprendre tout ou partie du congé de maternité non pris.',
         ],
@@ -1409,7 +1408,7 @@ export const MODULES = [
           { num: 1, titre: 'Demande écrite au service RH', texte: 'Au moins 2 mois avant la date de début. Le congé est accordé de plein droit — l\'administration ne peut pas le refuser.' },
           { num: 2, titre: 'Renouvellements', texte: 'Chaque renouvellement se demande au moins 1 mois avant l\'expiration de la période en cours.' },
           { num: 3, titre: 'Fin anticipée possible', texte: 'L\'agent peut mettre fin au congé parental à tout moment, sans justification de motif grave (depuis Loi 2016-483).' },
-          { num: 4, titre: 'Demande de réintégration', texte: 'À formuler au moins 1 mois avant l\'expiration de la période en cours — le même délai qu\'un renouvellement, depuis le décret 2020-529 qui a remplacé les deux mois antérieurs. Quatre semaines au moins avant le retour, un entretien avec le responsable des ressources humaines examine les modalités de la réintégration.' },
+          { num: 4, titre: 'Demande de réintégration', texte: 'À formuler au moins 1 mois avant l\'expiration de la période en cours — le même délai qu\'un renouvellement, depuis le décret 2020-529 qui a remplacé les deux mois antérieurs (voir aussi le droit « Entretien préalable » ci-dessus).' },
         ],
         pieges: [
           'Contrairement à une idée répandue, pour un enfant né ou adopté à compter du 1er janvier 2004, le congé parental est pris en compte pour la retraite, à 100 % et dans la limite de 3 ans par enfant — en constitution du droit, en liquidation et en durée d\'assurance. Il n\'y a rien à racheter pour ces périodes.',
