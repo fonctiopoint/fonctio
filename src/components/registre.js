@@ -15,6 +15,25 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { T } from '../theme/registre';
 
+// La référence qui clôt une explication passe en chasse fixe, sous
+// l'explication. On ne coupe que si « Source : » ouvre bien la DERNIÈRE
+// phrase — d'où le plafond de longueur : au-delà, ce qui suit est du texte de
+// lecture qu'il serait faux de composer comme une référence. En cas de doute
+// on ne coupe pas : la phrase reste alors dans l'explication, elle n'est
+// jamais perdue. Partagé par tous les blocs qui affichent un texte pouvant se
+// terminer par une source (la ligne à deux niveaux, l'étape numérotée, le
+// point d'attention).
+const LONGUEUR_MAX_REFERENCE = 110;
+
+export const couperSource = (detail) => {
+  if (!detail) return { texte: detail, reference: null };
+  const i = Math.max(detail.lastIndexOf('Source : '), detail.lastIndexOf('Sources : '));
+  if (i < 0) return { texte: detail, reference: null };
+  const reference = detail.slice(detail.indexOf(':', i) + 1).trim().replace(/\.$/, '');
+  if (reference.length > LONGUEUR_MAX_REFERENCE) return { texte: detail, reference: null };
+  return { texte: detail.slice(0, i).trim(), reference };
+};
+
 // ── Fil d'Ariane ────────────────────────────────────────────────────────────
 // `droite` reçoit les boutons propres à l'écran (favori, partage…).
 export const Fil = ({ ui, titre, onRetour, versant, droite }) => {
@@ -119,6 +138,7 @@ export const Paragraphe = ({ ui, style, children }) => {
 // ── Une entrée numérotée : étape, point d'attention, fiche d'un module ──────
 export const Numerote = ({ ui, num, icone, couleurIcone, titre, texte, style, onPress, fleche }) => {
   const { s, t, inter, th } = ui;
+  const { texte: corps, reference } = couperSource(texte);
   const contenu = (
     <>
       <View style={s.numerote}>
@@ -136,9 +156,14 @@ export const Numerote = ({ ui, num, icone, couleurIcone, titre, texte, style, on
         </View>
         {!!fleche && <Ionicons name="chevron-forward" size={15} color={th.textMuted} />}
       </View>
-      {!!texte && (
+      {!!corps && (
         <Text style={[s.detail, s.numeroteDetail, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
-          {texte}
+          {corps}
+        </Text>
+      )}
+      {!!reference && (
+        <Text style={[s.reference, s.numeroteDetail, { fontSize: t(T.source), lineHeight: t(T.source) * 1.5 }]}>
+          {reference}
         </Text>
       )}
     </>

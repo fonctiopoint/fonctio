@@ -29,7 +29,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRegistre, FILET } from '../theme/registreStyles';
 import {
-  Fil, TeteDePage, Section, BlocFilet, Paragraphe, Numerote, Action,
+  Fil, TeteDePage, Section, BlocFilet, Paragraphe, Numerote, Action, couperSource,
 } from '../components/registre';
 import { SERIF, MONO_LEGER, T } from '../theme/registre';
 import { getFicheById, MODULES } from '../data/fiches';
@@ -53,23 +53,6 @@ const formatDateFr = (iso) => {
 };
 
 const deuxChiffres = (n) => String(n).padStart(2, '0');
-
-// La référence qui clôt une explication passe en chasse fixe, sous
-// l'explication. On ne coupe que si « Source : » ouvre bien la DERNIÈRE phrase
-// — d'où le plafond de longueur : au-delà, ce qui suit est du texte de lecture
-// qu'il serait faux de composer comme une référence. En cas de doute on ne
-// coupe pas : la phrase reste alors dans l'explication, elle n'est jamais
-// perdue.
-const LONGUEUR_MAX_REFERENCE = 110;
-
-const couperSource = (detail) => {
-  if (!detail) return { texte: detail, reference: null };
-  const i = Math.max(detail.lastIndexOf('Source : '), detail.lastIndexOf('Sources : '));
-  if (i < 0) return { texte: detail, reference: null };
-  const reference = detail.slice(detail.indexOf(':', i) + 1).trim().replace(/\.$/, '');
-  if (reference.length > LONGUEUR_MAX_REFERENCE) return { texte: detail, reference: null };
-  return { texte: detail.slice(0, i).trim(), reference };
-};
 
 // Au-delà de cette longueur, la valeur ne tient plus à droite du libellé sur un
 // écran de téléphone : elle passe sous lui. Elle n'est jamais tronquée.
@@ -372,16 +355,26 @@ export default function FicheRegistreScreen({ navigation, route }) {
     pousser(
       <BlocFilet key="attention" ui={ui} couleur={C.attention}
                  titre="Points d'attention">
-        {pieges.map((p, i) => (
-          <View key={i} style={[s.point, i > 0 && s.pointSuivant]}>
-            <Text style={[s.pointNum, { color: C.attention, fontSize: t(T.valeur) }]}>
-              {deuxChiffres(i + 1)}
-            </Text>
-            <Text style={[s.detail, s.pointTexte, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
-              {typeof p === 'object' ? p.texte : p}
-            </Text>
-          </View>
-        ))}
+        {pieges.map((p, i) => {
+          const { texte: corps, reference } = couperSource(typeof p === 'object' ? p.texte : p);
+          return (
+            <View key={i} style={[s.point, i > 0 && s.pointSuivant]}>
+              <Text style={[s.pointNum, { color: C.attention, fontSize: t(T.valeur) }]}>
+                {deuxChiffres(i + 1)}
+              </Text>
+              <View style={s.pointCorps}>
+                <Text style={[s.detail, s.pointTexte, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
+                  {corps}
+                </Text>
+                {!!reference && (
+                  <Text style={[s.reference, { fontSize: t(T.source), lineHeight: t(T.source) * 1.5 }]}>
+                    {reference}
+                  </Text>
+                )}
+              </View>
+            </View>
+          );
+        })}
       </BlocFilet>
     );
   }
@@ -545,10 +538,11 @@ const propre = (th, F) => StyleSheet.create({
   majTitre: { fontWeight: '600', color: th.textPrimary },
   majMeta: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
 
-  point: { flexDirection: 'row', gap: 10, alignItems: 'baseline' },
+  point: { flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
   pointSuivant: { marginTop: 16 },
   pointNum: { fontFamily: MONO_LEGER, flexShrink: 0 },
-  pointTexte: { flex: 1, marginTop: 0 },
+  pointCorps: { flex: 1 },
+  pointTexte: { marginTop: 0 },
 
   tableau: { marginTop: 4 },
   tableauLigne: { flexDirection: 'row', borderBottomWidth: FILET, borderBottomColor: F.ligne },
