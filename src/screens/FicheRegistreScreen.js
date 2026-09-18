@@ -35,6 +35,7 @@ import { SERIF, MONO_LEGER, T } from '../theme/registre';
 import { getFicheById, MODULES } from '../data/fiches';
 import { getMajsForFiche } from '../data/veille';
 import { getSynthese } from '../data/synthese';
+import { courriersDeLaFiche } from '../data/courriers';
 import { VersantContext } from '../navigation/VersantContext';
 import { addFavori, removeFavori, isFavori, addRecent } from '../utils/storage';
 import { partagerFiche } from '../utils/partageFiche';
@@ -122,6 +123,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
   const pieges = pourCeVersant(fiche.pieges, versant);
   const versantNote = fiche.versantNotes?.[versant];
   const majs = getMajsForFiche(ficheId, versant);
+  const courriers = courriersDeLaFiche(ficheId, versant);
   const hasPosition = ficheIndex !== undefined && ficheTotal !== undefined;
 
   const toggleFavori = async () => {
@@ -392,6 +394,20 @@ export default function FicheRegistreScreen({ navigation, route }) {
         derniere
       />
     );
+    // Le modèle de courrier est posé ICI, sous le recours qu'il sert, et non
+    // dans « Aller plus loin » : c'est la suite immédiate de ce qu'on vient de
+    // lire, pas une ressource annexe.
+    courriers.forEach((c, i) => pousser(
+      <Action
+        key={`courrier-${i}`}
+        ui={ui}
+        titre={c.titre}
+        texte="Modèle de courrier prêt à envoyer depuis votre messagerie, avec les passages à compléter."
+        onPress={() => navigation.navigate('CourrierDetail', {
+          ficheId, courrierIndex: i, moduleTitle,
+        })}
+      />
+    ));
   }
 
   // ── Aller plus loin ───────────────────────────────────────────────────────

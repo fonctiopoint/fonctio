@@ -12,6 +12,7 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ModuleScreen from '../screens/ModuleScreen';
 import FicheRegistreScreen from '../screens/FicheRegistreScreen';
+import CourrierScreen from '../screens/CourrierScreen';
 import SimulateurScreen from '../screens/SimulateurScreen';
 import ProfilScreen from '../screens/ProfilScreen';
 import SearchScreen from '../screens/SearchScreen';
@@ -33,6 +34,7 @@ const HomeStack = ({ versant, setVersant }) => (
     </Stack.Screen>
     <Stack.Screen name="Module" component={ModuleScreen} />
     <Stack.Screen name="FicheDetail" component={FicheRegistreScreen} />
+    <Stack.Screen name="CourrierDetail" component={CourrierScreen} />
     <Stack.Screen name="Search" component={SearchScreen} />
   </Stack.Navigator>
 );
@@ -41,6 +43,7 @@ const SimulateurStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="SimulateurMain" component={SimulateurScreen} />
     <Stack.Screen name="FicheDetail" component={FicheRegistreScreen} />
+    <Stack.Screen name="CourrierDetail" component={CourrierScreen} />
   </Stack.Navigator>
 );
 
