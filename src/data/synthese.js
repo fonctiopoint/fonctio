@@ -291,6 +291,14 @@ export const SYNTHESE = {
     ],
   },
 
+  sft: {
+    chiffres: [
+      { n: '2,29 €', c: '1 enfant, fixe' },
+      { n: '10,67 €', c: '2 enfants, + 3 %' },
+      { n: '+ 6 %', c: 'par enfant au-delà du 3e' },
+    ],
+  },
+
   'conge-formation': {
     // Le délai de dépôt est la seule valeur de cette fiche qui change d'un
     // versant à l'autre, et c'est aussi celle qui fait rejeter les demandes.
