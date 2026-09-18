@@ -417,7 +417,7 @@ export const MODULES = [
         categorie: 'Santé & Congés maladie',
         chips: ['Titulaires', 'Subie', '3 à 6 ans selon le versant', 'Indemnisable'],
         resume: 'Quand un fonctionnaire a épuisé tous ses droits à congé maladie sans pouvoir reprendre, l\'administration le place d\'office en disponibilité. Le traitement s\'arrête, mais l\'agent reste fonctionnaire et conserve son droit à réintégration.',
-        ciblePublic: 'Fonctionnaires titulaires ayant épuisé leurs droits à CLM, CLD ou CITIS et se trouvant dans l\'impossibilité de reprendre le service.',
+        ciblePublic: 'Fonctionnaires titulaires ayant épuisé leurs droits à congé de maladie ordinaire, de longue maladie ou de longue durée et se trouvant dans l\'impossibilité de reprendre le service. Le CITIS suit un autre régime : il n\'a pas de durée à épuiser, et ne mène pas à cette disponibilité.',
         droits: [
           { label: 'Traitement', valeur: 'Suspendu', detail: 'La disponibilité d\'office n\'ouvre plus droit au traitement : l\'agent ne perçoit plus de rémunération au titre de son emploi. Ce n\'est pas pour autant l\'absence de tout revenu — voir les trois lignes qui suivent.' },
           { label: 'Demi-traitement d\'attente', valeur: 'Jusqu\'à la décision', detail: 'À l\'expiration de vos droits statutaires à CMO, CLM ou CLD, et tant que l\'instance médicale n\'a pas rendu son avis et l\'administration sa décision — reprise, reclassement, disponibilité d\'office ou retraite —, le demi-traitement est maintenu. Ce mécanisme vaut dans les trois versants. Source : décret 2011-1245 du 5 octobre 2011.' },
@@ -469,7 +469,7 @@ export const MODULES = [
         categorie: 'Santé & Congés maladie',
         chips: ['Nouveau 2026', 'Tous agents', 'Avis médical requis', 'Maintien dans l\'emploi'],
         resume: 'Depuis le 1er septembre 2026, un agent en congé pour raison de santé peut demander à suivre une formation ou à réaliser un bilan de compétences, sous réserve de l\'avis favorable d\'un médecin agréé. Un levier concret pour préparer un reclassement ou une reconversion sans attendre la reprise.',
-        ciblePublic: 'Agents publics des trois versants, titulaires et contractuels, placés en congé pour raison de santé (CMO, CLM, CLD, CITIS).',
+        ciblePublic: 'Agents publics des trois versants, titulaires et contractuels, placés en congé pour raison de santé — CMO, CLM, CLD ou CITIS pour les titulaires ; CMO, congé de grave maladie ou congé pour accident du travail et maladie professionnelle pour les contractuels.',
         droits: [
           { label: 'Initiative médicale — dès 30 jours', valeur: 'Sans que vous ayez à la demander', detail: 'Au cours de toute interruption de travail pour raison de santé dépassant trente jours, le médecin agréé, en lien avec votre médecin traitant, peut de sa propre initiative saisir le médecin du travail pour préparer les conditions de votre reprise ou envisager des actions de formation. Vous pouvez vous faire assister durant cette phase par une personne de votre choix. Source : art. 41-1 du décret 86-442 (et équivalents FPT/FPH).' },
           { label: 'Droit de demander', valeur: 'Ouvert pendant le congé', detail: 'L\'agent en congé pour raison de santé peut demander à réaliser ou à poursuivre une action de formation ou un bilan de compétences déjà engagé, sans attendre la fin de son congé ni sa reprise de fonctions.' },
@@ -493,6 +493,7 @@ export const MODULES = [
         recours: 'Refus non motivé de l\'administration : recours gracieux (2 mois) puis tribunal administratif. Avis médical défavorable : demande de contre-expertise, puis saisine du conseil médical.',
         sources: [
           { texte: 'Décret n° 2026-705 du 29 juillet 2026, art. 2, 3 et 4 (insère les art. 41-1 et 41-2 au décret 86-442, 31-1 et 31-2 au décret 87-602, et leurs équivalents au décret 88-386 — en vigueur au 1er septembre 2026)' },
+          { texte: 'Décret n° 2026-705 du 29 juillet 2026, art. 5, 6 et 7 (étend ce droit aux agents contractuels des trois versants via un nouvel art. 14-1 du décret 86-83, 9-2 du décret 88-145 et 12-1 du décret 91-155, pour les congés de maladie, de grave maladie et d\'accident du travail ou de maladie professionnelle)' },
           { texte: 'Art. 47-9-1 du décret 86-442 (et équivalents FPT/FPH), inséré par le décret 2026-705 (étend le droit à formation, entre autres, au congé pour invalidité temporaire imputable au service)' },
           { texte: 'Art. L. 422-1 et suivants CGFP (formation professionnelle et CPF)' },
           { texte: 'Décret n° 2017-928 du 6 mai 2017 (alimentation du CPF, crédit supplémentaire de 150 heures en prévention d\'inaptitude)' },
@@ -814,8 +815,8 @@ export const MODULES = [
           { label: 'Dans quel emploi', valeur: 'Même catégorie, ou inférieure', detail: 'Le reclassement s\'opère dans un emploi de la même catégorie hiérarchique ou, à défaut et sous réserve de votre accord exprès, dans un emploi de catégorie inférieure. Le poste doit être adapté à votre état de santé et compatible avec vos compétences professionnelles, compte tenu des préconisations médicales. Un emploi de catégorie inférieure ne peut donc pas vous être imposé.' },
           { label: 'Pendant la recherche', valeur: 'Congé sans traitement, 3 mois', detail: 'Si aucun reclassement ne peut vous être proposé avant la fin du préavis, vous êtes placé en congé sans traitement pour trois mois au maximum, le temps de la recherche. Ce placement suspend la date d\'effet du licenciement, et une attestation de suspension du contrat du fait de l\'administration vous est délivrée.' },
           { label: 'Si le reclassement est impossible', valeur: 'Licenciement et indemnité', detail: 'L\'indemnité de licenciement est égale à la moitié de votre rémunération de base pour chacune des douze premières années de services, au tiers de cette rémunération pour chacune des années suivantes, sans pouvoir dépasser douze fois la rémunération de base. La rémunération de base est votre dernière rémunération nette du mois civil précédant le licenciement, sans le supplément familial, les prestations familiales ni les heures supplémentaires.', versants: ['fpe'] },
-          { label: 'Délai de protection', valeur: '10 semaines incompressibles', detail: 'Le licenciement ne peut pas être prononcé avant l\'expiration d\'une période de dix semaines suivant la fin de votre congé de maladie. Et si vous avez encore des droits à congé de maladie rémunéré à ce moment-là, le licenciement est différé jusqu\'à leur épuisement complet. Source : art. 17, 4°, du décret 86-83.', versants: ['fpe'] },
-          { label: 'Accès à votre dossier', valeur: 'Droit garanti avant licenciement', detail: 'Le licenciement ne peut pas intervenir sans que vous ayez été mis en mesure de demander la communication de votre dossier médical et de votre dossier individuel. Demandez-les dès l\'entretien préalable : un licenciement prononcé sans cette possibilité est irrégulier. Source : art. 17, 5°, du décret 86-83.', versants: ['fpe'] },
+          { label: 'Délai de protection', valeur: '10 semaines incompressibles', detail: 'Le licenciement ne peut pas être prononcé avant l\'expiration d\'une période de dix semaines suivant la fin de votre congé de maladie. Et si vous avez encore des droits à congé de maladie rémunéré à ce moment-là, le licenciement est différé jusqu\'à leur épuisement complet. Cette garantie vaut dans les trois versants. Sources : art. 17, 4°, du décret 86-83 (État) ; art. 13 du décret 88-145 (territoriale) ; art. 17-1, III, du décret 91-155 (hôpital).' },
+          { label: 'Accès à votre dossier', valeur: 'Droit garanti avant licenciement', detail: 'Le licenciement ne peut pas intervenir sans que vous ayez été mis en mesure de demander la communication de votre dossier médical et de votre dossier individuel. Demandez-les dès l\'entretien préalable : un licenciement prononcé sans cette possibilité est irrégulier. Cette garantie vaut dans les trois versants. Sources : art. 17, 5°, du décret 86-83 (État) ; art. 13 du décret 88-145 (territoriale) ; art. 17-1 du décret 91-155 (hôpital).' },
         ],
         etapes: [
           { num: 1, titre: 'Constat d\'inaptitude définitive', texte: 'Par le médecin agréé, à l\'issue d\'un congé de maladie, de grave maladie, d\'accident du travail, de maladie professionnelle, de maternité, de paternité ou d\'adoption. Tant que l\'inaptitude n\'est que temporaire, la procédure ne s\'ouvre pas.' },
@@ -830,7 +831,7 @@ export const MODULES = [
           'La commission consultative paritaire doit obligatoirement être consultée avant tout licenciement pour inaptitude physique.',
           'Le délai pour demander le reclassement est très court — 4 jours pour une ancienneté de moins de six mois. Déposez la demande dès la convocation à l\'entretien préalable, même sans avoir de poste en vue : c\'est elle qui ouvre l\'obligation de recherche.',
           'Un emploi de catégorie inférieure ne peut vous être attribué qu\'avec votre accord exprès. Un refus de votre part sur ce point ne vaut pas refus de reclassement.',
-          { texte: 'Deux garanties trop souvent oubliées : le licenciement ne peut pas intervenir avant dix semaines après la fin de votre congé de maladie, ni tant que vous avez des droits à congé de maladie rémunéré non épuisés ; et vous devez avoir été mis en mesure de consulter votre dossier médical et individuel avant toute décision.', versants: ['fpe'] },
+          'Deux garanties trop souvent oubliées, valables dans les trois versants : le licenciement ne peut pas intervenir avant dix semaines après la fin de votre congé de maladie, ni tant que vous avez des droits à congé de maladie rémunéré non épuisés ; et vous devez avoir été mis en mesure de consulter votre dossier médical et individuel avant toute décision.',
         ],
         recours: 'Contestation du licenciement devant le tribunal administratif (2 mois).',
         sources: [
@@ -1409,10 +1410,11 @@ export const MODULES = [
         categorie: 'Congés familiaux',
         chips: ['Père & mère', 'Non rémunéré', 'De plein droit', 'Jusqu\'aux 3 ans de l\'enfant'],
         resume: 'Tout fonctionnaire peut bénéficier d\'un congé parental non rémunéré pour élever son enfant jusqu\'à ses 3 ans. Accordé de plein droit, les droits à avancement sont partiellement conservés et les congés annuels acquis sont reportables depuis 2024.',
-        ciblePublic: 'Fonctionnaires titulaires et stagiaires, père ou mère. Les deux parents peuvent en bénéficier successivement ou simultanément — la règle interdisant le cumul a été supprimée.',
+        ciblePublic: 'Fonctionnaires titulaires et stagiaires, père ou mère. Les agents contractuels y ont également droit, sous condition d\'ancienneté — voir plus bas. Les deux parents peuvent en bénéficier successivement ou simultanément — la règle interdisant le cumul a été supprimée.',
         droits: [
           { label: 'Durée', valeur: 'Jusqu\'aux 3 ans de l\'enfant', detail: 'Ou jusqu\'au 3e anniversaire de l\'arrivée de l\'enfant adopté. Renouvelable par périodes de 2 à 6 mois. Accordé de plein droit sur simple demande.' },
           { label: 'Les deux parents', valeur: 'Cumul possible', detail: 'Le congé parental peut être accordé à l\'un ou l\'autre des parents, ou aux deux simultanément. L\'ancienne interdiction du cumul pour un même enfant a été supprimée.' },
+          { label: 'Agents contractuels', valeur: '1 an d\'ancienneté requis', detail: 'Les agents contractuels ont eux aussi droit, sur leur demande, à un congé parental — mais seulement s\'ils justifient d\'au moins un an d\'ancienneté à la date de naissance de l\'enfant ou de son arrivée au foyer. Cette condition ne s\'applique pas aux titulaires, qui l\'obtiennent de plein droit dès la demande, sans condition d\'ancienneté. Sources : art. 19 du décret 86-83 (État), art. 14 du décret 88-145 (territoriale), art. 18 du décret 91-155 (hôpital).' },
           { label: 'Naissances multiples', valeur: 'Durée allongée', detail: 'Jusqu\'à l\'entrée à l\'école maternelle pour 2 enfants nés simultanément, et jusqu\'aux 6 ans de l\'enfant à partir de 3 naissances simultanées.' },
           { label: 'Rémunération', valeur: 'Aucune — allocations CAF', detail: 'L\'agent ne perçoit plus de traitement. Il peut percevoir les allocations CAF (PreParE, CMG) selon sa situation familiale et ses revenus.' },
           { label: 'Avancement', valeur: 'Conservé — limite 5 ans/carrière', detail: 'Droits à avancement d\'échelon et de grade maintenus, dans la limite totale de 5 ans sur l\'ensemble de la carrière.' },
@@ -1444,6 +1446,9 @@ export const MODULES = [
           { texte: 'Décret n°2020-529 du 05/05/2020 (entretien préalable de 4 semaines, délai de réintégration)' },
           { texte: 'Décret n°2025-564 du 21/06/2025 (report des congés annuels, limité aux 4 premières semaines)' },
           { texte: 'Loi n°2024-364 du 22/04/2024 art. 36' },
+          { texte: 'Art. 19 du décret n°86-83 du 17/01/1986 (congé parental — contractuels de l\'État)' },
+          { texte: 'Art. 14 du décret n°88-145 du 15/02/1988 (congé parental — contractuels territoriaux)' },
+          { texte: 'Art. 18 du décret n°91-155 du 06/02/1991 (congé parental — contractuels hospitaliers)' },
         ],
       },
 
