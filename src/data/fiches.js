@@ -1505,7 +1505,7 @@ export const MODULES = [
         pieges: [
           'L\'avis du conseil médical n\'est pas une décision — c\'est l\'administration qui décide.',
           'Ne pas confondre formation restreinte (3 médecins) et formation plénière (représentants de l\'administration, des personnels et médecins).',
-          'La saisine automatique ne se limite pas au CLM et au CLD : elle vaut aussi pour la disponibilité d\'office et le reclassement pour raison de santé. Pour le temps partiel thérapeutique ou une réintégration après un congé ordinaire, en revanche, c\'est l\'avis du médecin agréé qui prime — le conseil médical n\'intervient que si vous contestez cet avis. Demandez-le expressément par écrit.',
+          'La saisine automatique ne se limite pas au CLM et au CLD (voir les droits ci-dessus). Pour le temps partiel thérapeutique ou une réintégration après un congé ordinaire, elle n\'est pas automatique : demandez-la expressément par écrit si vous contestez l\'avis du médecin agréé.',
           'Le silence de 4 mois du conseil médical supérieur confirme l\'avis contesté. Ne comptez pas sur l\'absence de réponse pour gagner : relancez et documentez.',
         ],
         recours: 'Demande de contre-expertise médicale contradictoire. Recours gracieux puis contentieux.',
@@ -1527,16 +1527,15 @@ export const MODULES = [
         droits: [
           { label: 'Médecin agréé', valeur: 'Mandaté par l\'admin', detail: 'Le médecin agréé est un médecin généraliste ou spécialiste agréé par le préfet. Il est mandaté par l\'administration pour produire un avis médical dans des procédures spécifiques.' },
           { label: 'Missions', valeur: 'Évaluation d\'aptitude', detail: 'Il se prononce sur l\'aptitude au poste, la réalité d\'une maladie invoquée, l\'opportunité d\'un congé maladie, les conditions d\'un reclassement.' },
-          { label: 'Secret médical', valeur: 'Maintenu', detail: 'Le médecin agréé est tenu au secret médical. Il transmet uniquement ses conclusions (apte/inapte, durée) à l\'administration, jamais le diagnostic.' },
+          { label: 'Secret médical', valeur: 'Maintenu — diagnostic jamais transmis', detail: 'Le médecin agréé est tenu au secret médical : à l\'administration ne parviennent que l\'avis d\'aptitude ou d\'inaptitude, la durée du congé et les éventuelles restrictions fonctionnelles — jamais le diagnostic. Le rapport médical complet va au conseil médical, pas au service RH.' },
           { label: 'Auprès de qui', valeur: 'Tous agents concernés', detail: 'Le médecin agréé intervient pour tous les agents : titulaires comme contractuels, pour toute procédure nécessitant un avis médical officiel.' },
-          { label: 'Secret du diagnostic', valeur: 'Absolu', detail: 'L\'administration n\'a pas accès à votre diagnostic. Seuls lui parviennent l\'avis d\'aptitude ou d\'inaptitude, la durée du congé et les éventuelles restrictions fonctionnelles. Le rapport médical complet va au conseil médical, pas au service RH.' },
           { label: 'Accès à votre dossier', valeur: 'Droit garanti', detail: 'Vous pouvez consulter le dossier médical constitué à votre sujet dans le cadre des procédures statutaires.' },
         ],
         etapes: [
           { num: 1, titre: 'Saisine par l\'administration', texte: 'C\'est l\'administration qui saisit le médecin agréé, pas l\'agent directement. Elle le fait dans le cadre d\'une procédure précise : instruction d\'un CLM, vérification d\'aptitude au retour de congé, bilan pour reclassement…' },
           { num: 2, titre: 'Convocation de l\'agent', texte: 'L\'agent est convoqué par le médecin agréé. Il peut se présenter accompagné d\'un médecin de son choix (médecin de partie). Le refus de se soumettre à l\'examen peut entraîner des conséquences sur le dossier.' },
           { num: 3, titre: 'Examen et rapport', texte: 'Le médecin agréé examine l\'agent et peut consulter son dossier médical (transmis via le médecin traitant). Il rédige un rapport médical confidentiel destiné au conseil médical, et une conclusion transmissible à l\'administration.' },
-          { num: 4, titre: 'Transmission des conclusions', texte: 'Seules les conclusions (aptitude, inaptitude, durée estimée) parviennent à l\'administration. Le rapport médical complet va au conseil médical, pas au service RH.' },
+          { num: 4, titre: 'Transmission des conclusions', texte: 'Seules les conclusions parviennent à l\'administration — voir le droit « Secret médical » ci-dessus.' },
           { num: 5, titre: 'Recours possible', texte: 'Si l\'agent conteste les conclusions du médecin agréé, il peut demander une contre-expertise ou saisir le conseil médical qui peut ordonner une expertise contradictoire.' },
         ],
         pieges: [
@@ -1577,7 +1576,7 @@ export const MODULES = [
           { num: 4, titre: 'Droit d\'alerte', texte: 'En cas de danger grave et imminent, l\'assistant de prévention peut exercer un droit d\'alerte et en informer immédiatement le chef de service et le représentant du SPST.' },
         ],
         pieges: [
-          'L\'assistant de prévention ne se substitue pas au médecin de prévention (SPST) — leurs rôles sont complémentaires mais distincts. Le médecin a une indépendance professionnelle ; l\'assistant est sous autorité hiérarchique.',
+          'L\'assistant de prévention ne se substitue pas au médecin de prévention (SPST) — leurs rôles sont complémentaires mais distincts (voir le droit « Positionnement hiérarchique » ci-dessus).',
           'L\'assistant de prévention ne peut pas être sanctionné pour avoir exercé son droit d\'alerte de bonne foi — toute mesure de rétorsion constitue une faute de l\'administration.',
           'Le DUERP doit être mis à jour lors de toute modification significative des conditions de travail ou dès qu\'une information nouvelle sur un risque le justifie — l\'assistant de prévention est acteur de cette mise à jour mais ce n\'est pas lui seul qui en est responsable. La mise à jour au moins annuelle, elle, ne s\'impose que dans les structures d\'au moins onze agents : en dessous de ce seuil — le cas de nombreuses petites communes — elle n\'est due qu\'en cas de changement ou d\'information nouvelle. Source : art. R. 4121-2 du code du travail.',
           'L\'assistant de prévention n\'est pas responsable pénalement des accidents du travail — la responsabilité incombe à l\'employeur et au chef de service.',
