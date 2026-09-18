@@ -1695,7 +1695,6 @@ export const MODULES = [
         ],
         pieges: [
           'L\'administration est tenue d\'accorder la protection sauf faute personnelle de l\'agent. Les refus sont fréquents, et un refus qui n\'invoque pas une faute personnelle est contestable.',
-          'Ne pas attendre la fin de la procédure judiciaire — demander la protection dès que les faits surviennent.',
         ],
         recours: 'Refus : recours gracieux immédiat, puis référé devant le tribunal administratif (urgence).',
         sources: [
@@ -1746,8 +1745,8 @@ export const MODULES = [
           { label: 'Registre de signalement', valeur: 'Document officiel', detail: 'Chaque service doit tenir un registre des signalements. La fiche remplie est conservée et peut être consultée par les membres de la formation spécialisée du CSA (ex-CHSCT).' },
         ],
         etapes: [
-          { num: 1, titre: 'Identifier la situation à signaler', texte: 'La fiche de signalement peut concerner : un accident de travail ou de trajet, un incident sans accident, une situation dangereuse (risque physique, chimique, psychosocial), une situation de mal-être au travail, un comportement potentiellement harcelant, ou tout autre fait portant atteinte à la santé ou à la sécurité.' },
-          { num: 2, titre: 'Remplir la fiche de signalement', texte: 'La fiche comprend l\'identité de l\'agent (qui peut choisir de rester anonyme pour certains signalements), la description précise des faits (date, lieu, circonstances, personnes présentes), les conséquences constatées ou potentielles, et les mesures déjà prises le cas échéant.' },
+          { num: 1, titre: 'Identifier la situation à signaler', texte: 'La fiche de signalement peut concerner :\n• un accident de travail ou de trajet\n• un incident sans accident\n• une situation dangereuse (risque physique, chimique, psychosocial)\n• une situation de mal-être au travail\n• un comportement potentiellement harcelant\n• tout autre fait portant atteinte à la santé ou à la sécurité' },
+          { num: 2, titre: 'Remplir la fiche de signalement', texte: 'La fiche comprend :\n• l\'identité de l\'agent (qui peut choisir de rester anonyme pour certains signalements)\n• la description précise des faits (date, lieu, circonstances, personnes présentes)\n• les conséquences constatées ou potentielles\n• les mesures déjà prises, le cas échéant' },
           { num: 3, titre: 'Transmettre la fiche', texte: 'La fiche est remise au supérieur hiérarchique direct et à l\'assistant de prévention du service. Elle peut également être transmise directement au représentant du SPST (médecin de prévention) ou au référent harcèlement si les faits le justifient.' },
           { num: 4, titre: 'Suivi du signalement', texte: 'Le chef de service accuse réception et indique les mesures prises ou envisagées. En cas d\'inaction ou de réponse insatisfaisante, l\'agent peut saisir la formation spécialisée du CSA, l\'inspecteur santé et sécurité au travail, ou le Défenseur des droits selon la nature des faits.' },
         ],
@@ -1802,7 +1801,7 @@ export const MODULES = [
         etapes: [
           { num: 1, titre: 'Se renseigner auprès du service RH', texte: 'Le service RH est l\'interlocuteur principal pour toute démarche d\'affiliation. Il informe l\'agent sur le contrat collectif retenu par l\'administration, les organismes éligibles, les niveaux de garanties, et les modalités d\'affiliation.' },
           { num: 2, titre: 'Adhérer au contrat collectif', texte: 'L\'agent adhère au contrat de référence ou à un contrat labellisé proposé par son administration. L\'adhésion est obligatoire pour bénéficier de la participation employeur, sauf cas de dispense.' },
-          { num: 3, titre: 'Cas de dispense', texte: 'Certains agents peuvent demander à ne pas adhérer au contrat collectif : ceux déjà couverts par un contrat collectif obligatoire (conjoint salarié du privé), les agents en CDD de moins d\'un an, les agents à temps très partiel. La demande de dispense se fait par écrit auprès du service RH.' },
+          { num: 3, titre: 'Cas de dispense', texte: 'Certains agents peuvent demander à ne pas adhérer au contrat collectif :\n• ceux déjà couverts par un contrat collectif obligatoire (conjoint salarié du privé)\n• les agents en CDD de moins d\'un an\n• les agents à temps très partiel\n\nLa demande de dispense se fait par écrit auprès du service RH.' },
           { num: 4, titre: 'Vérifier sa couverture', texte: 'L\'agent doit vérifier que sa couverture santé et sa prévoyance sont adaptées à sa situation : garanties, plafonds, délais de carence, couverture des ayants droit, prestations en cas d\'incapacité prolongée.' },
         ],
         pieges: [
@@ -1821,9 +1820,7 @@ export const MODULES = [
           { texte: 'Loi de financement de la sécurité sociale pour 2026, art. 75 (report de la FPH au 01/01/2027)' },
         ],
         versantNotes: {
-          fpe: 'FPE : la participation de 50 % sur la santé est liée au contrat collectif négocié par votre ministère. Les premiers ont pris effet le 1er janvier 2025 et plus de 80 % des agents de l\'État y avaient accès au 1er mai 2026 — le forfait transitoire de 15 € de 2022 s\'arrête à cette date d\'effet. Côté prévoyance, l\'accord de 2023 prévoit 7 € par mois. Votre RH dispose des détails du contrat retenu et de sa date d\'entrée en vigueur.',
-          fpt: 'FPT : deux dates à ne pas confondre. La prévoyance est obligatoire depuis le 1er janvier 2025 (au moins 7 € par mois). La santé l\'est depuis le 1er janvier 2026 (au moins 15 € par mois, soit 50 % d\'un montant de référence de 30 €). Renseignez-vous auprès de votre DRH sur le contrat retenu par votre collectivité.',
-          fph: 'FPH : la participation employeur de 50 % sur la santé n\'est pas encore en vigueur. Prévue initialement pour 2026, elle a été reportée au 1er janvier 2027 par la loi de financement de la sécurité sociale pour 2026. Certains établissements participent déjà à titre volontaire, via le CGOS ou un dispositif propre : c\'est à vérifier auprès de votre DRH. Aucune obligation légale ne s\'impose toutefois avant 2027.',
+          fph: 'FPH : certains établissements participent déjà à titre volontaire, via le CGOS ou un dispositif propre, en amont de l\'obligation légale de 2027 (voir les droits ci-dessus) — à vérifier auprès de votre DRH.',
         },
       },
       {
@@ -1946,11 +1943,6 @@ export const MODULES = [
           { texte: 'Décret n° 2007-1845 du 26 décembre 2007, art. 15 — délai de 90 jours (FPT, abrogé au 01/08/2026 et codifié)' },
           { texte: 'Décret n° 2008-824 du 21 août 2008, art. 30 — délai de 60 jours et indemnité jusqu\'à 24 mois (FPH, abrogé au 01/08/2026 et codifié)' },
         ],
-        versantNotes: {
-          fpe: 'FPE : demande à déposer au moins 120 jours avant le début de la formation — le délai le plus long des trois versants. Indemnité de 85 % pendant 12 mois au maximum, plafonnée à l\'indice brut 650.',
-          fpt: 'FPT : demande à déposer au moins 90 jours avant le début de la formation, soit trois mois — et non quatre comme à l\'État. L\'autorité territoriale répond dans les 30 jours. Indemnité de 85 % pendant 12 mois au maximum, plafonnée à l\'indice brut 650.',
-          fph: 'FPH : demande à déposer au moins 60 jours avant le début de la formation — le délai le plus court des trois versants. L\'indemnité de 85 % peut être versée pendant 24 mois lorsque la formation dure deux ans ou plus, au lieu de 12 mois ailleurs.',
-        },
       },
     ],
   },
@@ -2059,7 +2051,7 @@ export const MODULES = [
         ],
         pieges: [
           'L\'agent ne peut pas être mis à la retraite pour invalidité sans avis du conseil médical.',
-          'Si l\'invalidité est imputable au service, ce n\'est pas la pension qui augmente : c\'est une rente viagère qui s\'y ajoute. Veillez à ce que le conseil médical se prononce expressément sur l\'imputabilité — sans cette mention au dossier, la rente n\'est pas ouverte.',
+          'Si l\'invalidité est imputable au service, veillez à ce que le conseil médical se prononce expressément sur l\'imputabilité (voir le droit ci-dessus) — sans cette mention au dossier, la rente n\'est pas ouverte.',
         ],
         recours: 'Contestation : recours gracieux, puis tribunal administratif.',
         sources: [
