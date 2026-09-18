@@ -739,11 +739,6 @@ export const MODULES = [
           { texte: 'Décret n° 2026-705 du 29 juillet 2026 (rédaction en vigueur des art. 7, 10 et 12 — progressivité maintenue en FPT et FPH)' },
           { texte: 'Art. L. 323-1 et suivants Code de la sécurité sociale (IJ CPAM)' },
         ],
-        versantNotes: {
-          fpe: 'FPE : depuis le 1er septembre 2024, 3 mois à 90 % puis 9 mois à 50 % dès 4 mois d\'ancienneté. Source : Décret 2024-641.',
-          fpt: 'FPT : régime progressif selon votre ancienneté dans la collectivité. Exemple avec 3 ans d\'ancienneté et 2 000 € brut : mois 1-3 → 1 800 € (90 %), mois 4-6 → 1 000 € (50 %), mois 7+ → IJ CPAM seules. Source : Décret 88-145 art. 7.',
-          fph: 'FPH : régime progressif selon votre ancienneté dans l\'établissement — le même qu\'en FPT, et non celui de l\'État. Exemple avec 1 an d\'ancienneté et 2 000 € brut : mois 1 → 1 800 € (90 %), mois 2 → 1 000 € (50 %), mois 3+ → IJ CPAM seules. Source : Décret 91-155 art. 10.',
-        },
       },
       {
         id: 'cgm',
@@ -787,11 +782,6 @@ export const MODULES = [
           { texte: 'Décret n° 2010-997, art. 2-1 (primes à 33 % puis 60 % — État)' },
           { texte: 'Décret n° 2026-705 du 29 juillet 2026 (condition d\'ancienneté à l\'État, à compter du 01/09/2026)' },
         ],
-        versantNotes: {
-          fpe: 'FPE : quatre mois de service suffisent depuis le 1er septembre 2026. Rémunération : 100 % du traitement + 33 % des primes en 1re année, puis 60 % + 60 % des primes en 2e et 3e années. Sources : art. 13 du Décret 86-83 modifié par le Décret 2026-705, art. 2-1 du Décret 2010-997.',
-          fpt: 'FPT : trois années de services sont exigées pour ouvrir le droit. Rémunération : 100 % du traitement en 1re année, puis 50 % en 2e et 3e années. Les primes ne sont pas revalorisées — le décret 2024 ne s\'applique pas aux contractuels FPT. Source : Décret 88-145 art. 8.',
-          fph: 'FPH : trois années de services effectifs sont exigées pour ouvrir le droit. Rémunération : traitement intégral pendant 12 mois, puis demi-traitement (50 %) pendant les 24 mois suivants. Le taux de 60 % que l\'on lit souvent est celui de l\'État : il ne s\'applique pas à la FPH. Source : Décret 91-155 art. 11.',
-        },
       },
       {
         id: 'reclassement-contractuels',
@@ -822,7 +812,7 @@ export const MODULES = [
           'La commission consultative paritaire doit obligatoirement être consultée avant tout licenciement pour inaptitude physique.',
           'Le délai pour demander le reclassement est très court — 4 jours pour une ancienneté de moins de six mois. Déposez la demande dès la convocation à l\'entretien préalable, même sans avoir de poste en vue : c\'est elle qui ouvre l\'obligation de recherche.',
           'Un emploi de catégorie inférieure ne peut vous être attribué qu\'avec votre accord exprès. Un refus de votre part sur ce point ne vaut pas refus de reclassement.',
-          'Deux garanties trop souvent oubliées, valables dans les trois versants : le licenciement ne peut pas intervenir avant dix semaines après la fin de votre congé de maladie, ni tant que vous avez des droits à congé de maladie rémunéré non épuisés ; et vous devez avoir été mis en mesure de consulter votre dossier médical et individuel avant toute décision.',
+          'Deux garanties trop souvent oubliées, valables dans les trois versants :\n• le licenciement ne peut pas intervenir avant dix semaines après la fin de votre congé de maladie, ni tant que vous avez des droits à congé de maladie rémunéré non épuisés\n• vous devez avoir été mis en mesure de consulter votre dossier médical et individuel avant toute décision',
         ],
         recours: 'Contestation du licenciement devant le tribunal administratif (2 mois).',
         sources: [
