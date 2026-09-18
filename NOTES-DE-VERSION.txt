@@ -1,0 +1,81 @@
+NOTES DE VERSION — FONCTIO
+==========================
+
+Le champ « Nouveautés » de la Play Console est limité à 500 caractères par
+langue. Le texte ci-dessous s'y colle tel quel, sans retouche.
+
+Conserver l'historique : le texte d'une version livrée ne se réécrit pas, on
+ajoute la suivante au-dessus.
+
+
+-------------------------------------------------------------------------------
+VERSION 1.2.1 — versionCode 14 — septembre 2026
+-------------------------------------------------------------------------------
+
+Build EAS : a56ad4df-a0c8-4e76-8c53-6f8f750fae07
+Runtime   : "1"  (fixe — voir CLAUDE.md, section Déploiement)
+
+Le versionCode 13 correspond à un build annulé en file d'attente : il avait été
+lancé avant la mise à jour du bandeau « Nouveautés », et aurait donc annoncé
+les nouveautés d'août sur une version de septembre. Les versionCode n'ont qu'à
+croître, sauter un numéro est sans conséquence.
+
+À COLLER DANS LA PLAY CONSOLE (fr-FR) :
+
+Version 1.2.1
+
+NOUVEAU — Un modèle de courrier sur chaque fiche
+Recours gracieux, demande de contre-expertise, RAPO : le modèle s'ouvre dans
+votre messagerie, les passages à compléter sont signalés, et les délais
+applicables sont rappelés avant l'envoi.
+
+NOUVEAU — Supplément familial de traitement (SFT)
+44e fiche : barème à jour, couple d'agents, résidence alternée, temps partiel.
+
+Toutes les fiches ont été réécrites pour être plus claires, et un lien mène à
+l'assistant de service social.
+
+-- fin du texte à coller --
+
+
+CE QUE CETTE VERSION EMBARQUE, EN DÉTAIL
+
+Contenu
+  - 44 fiches (43 + le supplément familial de traitement)
+  - Troisième et quatrième passes juridiques : vérification aux textes sur les
+    trois versants, en lecture brute Legifrance
+  - Cinquième passe : réécriture pédagogique, mise en puces des énumérations,
+    suppression des redites entre droits et notes de versant
+  - Sources citées en référence sous les explications, les étapes et les
+    points d'attention
+
+Modèles de courrier
+  - Un modèle sous le bloc « Vos recours » de chaque fiche, 45 au total
+  - Six squelettes : recours gracieux, recours hiérarchique, demande initiale,
+    contre-expertise médicale, RAPO devant la MDPH, commission de recours
+    amiable
+  - Aucun modèle de saisine juridictionnelle : une requête au tribunal
+    administratif obéit à des règles de forme précises, et un modèle
+    approximatif exposerait l'agent à une irrecevabilité
+  - Export par messagerie (mailto:) ou feuille de partage
+
+Navigation
+  - Les encarts « Se faire accompagner » renvoient à la fiche de l'assistant
+    de service social
+
+Technique
+  - runtimeVersion figé à "1", découplé de la version de l'application. Les
+    OTA survivent désormais à un changement de numéro de version.
+
+
+AVANT DE SOUMETTRE
+
+  1. Fichiers OneDrive en conflit :
+       find src -name "*Name clash*"
+     Doit ne rien renvoyer. Differ avant de supprimer quoi que ce soit.
+
+  2. Permissions déclarées dans le .aab : vérifier qu'aucune permission
+     inattendue n'a été ajoutée par une dépendance.
+
+  3. Déclaration de l'identifiant publicitaire dans la Play Console :
+     l'application n'en utilise pas.

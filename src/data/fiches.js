@@ -7,17 +7,16 @@
 // ─────────────────────────────────────────────────────────────────────────────
 export const NOUVEAUTES = {
   active: true,
-  version: 'v10',
-  date: 'Août 2026',
-  titre: 'Nouveautés — Août 2026',
+  version: 'v11',
+  date: 'Septembre 2026',
+  titre: 'Nouveautés — Septembre 2026',
   lignes: [
-    'Congé supplémentaire de naissance (1 ou 2 mois)',
-    'Se former pendant un congé de santé',
-    'Décret du 29/07/2026 : TPT et arrêts de travail',
-    'CLD : liste des affections corrigée (dont cancer)',
-    'Contractuels FPH : régime rétabli (Décret 91-155)',
-    'PSC : FPT 2026, FPH reportée à 2027',
-    'App recentrée : 43 fiches, 10 modules',
+    'Un modèle de courrier sur chaque fiche',
+    'À envoyer depuis votre propre messagerie',
+    'Nouvelle fiche : supplément familial (SFT)',
+    'Fiches réécrites : plus courtes, plus claires',
+    "Lien direct vers l'assistant de service social",
+    '44 fiches, 10 modules',
   ],
 };
 
