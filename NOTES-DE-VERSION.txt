@@ -73,9 +73,41 @@ AVANT DE SOUMETTRE
   1. Fichiers OneDrive en conflit :
        find src -name "*Name clash*"
      Doit ne rien renvoyer. Differ avant de supprimer quoi que ce soit.
+     >>> FAIT le 18/09/2026 : aucun conflit.
 
-  2. Permissions déclarées dans le .aab : vérifier qu'aucune permission
-     inattendue n'a été ajoutée par une dépendance.
+  2. Permissions du manifeste FUSIONNÉ :
+       python outils/controler-aab.py <chemin-ou-url-du-aab>
+     >>> FAIT le 18/09/2026 sur le versionCode 14 : aucune alerte.
 
   3. Déclaration de l'identifiant publicitaire dans la Play Console :
-     l'application n'en utilise pas.
+     répondre NON.
+     >>> VÉRIFIÉ le 18/09/2026 : com.google.android.gms.permission.AD_ID est
+         ABSENTE du manifeste fusionné. C'est le contrôle qui compte — une
+         bibliothèque peut la déclarer à votre insu, et répondre « non » alors
+         qu'elle est présente fait recaler la soumission.
+
+
+RÉSULTAT DU CONTRÔLE DU versionCode 14
+
+  Permissions DEMANDÉES (uses-permission — visibles sur la fiche du magasin) :
+      android.permission.INTERNET
+      android.permission.ACCESS_NETWORK_STATE
+  Ce sont les deux seules, et les seules nécessaires.
+
+  Permission EXIGÉE des appelants (garde de sécurité, PAS une demande) :
+      android.permission.DUMP
+  Portée par le receiver androidx.profileinstaller.ProfileInstallReceiver, via
+  android:permission="…". Elle restreint QUI peut lui envoyer un broadcast.
+  Elle n'apparaît pas dans les permissions de la fiche du magasin, et
+  blockedPermissions ne la retire pas — à raison : retirer une garde rendrait
+  le composant moins protégé, pas plus.
+
+  ⚠ Ne pas confondre les deux rôles. Un contrôle qui cherche « permission »
+  sans regarder l'attribut porteur signale DUMP comme une anomalie alors que le
+  manifeste est sain. Le script fait la distinction ; la relire avant de
+  s'alarmer.
+
+  Les 5 permissions de blockedPermissions (SYSTEM_ALERT_WINDOW, DUMP,
+  READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, VIBRATE) sont bien absentes
+  des uses-permission. expo-file-system déclarait les deux permissions de
+  stockage : le blocage a donc bien opéré.
