@@ -230,7 +230,9 @@ function calculerProjection({ statut, versant, traitement, primes, quotite, regi
           traitMaintenu = tBase; primesMaintenues = pBase; label = '100 % + primes'; couleur = Colors.olive;
           break;
         case 'tpt':
-          // Art. 34-4° bis Loi 84-16 : plein traitement maintenu
+          // Art. L. 823-4 CGFP : plein traitement maintenu, quelle que soit
+          // la quotité de reprise (l'ancienne loi 84-16 art. 34-4° bis a été
+          // recodifiée à droit constant dans le CGFP en 2022).
           traitMaintenu = tBase; primesMaintenues = pBase; label = 'Plein traitement'; couleur = Colors.olive;
           break;
         default:
