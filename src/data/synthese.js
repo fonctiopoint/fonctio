@@ -247,10 +247,19 @@ export const SYNTHESE = {
   // ── Vos interlocuteurs ────────────────────────────────────────────────────
   prevention: {
     droits: { label: 'Ce à quoi vous avez droit' },
-    chiffres: [
-      { n: '5 ans', c: 'entre deux visites' },
-      { n: '4 ans', c: 'si suivi renforcé' },
-    ],
+    chiffresParVersant: {
+      fpe: [
+        { n: '5 ans', c: 'entre deux visites' },
+        { n: '4 ans', c: 'si suivi renforcé' },
+      ],
+      fpt: [
+        { n: '5 ans', c: 'entre deux visites' },
+        { n: '4 ans', c: 'si suivi renforcé' },
+      ],
+      fph: [
+        { n: '24 mois', c: 'entre deux examens' },
+      ],
+    },
   },
 
   // ── Protection sociale complémentaire ─────────────────────────────────────

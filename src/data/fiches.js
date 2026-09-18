@@ -1476,8 +1476,10 @@ export const MODULES = [
         resume: 'Le médecin de prévention joue un rôle de conseil et de prévention — il n\'est pas le médecin de l\'administration. Il agit dans l\'intérêt de la santé des agents.',
         ciblePublic: 'Tous les agents publics (titulaires et contractuels).',
         droits: [
-          { label: 'Visite d\'information et de prévention', valeur: 'Au moins tous les 5 ans', detail: 'C\'est la périodicité minimale dans les trois versants. En territoriale, elle était encore de 2 ans jusqu\'au décret du 8 décembre 2025 qui l\'a portée à 5 ans — une information encore fausse sur beaucoup de sites.' },
-          { label: 'Surveillance médicale renforcée', valeur: 'Tous les 4 ans + visite intermédiaire', detail: 'Certains agents relèvent d\'un suivi rapproché : personnes en situation de handicap, femmes enceintes, agents réintégrés après un CLM ou un CLD, et agents exposés à un risque particulier. Pour eux, la visite est faite par un médecin du travail au moins tous les 4 ans, avec une visite intermédiaire par un professionnel de santé dans les 2 ans qui suivent.' },
+          { label: 'Visite d\'information et de prévention', valeur: 'Au moins tous les 5 ans', detail: 'C\'est la périodicité minimale à l\'État et en territoriale. En territoriale, elle était encore de 2 ans jusqu\'au décret du 8 décembre 2025 qui l\'a portée à 5 ans — une information encore fausse sur beaucoup de sites. L\'hôpital a son propre régime, plus fréquent : voir la ligne suivante.', versants: ['fpe', 'fpt'] },
+          { label: 'Examen médical', valeur: 'Au moins tous les 24 mois', detail: 'À l\'hôpital, ce n\'est pas la visite d\'information et de prévention de 5 ans qui s\'applique, mais un examen médical propre à ce versant, plus fréquent : au moins tous les 24 mois, effectué par le médecin du travail lui-même. Source : art. R. 4626-26 du code du travail — jamais abrogé depuis sa création en 2016, il prime sur la règle générale de 5 ans pour les établissements de santé.', versants: ['fph'] },
+          { label: 'Surveillance médicale renforcée', valeur: 'Tous les 4 ans + visite intermédiaire', detail: 'Certains agents relèvent d\'un suivi rapproché : personnes en situation de handicap, femmes enceintes, agents réintégrés après un CLM ou un CLD, et agents exposés à un risque particulier. Pour eux, la visite est faite par un médecin du travail au moins tous les 4 ans, avec une visite intermédiaire par un professionnel de santé dans les 2 ans qui suivent.', versants: ['fpe', 'fpt'] },
+          { label: 'Surveillance médicale renforcée', valeur: 'À la discrétion du médecin du travail', detail: 'Mêmes catégories qu\'à l\'État et en territoriale — dont les agents réintégrés après un CLM ou un CLD — mais sans plafond légal de 4 ans ni visite intermédiaire imposée à 2 ans : c\'est le médecin du travail qui fixe librement la fréquence, dans le respect du minimum de 24 mois. Source : art. R. 4626-27 et R. 4626-28 du code du travail.', versants: ['fph'] },
           { label: 'Visite à la demande', valeur: 'Sur demande agent', detail: 'L\'agent peut demander une visite à tout moment auprès du SPST.' },
           { label: 'Fiche d\'aptitude', valeur: 'Document clé', detail: 'Atteste de l\'aptitude à occuper le poste. Ne contient pas le diagnostic.' },
         ],
@@ -1496,6 +1498,7 @@ export const MODULES = [
           { texte: 'Décret n° 85-603 du 10 juin 1985 (hygiène, sécurité et médecine préventive — FPT)' },
           { texte: 'Art. R. 4626-1 et suivants Code du travail (service de santé au travail — établissements de santé, FPH)' },
           { texte: 'Décret n° 2025-1193 du 8 décembre 2025 (périodicité de la visite en FPT : 5 ans, 4 ans en surveillance renforcée)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000053010650' },
+          { texte: 'Art. D. 4626-1 et R. 4626-26 à R. 4626-28 du code du travail (FPH — examen médical tous les 24 mois, surveillance renforcée sans plafond légal)' },
         ],
       },
       {
@@ -1507,7 +1510,7 @@ export const MODULES = [
         ciblePublic: 'Tous les fonctionnaires titulaires pour les décisions nécessitant un avis médical réglementaire.',
         droits: [
           { label: 'Formation restreinte', valeur: '3 médecins', detail: 'Composée de 3 médecins désignés par le préfet pour 3 ans à partir d\'une liste de médecins agréés. C\'est l\'ancien comité médical.' },
-          { label: 'Ce qu\'elle examine d\'office', valeur: 'CLM et CLD', detail: 'Sa saisine est obligatoire pour l\'octroi d\'un premier congé de longue maladie ou de longue durée, et pour leur renouvellement une fois épuisée la période rémunérée à plein traitement.' },
+          { label: 'Ce qu\'elle examine d\'office', valeur: 'CLM, CLD, disponibilité, reclassement', detail: 'Sa saisine est obligatoire pour l\'octroi d\'un premier congé de longue maladie ou de longue durée, leur renouvellement une fois épuisée la période à plein traitement, la réintégration à l\'expiration des droits à congé pour raison de santé, la mise en disponibilité d\'office pour raison de santé — y compris son renouvellement et la réintégration à son issue —, et le reclassement dans un autre corps ou cadre d\'emplois suite à une altération de l\'état de santé. Ce n\'est donc pas seulement le CLM et le CLD. Source : art. 7 du décret 2022-353 (et équivalents FPT/FPH).' },
           { label: 'Ce qu\'elle examine sur contestation', valeur: 'TPT, reprise, autres congés', detail: 'Pour le reste — temps partiel thérapeutique, réintégration après un congé, octroi ou renouvellement d\'un congé pour raison de santé — le conseil médical n\'est pas saisi d\'office. Il l\'est en cas de contestation de l\'avis rendu par le médecin agréé. C\'est une confusion fréquente : la saisine n\'étant pas automatique, il faut la demander.' },
           { label: 'Formation plénière', valeur: 'Ex-commission de réforme', detail: 'Intervient pour : imputabilité au service d\'un accident ou d\'une maladie, retraite pour invalidité, ATI.' },
           { label: 'Droits de l\'agent', valeur: 'Garantis', detail: 'Être entendu, se faire accompagner d\'un médecin de son choix, contester l\'avis.' },
@@ -1522,12 +1525,13 @@ export const MODULES = [
         pieges: [
           'L\'avis du conseil médical n\'est pas une décision — c\'est l\'administration qui décide.',
           'Ne pas confondre formation restreinte (3 médecins) et formation plénière (représentants de l\'administration, des personnels et médecins).',
-          'La saisine n\'est automatique que pour le CLM et le CLD. Pour un temps partiel thérapeutique ou une réintégration, c\'est l\'avis du médecin agréé qui prime — le conseil médical n\'intervient que si vous contestez cet avis. Demandez-le expressément par écrit.',
+          'La saisine automatique ne se limite pas au CLM et au CLD : elle vaut aussi pour la disponibilité d\'office et le reclassement pour raison de santé. Pour le temps partiel thérapeutique ou une réintégration après un congé ordinaire, en revanche, c\'est l\'avis du médecin agréé qui prime — le conseil médical n\'intervient que si vous contestez cet avis. Demandez-le expressément par écrit.',
           'Le silence de 4 mois du conseil médical supérieur confirme l\'avis contesté. Ne comptez pas sur l\'absence de réponse pour gagner : relancez et documentez.',
         ],
         recours: 'Demande de contre-expertise médicale contradictoire. Recours gracieux puis contentieux.',
         sources: [
           { texte: 'Décret n° 2022-353 du 11 mars 2022 (conseil médical — FPE)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045344395' },
+          { texte: 'Art. 7 du décret n° 2022-353 (liste complète des saisines d\'office et des saisines sur contestation)' },
           { texte: 'Décret n° 2022-350 du 11 mars 2022 (conseil médical — FPT)' },
           { texte: 'Décret n° 2022-351 du 11 mars 2022 (conseil médical — FPH)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045340977' },
           { texte: 'Loi n° 2019-828 du 6 août 2019 (transformation FP)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000038884854' },
@@ -1595,7 +1599,7 @@ export const MODULES = [
         pieges: [
           'L\'assistant de prévention ne se substitue pas au médecin de prévention (SPST) — leurs rôles sont complémentaires mais distincts. Le médecin a une indépendance professionnelle ; l\'assistant est sous autorité hiérarchique.',
           'L\'assistant de prévention ne peut pas être sanctionné pour avoir exercé son droit d\'alerte de bonne foi — toute mesure de rétorsion constitue une faute de l\'administration.',
-          'Le DUERP doit être mis à jour au moins chaque année et lors de toute modification significative des conditions de travail — l\'assistant de prévention est acteur de cette mise à jour mais ce n\'est pas lui seul qui en est responsable.',
+          'Le DUERP doit être mis à jour lors de toute modification significative des conditions de travail ou dès qu\'une information nouvelle sur un risque le justifie — l\'assistant de prévention est acteur de cette mise à jour mais ce n\'est pas lui seul qui en est responsable. La mise à jour au moins annuelle, elle, ne s\'impose que dans les structures d\'au moins onze agents : en dessous de ce seuil — le cas de nombreuses petites communes — elle n\'est due qu\'en cas de changement ou d\'information nouvelle. Source : art. R. 4121-2 du code du travail.',
           'L\'assistant de prévention n\'est pas responsable pénalement des accidents du travail — la responsabilité incombe à l\'employeur et au chef de service.',
         ],
         recours: 'En cas d\'entrave à ses missions ou de sanction liée à ses fonctions de prévention, l\'assistant de prévention saisit le comité social et sa formation spécialisée, puis l\'inspecteur santé et sécurité au travail (ISST) — c\'est lui, et non l\'inspection du travail, qui contrôle l\'application des règles d\'hygiène et de sécurité dans la fonction publique d\'État et territoriale. Les établissements hospitaliers relèvent en revanche bien de l\'inspection du travail.',
@@ -1603,6 +1607,7 @@ export const MODULES = [
           { texte: 'Décret n° 82-453 du 28 mai 1982 modifié (hygiène et sécurité FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000509290' },
           { texte: 'Décret n° 85-603 du 10 juin 1985 (FPT — hygiène et sécurité)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000340067' },
           { texte: 'Loi n° 2019-828 du 6 août 2019 (réforme CSA/formation spécialisée)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000038884854' },
+          { texte: 'Art. R. 4121-2 du code du travail (seuil de onze agents pour la mise à jour annuelle du DUERP)' },
         ],
       },
       {
