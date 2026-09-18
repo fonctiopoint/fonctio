@@ -11,6 +11,7 @@ import { useRegistre, FILET } from '../theme/registreStyles';
 import { TeteDePage, Section, Paragraphe, Numerote, Action } from '../components/registre';
 import { SERIF, MONO_LEGER, T, V } from '../theme/registre';
 import app from '../../app.json';
+import { FICHE_ASS, paramsDeLaFiche } from '../utils/lienFiche';
 
 const VERSION = app?.expo?.version || '';
 
@@ -105,6 +106,10 @@ export default function ProfilScreen({ navigation }) {
             + "Aucun abonnement, aucune publicité, aucune obligation."}
           onPress={() => Linking.openURL('https://www.tipeee.com/fonctio')}
         />
+        {/* La fiche vit dans la pile de l'accueil, pas dans celle-ci : on passe
+            par l'onglet, comme la fiche le fait déjà pour le simulateur.
+            L'inscrire aussi dans ProfilStack obligerait à y déclarer l'écran de
+            courrier, et à maintenir deux exemplaires de la même fiche. */}
         <Action
           ui={ui}
           titre="Se faire accompagner"
@@ -112,6 +117,10 @@ export default function ProfilScreen({ navigation }) {
             + "personnelle ou professionnelle. Gratuit, confidentiel, sans lien avec votre "
             + "hiérarchie. Ses coordonnées sont sur l'intranet de votre administration ou "
             + "auprès de votre service RH."}
+          onPress={() => navigation.navigate('HomeTabs', {
+            screen: 'FicheDetail',
+            params: paramsDeLaFiche(FICHE_ASS),
+          })}
         />
 
         <View style={s.avantSection}><Section ui={ui} titre="Ressources" /></View>

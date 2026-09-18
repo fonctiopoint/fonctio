@@ -39,6 +39,7 @@ import { courriersDeLaFiche } from '../data/courriers';
 import { VersantContext } from '../navigation/VersantContext';
 import { addFavori, removeFavori, isFavori, addRecent } from '../utils/storage';
 import { partagerFiche } from '../utils/partageFiche';
+import { FICHE_ASS, paramsDeLaFiche } from '../utils/lienFiche';
 
 const VERSANT_LONG = {
   fpe: "fonction publique d'État",
@@ -423,6 +424,11 @@ export default function FicheRegistreScreen({ navigation, route }) {
       />
     );
   }
+  // L'encart renvoie à la fiche de l'assistant de service social — sauf quand
+  // on y est déjà, où il resterait un bloc cliquable qui ne mène nulle part.
+  // `push` et non `navigate` : `navigate` retrouverait la fiche courante dans
+  // la pile et se contenterait d'en changer les paramètres, sans nouvelle carte
+  // ni retour possible vers la fiche d'où l'on vient.
   pousser(
     <Action
       key="aide"
@@ -432,6 +438,9 @@ export default function FicheRegistreScreen({ navigation, route }) {
         + "personnelle ou professionnelle. Gratuit, confidentiel, sans lien avec votre "
         + "hiérarchie. Ses coordonnées sont sur l'intranet de votre administration ou "
         + "auprès de votre service RH."}
+      onPress={ficheId === FICHE_ASS
+        ? undefined
+        : () => navigation.push('FicheDetail', paramsDeLaFiche(FICHE_ASS))}
     />
   );
 
