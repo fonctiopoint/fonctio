@@ -94,6 +94,38 @@ direction déjà actée**.
 sur `main` ne livre rien aux utilisateurs. Il faut déclencher le workflow (bouton
 « Déployer » de l'admin). Marge utile : on peut pousser du code sans risque.
 
+### `runtimeVersion` est FIXE — ne pas le relier à la version
+
+`app.json` porte `"runtimeVersion": "1"`, une chaîne fixe, **volontairement
+découplée de `version`**. Une OTA n'est livrée que si son runtime est
+*exactement* celui du binaire installé.
+
+Le 18/09/2026, la politique était `appVersion`. La version est passée à 1.2.1
+trois heures après le build 1.2.0 du magasin : à partir de là, chaque OTA est
+partie en runtime 1.2.1 vers des testeurs qui en avaient 1.2.0. **Trois mises à
+jour de suite ne sont jamais arrivées, sans le moindre message d'erreur** — le
+serveur répond « aucune mise à jour pour ce runtime », ce qui est indiscernable
+de « vous êtes à jour ».
+
+Deux règles qui en découlent :
+
+- Changer `version` n'a plus aucun effet sur les OTA. Bumper librement.
+- **Ne bumper `runtimeVersion` que lorsque la couche NATIVE change** : ajout ou
+  mise à jour d'un module natif (`expo-*` avec du code natif,
+  `react-native-screens`, `gesture-handler`, `safe-area-context`, `reanimated`),
+  changement de SDK Expo. Le bumper impose un nouveau build du magasin.
+  Une modification purement JavaScript — écrans, données, navigation — n'y
+  touche jamais.
+
+Avant de publier, vérifier à qui l'on parle :
+
+```bash
+npx eas-cli build:list --limit 3    # le runtime des binaires installés
+npx eas-cli channel:list            # la branche servie par chaque canal
+```
+
+Si le runtime d'un binaire diffère de celui du config, l'OTA ne l'atteindra pas.
+
 ## OneDrive
 
 Le dossier est synchronisé OneDrive : des fichiers

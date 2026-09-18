@@ -35,9 +35,7 @@
         "projectId": "0f67a446-c4a5-4a32-ad72-1d0dbfdc60dc"
       }
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1",
     "plugins": [
       [
         "expo-splash-screen",
