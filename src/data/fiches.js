@@ -1907,6 +1907,7 @@ export const MODULES = [
           { label: 'Notification du compte rendu', valeur: 'Aucun délai fixé', detail: 'Le décret 2010-888 ne fixe pas de délai de notification du compte rendu à l\'agent. Le délai de recours, lui, court à compter de cette notification.', versants: ['fpe'] },
           { label: 'Notification du compte rendu', valeur: '15 jours', detail: 'Le compte rendu est notifié au fonctionnaire dans un délai maximum de 15 jours. Source : Décret 2014-1526 art. 6.', versants: ['fpt'] },
           { label: 'Notification du compte rendu', valeur: '30 jours', detail: 'Le compte rendu est communiqué à l\'agent dans un délai maximum de 30 jours suivant l\'entretien — et non 15 comme en territoriale. L\'agent dispose ensuite de 15 jours pour le compléter par ses observations. Source : Décret 2020-719 art. 6.', versants: ['fph'] },
+          { label: 'Élu local', valeur: 'Volet dédié depuis fin 2025', detail: 'Si vous êtes conseiller municipal, départemental ou régional, l\'entretien professionnel annuel doit aussi porter sur les mesures facilitant la conciliation entre votre emploi et votre mandat. Et lorsque l\'entretien intervient à la fin du mandat, il permet de recenser les compétences acquises pendant celui-ci et d\'en préciser les modalités de valorisation. Un droit récent, à réclamer si votre encadrant l\'ignore. Source : art. L. 521-6 du CGFP, créé par la loi n°2025-1249 du 22 décembre 2025.' },
         ],
         etapes: [
           { num: 1, titre: 'Convocation', texte: 'Minimum 8 jours avant. L\'agent prépare ses éléments.' },
@@ -1927,6 +1928,7 @@ export const MODULES = [
           { texte: 'Décret n° 2010-888 du 28 juillet 2010 (entretien FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000022636490' },
           { texte: 'Décret n° 2014-1526 du 16 décembre 2014 (entretien FPT)' },
           { texte: 'Décret n° 2020-719 du 12 juin 2020 (entretien FPH)' },
+          { texte: 'Art. L. 521-6 CGFP, créé par la loi n° 2025-1249 du 22 décembre 2025 (volet élu local de l\'entretien professionnel)' },
         ],
       },
       {
