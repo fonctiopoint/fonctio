@@ -102,10 +102,21 @@ RÉSULTAT DU CONTRÔLE DU versionCode 14
   blockedPermissions ne la retire pas — à raison : retirer une garde rendrait
   le composant moins protégé, pas plus.
 
-  ⚠ Ne pas confondre les deux rôles. Un contrôle qui cherche « permission »
+  Permission PROPRE À L'APP (définie et utilisée par elle, niveau signature) :
+      com.theguy03.fonctio.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+  Mécanisme d'AndroidX Core pour protéger les receivers enregistrés
+  dynamiquement. Elle est dans l'espace de noms du paquet, en
+  protectionLevel="signature" : seule une application signée de la même clé
+  peut la détenir. Elle n'apparaît pas sur la fiche du magasin, et se retrouve
+  sur pratiquement toute app Android moderne.
+
+  ⚠ Ne pas confondre les TROIS rôles. Un contrôle qui cherche « permission »
   sans regarder l'attribut porteur signale DUMP comme une anomalie alors que le
-  manifeste est sain. Le script fait la distinction ; la relire avant de
-  s'alarmer.
+  manifeste est sain ; et un motif qui exige le segment « .permission. » en
+  minuscules rate entièrement la permission propre à l'app, dont le nom n'en
+  comporte pas. Les deux erreurs ont été commises le 18/09/2026 avant d'être
+  corrigées. Le script distingue désormais les trois ; le relire avant de
+  s'alarmer comme avant de se rassurer.
 
   Les 5 permissions de blockedPermissions (SYSTEM_ALERT_WINDOW, DUMP,
   READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, VIBRATE) sont bien absentes

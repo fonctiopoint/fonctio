@@ -3,9 +3,9 @@
 
 Pourquoi le manifeste fusionne et pas app.json : une bibliotheque peut declarer
 une permission sans qu'on l'ait demandee, et c'est le manifeste fusionne qui
-part chez Google. La lecon vient d'AMAROK : repondre « non » au formulaire
-Identifiant publicitaire alors que AD_ID est presente fait recaler la
-soumission.
+part chez Google. La lecon vient d'une precedente soumission Play Store :
+repondre « non » au formulaire Identifiant publicitaire alors que AD_ID est
+presente fait recaler la soumission.
 
 Pas d'outil Android sur cette machine (ni aapt2 ni bundletool). Ce n'est pas
 bloquant : un .aab est un ZIP, et son AndroidManifest.xml est encode en
@@ -37,7 +37,20 @@ ATTENDUES = {
 
 INTERDITE = 'com.google.android.gms.permission.AD_ID'
 
-MOTIF = re.compile(rb'[a-zA-Z][a-zA-Z0-9._]{4,80}\.permission\.[A-Z_][A-Z0-9_]{2,60}')
+# L'app definit et s'accorde sa propre permission, dans son espace de noms et
+# en protectionLevel signature : c'est le mecanisme d'AndroidX Core pour
+# proteger les receivers enregistres dynamiquement. Elle n'apparait pas sur la
+# fiche du magasin et ne concerne qu'une app signee de la meme cle.
+PREFIXE_APP = 'com.theguy03.fonctio.'
+
+# Deux motifs, parce que les permissions ne se nomment pas toutes pareil :
+#   android.permission.INTERNET              segment « .permission. » minuscule
+#   com.…fonctio.DYNAMIC_RECEIVER_NOT_…      pas de segment « permission »
+# Le premier motif seul laissait passer les permissions propres a l'app.
+MOTIFS = [
+    re.compile(rb'[a-zA-Z][a-zA-Z0-9._]{4,80}\.permission\.[A-Z_][A-Z0-9_]{2,60}'),
+    re.compile(re.escape(PREFIXE_APP.encode()) + rb'[A-Z_][A-Z0-9_]{2,80}'),
+]
 
 # Une permission peut apparaitre dans le manifeste sous DEUX roles opposes :
 #
@@ -86,12 +99,18 @@ def main():
         noms = [n for n in z.namelist() if n.endswith('AndroidManifest.xml')]
         if not noms:
             raise SystemExit('Aucun AndroidManifest.xml dans l archive.')
-        demandees, exigees = set(), set()
+        demandees, exigees, propres = set(), set(), set()
         for n in noms:
             data = z.read(n)
-            for m in MOTIF.finditer(data):
-                nom = m.group().decode('utf-8', 'replace')
-                (exigees if role(data, m.start()) == 'exigee' else demandees).add(nom)
+            for motif in MOTIFS:
+                for m in motif.finditer(data):
+                    nom = m.group().decode('utf-8', 'replace')
+                    if nom.startswith(PREFIXE_APP):
+                        propres.add(nom)
+                    elif role(data, m.start()) == 'exigee':
+                        exigees.add(nom)
+                    else:
+                        demandees.add(nom)
         print(f'Manifeste(s) inspecte(s) : {", ".join(noms)}\n')
 
     trouvees = demandees
@@ -107,6 +126,11 @@ def main():
     if exigees:
         print('\nPERMISSIONS EXIGEES DES APPELANTS  (gardes de securite — non reclamees)')
         for p in sorted(exigees):
+            print(f'  [ok  ] {p}')
+
+    if propres:
+        print('\nPERMISSIONS PROPRES A L APP  (espace de noms du paquet, niveau signature)')
+        for p in sorted(propres):
             print(f'  [ok  ] {p}')
 
     print()
