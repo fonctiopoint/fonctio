@@ -125,6 +125,15 @@ export default function FicheRegistreScreen({ navigation, route }) {
   const versantNote = fiche.versantNotes?.[versant];
   const majs = getMajsForFiche(ficheId, versant);
   const courriers = courriersDeLaFiche(ficheId, versant);
+  // Une demande précède toute décision ; un recours la suit. Les deux ne se rangent
+  // donc pas au même endroit de la fiche. On garde l'index D'ORIGINE : c'est celui
+  // que CourrierDetail attend, et le recalculer sur une sous-liste ouvrirait le
+  // mauvais courrier.
+  const parType = (garder) => courriers
+    .map((c, i) => ({ c, i }))
+    .filter(({ c }) => garder(c.type));
+  const courriersDemande = parType(t => t === 'demande');
+  const courriersRecours = parType(t => t !== 'demande');
   const hasPosition = ficheIndex !== undefined && ficheTotal !== undefined;
 
   const toggleFavori = async () => {
@@ -382,6 +391,22 @@ export default function FicheRegistreScreen({ navigation, route }) {
     );
   }
 
+  // ── Faire votre demande ───────────────────────────────────────────────────
+  if (courriersDemande.length) {
+    poserSection('Faire votre demande');
+    courriersDemande.forEach(({ c, i }) => pousser(
+      <Action
+        key={`demande-${i}`}
+        ui={ui}
+        titre={c.titre}
+        texte="Modèle prêt à envoyer depuis votre messagerie, avec les passages à compléter et les délais à respecter."
+        onPress={() => navigation.navigate('CourrierDetail', {
+          ficheId, courrierIndex: i, moduleTitle,
+        })}
+      />
+    ));
+  }
+
   // ── Vos recours ───────────────────────────────────────────────────────────
   if (fiche.recours) {
     poserSection('Vos recours');
@@ -398,7 +423,7 @@ export default function FicheRegistreScreen({ navigation, route }) {
     // Le modèle de courrier est posé ICI, sous le recours qu'il sert, et non
     // dans « Aller plus loin » : c'est la suite immédiate de ce qu'on vient de
     // lire, pas une ressource annexe.
-    courriers.forEach((c, i) => pousser(
+    courriersRecours.forEach(({ c, i }) => pousser(
       <Action
         key={`courrier-${i}`}
         ui={ui}
