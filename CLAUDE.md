@@ -126,6 +126,30 @@ npx eas-cli channel:list            # la branche servie par chaque canal
 
 Si le runtime d'un binaire diffère de celui du config, l'OTA ne l'atteindra pas.
 
+#### Publier vers un ANCIEN runtime
+
+`eas update` n'a pas de drapeau `--runtime-version` : le runtime se lit dans
+`app.json`. Pour servir une build restée sur un runtime antérieur — la build
+`preview` du 04/09/2026 est en `1.2.1` —, il faut basculer `app.json` le temps
+de la publication.
+
+Le faire **en une seule commande, avec le retour en arrière après un `;`** et
+non un `&&`, pour qu'il ait lieu même si la publication échoue :
+
+```bash
+python -c "..." && npx eas-cli update --branch preview --environment preview   --non-interactive --message "..." ; git checkout -- app.json
+```
+
+Puis vérifier, toujours, que `app.json` est revenu à `"runtimeVersion": "1"` :
+
+```bash
+grep runtimeVersion app.json && git status --short -- app.json
+```
+
+Un `app.json` laissé en `1.2.1` enverrait les OTA suivantes vers un runtime que
+plus aucune build du magasin ne porte — l'incident du 18/09, à l'identique et
+sans message d'erreur.
+
 ## OneDrive
 
 Le dossier est synchronisé OneDrive : des fichiers
