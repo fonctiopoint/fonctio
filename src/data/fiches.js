@@ -11,8 +11,8 @@ export const NOUVEAUTES = {
   date: 'Septembre 2026',
   titre: 'Nouveautés — Septembre 2026',
   lignes: [
-    'Un modèle de courrier sur chaque fiche',
-    'À envoyer depuis votre propre messagerie',
+    'Modèles de courrier : demander et contester',
+    'CLM, CLD, SFT… depuis votre propre messagerie',
     'Nouvelle fiche : supplément familial (SFT)',
     'Fiches réécrites : plus courtes, plus claires',
     "Lien direct vers l'assistant de service social",
