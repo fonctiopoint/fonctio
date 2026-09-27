@@ -954,7 +954,8 @@ export const MODULES = [
         resume: 'L\'ATI compense les séquelles permanentes résultant d\'un accident de service ou d\'une maladie professionnelle. Elle est cumulable avec le traitement en activité.',
         ciblePublic: 'Fonctionnaires titulaires ayant conservé des séquelles après consolidation d\'un AT ou MP.',
         droits: [
-          { label: 'Conditions', valeur: 'Taux ≥ 10 %', detail: 'L\'ATI est accordée si le taux d\'incapacité permanente partielle (IPP) est d\'au moins 10 %.' },
+          { label: 'Conditions — accident de service', valeur: 'Taux ≥ 10 %', detail: 'Pour un accident de service, l\'ATI suppose un taux d\'incapacité permanente partielle (IPP) d\'au moins 10 % — plusieurs accidents successifs peuvent se cumuler pour l\'atteindre. Source : art. 1er, a) du décret 60-1089.' },
+          { label: 'Conditions — maladie professionnelle', valeur: 'Aucun seuil si tableau', detail: 'Pour une maladie professionnelle inscrite à l\'un des tableaux du code de la sécurité sociale, aucun taux minimal n\'est exigé : tout taux d\'IPP reconnu ouvre droit à l\'ATI. Ne pas s\'auto-exclure en dessous de 10 % sur la seule foi de la règle de l\'accident de service, qui ne s\'applique pas ici. Pour une maladie reconnue hors tableau, un régime distinct s\'applique. Source : art. 1er, b) et c) du décret 60-1089.' },
           { label: 'Montant', valeur: 'Proportionnel au taux IPP', detail: 'Calculé en pourcentage du traitement indiciaire brut.' },
           { label: 'Cumul', valeur: 'Avec le traitement', detail: 'L\'ATI est cumulable avec le traitement en activité. Elle se transforme en rente d\'invalidité à la retraite.' },
           { label: 'Délai de demande', valeur: '1 an', detail: 'Par défaut, le délai d\'un an court à compter du jour où vous reprenez vos fonctions après la consolidation — pas à compter de la consolidation elle-même. Mais si vous n\'avez jamais interrompu votre activité, si vous avez repris le service avant la consolidation, ou si vous atteignez la limite d\'âge ou êtes rayé des cadres avant d\'avoir pu reprendre, c\'est l\'inverse : le délai court depuis la date de constatation officielle de la consolidation elle-même. Cela concerne en premier lieu les séquelles légères, les plus fréquentes, pour lesquelles il n\'y a souvent pas eu d\'arrêt. Passé le délai applicable, les droits sont perdus. Source : art. 1er du décret 60-1089.' },
@@ -2022,7 +2023,7 @@ export const MODULES = [
         titre: 'Retraite CNRACL — FPT et FPH',
         categorie: 'Retraite',
         chips: ['FPT & FPH', 'CNRACL', 'Réforme 2023'],
-        resume: 'La CNRACL gère la retraite des fonctionnaires territoriaux et hospitaliers. La réforme du 14 avril 2023 a modifié les règles de départ (âge légal porté à 64 ans, 43 annuités pour le taux plein).',
+        resume: 'La CNRACL gère la retraite des fonctionnaires territoriaux et hospitaliers. La réforme du 14 avril 2023 devait porter l\'âge légal à 64 ans et la durée de cotisation à 43 annuités, mais son calendrier a été gelé par la LFSS pour 2026 : la cible finale ne change pas, la date à laquelle chaque génération l\'atteint, si.',
         ciblePublic: 'Fonctionnaires titulaires de la FPT et de la FPH.',
         droits: [
           { label: 'Calendrier suspendu', valeur: 'LFSS 2026', detail: 'La loi de financement de la sécurité sociale pour 2026, promulguée fin décembre 2025, a gelé la montée en charge de la réforme de 2023. Les repères ci-dessous ne sont donc plus ceux annoncés en 2023 : vérifiez votre génération avant toute projection.' },
