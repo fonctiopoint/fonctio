@@ -1499,13 +1499,14 @@ export const MODULES = [
           { num: 2, titre: 'Examen du dossier', texte: 'Le conseil médical examine le dossier médical transmis dans le respect du secret médical.' },
           { num: 3, titre: 'Audition possible', texte: 'L\'agent a le droit d\'être entendu. Il peut être accompagné d\'un médecin de son choix.' },
           { num: 4, titre: 'Avis rendu', texte: 'Le conseil médical rend un avis, que l\'administration suit en principe — elle doit motiver toute divergence. L\'avis n\'est pas une décision : c\'est l\'administration qui décide ensuite.' },
-          { num: 5, titre: 'Contestation devant le conseil médical supérieur', texte: 'L\'avis de la formation restreinte peut être contesté devant le conseil médical supérieur — par vous ou par l\'administration — dans un délai de 2 mois suivant sa notification. Si le conseil médical supérieur ne se prononce pas dans les 4 mois suivant la réception du dossier, l\'avis initial est réputé confirmé — ce silence vaut donc rejet de votre contestation. Ce délai de 4 mois est suspendu si le conseil médical supérieur fait procéder à une expertise complémentaire. Source : décret 2022-353, chapitre III.' },
+          { num: 5, titre: 'Contestation devant le conseil médical supérieur', texte: 'L\'avis de la formation restreinte peut être contesté devant le conseil médical supérieur — par vous ou par l\'administration — dans un délai de 2 mois suivant sa notification. Depuis le 1er septembre 2026, cette contestation n\'est plus ouverte lorsque l\'avis de la formation restreinte reprend les conclusions du médecin agréé qui l\'a saisie — cas fréquent pour l\'octroi ou le renouvellement d\'un congé pour raison de santé, ou une reprise de fonctions. Si le conseil médical supérieur ne se prononce pas dans les 4 mois suivant la réception du dossier, l\'avis initial est réputé confirmé — ce silence vaut donc rejet de votre contestation. Ce délai de 4 mois est suspendu si le conseil médical supérieur fait procéder à une expertise complémentaire. Source : décret 2022-353, chapitre III, art. 17, modifié par le décret 2026-705 du 29 juillet 2026.' },
         ],
         pieges: [
           'L\'avis du conseil médical n\'est pas une décision — c\'est l\'administration qui décide.',
           'Ne pas confondre formation restreinte (3 médecins) et formation plénière (représentants de l\'administration, des personnels et médecins).',
           'La saisine automatique ne se limite pas au CLM et au CLD (voir les droits ci-dessus). Pour le temps partiel thérapeutique ou une réintégration après un congé ordinaire, elle n\'est pas automatique : demandez-la expressément par écrit si vous contestez l\'avis du médecin agréé.',
           'Le silence de 4 mois du conseil médical supérieur confirme l\'avis contesté. Ne comptez pas sur l\'absence de réponse pour gagner : relancez et documentez.',
+          'Depuis le 1er septembre 2026, la contestation devant le conseil médical supérieur n\'est plus ouverte quand l\'avis de la formation restreinte reprend simplement les conclusions du médecin agréé qui l\'a saisie — vérifiez sur quoi repose l\'avis avant d\'engager cette voie. Source : décret 2026-705 du 29 juillet 2026, art. 2.',
         ],
         recours: 'Demande de contre-expertise médicale contradictoire. Recours gracieux puis contentieux.',
         sources: [
@@ -1514,6 +1515,7 @@ export const MODULES = [
           { texte: 'Décret n° 2022-350 du 11 mars 2022 (conseil médical — FPT)' },
           { texte: 'Décret n° 2022-351 du 11 mars 2022 (conseil médical — FPH)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045340977' },
           { texte: 'Loi n° 2019-828 du 6 août 2019 (transformation FP)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000038884854' },
+          { texte: 'Décret n° 2026-705 du 29 juillet 2026, art. 2 (exclut la contestation devant le conseil médical supérieur quand l\'avis reprend les conclusions du médecin agréé — en vigueur au 01/09/2026)' },
         ],
       },
       {
