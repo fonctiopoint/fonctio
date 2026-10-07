@@ -2,7 +2,7 @@
   "expo": {
     "name": "Fonctio",
     "slug": "fonctio",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "updates": {
@@ -46,7 +46,16 @@
           "resizeMode": "contain"
         }
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
+          }
+        }
+      ]
     ]
   }
 }

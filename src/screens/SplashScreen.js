@@ -33,11 +33,13 @@ const { width: LARGEUR_ECRAN } = Dimensions.get('window');
 const LARGEUR_LOGO = 320;
 // logo-splash.png est désormais un carré transparent, le mot centré dedans.
 // L'API SplashScreen d'Android 12 masque l'icône du splash DANS UN CERCLE et
-// rogne tout ce qui dépasse : un mot-symbole de rapport 4,8:1 dessiné à pleine
-// largeur y perdait son « F » et son point. Le mot occupe donc PART_MOT du côté
-// du carré, calé pour tenir dans le cercle sûr des deux tiers.
-// Les trois valeurs sont imprimées par scratchpad/faire_logo_splash.py.
-const PART_MOT = 0.62;
+// rogne tout ce qui dépasse. Le cercle fait 192 dp : les deux tiers de la
+// fenêtre de 288 dp que le greffon rogne dans le carré de 320 dp, soit 0,6 du
+// carré et non 0,667. À 0,62, le point orange était coupé en deux et le pied du
+// « F » mordu. À 0,57, le point le plus éloigné du centre est à 93 dp du centre
+// pour un cercle de 96 dp : aucun pixel rogné.
+// Doit rester égal à l'échelle du mot dans assets/logo-splash.png.
+const PART_MOT = 0.57;
 const RAPPORT_MOT = 4.8124;
 const LARGEUR_MOT = LARGEUR_LOGO * PART_MOT;
 const HAUTEUR_MOT = LARGEUR_MOT / RAPPORT_MOT;
