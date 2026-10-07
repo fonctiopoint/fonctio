@@ -9,6 +9,74 @@ ajoute la suivante au-dessus.
 
 
 -------------------------------------------------------------------------------
+VERSION 1.2.2 — versionCode 15 — octobre 2026
+-------------------------------------------------------------------------------
+
+Build EAS : 243bd220-cee7-4575-82a7-1ac52628a2c0  (commit 4823dad5)
+Fichier   : application-243bd220-cee7-4575-82a7-1ac52628a2c0.aab
+Runtime   : "1"  (inchangé — les OTA de la 1.2.1 restent compatibles)
+Piste     : test fermé « Alpha »
+
+À COLLER DANS LA PLAY CONSOLE (fr-FR) — 425 caractères :
+
+Version 1.2.2
+
+NOUVEAU — Des modèles de demande
+En plus des recours, les fiches proposent des modèles pour faire une demande : congé de longue maladie, temps partiel, disponibilité, supplément familial, retraite…
+
+Fiches précisées : contestation d'un avis du conseil médical, allocation temporaire d'invalidité, retraite CNRACL.
+
+L'écran de démarrage affiche le logo en entier, et l'application est plus légère à télécharger.
+
+-- fin du texte à coller --
+
+
+CE QUE CETTE VERSION EMBARQUE, EN DÉTAIL
+
+Contenu
+  - 24 modèles de demande initiale, en plus des recours (23/09/2026)
+  - Exception à la contestation devant le conseil médical supérieur, issue
+    du décret 2026-705 (art. 17 du décret 86-442, depuis le 01/09/2026)
+  - ATI : trois cas distingués selon le décret 60-1089 ; résumé de la
+    retraite CNRACL aligné sur son tableau de droits
+
+Splash
+  - Le cercle du splash d'Android 12 fait 192 dp, soit 0,6 du carré
+    imageWidth de 320 dp. À 0,62, le point orange était coupé puis
+    réapparaissait au passage au splash JS. Mot ramené à 0,57.
+
+Technique
+  - R8 et réduction des ressources activés (expo-build-properties), pour
+    l'avertissement Play Console « optimisation du code DEX inférieure à
+    notre seuil » (obscurcissement 1 %, à corriger avant février 2027).
+
+
+AVANT DE SOUMETTRE
+
+  1. Fichiers OneDrive en conflit : aucun.
+     >>> FAIT le 07/10/2026.
+
+  2. Permissions du manifeste fusionné :
+       python outils/controler-aab.py application-243bd220-cee7-4575-82a7-1ac52628a2c0.aab
+     >>> FAIT le 07/10/2026 : aucune alerte. INTERNET et
+         ACCESS_NETWORK_STATE seules ; DUMP et la permission propre à l'app
+         dans leurs rôles habituels (voir le détail de la 1.2.1).
+
+  3. Identifiant publicitaire : répondre NON.
+     >>> VÉRIFIÉ le 07/10/2026 : AD_ID absente du manifeste fusionné.
+
+  4. Comparaison avec le versionCode 14, mesurée sur les deux aab :
+       code DEX      27,2 Mo → 8,2 Mo  (10,0 → 3,4 Mo compressé)
+       obscurci      0 %     → 41 %    (seuil Play Console : 25 %)
+       aab           59,6 Mo → 55,9 Mo
+       splash        point le plus éloigné du centre 101,2 dp → 93,3 dp,
+                     pour un cercle de 96 dp
+     >>> Vérifié sur appareil le 07/10/2026 (build preview 0b40d8ae, même
+         code hors numéro de version) : splash filmé image par image, aucun plantage, favoris,
+         partage, liens, simulateur et recherche fonctionnels.
+
+
+-------------------------------------------------------------------------------
 VERSION 1.2.1 — versionCode 14 — septembre 2026
 -------------------------------------------------------------------------------
 
