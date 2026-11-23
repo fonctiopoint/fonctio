@@ -1565,8 +1565,8 @@ export const MODULES = [
           'L\'agent a le droit de se faire accompagner d\'un médecin de son choix lors de la visite. Cet accompagnement est utile lorsque la situation est complexe.',
           'Le refus de se soumettre à la visite médicale peut être interprété défavorablement dans la procédure en cours.',
           'La différence entre médecin agréé (mandaté par l\'admin) et médecin de prévention (défenseur de la santé de l\'agent) est fondamentale — ne pas les confondre.',
-          'Un agent RH qui note le nom d\'une maladie dans un dossier administratif commet une violation du secret médical — recours possible auprès de la CNIL et au pénal (art. 226-13 du Code pénal).',
-          'L\'administration ne peut pas conditionner une décision — mutation, promotion, avancement — à la connaissance d\'un diagnostic. Le médecin de prévention ne peut rien transmettre à l\'employeur sans votre accord écrit.',
+          'Le nom d\'une maladie n\'a pas sa place dans le dossier administratif. Les agents sont tenus au secret professionnel (art. L. 121-6 du CGFP) : la divulgation d\'une information médicale peut être sanctionnée (art. 226-13 du code pénal) et signalée à la CNIL.',
+          'L\'administration ne peut pas conditionner une décision — mutation, promotion, avancement — à la connaissance d\'un diagnostic. Le médecin de prévention ne transmet à l\'employeur que son avis et ses préconisations : pas d\'information médicale détaillée.',
         ],
         recours: 'Contestation des conclusions du médecin agréé : demande de contre-expertise, saisine du conseil médical pour expertise contradictoire. Recours contentieux contre la décision administrative fondée sur l\'avis. Violation du secret médical : plainte auprès du Conseil de l\'Ordre des médecins, signalement CNIL, recours pénal.',
         sources: [
@@ -1599,7 +1599,7 @@ export const MODULES = [
         ],
         pieges: [
           'L\'assistant de prévention ne se substitue pas au médecin de prévention (SPST) — leurs rôles sont complémentaires mais distincts (voir le droit « Positionnement hiérarchique » ci-dessus).',
-          'L\'assistant de prévention ne peut pas être sanctionné pour avoir exercé son droit d\'alerte de bonne foi — toute mesure de rétorsion constitue une faute de l\'administration.',
+          'L\'assistant de prévention ne peut pas être sanctionné pour avoir exercé son droit d\'alerte de bonne foi — toute mesure de rétorsion serait illégale.',
           'Le DUERP doit être mis à jour lors de toute modification significative des conditions de travail ou dès qu\'une information nouvelle sur un risque le justifie — l\'assistant de prévention est acteur de cette mise à jour mais ce n\'est pas lui seul qui en est responsable. La mise à jour au moins annuelle, elle, ne s\'impose que dans les structures d\'au moins onze agents : en dessous de ce seuil — le cas de nombreuses petites communes — elle n\'est due qu\'en cas de changement ou d\'information nouvelle. Source : art. R. 4121-2 du code du travail.',
           'L\'assistant de prévention n\'est pas responsable pénalement des accidents du travail — la responsabilité incombe à l\'employeur et au chef de service.',
         ],
@@ -1619,9 +1619,9 @@ export const MODULES = [
         resume: 'L\'assistant de service social du personnel est un professionnel du travail social diplômé d\'État, dont le positionnement est neutre. Il accompagne, renseigne, écoute — quelle que soit la difficulté, personnelle ou professionnelle — dans la plus stricte confidentialité et sans lien de dépendance avec la hiérarchie locale.',
         ciblePublic: 'Tous les agents publics, titulaires et contractuels, des trois versants. Sans condition de grade, de statut ou d\'ancienneté.',
         droits: [
-          { label: 'Accès', valeur: 'Libre, gratuit, confidentiel', detail: 'Tout agent peut contacter l\'assistant social sans en informer sa hiérarchie, sans rendez-vous obligatoire, sans justification à donner.' },
-          { label: 'Secret professionnel', valeur: 'Absolu', detail: 'L\'assistant de service social est soumis au secret professionnel. Aucune information ne peut être transmise à l\'employeur sans accord écrit de l\'agent, sauf exceptions prévues par la loi (art. 226-14 du code pénal : par exemple, maltraitances, privations ou sévices infligés à un mineur ou à une personne qui n\'est pas en mesure de se protéger).' },
-          { label: 'Neutralité institutionnelle', valeur: 'Garantie', detail: 'L\'assistant de service social ne dépend pas de la hiérarchie locale du service. Il est rattaché fonctionnellement à une structure nationale ou régionale (direction des ressources humaines ministérielle, service social interministériel…). Il ne rend pas compte des situations individuelles à l\'employeur.' },
+          { label: 'Accès', valeur: 'Libre, gratuit, confidentiel', detail: 'Tout agent peut contacter l\'assistant social sans en informer sa hiérarchie et sans justification à donner.' },
+          { label: 'Secret professionnel', valeur: 'Strict', detail: 'L\'assistant de service social est soumis au secret professionnel. Aucune information ne peut être transmise à l\'employeur sans accord écrit de l\'agent, sauf exceptions prévues par la loi (art. 226-14 du code pénal : par exemple, maltraitances, privations ou sévices infligés à un mineur ou à une personne qui n\'est pas en mesure de se protéger).' },
+          { label: 'Neutralité institutionnelle', valeur: 'En principe', detail: 'En règle générale, l\'assistant de service social du personnel est rattaché à une structure distincte de la hiérarchie du service de l\'agent (direction des ressources humaines ministérielle, service social interministériel…). Il ne rend pas compte des situations individuelles à l\'employeur.' },
           { label: 'Diplôme d\'État', valeur: 'DEASS obligatoire', detail: 'L\'assistant de service social du personnel est titulaire du Diplôme d\'État d\'Assistant de Service Social (DEASS). C\'est une profession réglementée.' },
         ],
         etapes: [
@@ -1634,7 +1634,7 @@ export const MODULES = [
           'L\'assistant de service social du personnel n\'est pas un représentant de l\'employeur, et il n\'est pas davantage le porte-parole de l\'agent : son positionnement est neutre. Il œuvre pour l\'agent et pour le service, et c\'est précisément ce qui lui permet d\'intervenir sans être une partie au différend.',
           'Ne pas attendre que la situation soit en crise pour consulter. L\'assistant social intervient aussi en prévention, avant que les difficultés ne deviennent insurmontables.',
           'L\'assistant social ne peut pas prendre de décisions à la place de l\'agent. Il accompagne, renseigne, écoute — il ne se substitue pas à la personne dans ses choix.',
-          'Contacter l\'assistant social n\'a aucune conséquence sur la carrière ou l\'évaluation professionnelle. La hiérarchie n\'est pas informée.',
+          'En principe, contacter l\'assistant social n\'a aucune conséquence sur la carrière ou l\'évaluation professionnelle : la hiérarchie n\'est pas informée de votre démarche, sauf si vous y consentez ou si la loi l\'impose.',
         ],
         sources: [
           { texte: 'Art. L. 411-1 et suivants Code de l\'action sociale et des familles (profession réglementée)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000006074069' },
@@ -1668,7 +1668,7 @@ export const MODULES = [
           'Les prestations d\'action sociale ne sont pas automatiques — il faut en faire la demande. Beaucoup d\'agents ne sollicitent pas des aides auxquelles ils auraient droit.',
           'Les délégations sociales ministérielles ont des budgets limités et certaines prestations sont soumises à des critères de ressources stricts — ne pas hésiter à solliciter même si on pense ne pas être éligible.',
           'En cas de mutation vers un autre ministère, les prestations accessibles peuvent changer. Se renseigner auprès du nouveau service RH dès la prise de poste.',
-          'Les agents contractuels ont accès aux prestations d\'action sociale dans les mêmes conditions que les titulaires — la distinction titulaire/contractuel ne justifie pas un refus. L\'article L. 731-3 du CGFP est explicite : ces prestations sont attribuées indépendamment du grade, de l\'emploi et de la manière de servir.',
+          'Les agents contractuels bénéficient de l\'action sociale au même titre que les titulaires (art. L. 731-1 du CGFP) : le seul fait d\'être contractuel ne justifie pas un refus. L\'article L. 731-3 du CGFP précise que ces prestations sont attribuées indépendamment du grade, de l\'emploi et de la manière de servir.',
         ],
         recours: 'En cas de refus d\'une prestation : recours gracieux auprès de la délégation sociale concernée. L\'assistant de service social du personnel peut appuyer la démarche.',
         sources: [
@@ -1711,13 +1711,13 @@ export const MODULES = [
         etapes: [
           { num: 1, titre: 'Agir dès les premiers faits', texte: 'Ne pas attendre — la demande de protection fonctionnelle doit être faite dès que les faits surviennent, même si une procédure judiciaire n\'est pas encore engagée.' },
           { num: 2, titre: 'Demande écrite à l\'administration', texte: 'Adresser une demande écrite et circonstanciée au chef de service ou à la DRH, en décrivant les faits et les préjudices subis. Joindre tous les éléments de preuve disponibles.' },
-          { num: 3, titre: 'Décision de l\'administration', texte: 'Aucun texte n\'impose à l\'administration un délai pour statuer. En revanche, son silence pendant deux mois vaut refus implicite — et c\'est de cette date que court votre délai de recours. Elle est tenue d\'accorder la protection sauf faute personnelle de votre part, et tout refus explicite doit être motivé.' },
+          { num: 3, titre: 'Décision de l\'administration', texte: 'Aucun texte spécifique ne fixe à l\'administration de délai pour statuer. En revanche, son silence pendant deux mois vaut refus implicite — et c\'est de cette date que court votre délai de recours. Elle est tenue d\'accorder la protection lorsque les conditions sont réunies, sauf faute personnelle de votre part, et tout refus explicite doit être motivé.' },
           { num: 4, titre: 'Prise en charge des frais', texte: 'Si la protection est accordée, les honoraires d\'avocat, les frais de procédure et les dépenses liées à la défense sont remboursés. Le remboursement se fait sur présentation des justificatifs.' },
         ],
         pieges: [
-          'L\'administration est tenue d\'accorder la protection sauf faute personnelle de l\'agent. Les refus sont fréquents, et un refus qui n\'invoque pas une faute personnelle est contestable.',
+          'L\'administration est tenue d\'accorder la protection lorsque les conditions sont réunies, sauf faute personnelle de l\'agent. Un refus peut toujours être contesté : demandez-en les motifs par écrit.',
         ],
-        recours: 'Refus : recours gracieux immédiat, puis référé devant le tribunal administratif (urgence).',
+        recours: 'Refus : recours gracieux ou hiérarchique, puis tribunal administratif (référé possible en cas d\'urgence).',
         sources: [
           { texte: 'Art. L. 134-1 à L. 134-12 CGFP (protection dans l\'exercice des fonctions)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGISCTA000044427624' },
           { texte: 'Art. L. 134-7 CGFP (extension au conjoint, aux enfants et aux ascendants)' },
@@ -1758,7 +1758,7 @@ export const MODULES = [
         titre: 'Fiche de signalement — procédure et rôle',
         categorie: 'Se protéger',
         chips: ['Tous agents', 'Risques professionnels', 'Procédure formelle'],
-        resume: 'La fiche de signalement est un outil formel permettant à tout agent de signaler une situation dangereuse, un risque professionnel, un incident ou une situation de mal-être au travail. Elle déclenche une procédure obligatoire de traitement.',
+        resume: 'La fiche de signalement est un outil formel permettant à tout agent de signaler une situation dangereuse, un risque professionnel, un incident ou une situation de mal-être au travail. Elle formalise l\'information de l\'administration.',
         ciblePublic: 'Tous les agents publics, en tant qu\'auteurs ou destinataires d\'un signalement.',
         droits: [
           { label: 'Droit de signaler', valeur: 'Garanti', detail: 'Tout agent a le droit — et dans certains cas l\'obligation — de signaler une situation à risque ou un incident. Ce droit est protégé : aucune sanction ne peut être prise contre un agent ayant signalé de bonne foi.' },
@@ -1772,7 +1772,7 @@ export const MODULES = [
           { num: 4, titre: 'Suivi du signalement', texte: 'Le chef de service accuse réception et indique les mesures prises ou envisagées. En cas d\'inaction ou de réponse insatisfaisante, l\'agent peut saisir la formation spécialisée du CSA, l\'inspecteur santé et sécurité au travail, ou le Défenseur des droits selon la nature des faits.' },
         ],
         pieges: [
-          'Un signalement de bonne foi ne peut jamais être utilisé contre l\'agent. Toute mesure de rétorsion constitue une faute grave de l\'administration.',
+          'Un signalement de bonne foi ne peut pas fonder une mesure de représailles contre l\'agent : une telle mesure serait illégale (art. L. 133-3 du CGFP pour les faits de harcèlement).',
           'Ne pas confondre fiche de signalement (procédure interne administrative) et dépôt de plainte pénale (procédure judiciaire). Les deux peuvent coexister.',
           'L\'anonymat du signalement n\'est pas toujours possible — certains signalements nécessitent d\'être nominatifs pour déclencher une procédure disciplinaire contre la personne mise en cause.',
           'Une procédure disciplinaire ne peut plus être engagée au-delà de trois ans à compter du jour où l\'administration a eu une connaissance effective des faits (art. L. 532-2 du CGFP). Agir sans délai.',
@@ -1809,7 +1809,7 @@ export const MODULES = [
         resume: 'La réforme de la Protection Sociale Complémentaire (PSC) dans la fonction publique oblige l\'employeur public à participer au financement de la mutuelle santé et de la prévoyance de ses agents, à l\'instar du secteur privé. Une révolution dans la couverture sociale des fonctionnaires.',
         ciblePublic: 'Tous les agents publics, titulaires et contractuels, des trois versants. La réforme s\'applique progressivement selon le versant.',
         droits: [
-          { label: 'Participation employeur santé', valeur: 'Min. 50 %, par contrat collectif', detail: 'Ce qui a commencé le 1er janvier 2022 n\'était pas la participation de 50 % mais un remboursement forfaitaire et transitoire de 15 € par mois (Décret 2021-1164). Les 50 % ne s\'appliquent qu\'avec l\'entrée en vigueur du contrat collectif à adhésion obligatoire de votre ministère : les premiers ont pris effet le 1er janvier 2025, et plus de 80 % des agents de l\'État y avaient accès au 1er mai 2026. Demandez à votre RH la date d\'effet du vôtre — c\'est elle qui fait votre droit.', versants: ['fpe'] },
+          { label: 'Participation employeur santé', valeur: 'Min. 50 %, par contrat collectif', detail: 'Ce qui a commencé le 1er janvier 2022 n\'était pas la participation de 50 % mais un remboursement forfaitaire et transitoire de 15 € par mois (Décret 2021-1164). Les 50 % ne s\'appliquent qu\'avec l\'entrée en vigueur du contrat collectif à adhésion obligatoire de votre ministère : les premiers ont pris effet le 1er janvier 2025, et, selon la DGAFP, plus de 80 % des agents de l\'État devaient y avoir accès au 1er mai 2026. Demandez à votre RH la date d\'effet du vôtre — c\'est elle qui fait votre droit.', versants: ['fpe'] },
           { label: 'Participation employeur prévoyance', valeur: '7 € par mois', detail: 'Un accord majoritaire a été signé en 2023 pour la prévoyance à l\'État : l\'employeur participe à hauteur de 7 € par mois. Le déploiement est progressif — environ un quart des agents disposaient d\'un contrat au 1er janvier 2026.', versants: ['fpe'] },
           { label: 'Participation employeur santé', valeur: 'Min. 50 % depuis janv. 2026', detail: 'Obligatoire depuis le 1er janvier 2026 (et non 2025) : 50 % d\'un montant de référence de 30 €, soit au moins 15 € par mois et par agent. Les collectivités les plus avancées vont au-delà.', versants: ['fpt'] },
           { label: 'Participation employeur prévoyance', valeur: 'Min. 20 % depuis janv. 2025', detail: 'C\'est la prévoyance — pas la santé — qui est obligatoire depuis le 1er janvier 2025 en FPT : au moins 20 % d\'un montant de référence de 35 €, soit 7 € par mois.', versants: ['fpt'] },
@@ -1873,7 +1873,7 @@ export const MODULES = [
         pieges: [
           'Beaucoup d\'agents pensent que le statut de fonctionnaire protège suffisamment. C\'est partiellement vrai pour les arrêts courts, mais en CLM/CLD prolongé, la perte de revenus peut être très significative.',
           'Les contrats individuels souscrits sans passer par le dispositif collectif de son administration ne bénéficient pas de la participation employeur.',
-          'Vérifier le délai de carence du contrat de prévoyance : certains contrats ne versent les prestations qu\'après 30, 60 ou 90 jours de maladie — la prévoyance ne couvre pas le début d\'un arrêt.',
+          'Vérifier le délai de carence du contrat de prévoyance : certains contrats ne versent les prestations qu\'après 30, 60 ou 90 jours de maladie — la prévoyance peut ne pas couvrir le début d\'un arrêt.',
           'En cas de changement d\'administration ou de départ à la retraite, la prévoyance peut ne plus être active — anticiper la portabilité ou la résiliation.',
         ],
         recours: 'Litige avec l\'organisme de prévoyance : recours gracieux, puis médiation, puis tribunal judiciaire. Pour la participation employeur : voir le service RH.',
@@ -1941,7 +1941,7 @@ export const MODULES = [
         titre: 'Congé de formation professionnelle',
         categorie: 'Carrière & formation',
         chips: ['Titulaires', '3 ans / carrière', '85 % traitement'],
-        resume: 'Le congé de formation professionnelle permet de suivre une formation longue de son choix, avec 85 % de la rémunération pendant 12 mois. Le délai de dépôt de la demande diffère dans les trois versants : 120 jours à l\'État, 90 dans la territoriale, 60 à l\'hôpital.',
+        resume: 'Le congé de formation professionnelle permet de suivre une formation longue de son choix, avec une indemnité égale à 85 % du traitement brut (dans la limite d\'un plafond) pendant 12 mois. Le délai de dépôt de la demande diffère dans les trois versants : 120 jours à l\'État, 90 dans la territoriale, 60 à l\'hôpital.',
         ciblePublic: 'Fonctionnaires titulaires ayant au moins 3 ans de services effectifs.',
         droits: [
           { label: 'Délai de dépôt', valeur: '120 jours avant', detail: 'La demande doit être présentée au moins 120 jours avant le début de la formation. Source : Décret 2007-1470 art. 27, codifié au livre IV du CGFP.', versants: ['fpe'] },
