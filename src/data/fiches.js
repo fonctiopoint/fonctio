@@ -1417,7 +1417,7 @@ export const MODULES = [
         etapes: [
           { num: 1, titre: 'Demande écrite au service RH', texte: 'Au moins 2 mois avant la date de début. Le congé est accordé de plein droit — l\'administration ne peut pas le refuser.' },
           { num: 2, titre: 'Renouvellements', texte: 'Chaque renouvellement se demande au moins 1 mois avant l\'expiration de la période en cours.' },
-          { num: 3, titre: 'Fin anticipée possible', texte: 'L\'agent peut mettre fin au congé parental à tout moment, sans justification de motif grave (depuis Loi 2016-483).' },
+          { num: 3, titre: 'Fin anticipée possible', texte: 'Le fonctionnaire peut demander à mettre fin au congé parental avant son terme, sans avoir à justifier d\'un motif (art. L. 515-6 du CGFP). Un agent contractuel de l\'État ou territorial ne peut écourter son congé qu\'en cas de nouvelle naissance ou pour motif grave, notamment en cas de diminution des revenus du ménage (art. 19 du décret 86-83 ; art. 14 du décret 88-145).' },
           { num: 4, titre: 'Demande de réintégration', texte: 'À formuler au moins 1 mois avant l\'expiration de la période en cours — le même délai qu\'un renouvellement, depuis le décret 2020-529 qui a remplacé les deux mois antérieurs (voir aussi le droit « Entretien préalable » ci-dessus).' },
         ],
         pieges: [
@@ -1722,7 +1722,7 @@ export const MODULES = [
         ciblePublic: 'Tous les agents publics (victimes et témoins).',
         droits: [
           { label: 'Interdiction absolue', valeur: 'CGFP et Code pénal', detail: 'Le harcèlement est interdit par le statut général et par le Code pénal.' },
-          { label: 'Protection fonctionnelle', valeur: 'Due automatiquement', detail: 'L\'agent victime a droit à la protection fonctionnelle.' },
+          { label: 'Protection fonctionnelle', valeur: 'Obligatoire', detail: 'La collectivité publique est tenue de protéger l\'agent victime de harcèlement, sans faute personnelle de sa part. Source : art. L. 134-5 du CGFP.' },
           { label: 'Signalement protégé', valeur: 'Aucune sanction possible', detail: 'Aucune sanction ne peut être prise contre un agent ayant signalé de bonne foi.' },
         ],
         etapes: [
@@ -1765,7 +1765,7 @@ export const MODULES = [
           'Un signalement de bonne foi ne peut jamais être utilisé contre l\'agent. Toute mesure de rétorsion constitue une faute grave de l\'administration.',
           'Ne pas confondre fiche de signalement (procédure interne administrative) et dépôt de plainte pénale (procédure judiciaire). Les deux peuvent coexister.',
           'L\'anonymat du signalement n\'est pas toujours possible — certains signalements nécessitent d\'être nominatifs pour déclencher une procédure disciplinaire contre la personne mise en cause.',
-          'Le délai de prescription pour les faits signalés commence à courir dès que l\'agent a connaissance des faits. Agir sans délai.',
+          'Une procédure disciplinaire ne peut plus être engagée au-delà de trois ans à compter du jour où l\'administration a eu une connaissance effective des faits (art. L. 532-2 du CGFP). Agir sans délai.',
         ],
         recours: 'Absence de traitement du signalement : saisine de la formation spécialisée du CSA, puis de l\'inspecteur santé et sécurité au travail (ISST) à l\'État et en territoriale, ou de l\'inspection du travail à l\'hôpital. Recours devant le tribunal administratif si l\'inaction de l\'administration cause un préjudice. Signalement au Défenseur des droits.',
         sources: [
