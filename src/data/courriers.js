@@ -738,8 +738,8 @@ const MODELES = {
     decision: 'J\'ai déposé le [DATE DU SIGNALEMENT] une fiche de signalement qui, à ce jour, n\'a '
       + 'reçu aucune suite portée à ma connaissance.',
     fondement: 'Le décret n° 82-453 du 28 mai 1982 (État) et le décret n° 85-603 du 10 juin 1985 '
-      + '(territoriale) organisent le registre de santé et de sécurité au travail et le traitement '
-      + 'des signalements.',
+      + '(territoriale) organisent le registre de santé et de sécurité au travail, où les agents '
+      + 'consignent leurs observations sur la prévention des risques.',
     demande: 'Je vous demande de bien vouloir m\'indiquer les suites données à ce signalement et, à '
       + 'défaut, d\'inscrire ce point à l\'ordre du jour de la formation spécialisée.',
   }],
@@ -870,7 +870,7 @@ const MODELES = {
     objet: 'Recours gracieux — prestation du régime additionnel',
     decision: 'arrêté le montant de ma prestation du régime additionnel à un niveau que je conteste',
     fondement: 'La loi n° 2003-775 du 21 août 2003 a créé le régime de retraite additionnelle de '
-      + 'la fonction publique et fixe les règles de calcul de la prestation.',
+      + 'la fonction publique ; les modalités de calcul de la prestation sont fixées par décret.',
     demande: 'Je vous demande de bien vouloir réexaminer ce calcul et de me communiquer le détail '
       + 'des points acquis et de leur valorisation.',
   }],
@@ -943,8 +943,8 @@ const DEMANDES = {
     fondement: 'Les articles L. 823-1 à L. 823-6 du code général de la fonction publique ouvrent '
       + 'le temps partiel pour raison thérapeutique, dont la quotité ne peut être inférieure au '
       + "mi-temps. Depuis le 1er août 2026, l'administration dispose de trente jours pour statuer "
-      + "et ne peut opposer un refus pour motif médical sans avoir fait procéder à l'examen de "
-      + "l'agent par un médecin agréé. Source : décret n° 2026-705 du 29 juillet 2026.",
+      + "et ne peut opposer un refus pour motif médical sans avoir recueilli l'avis préalable "
+      + "d'un médecin agréé. Source : décret n° 2026-705 du 29 juillet 2026.",
     demande: 'Vous trouverez joint le certificat de mon médecin, qui précise la quotité préconisée '
       + 'et les modalités de reprise. Je vous demande de bien vouloir examiner ma demande et de me '
       + 'notifier votre décision.',
@@ -1023,8 +1023,8 @@ const DEMANDES = {
     rappels: [
       'Si votre situation ouvre un temps partiel de droit, joignez le justificatif : acte de '
       + "naissance, certificat médical, attestation de proche aidant. L'administration ne peut "
-      + 'alors pas refuser le principe du temps partiel ; elle en discute seulement les modalités '
-      + 'pratiques.',
+      + 'alors pas refuser le principe du temps partiel, dès lors que les conditions sont '
+      + 'remplies ; seules les modalités pratiques restent à définir.',
 
       "La surcotisation retraite n'est jamais automatique : elle se demande expressément, et elle "
       + 'a un coût mensuel. Demandez son chiffrage au service des ressources humaines avant de '
@@ -1335,7 +1335,8 @@ const DEMANDES = {
       + 'préconisations utiles soient formulées.',
     rappels: [
       "Le médecin du travail n'est pas le médecin de l'administration : il agit dans l'intérêt de "
-      + 'votre santé, et il est tenu au secret médical. Votre diagnostic ne lui échappe pas.',
+      + 'votre santé, et il est tenu au secret médical : votre diagnostic n\'est pas transmis à '
+      + 'l\'employeur.',
 
       "Vous pouvez demander cette visite à tout moment, sans avoir à attendre l'échéance de la "
       + 'visite périodique et sans passer par votre hiérarchie.',
@@ -1454,13 +1455,13 @@ const DEMANDES = {
       + 'sollicite ma réintégration à compter du [DATE SOUHAITÉE].',
     fondement: 'Les articles L. 515-1 à L. 515-11 du code général de la fonction publique '
       + "organisent la réintégration à l'issue du congé parental. Le décret n° 2020-529 du "
-      + "5 mai 2020 a fixé à un mois avant l'expiration de la période en cours le délai de la "
-      + 'demande, et prévoit un entretien préalable quatre semaines avant la reprise.',
+      + "5 mai 2020 a fixé à un mois avant l'expiration de la période en cours le délai des "
+      + 'demandes de renouvellement, et prévoit un entretien préalable quatre semaines avant la reprise.',
     demande: 'Je vous demande de bien vouloir me confirmer mon affectation et de fixer la date de '
       + "l'entretien préalable à ma reprise.",
     rappels: [
-      "La demande de réintégration se dépose au moins un mois avant l'expiration de la période en "
-      + "cours — le même délai qu'un renouvellement.",
+      "La demande de réintégration est à déposer avant l'expiration de la période en cours — par "
+      + "prudence au moins un mois avant, comme pour un renouvellement.",
 
       'Un entretien préalable est prévu quatre semaines avant la reprise : il sert à préparer '
       + 'votre affectation et vos conditions de travail.',

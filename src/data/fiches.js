@@ -445,7 +445,7 @@ export const MODULES = [
           'L\'agent qui s\'estime en état de reprendre ses fonctions peut demander sa réintégration : le conseil médical est consulté sur la réintégration (art. 7 du décret 86-442). La décision doit être motivée : c\'est cette motivation qui permet, le cas échéant, de la discuter.',
           'La durée maximale de la disponibilité d\'office n\'est plus la même dans les trois versants. Depuis le décret 2024-1222 du 27 décembre 2024, l\'État est passé à six ans (sept en cas de dernier renouvellement) ; la territoriale et l\'hôpital restent à trois ans (quatre en cas de dernier renouvellement). Un agent qui change de versant en cours de disponibilité, ou qui se renseigne sur la base d\'une fiche pratique d\'un autre versant, peut se tromper de compteur.',
         ],
-        recours: 'Contestation du placement en disponibilité d\'office : recours gracieux (2 mois), puis tribunal administratif. Refus de réintégration : recours contentieux urgent (référé). L\'agent peut demander une contre-expertise médicale auprès du conseil médical.',
+        recours: 'Contestation du placement en disponibilité d\'office : recours gracieux (2 mois), puis tribunal administratif. Refus de réintégration : recours gracieux ou hiérarchique dans les deux mois, puis tribunal administratif (référé possible en cas d\'urgence). L\'agent peut demander une contre-expertise médicale auprès du conseil médical.',
         sources: [
           { texte: 'Art. L. 514-1 et suivants CGFP (disponibilité d\'office pour raison de santé)' },
           { texte: 'Décret n° 86-442 du 14 mars 1986 (congés maladie et disponibilité d\'office — FPE)' },
@@ -828,7 +828,7 @@ export const MODULES = [
           'La commission consultative paritaire doit obligatoirement être consultée avant tout licenciement pour inaptitude physique.',
           'Le délai pour demander le reclassement est très court — 4 jours pour une ancienneté de moins de six mois. Déposez la demande dès la convocation à l\'entretien préalable, même sans avoir de poste en vue : c\'est elle qui ouvre l\'obligation de recherche.',
           'Un emploi de catégorie inférieure ne peut vous être attribué qu\'avec votre accord exprès. Un refus de votre part sur ce point ne vaut pas refus de reclassement.',
-          'Deux garanties trop souvent oubliées, valables dans les trois versants :\n• le licenciement ne peut pas intervenir avant dix semaines après la fin d\'un congé de maternité, de naissance, d\'adoption ou de paternité, ni tant que vous avez des droits à congé de maladie rémunéré non épuisés\n• vous devez avoir été mis en mesure de consulter votre dossier médical et individuel avant toute décision',
+          'Deux garanties valables dans les trois versants :\n• le licenciement ne peut pas intervenir avant dix semaines après la fin d\'un congé de maternité, de naissance, d\'adoption ou de paternité, ni tant que vous avez des droits à congé de maladie rémunéré non épuisés\n• vous devez avoir été mis en mesure de consulter votre dossier médical et individuel avant toute décision',
         ],
         recours: 'Contestation du licenciement devant le tribunal administratif (2 mois).',
         sources: [
@@ -1151,7 +1151,7 @@ export const MODULES = [
         pieges: [
           'La majoration pour tierce personne est distincte de l\'Allocation Personnalisée d\'Autonomie (APA), qui relève du département. Un cumul partiel reste possible, à une condition stricte : que les deux aides ne financent pas le même besoin. On ne peut pas être indemnisé deux fois pour la même dépense.',
           'Ne pas confondre avec l\'Allocation Tierce Personne de la Sécurité sociale, qui relève d\'un régime différent pour les contractuels.',
-          'Beaucoup de sources annoncent « 40 % de la pension » : c\'est la règle du régime général des salariés du privé, elle ne s\'applique pas aux fonctionnaires. La majoration est ici forfaitaire — un agent à petite pension touche donc le même montant qu\'un agent à pension élevée.',
+          'Certaines sources annoncent « 40 % de la pension » : c\'est la règle du régime général des salariés du privé, elle ne s\'applique pas aux fonctionnaires. La majoration est ici forfaitaire — un agent à petite pension touche donc le même montant qu\'un agent à pension élevée.',
           'En cas de décès du bénéficiaire, la majoration ne se transmet pas aux ayants droit — contrairement à la pension de réversion.',
         ],
         recours: 'Refus de la majoration ou montant contesté : recours gracieux auprès du SRE ou de la CNRACL, puis tribunal administratif.',
@@ -1166,7 +1166,7 @@ export const MODULES = [
         titre: 'RQTH — Reconnaissance de la Qualité de Travailleur Handicapé',
         categorie: 'Inaptitude & Reclassement',
         chips: ['Tous agents', 'MDPH', 'Droits renforcés'],
-        resume: 'La RQTH est une reconnaissance administrative du handicap qui ouvre des droits spécifiques dans la fonction publique : aménagement du poste, protection renforcée, aides du FIPHFP. Elle est attribuée par la Maison Départementale des Personnes Handicapées (MDPH).',
+        resume: 'La RQTH est une reconnaissance administrative du handicap qui ouvre des droits spécifiques dans la fonction publique : aménagement du poste, préavis de licenciement doublé pour certains contractuels, aides du FIPHFP. Elle est attribuée par la Maison Départementale des Personnes Handicapées (MDPH).',
         ciblePublic: 'Tout agent public présentant une déficience physique, sensorielle, mentale, cognitive, psychique ou un trouble de santé invalidant.',
         droits: [
           { label: 'Aménagement du poste', valeur: 'Mesures appropriées', detail: 'L\'administration doit prendre les mesures appropriées (matériel adapté, horaires, télétravail, accessibilité) pour vous permettre d\'accéder à un emploi ou de le conserver, sauf si les charges qui en résultent sont disproportionnées (art. L. 131-8 du CGFP).' },
@@ -1412,7 +1412,7 @@ export const MODULES = [
         ciblePublic: 'Fonctionnaires titulaires et stagiaires, père ou mère. Les agents contractuels y ont également droit, sous condition d\'ancienneté — voir plus bas. Les deux parents peuvent en bénéficier successivement ou simultanément — la règle interdisant le cumul a été supprimée.',
         droits: [
           { label: 'Durée', valeur: 'Jusqu\'aux 3 ans de l\'enfant', detail: 'Ou jusqu\'au 3e anniversaire de l\'arrivée de l\'enfant adopté. Renouvelable par périodes de 2 à 6 mois. Accordé de plein droit sur simple demande.' },
-          { label: 'Les deux parents', valeur: 'Cumul possible', detail: 'Le congé parental peut être accordé à l\'un ou l\'autre des parents, ou aux deux simultanément. L\'ancienne interdiction du cumul pour un même enfant a été supprimée.' },
+          { label: 'Les deux parents', valeur: 'Cumul possible', detail: 'Le congé parental peut être accordé à l\'un ou l\'autre des parents, ou aux deux simultanément.' },
           { label: 'Agents contractuels', valeur: '1 an d\'ancienneté requis', detail: 'Les agents contractuels ont eux aussi droit, sur leur demande, à un congé parental — mais seulement s\'ils justifient d\'au moins un an d\'ancienneté à la date de naissance de l\'enfant ou de son arrivée au foyer. Cette condition ne s\'applique pas aux titulaires, qui l\'obtiennent de plein droit dès la demande, sans condition d\'ancienneté. Sources : art. 19 du décret 86-83 (État), art. 14 du décret 88-145 (territoriale), art. 18 du décret 91-155 (hôpital).' },
           { label: 'Naissances multiples', valeur: 'Durée allongée', detail: 'Jusqu\'à l\'entrée à l\'école maternelle pour 2 enfants nés simultanément, et jusqu\'aux 6 ans de l\'enfant à partir de 3 naissances simultanées.' },
           { label: 'Rémunération', valeur: 'Aucune — allocations CAF', detail: 'L\'agent ne perçoit plus de traitement. Il peut percevoir les allocations CAF (PreParE, CMG) selon sa situation familiale et ses revenus.' },
@@ -1475,7 +1475,7 @@ export const MODULES = [
         resume: 'Le médecin de prévention joue un rôle de conseil et de prévention — il n\'est pas le médecin de l\'administration. Il agit dans l\'intérêt de la santé des agents.',
         ciblePublic: 'Tous les agents publics (titulaires et contractuels).',
         droits: [
-          { label: 'Visite d\'information et de prévention', valeur: 'Au moins tous les 5 ans', detail: 'C\'est la périodicité minimale à l\'État et en territoriale. En territoriale, elle était encore de 2 ans jusqu\'au décret du 8 décembre 2025 qui l\'a portée à 5 ans — une information encore fausse sur beaucoup de sites. L\'hôpital a son propre régime, plus fréquent : voir la ligne suivante.', versants: ['fpe', 'fpt'] },
+          { label: 'Visite d\'information et de prévention', valeur: 'Au moins tous les 5 ans', detail: 'C\'est la périodicité minimale à l\'État et en territoriale. En territoriale, elle était encore de 2 ans jusqu\'au décret du 8 décembre 2025 qui l\'a portée à 5 ans — une information que l\'on trouve encore dans d\'anciens documents. L\'hôpital a son propre régime, plus fréquent : voir la ligne suivante.', versants: ['fpe', 'fpt'] },
           { label: 'Examen médical', valeur: 'Au moins tous les 24 mois', detail: 'À l\'hôpital, ce n\'est pas la visite d\'information et de prévention de 5 ans qui s\'applique, mais un examen médical propre à ce versant, plus fréquent : au moins tous les 24 mois, effectué par le médecin du travail lui-même. Source : art. R. 4626-26 du code du travail — jamais abrogé depuis sa création en 2016, il prime sur la règle générale de 5 ans pour les établissements de santé.', versants: ['fph'] },
           { label: 'Surveillance médicale renforcée', valeur: 'Tous les 4 ans + visite intermédiaire', detail: 'Certains agents relèvent d\'un suivi rapproché : personnes en situation de handicap, femmes enceintes, agents réintégrés après un CLM ou un CLD, et agents exposés à un risque particulier. Pour eux, la visite est faite par un médecin du travail au moins tous les 4 ans, avec une visite intermédiaire par un professionnel de santé dans les 2 ans qui suivent.', versants: ['fpe', 'fpt'] },
           { label: 'Surveillance médicale renforcée', valeur: 'À la discrétion du médecin du travail', detail: 'Mêmes catégories qu\'à l\'État et en territoriale — dont les agents réintégrés après un CLM ou un CLD — mais sans plafond légal de 4 ans ni visite intermédiaire imposée à 2 ans : c\'est le médecin du travail qui fixe librement la fréquence, dans le respect du minimum de 24 mois. Source : art. R. 4626-27 et R. 4626-28 du code du travail.', versants: ['fph'] },
@@ -1505,7 +1505,7 @@ export const MODULES = [
         titre: 'Le conseil médical',
         categorie: 'Vos interlocuteurs',
         chips: ['Depuis 2022', 'Deux formations', 'Droits de l\'agent'],
-        resume: 'Depuis 2022, l\'ancien comité médical et l\'ancienne commission de réforme ont fusionné en un seul conseil médical, qui intervient dans toutes les décisions médicales importantes.',
+        resume: 'Depuis 2022, l\'ancien comité médical et l\'ancienne commission de réforme ont fusionné en un seul conseil médical, consulté pour les décisions médicales que prévoient les textes (congés de longue maladie ou de longue durée, disponibilité d\'office, reclassement, imputabilité au service…).',
         ciblePublic: 'Tous les fonctionnaires titulaires pour les décisions nécessitant un avis médical réglementaire.',
         droits: [
           { label: 'Formation restreinte', valeur: '3 médecins', detail: 'Composée de 3 médecins désignés par le préfet pour 3 ans à partir d\'une liste de médecins agréés. C\'est l\'ancien comité médical.' },
@@ -1564,7 +1564,7 @@ export const MODULES = [
           'Le médecin agréé n\'est pas un médecin de confiance choisi par l\'agent — il est désigné par l\'administration. Ses conclusions peuvent être défavorables à l\'agent.',
           'Devant le conseil médical, l\'agent peut faire entendre le médecin de son choix et se faire accompagner ou représenter par une personne de son choix (art. 12 du décret 86-442) : c\'est utile lorsque la situation est complexe.',
           'Le refus de se soumettre à la visite médicale peut être interprété défavorablement dans la procédure en cours.',
-          'La différence entre médecin agréé (mandaté par l\'admin) et médecin de prévention (défenseur de la santé de l\'agent) est fondamentale — ne pas les confondre.',
+          'La différence entre médecin agréé (mandaté par l\'admin) et médecin de prévention (qui agit pour la santé de l\'agent) est importante — ne pas les confondre.',
           'Le nom d\'une maladie n\'a pas sa place dans le dossier administratif. Les agents sont tenus au secret professionnel (art. L. 121-6 du CGFP) : la divulgation d\'une information médicale peut être sanctionnée (art. 226-13 du code pénal) et signalée à la CNIL.',
           'L\'administration ne peut pas conditionner une décision — mutation, promotion, avancement — à la connaissance d\'un diagnostic. Le médecin de prévention ne transmet à l\'employeur que son avis et ses préconisations : pas d\'information médicale détaillée.',
         ],
@@ -1806,7 +1806,7 @@ export const MODULES = [
         titre: 'Réforme PSC — La participation obligatoire de l\'employeur',
         categorie: 'Protection sociale complémentaire',
         chips: ['Tous agents', 'Réforme 2022-2026', 'Participation employeur'],
-        resume: 'La réforme de la Protection Sociale Complémentaire (PSC) dans la fonction publique oblige l\'employeur public à participer au financement de la mutuelle santé et de la prévoyance de ses agents, à l\'instar du secteur privé. Une révolution dans la couverture sociale des fonctionnaires.',
+        resume: 'La réforme de la Protection Sociale Complémentaire (PSC) dans la fonction publique oblige l\'employeur public à participer au financement de la mutuelle santé et de la prévoyance de ses agents, à l\'instar du secteur privé.',
         ciblePublic: 'Tous les agents publics, titulaires et contractuels, des trois versants. La réforme s\'applique progressivement selon le versant.',
         droits: [
           { label: 'Participation employeur santé', valeur: 'Min. 50 %, par contrat collectif', detail: 'Ce qui a commencé le 1er janvier 2022 n\'était pas la participation de 50 % mais un remboursement forfaitaire et transitoire de 15 € par mois (Décret 2021-1164). Les 50 % ne s\'appliquent qu\'avec l\'entrée en vigueur du contrat collectif à adhésion obligatoire de votre ministère : les premiers ont pris effet le 1er janvier 2025, et, selon la DGAFP, plus de 80 % des agents de l\'État devaient y avoir accès au 1er mai 2026. Demandez à votre RH la date d\'effet du vôtre — c\'est elle qui fait votre droit.', versants: ['fpe'] },
@@ -1834,7 +1834,7 @@ export const MODULES = [
           { texte: 'Dans la fonction publique territoriale, la participation de l\'employeur ne porte que sur les contrats labellisés ou sur la convention de participation qu\'il a retenue : un contrat individuel qui n\'est ni l\'un ni l\'autre n\'en bénéficie pas. Source : décret 2011-1474, art. 2 et 4.', versants: ['fpt'] },
           { texte: 'Dans la fonction publique de l\'État, tant que le contrat collectif de votre employeur n\'a pas pris effet, le remboursement forfaitaire de 15 € par mois s\'applique à votre contrat individuel de santé, s\'il est conforme aux conditions fixées par les textes.', versants: ['fpe'] },
           'Les agents contractuels bénéficient des mêmes droits à la participation employeur que les titulaires — ne pas hésiter à le faire valoir.',
-          'La prévoyance (incapacité, invalidité, décès) est souvent sous-estimée. En cas de longue maladie, la perte de revenus peut être importante — avoir une prévoyance solide est essentiel.',
+          'La prévoyance (incapacité, invalidité, décès) peut être sous-estimée. En cas de longue maladie, la perte de revenus peut être importante — une prévoyance adaptée peut la limiter.',
         ],
         recours: 'Refus de la participation employeur : recours gracieux auprès du service RH. En cas de litige sur le contrat collectif : saisine du médiateur, puis tribunal administratif.',
         sources: [
@@ -1854,7 +1854,7 @@ export const MODULES = [
       },
       {
         id: 'prevoyance',
-        titre: 'La prévoyance — pourquoi c\'est essentiel',
+        titre: 'La prévoyance — pourquoi y penser',
         categorie: 'Protection sociale complémentaire',
         chips: ['Tous agents', 'Incapacité / Invalidité / Décès', 'Complément indispensable'],
         resume: 'La prévoyance couvre les risques financiers liés à une incapacité de travail prolongée, une invalidité ou un décès. Dans la fonction publique, le statut protège mais ne garantit pas le maintien total des revenus sur le long terme.',
@@ -1959,7 +1959,7 @@ export const MODULES = [
           { num: 4, titre: 'Obligation de retour', texte: 'À l\'issue du congé, l\'agent s\'engage à servir dans la fonction publique pendant le TRIPLE de la durée pendant laquelle il a perçu l\'indemnité — soit 3 ans pour 12 mois indemnisés, mais 18 mois seulement pour 6 mois indemnisés. En cas de départ anticipé, l\'indemnité perçue doit être remboursée au prorata.' },
         ],
         pieges: [
-          'Le délai de dépôt n\'est pas le même dans les trois versants : 120 jours à l\'État, 90 dans la territoriale, 60 à l\'hôpital. Beaucoup de documents ne citent que le délai de l\'État. Vérifiez le vôtre — un jour d\'écart suffit à faire écarter la demande pour ce seul motif.',
+          'Le délai de dépôt n\'est pas le même dans les trois versants : 120 jours à l\'État, 90 dans la territoriale, 60 à l\'hôpital. Certains documents ne citent que le délai de l\'État. Vérifiez le vôtre — un jour d\'écart peut suffire à faire écarter la demande pour ce seul motif.',
           'L\'indemnité de 85 % est plafonnée à l\'indice brut 650. Si votre indice est supérieur, votre perte de revenu sera bien plus forte que les 15 % annoncés — faites le calcul avec votre service RH avant de vous décider.',
           'Le remboursement de l\'indemnité est exigé si l\'agent quitte la fonction publique avant d\'avoir accompli son engagement de servir (une durée proportionnelle à la période indemnisée).',
           'Après un congé de formation, il faut attendre 12 mois à compter de la fin de la formation avant de pouvoir en demander un nouveau.',
