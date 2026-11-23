@@ -350,9 +350,10 @@ const MODELES = {
     titre: 'Refus de formation pendant un congé de santé',
     objet: 'Recours gracieux — suivre une formation pendant mon congé de santé',
     decision: 'refusé ma demande de suivre une formation pendant mon congé de santé',
-    fondement: 'Le décret n° 2026-705 du 29 juillet 2026, en vigueur depuis le 1er septembre 2026, '
-      + 'ouvre aux agents en congé de santé — titulaires comme contractuels — le droit de suivre '
-      + 'une action de formation, sous réserve d\'un avis médical favorable.',
+    fondement: 'Le décret n° 2026-705 du 29 juillet 2026, applicable aux congés débutant ou '
+      + 'prolongés à compter du 1er septembre 2026, ouvre aux agents en congé de santé — '
+      + 'titulaires comme contractuels — le droit de suivre une action de formation, sous '
+      + 'réserve d\'un avis médical favorable.',
     demande: 'Je vous demande de bien vouloir réexaminer cette décision et de me communiquer les '
       + 'motifs du refus ainsi que, le cas échéant, l\'avis médical sur lequel il se fonde.',
   }],
@@ -969,18 +970,18 @@ const DEMANDES = {
       + "l'action suivante : [INTITULÉ DE LA FORMATION OU DU BILAN DE COMPÉTENCES], d'une durée "
       + 'de [DURÉE], du [DATE DE DÉBUT] au [DATE DE FIN].',
     fondement: {
-      fpe: 'Les articles 41-1 et 41-2 du décret n° 86-442 du 14 mars 1986, insérés par le décret '
-        + "n° 2026-705 du 29 juillet 2026, ouvrent à l'agent en congé pour raison de santé la "
+      fpe: "L'article 41-2 du décret n° 86-442 du 14 mars 1986, inséré par le décret "
+        + "n° 2026-705 du 29 juillet 2026, ouvre à l'agent en congé pour raison de santé la "
         + "possibilité de suivre une action de formation, après avis d'un médecin agréé sur sa "
         + "compatibilité avec l'état de santé.",
-      fpt: 'Les articles 31-1 et 31-2 du décret n° 87-602 du 30 juillet 1987, insérés par le '
-        + "décret n° 2026-705 du 29 juillet 2026, ouvrent à l'agent en congé pour raison de santé "
+      fpt: "L'article 31-2 du décret n° 87-602 du 30 juillet 1987, inséré par le "
+        + "décret n° 2026-705 du 29 juillet 2026, ouvre à l'agent en congé pour raison de santé "
         + "la possibilité de suivre une action de formation, après avis d'un médecin agréé sur sa "
         + "compatibilité avec l'état de santé.",
-      fph: 'Le décret n° 2026-705 du 29 juillet 2026 a inséré au décret n° 88-386 du 19 avril 1988 '
-        + "les dispositions ouvrant à l'agent en congé pour raison de santé la possibilité de "
-        + "suivre une action de formation, après avis d'un médecin agréé sur sa compatibilité avec "
-        + "l'état de santé.",
+      fph: "L'article 31-1 du décret n° 88-386 du 19 avril 1988, inséré par le décret "
+        + "n° 2026-705 du 29 juillet 2026, ouvre à l'agent en congé pour raison de santé la "
+        + "possibilité de suivre une action de formation, après avis d'un médecin agréé sur sa "
+        + "compatibilité avec l'état de santé.",
     },
     demande: 'Je vous demande de bien vouloir saisir le médecin agréé, et de me donner votre '
       + 'accord écrit pour mobiliser mon compte personnel de formation au financement de cette '
