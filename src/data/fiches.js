@@ -338,7 +338,7 @@ export const MODULES = [
               ['Durée max. par autorisation', '12 mois'],
               ['Renouvellement', 'Après 1 an d\'activité'],
               ['Limite par affection', 'Aucune depuis 2021'],
-              ['Condition préalable d\'arrêt', 'Non requise depuis nov. 2021'],
+              ['Condition préalable d\'arrêt', 'Non requise depuis juillet 2021'],
               ['Délai de décision', '30 jours (depuis 08/2026)'],
               ['Contrôle médical à 3 mois', 'Supprimé (depuis 08/2026)'],
               ['Rémunération', 'Plein traitement (100 %)'],
@@ -1116,7 +1116,7 @@ export const MODULES = [
           { num: 5, titre: 'Décision finale', texte: 'Reclassement accepté → mise en place, avec conservation de l\'indice à titre personnel si le nouveau grade est moins élevé. Reclassement impossible → mise à la retraite pour invalidité.' },
         ],
         pieges: [
-          'Demandez la période de préparation au reclassement par écrit. Elle est peu proposée spontanément, alors qu\'elle vous offre un an à plein traitement pour vous former à un autre métier — c\'est le droit le plus utile et le moins connu de cette procédure.',
+          'Demandez la période de préparation au reclassement par écrit. Elle n\'est pas toujours proposée spontanément, alors qu\'elle vous offre un an à plein traitement pour vous former à un autre métier.',
           'Le refus d\'un reclassement peut entraîner la perte d\'indemnités. Ne pas refuser sans conseil préalable.',
           'Un reclassement sur un grade inférieur ne doit pas faire baisser votre traitement : vous gardez votre indice brut à titre personnel. Vérifiez-le sur votre première fiche de paie après le reclassement.',
         ],
@@ -1137,7 +1137,7 @@ export const MODULES = [
         ciblePublic: 'Fonctionnaires titulaires en retraite pour invalidité ou reconnus invalides avec un taux d\'invalidité très élevé.',
         droits: [
           { label: 'Éligibilité', valeur: 'Assistance constante', detail: 'Deux conditions, et deux seulement : être titulaire d\'une pension d\'invalidité — ou d\'une rente d\'invalidité concédée après la radiation des cadres — et être dans l\'obligation d\'avoir recours d\'une manière constante à l\'assistance d\'une tierce personne pour accomplir les actes ordinaires de la vie : se lever, se nourrir, se laver. Il n\'est pas exigé d\'être dans l\'impossibilité absolue d\'exercer une activité professionnelle : cette condition-là est celle de l\'invalidité de 3e catégorie du régime général, et elle ne s\'applique pas aux fonctionnaires. Sources : art. L. 30 bis du code des pensions civiles, art. 34 du décret 2003-1306.' },
-          { label: 'Montant', valeur: '1 376 € brut par mois', detail: 'Contrairement au régime général des salariés du privé, la majoration des fonctionnaires n\'est pas un pourcentage de la pension. C\'est un montant forfaitaire, fixé par référence à la valeur de l\'indice majoré 227 au 1er janvier 2004 et revalorisé chaque année comme les pensions d\'invalidité de la sécurité sociale. Il est donc identique quel que soit le niveau de votre pension. Au 1er avril 2026, il s\'élève à 1 376 € brut par mois, soit 16 512 € par an. La formule est la même dans les deux régimes, État et CNRACL : le montant l\'est aussi. Source : Art. L. 30 bis du Code des pensions civiles.' },
+          { label: 'Montant', valeur: 'Montant forfaitaire', detail: 'Contrairement au régime général des salariés du privé, la majoration des fonctionnaires n\'est pas un pourcentage de la pension. C\'est un montant forfaitaire, fixé par référence à la valeur de l\'indice majoré 227 au 1er janvier 2004 et revalorisé chaque année comme les pensions d\'invalidité de la sécurité sociale. Il est donc identique quel que soit le niveau de votre pension. Son montant, de l\'ordre de 1 300 à 1 400 € brut par mois, change chaque année : demandez le montant exact en vigueur au service gestionnaire (SRE ou CNRACL). La formule est la même dans les deux régimes, État et CNRACL. Source : Art. L. 30 bis du Code des pensions civiles.' },
           { label: 'Cumul', valeur: 'Avec la pension et la rente', detail: 'La majoration s\'ajoute à la pension d\'invalidité et, le cas échéant, à la rente viagère d\'invalidité. Elle échappe au plafond qui limite le total pension + rente au traitement de base : elle peut donc porter l\'ensemble au-dessus de ce traitement.' },
           { label: 'Durée', valeur: '5 ans, puis définitive', detail: 'La majoration est accordée pour cinq ans — voir « La démarche » pour ce qui se passe à l\'issue de cette période. Ce n\'est pas un renouvellement à durée limitée qui se répéterait indéfiniment. Sources : art. R. 38 du code des pensions civiles, CNRACL.' },
         ],
@@ -1181,7 +1181,7 @@ export const MODULES = [
           { num: 2, titre: 'Instruction', texte: 'Délai légal : 4 mois. Sans réponse → refus implicite (mais recours possible). La MDPH peut demander des évaluations complémentaires.' },
           { num: 3, titre: 'Notification de la décision', texte: 'En cas d\'accord, la RQTH précise sa durée et les éventuelles orientations (ESAT, marché ordinaire, voie de recrutement FP…).' },
           { num: 4, titre: 'Déclaration à l\'employeur (facultative)', texte: 'La RQTH n\'est pas automatiquement communiquée à l\'employeur. L\'agent choisit librement s\'il veut en informer son administration pour bénéficier des aménagements de poste et du FIPHFP.' },
-          { num: 5, titre: 'Demande d\'aménagement', texte: 'Après déclaration à l\'employeur : saisir le médecin de prévention pour préconisations. L\'administration est tenue de les mettre en œuvre sauf contrainte dûment justifiée.' },
+          { num: 5, titre: 'Demande d\'aménagement', texte: 'Après déclaration à l\'employeur : saisir le médecin de prévention pour préconisations. L\'administration doit prendre les mesures appropriées pour vous permettre de conserver votre emploi, sauf si les charges qui en résultent sont disproportionnées (art. L. 131-8 du CGFP).' },
           { num: 6, titre: 'Renouvellement', texte: 'À anticiper 6 mois avant l\'expiration pour éviter une interruption des droits. Procédure identique à la demande initiale.' },
         ],
         pieges: [
@@ -1246,7 +1246,7 @@ export const MODULES = [
         pieges: [
           'Accouchement prématuré : si l\'accouchement survient avant le début du congé prénatal, le postnatal est prolongé d\'autant — la durée totale ne diminue pas.',
           'Hospitalisation du nourrisson : en cas d\'hospitalisation prolongée du nouveau-né, le congé postnatal peut être suspendu et repris à la sortie de l\'hôpital.',
-          'Contractuelles : aucune condition d\'ancienneté n\'est exigée. « Durant ces congés, l\'agent contractuel conserve l\'intégralité de son traitement » — la formule est la même dans les trois versants. La condition de six mois de services a été supprimée le 1er juillet 2021 ; si on vous l\'oppose encore, demandez sur quel texte. L\'administration perçoit à votre place les indemnités journalières de la sécurité sociale. Sources : décret 86-83 art. 15, décret 88-145 art. 10, décret 91-155 art. 13.',
+          'Contractuelles : aucune condition d\'ancienneté n\'est exigée. « Durant ces congés, l\'agent contractuel conserve l\'intégralité de son traitement » — la formule est la même dans les trois versants. La condition de six mois de services a été supprimée le 1er juillet 2021 (1er novembre 2021 à l\'hôpital) ; si on vous l\'oppose encore, demandez sur quel texte. L\'administration perçoit à votre place les indemnités journalières de la sécurité sociale. Sources : décret 86-83 art. 15, décret 88-145 art. 10, décret 91-155 art. 13.',
         ],
         recours: 'Tout refus ou retard d\'accès au congé de maternité est contestable en référé devant le tribunal administratif.',
         sources: [
@@ -1275,8 +1275,8 @@ export const MODULES = [
         ],
         etapes: [
           { num: 1, titre: 'Prescription médicale', texte: 'Un certificat médical attestant l\'état pathologique lié à la grossesse est obligatoire. Le médecin précise la durée dans la limite légale.' },
-          { num: 2, titre: 'Remise au service RH', texte: 'Remettre le certificat médical au service RH. Le congé est accordé de droit, sans passage en conseil médical.' },
-          { num: 3, titre: 'Fractionnement possible', texte: 'Les 21 jours prénatals n\'ont pas à être pris d\'un seul tenant. Ils sont mobilisables progressivement selon l\'évolution de l\'état de santé.' },
+          { num: 2, titre: 'Remise au service RH', texte: 'Adresser la demande au chef de service avec le certificat médical, à transmettre dans les deux jours suivant son établissement. Le congé est accordé de droit, sans passage en conseil médical.' },
+          { num: 3, titre: 'Fractionnement possible', texte: 'Les 21 jours prénatals n\'ont pas à être pris d\'un seul tenant : ils peuvent être utilisés de manière continue ou discontinue, à partir du jour de la déclaration et jusqu\'à la veille du début du congé de maternité (art. 4 du décret 2021-871 et décrets équivalents).' },
         ],
         pieges: [
           'Les 21 jours concernent toutes les agentes publiques, titulaires comme contractuelles. Si votre service RH vous oppose encore les 14 jours de l\'ancien régime, invoquez l\'art. 174 de la loi 2026-103 du 19 février 2026, applicable depuis le 1er mars 2026.',
@@ -1303,7 +1303,7 @@ export const MODULES = [
           { label: 'Naissance simple', valeur: '25 jours calendaires', detail: '4 jours obligatoires immédiatement après la naissance + 21 jours à prendre dans les 6 mois. Les 4 jours s\'ajoutent au congé de naissance de 3 jours — ce n\'est pas une autorisation d\'absence, c\'est un congé : vous avez donc au moins 7 jours consécutifs. Source : art. L. 631-6 CGFP (congé de naissance).' },
           { label: 'Naissances multiples', valeur: '32 jours calendaires', detail: '4 jours obligatoires + 28 jours à prendre dans les 6 mois.' },
           { label: 'Rémunération', valeur: '100 % — temps plein', detail: 'Traitement et régime indemnitaire maintenus à 100 %. En cas de temps partiel, l\'agent est rémunéré à temps plein pendant le congé.' },
-          { label: 'Sans condition d\'ancienneté', valeur: 'Depuis le 1er juillet 2021', detail: 'La condition de six mois de services a été supprimée par les trois décrets du printemps 2021 — 2021-846 en territoriale, 2021-871 à l\'État, 2021-1342 à l\'hôpital. Les contractuels conservent l\'intégralité de leur traitement dès le premier jour de contrat : décret 86-83 art. 15, décret 88-145 art. 10, décret 91-155 art. 13.' },
+          { label: 'Sans condition d\'ancienneté', valeur: 'Depuis 2021', detail: 'La condition de six mois de services a été supprimée par trois décrets : le décret 2021-846 du 29 juin 2021 en territoriale et le décret 2021-871 du 30 juin 2021 à l\'État (en vigueur le 1er juillet 2021), le décret 2021-1342 du 13 octobre 2021 à l\'hôpital (en vigueur le 1er novembre 2021). Les contractuels conservent l\'intégralité de leur traitement dès le premier jour de contrat : décret 86-83 art. 15, décret 88-145 art. 10, décret 91-155 art. 13.' },
           { label: 'Droits statutaires', valeur: 'Préservés', detail: 'Avancement et droits à retraite maintenus. Congés annuels acquis reportables (Loi 2024-364).' },
         ],
         etapes: [
@@ -1312,7 +1312,7 @@ export const MODULES = [
           { num: 3, titre: 'Prendre les 21 jours restants', texte: 'Fractionnables en 2 périodes de 5 jours minimum, à prendre dans les 6 mois suivant la naissance. Ce délai se reporte dans deux situations : l\'hospitalisation immédiate de l\'enfant, et le décès de la mère. En dehors de ces cas, les jours non pris sont perdus.' },
         ],
         pieges: [
-          'Le délai de six mois se reporte dans deux situations. Si l\'enfant est hospitalisé immédiatement après la naissance, le délai court jusqu\'à la fin de l\'hospitalisation, et la période de 4 jours peut elle-même être prolongée pendant cette hospitalisation, dans la limite de 30 jours consécutifs. Si la mère décède, le second parent a droit au congé postnatal de maternité, et les six mois ne commencent qu\'à la fin de ce congé — la demande est à adresser au service dans les huit jours du décès.',
+          'Le délai de six mois se reporte dans deux situations. Si l\'enfant est hospitalisé immédiatement après la naissance, le délai court jusqu\'à la fin de l\'hospitalisation, et la période de 4 jours peut elle-même être prolongée pendant cette hospitalisation, dans la limite de 30 jours consécutifs. Si la mère décède, le second parent a droit au congé postnatal de maternité, et les six mois ne commencent qu\'à la fin de ce congé — la demande est à adresser au chef de service, avec les pièces justificatives prévues par arrêté (art. 7 du décret 2021-871).',
           'En cas de décès de la mère, le second parent peut reprendre tout ou partie du congé de maternité non pris.',
         ],
         recours: 'Refus ou entrave contestable en référé devant le tribunal administratif.',
@@ -1364,7 +1364,7 @@ export const MODULES = [
         versantNotes: {
           fpe: 'FPE : dispositif applicable. Pour les contractuels de l\'État, les modalités figurent dans le Décret 86-83 modifié par les décrets du 30 mai 2026.',
           fpt: 'FPT : dispositif applicable aux agents territoriaux, titulaires comme contractuels. Se rapprocher du service RH de la collectivité pour le formulaire de demande.',
-          fph: 'FPH : dispositif applicable aux agents hospitaliers, titulaires comme contractuels. C\'est l\'un des rares droits récents où les trois versants sont traités à l\'identique — contrairement aux congés de maladie.',
+          fph: 'FPH : dispositif applicable aux agents hospitaliers, titulaires comme contractuels. Les trois versants sont ici traités à l\'identique, contrairement aux congés de maladie.',
         },
       },
 
@@ -1377,7 +1377,7 @@ export const MODULES = [
         resume: 'Tout agent public accueillant un enfant en vue de son adoption bénéficie d\'un congé d\'adoption rémunéré à 100 %. La durée varie selon le rang de l\'enfant. Le congé peut être partagé entre les deux parents adoptants.',
         ciblePublic: 'Tout agent public (titulaire ou contractuel) accueillant un enfant en vue d\'adoption.',
         droits: [
-          { label: '1er ou 2e enfant au foyer', valeur: '16 semaines', detail: 'C\'est la durée de droit commun depuis 2021 — celle de l\'article L. 1225-37 du code du travail, auquel renvoie l\'article L. 631-8 du CGFP. Les 10 semaines que l\'on lit encore souvent sont l\'ancienne durée, alignée sur le postnatal de maternité : elle n\'a plus cours.' },
+          { label: '1er ou 2e enfant au foyer', valeur: '16 semaines', detail: 'C\'est la durée de droit commun depuis février 2022 — celle de l\'article L. 1225-37 du code du travail, auquel renvoie l\'article L. 631-8 du CGFP. Les 10 semaines que l\'on lit encore souvent sont l\'ancienne durée, alignée sur le postnatal de maternité : elle n\'a plus cours.' },
           { label: '3e enfant ou plus', valeur: '18 semaines', detail: 'Lorsque l\'adoption porte à trois ou plus le nombre d\'enfants dont vous ou le foyer assumez la charge.' },
           { label: 'Adoptions multiples', valeur: '22 semaines', detail: 'Pour l\'accueil simultané de plusieurs enfants.' },
           { label: 'Partage entre parents', valeur: 'Congé augmenté de 25 jours', detail: 'Si les deux parents se partagent le congé, sa durée est augmentée de 25 jours calendaires — 32 jours en cas d\'adoptions multiples. Il ne peut alors être fractionné qu\'en deux périodes, dont la plus courte est au moins égale à 25 jours (32 jours en cas d\'adoptions multiples). Source : art. L. 1225-40 du code du travail.' },
@@ -1390,7 +1390,7 @@ export const MODULES = [
         ],
         pieges: [
           'Le congé débute à l\'arrivée de l\'enfant au foyer, pas à la date du jugement — anticiper la démarche auprès du service RH. Il peut toutefois commencer jusqu\'à sept jours consécutifs avant cette arrivée.',
-          'Si votre service RH vous annonce dix semaines pour un premier enfant, c\'est l\'ancienne durée. Le congé d\'adoption est de seize semaines depuis 2021, par renvoi de l\'article L. 631-8 du CGFP à l\'article L. 1225-37 du code du travail.',
+          'Si votre service RH vous annonce dix semaines pour un premier enfant, c\'est l\'ancienne durée. Le congé d\'adoption est de seize semaines depuis février 2022, par renvoi de l\'article L. 631-8 du CGFP à l\'article L. 1225-37 du code du travail.',
           'En cas d\'adoption internationale, un congé sans traitement supplémentaire peut être accordé pour les démarches administratives à l\'étranger.',
         ],
         recours: 'Refus contestable devant le tribunal administratif.',
@@ -1427,13 +1427,13 @@ export const MODULES = [
           { num: 1, titre: 'Demande écrite au service RH', texte: 'Au moins 2 mois avant la date de début. Le congé est accordé de plein droit — l\'administration ne peut pas le refuser.' },
           { num: 2, titre: 'Renouvellements', texte: 'Chaque renouvellement se demande au moins 1 mois avant l\'expiration de la période en cours.' },
           { num: 3, titre: 'Fin anticipée possible', texte: 'Le fonctionnaire peut demander à mettre fin au congé parental avant son terme, sans avoir à justifier d\'un motif (art. L. 515-6 du CGFP). Un agent contractuel de l\'État ou territorial ne peut écourter son congé qu\'en cas de nouvelle naissance ou pour motif grave, notamment en cas de diminution des revenus du ménage (art. 19 du décret 86-83 ; art. 14 du décret 88-145).' },
-          { num: 4, titre: 'Demande de réintégration', texte: 'À formuler au moins 1 mois avant l\'expiration de la période en cours — le même délai qu\'un renouvellement, depuis le décret 2020-529 qui a remplacé les deux mois antérieurs (voir aussi le droit « Entretien préalable » ci-dessus).' },
+          { num: 4, titre: 'Demande de réintégration', texte: 'À formuler avant l\'expiration de la période en cours — par prudence au moins un mois avant, comme pour un renouvellement, pour que l\'entretien préalable de quatre semaines puisse avoir lieu (voir aussi le droit « Entretien préalable » ci-dessus).' },
         ],
         pieges: [
           'Contrairement à une idée répandue, pour un enfant né ou adopté à compter du 1er janvier 2004, le congé parental est pris en compte pour la retraite, à 100 % et dans la limite de 3 ans par enfant — en constitution du droit, en liquidation et en durée d\'assurance. Il n\'y a rien à racheter pour ces périodes.',
           'Le cumul avec la majoration de durée d\'assurance de 2 trimestres par enfant n\'est pas automatique : si un congé parental de 6 mois ou plus est déjà décompté, la majoration peut ne pas s\'ajouter. Demander une projection à la CNRACL ou au SRE avant d\'arbitrer.',
           'Ne pas confondre congé parental (hors service, non rémunéré) et temps partiel de droit pour élever un enfant (maintien de rémunération au prorata, agent reste en activité).',
-          'L\'agente enceinte pendant le congé parental peut y mettre fin de manière anticipée pour son congé de maternité — le congé parental cesse automatiquement à cette date.',
+          'L\'agente enceinte pendant le congé parental peut demander qu\'il y soit mis fin avant son terme (art. L. 515-6 du CGFP) pour bénéficier de son congé de maternité.',
         ],
         recours: 'Refus de congé parental ou de réintégration : recours gracieux immédiat, puis référé devant le tribunal administratif.',
         sources: [
@@ -1485,7 +1485,7 @@ export const MODULES = [
         etapes: [
           { num: 1, titre: 'Contacter le SPST', texte: 'Le Service de Prévention et de Santé au Travail (depuis 2022) est le point de contact pour toute visite médicale.' },
           { num: 2, titre: 'Visite médicale', texte: 'Le médecin du travail examine l\'agent, évalue les conditions de travail et formule des préconisations d\'aménagement si nécessaire.' },
-          { num: 3, titre: 'Aménagement de poste', texte: 'Si le médecin de prévention préconise un aménagement, l\'administration est tenue d\'en tenir compte.' },
+          { num: 3, titre: 'Aménagement de poste', texte: 'Si le médecin de prévention préconise un aménagement et que l\'administration ne l\'agrée pas, elle doit motiver son refus par écrit.' },
         ],
         pieges: [
           'Le médecin de prévention est différent du médecin agréé : il agit pour l\'agent, pas pour l\'administration.',
@@ -1512,13 +1512,13 @@ export const MODULES = [
           { label: 'Ce qu\'elle examine d\'office', valeur: 'CLM, CLD, disponibilité, reclassement', detail: 'Sa saisine est obligatoire pour l\'octroi d\'un premier congé de longue maladie ou de longue durée, la réintégration à l\'expiration des droits à congé pour raison de santé, la mise en disponibilité d\'office pour raison de santé — y compris son renouvellement et la réintégration à son issue —, et le reclassement dans un autre corps ou cadre d\'emplois suite à une altération de l\'état de santé. Ce n\'est donc pas seulement le CLM et le CLD. Depuis le 1er septembre 2026, le renouvellement d\'un CLM ou d\'un CLD une fois la période à plein traitement épuisée ne fait plus partie de ces cas : le conseil médical n\'est plus obligatoirement saisi pour le renouveler. Source : art. 7 du décret 86-442 (et équivalents FPT/FPH), modifié par le décret 2026-705 du 29 juillet 2026.' },
           { label: 'Ce qu\'elle examine sur contestation', valeur: 'TPT, reprise, autres congés', detail: 'Pour le reste — temps partiel thérapeutique, réintégration après un congé, octroi ou renouvellement d\'un congé pour raison de santé — le conseil médical n\'est pas saisi d\'office. Il l\'est en cas de contestation de l\'avis rendu par le médecin agréé. C\'est une confusion fréquente : la saisine n\'étant pas automatique, il faut la demander.' },
           { label: 'Formation plénière', valeur: 'Ex-commission de réforme', detail: 'Intervient pour : imputabilité au service d\'un accident ou d\'une maladie, retraite pour invalidité, ATI.' },
-          { label: 'Droits de l\'agent', valeur: 'Garantis', detail: 'Être entendu, se faire accompagner d\'un médecin de son choix, contester l\'avis.' },
+          { label: 'Droits de l\'agent', valeur: 'Garantis', detail: 'Consulter son dossier, présenter des observations écrites et des certificats médicaux, être accompagné ou représenté par la personne de son choix, être entendu (l\'agent est informé de ce droit en formation plénière ; le conseil peut aussi l\'entendre s\'il le juge utile) et faire entendre le médecin de son choix. Il peut ensuite contester l\'avis rendu en formation restreinte. Source : art. 12 du décret 86-442.' },
         ],
         etapes: [
           { num: 1, titre: 'Saisine', texte: 'L\'administration saisit le conseil médical. L\'agent peut aussi le saisir directement dans certains cas.' },
           { num: 2, titre: 'Examen du dossier', texte: 'Le conseil médical examine le dossier médical transmis dans le respect du secret médical.' },
-          { num: 3, titre: 'Audition possible', texte: 'L\'agent a le droit d\'être entendu. Il peut être accompagné d\'un médecin de son choix.' },
-          { num: 4, titre: 'Avis rendu', texte: 'Le conseil médical rend un avis, que l\'administration suit en principe — elle doit motiver toute divergence. L\'avis n\'est pas une décision : c\'est l\'administration qui décide ensuite.' },
+          { num: 3, titre: 'Audition possible', texte: 'L\'agent peut être entendu : c\'est un droit en formation plénière, et le conseil médical peut l\'entendre s\'il le juge utile. Il peut être accompagné ou représenté par une personne de son choix et faire entendre le médecin de son choix.' },
+          { num: 4, titre: 'Avis rendu', texte: 'Le conseil médical rend un avis. L\'avis n\'est pas une décision : c\'est l\'administration qui décide ensuite, par une décision qui doit être motivée si elle vous est défavorable.' },
           { num: 5, titre: 'Contestation devant le conseil médical supérieur', texte: 'L\'avis de la formation restreinte peut être contesté devant le conseil médical supérieur — par vous ou par l\'administration — dans un délai de 2 mois suivant sa notification. Depuis le 1er septembre 2026, cette contestation n\'est plus ouverte lorsque l\'avis de la formation restreinte reprend les conclusions du médecin agréé qui l\'a saisie — cas fréquent pour l\'octroi ou le renouvellement d\'un congé pour raison de santé, ou une reprise de fonctions. Si le conseil médical supérieur ne se prononce pas dans les 4 mois suivant la réception du dossier, l\'avis initial est réputé confirmé — ce silence vaut donc rejet de votre contestation. Ce délai de 4 mois est suspendu si le conseil médical supérieur fait procéder à une expertise complémentaire. Source : décret 2022-353, chapitre III, art. 17, modifié par le décret 2026-705 du 29 juillet 2026.' },
         ],
         pieges: [

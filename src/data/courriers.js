@@ -588,8 +588,7 @@ const MODELES = {
     objet: 'Recours gracieux — congé de paternité et d\'accueil de l\'enfant',
     decision: 'refusé ou entravé l\'exercice de mon congé de paternité et d\'accueil de l\'enfant',
     fondement: "L'article L. 631-9 du code général de la fonction publique ouvre droit au congé de "
-      + 'paternité et d\'accueil de l\'enfant, sans condition d\'ancienneté depuis le '
-      + '1er juillet 2021.',
+      + 'paternité et d\'accueil de l\'enfant, sans condition d\'ancienneté.',
     demande: 'Je vous demande de bien vouloir réexaminer cette décision et de m\'accorder ce congé '
       + 'à compter du [DATE DE DÉBUT SOUHAITÉE].',
   }],
@@ -1357,7 +1356,7 @@ const DEMANDES = {
       + "paternité et d'accueil de l'enfant. Les quatre premiers jours suivent immédiatement la "
       + 'naissance ; les vingt et un jours restants peuvent être fractionnés en deux périodes de '
       + 'cinq jours au minimum, à prendre dans les six mois suivant la naissance. Aucune condition '
-      + "d'ancienneté n'est exigée depuis le 1er juillet 2021.",
+      + "d'ancienneté n'est exigée.",
     demande: 'Je prendrai les vingt et un jours restants selon les modalités suivantes : '
       + "[PÉRIODES ENVISAGÉES]. Je vous transmettrai l'acte de naissance dès qu'il sera "
       + 'disponible.',
