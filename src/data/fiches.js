@@ -7,15 +7,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 export const NOUVEAUTES = {
   active: true,
-  version: 'v11',
-  date: 'Septembre 2026',
-  titre: 'Nouveautés — Septembre 2026',
+  version: 'v12',
+  date: 'Novembre 2026',
+  titre: 'Nouveautés — Novembre 2026',
   lignes: [
-    'Modèles de courrier : demander et contester',
-    'CLM, CLD, SFT… depuis votre propre messagerie',
-    'Nouvelle fiche : supplément familial (SFT)',
-    'Fiches réécrites : plus courtes, plus claires',
-    "Lien direct vers l'assistant de service social",
+    'Congés de santé : décret du 29 juillet 2026 pris en compte',
+    'CLM, CLD, temps partiel thérapeutique : fiches mises à jour',
+    'Protection sociale complémentaire : étapes selon votre versant',
+    'Sources revérifiées au droit en vigueur au 23 novembre 2026',
     '44 fiches, 10 modules',
   ],
 };
@@ -26,7 +25,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'sante',
-    updatedAt: 'août 2026',
+    updatedAt: 'novembre 2026',
     title: 'Santé & Congés maladie',
     icon: '🏥',
     color: '#C4673A',
@@ -131,7 +130,7 @@ export const MODULES = [
           { texte: 'Décret n° 88-386 du 19 avril 1988 (FPH)' },
           { texte: 'Loi n° 2025-127 du 14 février 2025 + Décret n° 2025-197 du 27 février 2025 (rémunération à 90 %)' },
           { texte: 'Décret n° 2026-705 du 29 juillet 2026 (arrêts de travail — en vigueur au 1er septembre 2026)' },
-          { texte: 'Décret n° 86-442 art. 25 (examen obligatoire après six mois), art. 36-1 (contrôle et interruption du versement) et art. 42 et suivants (congé d\'office)' },
+          { texte: 'Décret n° 86-442 art. 25 (examen obligatoire après six mois), art. 36-1 (contrôle et interruption du versement), art. 34 (saisine du conseil médical par le chef de service avant un placement d\'office en CLM ou CLD) et art. 42 (aptitude à la reprise)' },
           { texte: 'Art. R. 162-1-7-1 du code de la sécurité sociale, créé par le décret 2026-498 du 12/06/2026 (31 jours pour un premier avis, 62 pour une prolongation, depuis le 01/09/2026 — non applicable à Mayotte)' },
           { texte: 'Art. L. 162-4-4 du code de la sécurité sociale, modifié par la loi 2025-1403 art. 81 (qui peut prolonger, et dérogation au plafond sur justification)' },
           { texte: 'Art. R. 162-1-9-1 du code de la sécurité sociale (les trois cas de prolongation indemnisée par un autre médecin)' },
@@ -579,7 +578,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'contractuels',
-    updatedAt: 'août 2026',
+    updatedAt: 'novembre 2026',
     title: 'Droits des contractuels',
     icon: '👷',
     color: '#D4972A',
@@ -873,7 +872,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'atmp',
-    updatedAt: 'août 2026',
+    updatedAt: 'novembre 2026',
     title: 'Accidents de travail & MP',
     icon: '🦺',
     color: '#C0392B',
@@ -906,7 +905,7 @@ export const MODULES = [
           { num: 6, titre: 'En cas de rechute', texte: 'Toute aggravation de votre état, constatée médicalement après la consolidation, peut ouvrir un nouveau CITIS et le remboursement des frais correspondants — à condition de la déclarer dans le délai d\'un mois à compter de cette constatation médicale. Source : art. 47-18 du décret 86-442.' },
         ],
         pieges: [
-          'L\'accident de service doit avoir un lien direct avec l\'exercice des fonctions. Un malaise sur le lieu de travail ne suffit pas automatiquement.',
+          'Tout accident survenu dans le temps et le lieu du service, dans l\'exercice ou à l\'occasion de l\'exercice des fonctions, est présumé imputable au service, quelle qu\'en soit la cause. L\'administration ne peut écarter cette présomption qu\'en cas de faute personnelle ou de toute autre circonstance particulière qui détache l\'accident du service. Source : art. L. 822-18 du CGFP.',
           'Le refus d\'imputabilité doit être motivé et notifié. Il est contestable.',
           'Le délai de déclaration est de 15 jours à compter de l\'accident, et non « dès que possible ». Une déclaration hors délai peut être écartée pour ce seul motif, sauf cas de force majeure, d\'impossibilité absolue ou de motif légitime. Si vous êtes hors délai, dites-le et justifiez-le : c\'est prévu par les textes.',
           'L\'accident de trajet est couvert entre le domicile et le travail, ainsi qu\'entre le travail et le lieu habituel de repas. Un détour justifié par les nécessités de la vie courante — déposer un enfant, un covoiturage régulier — ne fait pas perdre la protection ; un détour personnel, oui.',
@@ -1029,7 +1028,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'inaptitude',
-    updatedAt: 'août 2026',
+    updatedAt: 'novembre 2026',
     title: 'Inaptitude & Reclassement',
     icon: '♿',
     color: '#5C6B45',
@@ -1201,7 +1200,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'conges-specifiques',
-    updatedAt: 'août 2026',
+    updatedAt: 'novembre 2026',
     title: 'Congés familiaux',
     icon: '👶',
     color: '#a5537d',
@@ -1341,7 +1340,7 @@ export const MODULES = [
           'La rémunération n\'est pas intégrale, contrairement au congé de maternité ou de paternité. Sur deux mois, la perte de revenu est réelle — la chiffrer avant d\'opter pour la durée longue.',
           'Le délai de prévenance n\'est réduit à 15 jours que si le congé suit immédiatement le congé de paternité. Dans les autres cas, il est d\'un mois.',
           'Le congé doit débuter dans les neuf mois qui suivent la naissance ou l\'arrivée de l\'enfant adopté. Si vous enchaînez plusieurs congés, vérifiez que ce délai ne sera pas dépassé avant d\'avoir pu poser le second mois.',
-          'Le congé parental qui peut suivre suppose, lui, une condition d\'ancienneté d\'un an — à vérifier avant de bâtir un enchaînement long.',
+          'Pour un agent contractuel, le congé parental qui peut suivre suppose une ancienneté d\'au moins un an à la date de la naissance ou de l\'arrivée de l\'enfant — à vérifier avant de bâtir un enchaînement long.',
         ],
         recours: 'Refus ou entrave : recours gracieux (2 mois) puis tribunal administratif. Le congé étant de droit pour les agents éligibles, un référé est envisageable en cas d\'urgence.',
         sources: [
@@ -1447,7 +1446,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'medecine',
-    updatedAt: 'août 2026',
+    updatedAt: 'novembre 2026',
     title: 'Vos interlocuteurs',
     icon: '🩺',
     color: '#3A7CA5',
@@ -1480,7 +1479,7 @@ export const MODULES = [
           'Le médecin de prévention est différent du médecin agréé : il agit pour l\'agent, pas pour l\'administration.',
           'La fiche d\'aptitude ne doit jamais mentionner le diagnostic — uniquement l\'aptitude ou l\'inaptitude au poste.',
         ],
-        recours: 'L\'agent peut contester un avis d\'aptitude devant le conseil médical.',
+        recours: 'Lorsque l\'avis d\'aptitude a été rendu par un médecin agréé (lors du recrutement, par exemple), il peut être contesté devant le conseil médical. Pour un avis du médecin de prévention, renseignez-vous auprès du service de médecine de prévention sur les voies de recours ouvertes.',
         sources: [
           { texte: 'Décret n° 82-453 du 28 mai 1982 modifié (hygiène, sécurité et médecine de prévention — FPE)', url: 'https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000509290' },
           { texte: 'Décret n° 85-603 du 10 juin 1985 (hygiène, sécurité et médecine préventive — FPT)' },
@@ -1583,7 +1582,7 @@ export const MODULES = [
           { num: 1, titre: 'Nomination', texte: 'L\'assistant de prévention est nommé par l\'autorité administrative (ministre, préfet, directeur de structure…). La nomination fait l\'objet d\'un acte formel précisant la quotité de temps et les missions.' },
           { num: 2, titre: 'Missions principales', texte: 'Il assiste et conseille le chef de service dans l\'analyse des risques, l\'élaboration du Document Unique d\'Évaluation des Risques Professionnels (DUERP), la mise en place des mesures de prévention et la formation des agents.' },
           { num: 3, titre: 'Participation aux instances', texte: 'L\'assistant de prévention participe aux travaux du Comité Social d\'Administration (CSA) et de sa formation spécialisée (ex-CHSCT). Il peut présenter ses travaux et alertes.' },
-          { num: 4, titre: 'Droit d\'alerte', texte: 'En cas de danger grave et imminent, l\'assistant de prévention peut exercer un droit d\'alerte et en informer immédiatement le chef de service et le représentant du SPST.' },
+          { num: 4, titre: 'Droit d\'alerte', texte: 'En cas de danger grave et imminent, l\'assistant de prévention, comme tout agent, alerte immédiatement l\'autorité compétente (le chef de service, ou l\'autorité territoriale). Source : art. 5-6 du décret 82-453 (État) ; art. 5-1 du décret 85-603 (territoriale).' },
         ],
         pieges: [
           'L\'assistant de prévention ne se substitue pas au médecin de prévention (SPST) — leurs rôles sont complémentaires mais distincts (voir le droit « Positionnement hiérarchique » ci-dessus).',
@@ -1608,7 +1607,7 @@ export const MODULES = [
         ciblePublic: 'Tous les agents publics, titulaires et contractuels, des trois versants. Sans condition de grade, de statut ou d\'ancienneté.',
         droits: [
           { label: 'Accès', valeur: 'Libre, gratuit, confidentiel', detail: 'Tout agent peut contacter l\'assistant social sans en informer sa hiérarchie, sans rendez-vous obligatoire, sans justification à donner.' },
-          { label: 'Secret professionnel', valeur: 'Absolu', detail: 'L\'assistant de service social est soumis au secret professionnel. Aucune information ne peut être transmise à l\'employeur sans accord écrit de l\'agent, sauf exceptions légales (danger grave et imminent pour la personne ou pour autrui).' },
+          { label: 'Secret professionnel', valeur: 'Absolu', detail: 'L\'assistant de service social est soumis au secret professionnel. Aucune information ne peut être transmise à l\'employeur sans accord écrit de l\'agent, sauf exceptions prévues par la loi (art. 226-14 du code pénal : par exemple, maltraitances, privations ou sévices infligés à un mineur ou à une personne qui n\'est pas en mesure de se protéger).' },
           { label: 'Neutralité institutionnelle', valeur: 'Garantie', detail: 'L\'assistant de service social ne dépend pas de la hiérarchie locale du service. Il est rattaché fonctionnellement à une structure nationale ou régionale (direction des ressources humaines ministérielle, service social interministériel…). Il ne rend pas compte des situations individuelles à l\'employeur.' },
           { label: 'Diplôme d\'État', valeur: 'DEASS obligatoire', detail: 'L\'assistant de service social du personnel est titulaire du Diplôme d\'État d\'Assistant de Service Social (DEASS). C\'est une profession réglementée.' },
         ],
@@ -1674,7 +1673,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'vieau-travail',
-    updatedAt: 'août 2026',
+    updatedAt: 'novembre 2026',
     title: 'Se protéger',
     icon: '⚖️',
     color: '#2D3748',
@@ -1780,7 +1779,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'psc',
-    updatedAt: 'août 2026',
+    updatedAt: 'novembre 2026',
     title: 'Protection sociale complémentaire (PSC)',
     icon: '🛡️',
     color: '#3A7CA5',
@@ -1802,7 +1801,7 @@ export const MODULES = [
           { label: 'Participation employeur santé', valeur: 'Min. 50 % depuis janv. 2026', detail: 'Obligatoire depuis le 1er janvier 2026 (et non 2025) : 50 % d\'un montant de référence de 30 €, soit au moins 15 € par mois et par agent. Les collectivités les plus avancées vont au-delà.', versants: ['fpt'] },
           { label: 'Participation employeur prévoyance', valeur: 'Min. 20 % depuis janv. 2025', detail: 'C\'est la prévoyance — pas la santé — qui est obligatoire depuis le 1er janvier 2025 en FPT : au moins 20 % d\'un montant de référence de 35 €, soit 7 € par mois.', versants: ['fpt'] },
           { label: 'Participation employeur santé', valeur: '1er janvier 2027', detail: 'À l\'hôpital, la participation de l\'employeur, d\'au moins la moitié du financement des garanties minimales, s\'applique à compter du 1er janvier 2027 (ordonnance 2021-175, art. 4). Cette date, initialement fixée au 1er janvier 2026, a été reportée d\'un an par la loi de financement de la sécurité sociale pour 2026. Avant cette date, seuls les dispositifs propres à chaque établissement s\'appliquent ; ensuite, renseignez-vous auprès de votre DRH sur le contrat retenu par votre établissement.', versants: ['fph'] },
-          { label: 'Prévoyance', valeur: 'Déploiement en cours', detail: 'Participation employeur sur incapacité, invalidité et décès en cours de déploiement. Vérifier auprès du service RH le dispositif applicable.', versants: ['fph'] },
+          { label: 'Prévoyance', valeur: 'Facultative', detail: 'Pour la prévoyance (incapacité, invalidité, décès), le code général de la fonction publique prévoit que l\'employeur public peut participer au financement des garanties, sans y être obligé (art. L. 827-1, applicable à l\'hôpital à compter du 1er janvier 2027). Vérifier auprès du service RH le dispositif applicable dans votre établissement.', versants: ['fph'] },
           { label: 'Ce qui arrive en prévoyance', valeur: '50 % au plus tard en 2029', detail: 'La loi n° 2025-1251 du 22 décembre 2025 transpose l\'accord national du 11 juillet 2023 : la prévoyance devra relever d\'un contrat collectif, la participation employeur passera à au moins 50 % des cotisations, et aucune couverture ne pourra être refusée au titre d\'antécédents médicaux. Le 1er janvier 2029 est la date butoir pour les collectivités qui n\'ont encore aucun accord de participation : celles qui en ont déjà un basculent à la fin de cet accord, ce qui peut être plus tôt. Demandez à votre DRH la date qui s\'applique à votre collectivité. D\'ici là, la règle des 20 % de 35 € reste celle qui s\'applique.', versants: ['fpt'] },
           { label: 'PSC et mi-traitement CMO', valeur: 'Complémentaire utile', detail: 'Lors du passage à 50 % du traitement en CMO (mois 4 à 12), la PSC santé peut rembourser les dépassements d\'honoraires, mais ne compense pas la perte de revenus — c\'est le rôle de la prévoyance.' },
           { label: 'CMO 90 % non couvert', valeur: 'Point d\'attention', detail: 'Les contrats de prévoyance ne couvrent généralement pas la période à 90 % du CMO (3 premiers mois). La prévoyance n\'intervient qu\'à partir du demi-traitement ou après un délai de carence. Vérifier les conditions de son contrat.' },
@@ -1877,7 +1876,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'carriere',
-    updatedAt: 'août 2026',
+    updatedAt: 'novembre 2026',
     title: 'Carrière & formation',
     icon: '📈',
     color: '#3A7CA5',
@@ -2024,7 +2023,7 @@ export const MODULES = [
   // ─────────────────────────────────────────────────────────────────────────────
   {
     id: 'retraite',
-    updatedAt: 'août 2026',
+    updatedAt: 'novembre 2026',
     title: 'Retraite',
     icon: '🎯',
     color: '#D4972A',

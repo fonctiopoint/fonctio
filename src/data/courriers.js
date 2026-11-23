@@ -1339,8 +1339,9 @@ const DEMANDES = {
       "Vous pouvez demander cette visite à tout moment, sans avoir à attendre l'échéance de la "
       + 'visite périodique et sans passer par votre hiérarchie.',
 
-      "Si le médecin préconise un aménagement de votre poste, l'administration est tenue d'en "
-      + 'tenir compte. Demandez que la préconisation vous soit remise par écrit.',
+      "Si le médecin propose un aménagement de votre poste et que l'administration ne le retient "
+      + 'pas, elle doit motiver son refus par écrit. Demandez que la préconisation vous soit remise '
+      + 'par écrit. Source : art. 26 du décret 82-453 (État) ; art. 24 du décret 85-603 (territoriale)',
     ],
   }],
 
