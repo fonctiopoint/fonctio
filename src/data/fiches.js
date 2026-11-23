@@ -737,8 +737,8 @@ export const MODULES = [
           { texte: 'Ancienneté dans la même collectivité uniquement. Si vous avez changé de commune ou de département, le compteur repart à zéro.', versants: ['fpt'] },
           { texte: 'Ancienneté dans le même établissement uniquement. Un changement d\'hôpital remet le compteur à zéro, même sans interruption de carrière.', versants: ['fph'] },
           { texte: 'Sans ancienneté suffisante (< 4 mois), vous ne touchez que les IJ CPAM — soit environ la moitié de votre salaire.', versants: ['fpt', 'fph'] },
-          { texte: 'La réforme 2024 ne s\'applique pas à la FPT. Les contractuels FPT gardent le régime progressif (Décret 88-145 art. 7 inchangé).', versants: ['fpt'] },
-          { texte: 'La réforme 2024 ne s\'applique pas à la FPH. Le Décret 2024-641 vise expressément les agents contractuels « de l\'État ». Un contractuel hospitalier relève du Décret 91-155 art. 10 et garde le régime progressif. Les présentations généralistes qui annoncent « 3 mois puis 9 mois » pour tous les contractuels ne visent que les agents de l\'État.', versants: ['fph'] },
+          { texte: 'L\'alignement sur le régime des titulaires issu du décret 2024-641 ne s\'applique pas à la FPT. Les contractuels FPT gardent le régime progressif de l\'art. 7 du décret 88-145 — seul le passage à 90 % du traitement, depuis le 1er mars 2025, s\'y est ajouté.', versants: ['fpt'] },
+          { texte: 'L\'alignement sur le régime des titulaires issu du décret 2024-641 ne s\'applique pas à la FPH. Le Décret 2024-641 vise expressément les agents contractuels « de l\'État ». Un contractuel hospitalier relève du Décret 91-155 art. 10 et garde le régime progressif. Les présentations généralistes qui annoncent « 3 mois puis 9 mois » pour tous les contractuels ne visent que les agents de l\'État.', versants: ['fph'] },
           { texte: 'Avant 4 mois d\'ancienneté, aucun maintien de traitement — uniquement les IJ CPAM.', versants: ['fpe'] },
           'Au passage au demi-traitement, vérifier immédiatement sa fiche de paie — un trop-perçu devra être remboursé.',
         ],
@@ -1248,7 +1248,7 @@ export const MODULES = [
           'Hospitalisation du nourrisson : en cas d\'hospitalisation prolongée du nouveau-né, le congé postnatal peut être suspendu et repris à la sortie de l\'hôpital.',
           'Contractuelles : aucune condition d\'ancienneté n\'est exigée. « Durant ces congés, l\'agent contractuel conserve l\'intégralité de son traitement » — la formule est la même dans les trois versants. La condition de six mois de services a été supprimée le 1er juillet 2021 (1er novembre 2021 à l\'hôpital) ; si on vous l\'oppose encore, demandez sur quel texte. L\'administration perçoit à votre place les indemnités journalières de la sécurité sociale. Sources : décret 86-83 art. 15, décret 88-145 art. 10, décret 91-155 art. 13.',
         ],
-        recours: 'Tout refus ou retard d\'accès au congé de maternité est contestable en référé devant le tribunal administratif.',
+        recours: 'Tout refus ou retard d\'accès au congé de maternité est contestable : recours gracieux ou hiérarchique, puis tribunal administratif (référé possible en cas d\'urgence).',
         sources: [
           { texte: 'Art. L.631-1 CGFP (congé de maternité)' },
           { texte: 'Art. L. 1225-29 du code du travail (interdiction d\'emploi de huit semaines, dont six après l\'accouchement)' },
@@ -1315,7 +1315,7 @@ export const MODULES = [
           'Le délai de six mois se reporte dans deux situations. Si l\'enfant est hospitalisé immédiatement après la naissance, le délai court jusqu\'à la fin de l\'hospitalisation, et la période de 4 jours peut elle-même être prolongée pendant cette hospitalisation, dans la limite de 30 jours consécutifs. Si la mère décède, le second parent a droit au congé postnatal de maternité, et les six mois ne commencent qu\'à la fin de ce congé — la demande est à adresser au chef de service, avec les pièces justificatives prévues par arrêté (art. 7 du décret 2021-871).',
           'En cas de décès de la mère, le second parent peut reprendre tout ou partie du congé de maternité non pris.',
         ],
-        recours: 'Refus ou entrave contestable en référé devant le tribunal administratif.',
+        recours: 'Refus ou entrave contestable : recours gracieux ou hiérarchique, puis tribunal administratif (référé possible en cas d\'urgence).',
         sources: [
           { texte: 'Art. L.631-9 CGFP (congé de paternité et d\'accueil)' },
           { texte: 'Décret n°2021-1552 du 01/12/2021' },
@@ -1409,7 +1409,7 @@ export const MODULES = [
         categorie: 'Congés familiaux',
         chips: ['Père & mère', 'Non rémunéré', 'De plein droit', 'Jusqu\'aux 3 ans de l\'enfant'],
         resume: 'Tout fonctionnaire peut bénéficier d\'un congé parental non rémunéré pour élever son enfant jusqu\'à ses 3 ans. Accordé de plein droit, les droits à avancement sont partiellement conservés et les congés annuels acquis sont reportables depuis 2024.',
-        ciblePublic: 'Fonctionnaires titulaires et stagiaires, père ou mère. Les agents contractuels y ont également droit, sous condition d\'ancienneté — voir plus bas. Les deux parents peuvent en bénéficier successivement ou simultanément — la règle interdisant le cumul a été supprimée.',
+        ciblePublic: 'Fonctionnaires titulaires et stagiaires, père ou mère. Les agents contractuels y ont également droit, sous condition d\'ancienneté — voir plus bas. Les deux parents peuvent en bénéficier successivement ou simultanément.',
         droits: [
           { label: 'Durée', valeur: 'Jusqu\'aux 3 ans de l\'enfant', detail: 'Ou jusqu\'au 3e anniversaire de l\'arrivée de l\'enfant adopté. Renouvelable par périodes de 2 à 6 mois. Accordé de plein droit sur simple demande.' },
           { label: 'Les deux parents', valeur: 'Cumul possible', detail: 'Le congé parental peut être accordé à l\'un ou l\'autre des parents, ou aux deux simultanément.' },
