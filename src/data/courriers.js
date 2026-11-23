@@ -124,7 +124,7 @@ const RAPPELS_MEDICAL = [
   + 'saisit pas directement.',
 
   'Demandez par écrit la communication des conclusions médicales sur lesquelles la décision se '
-  + "fonde. Vous pouvez vous faire assister du médecin de votre choix devant le conseil médical.",
+  + "fonde. Vous pouvez faire entendre le médecin de votre choix devant le conseil médical.",
 
   "Cette démarche ne remplace pas le recours contre la décision administrative elle-même : si une "
   + 'décision a déjà été prise, formez aussi un recours gracieux dans les deux mois.',
@@ -784,8 +784,8 @@ const MODELES = {
       + 'modifié.',
     rappelsComplets: [
       "Vous avez 15 jours francs à compter de la notification du compte rendu — et non de "
-      + "l'entretien — pour envoyer ce courrier. Passé ce délai, le compte rendu devient "
-      + 'définitif. Source : décrets n° 2010-888 (État), n° 2014-1526 (territoriale) et '
+      + "l'entretien — pour envoyer ce courrier. Passé ce délai, ce recours hiérarchique n'est "
+      + 'plus possible. Source : décrets n° 2010-888 (État), n° 2014-1526 (territoriale) et '
       + 'n° 2020-719 (hospitalière)',
 
       'Ce recours est un préalable obligatoire : sans lui, la saisine de la commission '
@@ -990,8 +990,9 @@ const DEMANDES = {
       + "Demandez-le dans le même courrier que l'autorisation de vous former : cela évite deux "
       + 'allers-retours.',
 
-      'Un avis médical défavorable doit être motivé. Il peut être contesté par une demande de '
-      + 'contre-expertise, puis par la saisine du conseil médical.',
+      'Si le refus de l'administration s'appuie sur un avis médical défavorable, la décision '
+      + 'doit être motivée : demandez-en les motifs par écrit. Elle peut être contestée par un '
+      + 'recours gracieux, puis devant le tribunal administratif.',
     ],
   }],
 
@@ -1077,8 +1078,8 @@ const DEMANDES = {
     demande: 'Vous trouverez joint le certificat médical établi le [DATE DU CERTIFICAT]. Je vous '
       + 'demande de bien vouloir enregistrer ma demande et de saisir le conseil médical.',
     rappels: [
-      'Chaque renouvellement suppose un nouveau certificat et un nouvel avis du conseil médical. '
-      + 'Anticipez la demande avant la fin de la période en cours.',
+      'Chaque renouvellement se demande sur présentation d'un avis d'arrêt de travail, par '
+      + 'périodes de six mois au plus. Anticipez la demande avant la fin de la période en cours.',
     ],
   }],
 
@@ -1441,8 +1442,9 @@ const DEMANDES = {
       "Chaque renouvellement se demande au moins un mois avant l'expiration de la période en "
       + 'cours.',
 
-      "Vous pouvez mettre fin au congé parental à tout moment, sans avoir à justifier d'un motif "
-      + 'grave.',
+      "Fonctionnaire, vous pouvez demander qu'il soit mis fin au congé parental avant son terme "
+      + "(art. L. 515-6 du code général de la fonction publique) ; agent contractuel, la fin "
+      + 'anticipée n'est possible que pour une nouvelle naissance ou un motif grave.',
     ],
   }, {
     type: 'demande',
@@ -1638,7 +1640,7 @@ const DEMANDES = {
       + 'date de sa séance.',
     rappels: [
       "Le conseil médical se prononce sur l'inaptitude définitive et sur l'imputabilité au "
-      + 'service. Vous pouvez vous faire assister du médecin de votre choix.',
+      + 'service. Vous pouvez faire entendre le médecin de votre choix.',
 
       "Avant d'engager cette démarche, demandez au service des ressources humaines si un "
       + "reclassement est envisageable : c'est une voie distincte, qui maintient l'activité.",

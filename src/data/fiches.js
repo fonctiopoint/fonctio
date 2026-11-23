@@ -1652,7 +1652,7 @@ export const MODULES = [
         ciblePublic: 'Principalement FPE. La FPT et la FPH disposent de leurs propres structures d\'action sociale (CNAS, associations départementales, CGOS…).',
         droits: [
           { label: 'Délégation ministérielle', valeur: 'Par ministère', detail: 'Chaque ministère dispose de son propre service d\'action sociale — bureaux centraux, correspondants locaux — qui gère les prestations spécifiques au ministère. C\'est le premier guichet.', versants: ['fpe'] },
-          { label: 'SRIAS (interministériel)', valeur: 'Une par région', detail: 'Les sections régionales interministérielles d\'action sociale sont placées auprès du préfet de région. Elles portent des prestations ouvertes à tous les agents de l\'État de la région, quel que soit leur ministère : logement temporaire, restauration, petite enfance, loisirs. Composées de douze représentants de l\'administration et de treize représentants des personnels. Sources : décret du 6 janvier 2006 et arrêté du 29 juin 2006.', versants: ['fpe'] },
+          { label: 'SRIAS (interministériel)', valeur: 'Une par région', detail: 'Les sections régionales interministérielles d\'action sociale sont placées auprès du préfet de région. Elles portent des prestations ouvertes à tous les agents de l\'État de la région, quel que soit leur ministère : logement temporaire, restauration, petite enfance, loisirs. Elles réunissent des représentants de l\'administration et des représentants des personnels. Sources : décret du 6 janvier 2006 et arrêté du 29 juin 2006.', versants: ['fpe'] },
           { label: 'CIAS (national)', valeur: 'Instance de pilotage', detail: 'Le comité interministériel consultatif d\'action sociale des administrations de l\'État propose les orientations de l\'action sociale interministérielle et oriente les travaux des SRIAS. C\'est une instance de pilotage : vous ne vous adressez pas à lui directement.', versants: ['fpe'] },
           { label: 'CNAS', valeur: 'Centre National d\'Action Sociale', detail: 'Le CNAS propose loisirs, vacances, aides aux familles et billetterie — mais seulement aux agents des collectivités qui y adhèrent. L\'adhésion est une décision de votre employeur : si votre collectivité n\'adhère pas, elle peut avoir retenu un comité des œuvres sociales, une amicale, ou un dispositif propre. Demandez lequel.', versants: ['fpt'] },
           { label: 'CGOS', valeur: 'Comité de Gestion des Œuvres Sociales', detail: 'Le CGOS gère les prestations d\'action sociale pour les agents de la FPH : aides, loisirs, vacances, prêts…', versants: ['fph'] },
@@ -1762,8 +1762,8 @@ export const MODULES = [
         ciblePublic: 'Tous les agents publics, en tant qu\'auteurs ou destinataires d\'un signalement.',
         droits: [
           { label: 'Droit de signaler', valeur: 'Garanti', detail: 'Tout agent a le droit — et dans certains cas l\'obligation — de signaler une situation à risque ou un incident. Ce droit est protégé : aucune sanction ne peut être prise contre un agent ayant signalé de bonne foi.' },
-          { label: 'Traitement obligatoire', valeur: 'Par le chef de service', detail: 'Tout signalement doit faire l\'objet d\'un accusé de réception et d\'un traitement dans un délai raisonnable. Le chef de service est tenu de répondre et de prendre les mesures appropriées.' },
-          { label: 'Registre de signalement', valeur: 'Document officiel', detail: 'Chaque service doit tenir un registre des signalements. La fiche remplie est conservée et peut être consultée par les membres de la formation spécialisée du CSA (ex-CHSCT).' },
+          { label: 'Suites données', valeur: 'Par le chef de service', detail: 'Le signalement est adressé au chef de service, qui doit prendre les mesures appropriées pour assurer la santé et la sécurité des agents (art. L. 136-1 du CGFP). Demandez un accusé de réception et gardez une copie de votre fiche.' },
+          { label: 'Registre de santé et de sécurité', valeur: 'Dans chaque service', detail: 'Un registre de santé et de sécurité au travail est ouvert dans chaque service : les agents y consignent leurs observations et suggestions sur la prévention des risques et l\'amélioration des conditions de travail. Il est tenu à la disposition des agents et de la formation spécialisée du comité social. Sources : art. 3-2 du décret 82-453 (État), art. 3-1 du décret 85-603 (territoriale).' },
         ],
         etapes: [
           { num: 1, titre: 'Identifier la situation à signaler', texte: 'La fiche de signalement peut concerner :\n• un accident de travail ou de trajet\n• un incident sans accident\n• une situation dangereuse (risque physique, chimique, psychosocial)\n• une situation de mal-être au travail\n• un comportement potentiellement harcelant\n• tout autre fait portant atteinte à la santé ou à la sécurité' },
@@ -1860,10 +1860,10 @@ export const MODULES = [
         resume: 'La prévoyance couvre les risques financiers liés à une incapacité de travail prolongée, une invalidité ou un décès. Dans la fonction publique, le statut protège mais ne garantit pas le maintien total des revenus sur le long terme.',
         ciblePublic: 'Tous les agents publics. Particulièrement important pour les agents dont le traitement va être réduit : en congé de longue maladie à partir de la 2e année (60 % à l\'État, 50 % en territoriale et à l\'hôpital), et en congé de longue durée à partir de la 4e année (50 % dans les trois versants).',
         droits: [
-          { label: 'Incapacité', valeur: 'Complément maladie longue', detail: 'Verse une indemnité quand le traitement est réduit (CLM, CLD). Maintien du niveau de revenus proche du net habituel.' },
+          { label: 'Incapacité', valeur: 'Complément maladie longue', detail: 'Verse une indemnité quand le traitement est réduit (CLM, CLD). Selon les contrats, elle vise à rapprocher votre revenu de votre net habituel : vérifiez le niveau réellement garanti.' },
           { label: 'Invalidité', valeur: 'Rente complémentaire', detail: 'Rente complémentaire à la pension d\'invalidité. Particulièrement utile si le taux d\'IPP est insuffisant pour une pension correcte.' },
           { label: 'Décès', valeur: 'Capital aux ayants droit', detail: 'Capital versé aux bénéficiaires désignés (conjoint, enfants), en complément du régime général et de la pension de réversion.' },
-          { label: 'Participation employeur', valeur: 'Minimum légal', detail: 'L\'employeur contribue selon les accords de branche. Vérifier le taux exact auprès du service RH.' },
+          { label: 'Participation employeur', valeur: 'Selon le versant', detail: 'Elle dépend de votre versant : 7 € par mois à l\'État (accord majoritaire de 2023) ; en territoriale, au moins 20 % d\'un montant de référence de 35 € (soit 7 € par mois) ; à l\'hôpital, elle est facultative jusqu\'au 1er janvier 2027. Vérifier le taux exact auprès du service RH.' },
         ],
         etapes: [
           { num: 1, titre: 'Évaluer ses besoins', texte: 'Calculer l\'écart entre son revenu actuel et ce qu\'il serait en cas de congé long. En CLM, le traitement passe à 60 % en 2e et 3e années à l\'État, mais à 50 % en territoriale et à l\'hôpital — vérifiez votre versant avant de chiffrer, l\'écart est de dix points. En CLD, il reste entier trois ans puis tombe à 50 % les deux suivantes, dans les trois versants. Et les primes ne suivent pas les mêmes règles selon le congé. La prévoyance vient combler cet écart : plus les charges fixes sont importantes (prêt immobilier, loyer), plus elle est utile.' },
@@ -1908,7 +1908,7 @@ export const MODULES = [
         ciblePublic: 'Fonctionnaires titulaires et agents contractuels sur emploi permanent.',
         droits: [
           { label: 'Périodicité', valeur: 'Annuel', detail: 'Convocation au moins 8 jours à l\'avance.' },
-          { label: 'Compte rendu', valeur: 'Signable avec réserves', detail: 'L\'agent peut signer avec réserves ou refuser de signer.' },
+          { label: 'Compte rendu', valeur: 'Observations possibles', detail: 'L\'agent peut compléter le compte rendu par ses observations ; sa signature atteste seulement qu\'il en a pris connaissance.' },
           { label: 'Notification du compte rendu', valeur: 'Aucun délai fixé', detail: 'Le décret 2010-888 ne fixe pas de délai de notification du compte rendu à l\'agent. Le délai de recours, lui, court à compter de cette notification.', versants: ['fpe'] },
           { label: 'Notification du compte rendu', valeur: '15 jours', detail: 'Le compte rendu est notifié au fonctionnaire dans un délai maximum de 15 jours. Source : Décret 2014-1526 art. 6.', versants: ['fpt'] },
           { label: 'Notification du compte rendu', valeur: '30 jours', detail: 'Le compte rendu est communiqué à l\'agent dans un délai maximum de 30 jours suivant l\'entretien — et non 15 comme en territoriale. L\'agent dispose ensuite de 15 jours pour le compléter par ses observations. Source : Décret 2020-719 art. 6.', versants: ['fph'] },
@@ -1924,8 +1924,8 @@ export const MODULES = [
         pieges: [
           'Lisez le compte rendu en entier avant de le signer, cases pré-cochées comprises.',
           'Les appréciations négatives non contestées restent au dossier et peuvent justifier un refus d\'avancement.',
-          'Le délai de 15 jours francs du recours hiérarchique court à compter de la notification, et non de l\'entretien. Passé ce délai, le compte rendu devient définitif.',
-          'Le recours hiérarchique est un préalable obligatoire à la saisine de la CAP. Saisir directement la CAP — ou le tribunal — expose à une irrecevabilité sans examen du fond.',
+          'Le délai de 15 jours francs du recours hiérarchique court à compter de la notification, et non de l\'entretien. Passé ce délai, ce recours hiérarchique n\'est plus possible.',
+          'Le recours hiérarchique est un préalable obligatoire à la saisine de la CAP. Saisir directement la CAP (ou la CCP) sans l\'avoir formé expose à une irrecevabilité.',
         ],
         recours: 'Recours hiérarchique obligatoire (15 jours francs), puis saisine de la CAP ou de la CCP (1 mois), puis tribunal administratif.',
         sources: [
