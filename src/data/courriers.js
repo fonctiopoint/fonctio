@@ -990,7 +990,7 @@ const DEMANDES = {
       + "Demandez-le dans le même courrier que l'autorisation de vous former : cela évite deux "
       + 'allers-retours.',
 
-      'Si le refus de l'administration s'appuie sur un avis médical défavorable, la décision '
+      "Si le refus de l'administration s'appuie sur un avis médical défavorable, la décision "
       + 'doit être motivée : demandez-en les motifs par écrit. Elle peut être contestée par un '
       + 'recours gracieux, puis devant le tribunal administratif.',
     ],
@@ -1078,7 +1078,7 @@ const DEMANDES = {
     demande: 'Vous trouverez joint le certificat médical établi le [DATE DU CERTIFICAT]. Je vous '
       + 'demande de bien vouloir enregistrer ma demande et de saisir le conseil médical.',
     rappels: [
-      'Chaque renouvellement se demande sur présentation d'un avis d'arrêt de travail, par '
+      "Chaque renouvellement se demande sur présentation d'un avis d'arrêt de travail, par "
       + 'périodes de six mois au plus. Anticipez la demande avant la fin de la période en cours.',
     ],
   }],
@@ -1444,7 +1444,7 @@ const DEMANDES = {
 
       "Fonctionnaire, vous pouvez demander qu'il soit mis fin au congé parental avant son terme "
       + "(art. L. 515-6 du code général de la fonction publique) ; agent contractuel, la fin "
-      + 'anticipée n'est possible que pour une nouvelle naissance ou un motif grave.',
+      + "anticipée n'est possible que pour une nouvelle naissance ou un motif grave.",
     ],
   }, {
     type: 'demande',
