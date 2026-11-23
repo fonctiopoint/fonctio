@@ -782,6 +782,23 @@ const MODELES = {
     demande: 'Je vous demande de bien vouloir réviser [PRÉCISEZ : l\'appréciation générale, les '
       + 'objectifs fixés, la valeur professionnelle retenue] et de me notifier le compte rendu '
       + 'modifié.',
+    rappelsComplets: [
+      "Vous avez 15 jours francs à compter de la notification du compte rendu — et non de "
+      + "l'entretien — pour envoyer ce courrier. Passé ce délai, le compte rendu devient "
+      + 'définitif. Source : décrets n° 2010-888 (État), n° 2014-1526 (territoriale) et '
+      + 'n° 2020-719 (hospitalière)',
+
+      'Ce recours est un préalable obligatoire : sans lui, la saisine de la commission '
+      + 'administrative paritaire (CAP), ou de la commission consultative paritaire (CCP) pour '
+      + 'un contractuel, est irrecevable.',
+
+      "L'autorité dispose de 15 jours francs pour répondre. À compter de la notification de "
+      + 'sa réponse, vous avez un mois pour saisir la CAP ou la CCP.',
+
+      "Conservez une preuve d'envoi — lettre recommandée avec accusé de réception, ou accusé "
+      + 'de réception électronique : elle établit que vous avez agi dans le délai de 15 jours '
+      + 'francs.',
+    ],
   }],
 
   'conge-formation': [{
@@ -1659,7 +1676,10 @@ export const courriersDeLaFiche = (ficheId, versant) => {
       // rappels : une demande d'allocation d'invalidité ne part pas à la
       // hiérarchie, et un accident de service se déclare en quinze jours.
       aQui: m.aQui || A_QUI[m.type],
-      rappels: m.rappels ? [...m.rappels, ...RAPPELS[m.type]] : RAPPELS[m.type],
+      // `rappelsComplets` REMPLACE les rappels communs : le recours contre un compte
+      // rendu d'entretien obéit à un délai de 15 jours francs, et non aux deux mois
+      // du droit commun, que les rappels communs énoncent.
+      rappels: m.rappelsComplets || (m.rappels ? [...m.rappels, ...RAPPELS[m.type]] : RAPPELS[m.type]),
       corps: SQUELETTES[m.type](resolu),
     };
   });

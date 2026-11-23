@@ -54,7 +54,7 @@ export const VEILLE = [
       texte: "Décret n° 2026-705 du 29 juillet 2026 relatif aux congés pour raisons de santé des agents publics civils et militaires (rectificatif), JORF n° 177 du 31 juillet 2026, texte n° 70",
       url: "https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000054643099",
     },
-    integre: false,
+    integre: true,
   },
   /* @veille:end */
 ];

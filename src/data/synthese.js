@@ -394,7 +394,6 @@ export const SYNTHESE = {
   },
   'role-ass': {
     droits: { label: 'Ce qui vous est garanti' },
-    recours: { label: 'En cas de manquement au secret' },
   },
   'role-assistant-prevention': {
     droits: { label: 'Ce que prévoit le texte' },
