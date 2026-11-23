@@ -4,6 +4,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // BANNIÈRE NOUVEAUTÉS — modifier ici à chaque mise à jour de contenu
 // Mettre active: false pour masquer la bannière
+// `version` n'est pas affichée : c'est la clé qui fait réapparaître la bannière après
+// une mise à jour chez un utilisateur qui l'avait fermée. La changer à chaque mise à jour.
 // ─────────────────────────────────────────────────────────────────────────────
 export const NOUVEAUTES = {
   active: true,
@@ -886,11 +888,11 @@ export const MODULES = [
         titre: 'Accident de service',
         categorie: 'Accidents de travail & MP',
         chips: ['Titulaires', 'CITIS', 'Plein traitement illimité'],
-        resume: 'L\'accident survenu dans l\'exercice des fonctions est un accident de service. Il ouvre droit au CITIS : maintien du plein traitement sans limitation de durée et prise en charge à 100 % des frais médicaux.',
+        resume: 'L\'accident survenu dans l\'exercice des fonctions est un accident de service. Il ouvre droit au CITIS : maintien du plein traitement sans limitation de durée et remboursement des honoraires médicaux et des frais directement entraînés.',
         ciblePublic: 'Fonctionnaires titulaires exclusivement.',
         droits: [
           { label: 'CITIS', valeur: 'Plein traitement', detail: 'Congé pour Invalidité Temporaire Imputable au Service : plein traitement maintenu jusqu\'à guérison ou mise à la retraite.' },
-          { label: 'Frais médicaux', valeur: '100 % pris en charge', detail: 'Tous les frais médicaux liés à l\'accident sont pris en charge par l\'administration, sans avance de frais.' },
+          { label: 'Frais médicaux', valeur: 'Remboursés', detail: 'L\'administration rembourse les honoraires médicaux et les frais directement entraînés par l\'accident ou la maladie reconnu imputable au service. Source : décret 86-442, titre sur le congé pour invalidité temporaire imputable au service (voir notamment ses art. 47-18 et 47-19).' },
           { label: 'Primes et indemnités', valeur: 'Maintenues', detail: 'Contrairement au CLM, les primes sont maintenues intégralement pendant le CITIS.' },
           { label: 'Délai de déclaration', valeur: '15 jours', detail: 'La déclaration d\'accident doit parvenir à l\'administration dans les 15 jours suivant la date de l\'accident. Le délai est le même dans les trois versants. Pour une maladie professionnelle, le délai est de 2 ans à compter de la première constatation médicale. Si votre certificat médical n\'est établi que plus tard — dans la limite de deux ans après l\'accident —, ce délai de 15 jours ne court qu\'à partir de cette constatation médicale, pas de la date de l\'accident. Source : art. 47-3, I, du décret 86-442 (inséré par le décret 2019-122).' },
           { label: 'Certificat médical initial', valeur: '48 heures', detail: 'Lorsque l\'accident entraîne un arrêt de travail, le certificat médical initial doit être transmis à l\'administration dans les 48 heures suivant son établissement. Passé ce délai, la rémunération due pour la période écoulée entre l\'établissement du certificat et son envoi peut être réduite de moitié — un motif concret d\'envoyer sans attendre. Source : art. 47-3, III.' },
@@ -963,7 +965,8 @@ export const MODULES = [
         droits: [
           { label: 'Conditions — accident de service', valeur: 'Taux ≥ 10 %', detail: 'Pour un accident de service, l\'ATI suppose un taux d\'incapacité permanente partielle (IPP) d\'au moins 10 % — plusieurs accidents successifs peuvent se cumuler pour l\'atteindre. Source : art. 1er, a) du décret 60-1089.' },
           { label: 'Conditions — maladie professionnelle', valeur: 'Aucun seuil si tableau', detail: 'Pour une maladie professionnelle inscrite à l\'un des tableaux du code de la sécurité sociale, aucun taux minimal n\'est exigé : tout taux d\'IPP reconnu ouvre droit à l\'ATI. Ne pas s\'auto-exclure en dessous de 10 % sur la seule foi de la règle de l\'accident de service, qui ne s\'applique pas ici. Pour une maladie reconnue hors tableau, un régime distinct s\'applique. Source : art. 1er, b) et c) du décret 60-1089.' },
-          { label: 'Montant', valeur: 'Proportionnel au taux IPP', detail: 'Calculé en pourcentage du traitement indiciaire brut.' },
+          { label: 'Montant', valeur: 'Proportionnel au taux IPP', detail: 'Le montant dépend du taux d\'invalidité reconnu par le conseil médical, apprécié selon le barème indicatif de l\'article L. 28 du code des pensions. Source : art. 2 et 3 du décret 60-1089.', versants: ['fpe'] },
+          { label: 'Montant', valeur: 'Proportionnel au taux IPP', detail: 'Le montant est le taux d\'invalidité appliqué au traitement brut afférent à l\'indice 100, un traitement de référence unique, et non à votre propre traitement : à taux égal, l\'allocation est la même pour tous. Source : art. 4 du décret 2005-442.', versants: ['fpt', 'fph'] },
           { label: 'Cumul', valeur: 'Avec le traitement', detail: 'L\'ATI est cumulable avec le traitement en activité. Elle se transforme en rente d\'invalidité à la retraite.' },
           { label: 'Délai de demande', valeur: '1 an', detail: 'Par défaut, le délai d\'un an court à compter du jour où vous reprenez vos fonctions après la consolidation — pas à compter de la consolidation elle-même. Mais si vous n\'avez jamais interrompu votre activité, si vous avez repris le service avant la consolidation, ou si vous atteignez la limite d\'âge ou êtes rayé des cadres avant d\'avoir pu reprendre, c\'est l\'inverse : le délai court depuis la date de constatation officielle de la consolidation elle-même. Cela concerne en premier lieu les séquelles légères, les plus fréquentes, pour lesquelles il n\'y a souvent pas eu d\'arrêt. Passé le délai applicable, les droits sont perdus. Source : art. 1er du décret 60-1089.' },
           { label: 'Durée initiale', valeur: '5 ans', detail: 'L\'ATI est d\'abord accordée pour 5 ans. À l\'issue de cette période, le conseil médical réexamine votre taux d\'invalidité : l\'allocation est alors soit attribuée sans limitation de durée, soit supprimée si l\'invalidité a disparu.' },
@@ -1070,7 +1073,7 @@ export const MODULES = [
           'L\'inaptitude définitive à ses fonctions ≠ inaptitude à toutes fonctions. La première peut permettre un reclassement.',
           'L\'agent ne peut pas être licencié pour inaptitude : les titulaires sont soit reclassés, soit mis à la retraite.',
         ],
-        recours: 'Contestation de l\'avis du conseil médical. Recours administratif devant le tribunal administratif.',
+        recours: 'L\'avis du conseil médical peut être contesté devant le conseil médical supérieur, dans les conditions de l\'article 17 du décret 86-442. La décision de l\'administration peut ensuite être contestée devant le tribunal administratif.',
         sources: [
           { texte: 'Art. L. 826-1 à L. 826-6 CGFP (adaptation du poste, période de préparation au reclassement, reclassement par intégration ou détachement, accès à tout niveau, protection de l\'indice)', url: 'https://www.legifrance.gouv.fr/codes/id/LEGITEXT000044416551' },
           { texte: 'Décrets n° 2022-353 (FPE), n° 2022-350 (FPT) et n° 2022-351 (FPH) du 11 mars 2022 (conseil médical)', url: 'https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045344395' },
@@ -1818,7 +1821,8 @@ export const MODULES = [
         pieges: [
           { texte: 'Dans la fonction publique territoriale, ne pas adhérer à un contrat éligible signifie renoncer à la participation de l\'employeur.', versants: ['fpt'] },
           { texte: 'Si vous êtes dispensé d\'adhérer au contrat collectif de l\'État, vous pouvez renoncer à votre dispense à tout moment et adhérer, sans majoration de cotisation. Source : décret 2022-633, art. 3.', versants: ['fpe'] },
-          'La participation employeur ne concerne que les contrats labellisés ou collectifs désignés. Un contrat individuel souscrit librement ne bénéficie pas de la participation.',
+          { texte: 'Dans la fonction publique territoriale, la participation de l\'employeur ne porte que sur les contrats labellisés ou sur la convention de participation qu\'il a retenue : un contrat individuel qui n\'est ni l\'un ni l\'autre n\'en bénéficie pas. Source : décret 2011-1474, art. 2 et 4.', versants: ['fpt'] },
+          { texte: 'Dans la fonction publique de l\'État, tant que le contrat collectif de votre employeur n\'a pas pris effet, le remboursement forfaitaire de 15 € par mois s\'applique à votre contrat individuel de santé, s\'il est conforme aux conditions fixées par les textes.', versants: ['fpe'] },
           'Les agents contractuels bénéficient des mêmes droits à la participation employeur que les titulaires — ne pas hésiter à le faire valoir.',
           'La prévoyance (incapacité, invalidité, décès) est souvent sous-estimée. En cas de longue maladie, la perte de revenus peut être importante — avoir une prévoyance solide est essentiel.',
         ],

@@ -1237,7 +1237,7 @@ const DEMANDES = {
       + 'permet la prise en charge des soins sans avance de frais.',
     rappels: [
       "L'information de l'employeur se fait dans les 24 heures suivant l'accident, sauf force "
-      + "majeure. C'est la seule obligation de délai court qui pèse sur vous.",
+      + "majeure.",
 
       "L'employeur déclare ensuite l'accident à la caisse dans les 48 heures. Si la déclaration "
       + "n'est pas partie, vous pouvez la faire vous-même dans un délai de deux ans à compter de "

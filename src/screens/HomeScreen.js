@@ -201,7 +201,7 @@ export default function HomeScreen({ navigation, versant, setVersant }) {
           <>
             {nouveautesVisible && (
               <View style={espaceDeSection()}>
-                <BlocFilet ui={ui} couleur={C.versant} titre={NOUVEAUTES.titre} compte={NOUVEAUTES.version}>
+                <BlocFilet ui={ui} couleur={C.versant} titre={NOUVEAUTES.titre}>
                   {NOUVEAUTES.lignes.map((ligne, i) => (
                     <View key={i} style={[s.nouveaute, i > 0 && s.nouveauteSuivante]}>
                       <Text style={[s.detail, s.nouveauteTiret, { fontSize: t(T.detail), lineHeight: inter(T.detail) }]}>
